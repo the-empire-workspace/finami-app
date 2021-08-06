@@ -14,6 +14,8 @@ module.exports = {
           "@interfaces": "./src/interfaces",
           "@utils": "./src/utils",
           "@translate": "./src/translate",
+          "@theme": "./src/theme",
+          "@providers": "./src/providers",
         }
       }
     ]
