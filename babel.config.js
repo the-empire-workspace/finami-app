@@ -16,6 +16,7 @@ module.exports = {
           "@translate": "./src/translate",
           "@theme": "./src/theme",
           "@providers": "./src/providers",
+          "@assets": "./assets",
         }
       }
     ]
