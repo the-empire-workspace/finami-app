@@ -1,4 +1,9 @@
 {
   "welcome": "Welcome to this new App",
-  "change_language": "Change Language"
+  "change_language": "Change Language",
+  "register": "Register",
+  "create_account": "Create Account",
+  "job": "Job",
+  "name_lastname": "Name and Lastname",
+  "camera_permission": "In order to use the Camera, you'll need to allow this App access to it"
 }

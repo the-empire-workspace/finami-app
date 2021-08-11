@@ -1,16 +1,16 @@
-import React, { useEffect } from 'react'/* 
-import { useSelector } from 'react-redux'*/
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import { PrivateStack, PublicStack } from './Stacks'
 //import SplashScreen from 'react-native-splash-screen' 
 
 const AppNavigation = () => {
-    /* const { account: { isAuth }, } = useSelector((state) => state)
+  const { account: { isAuth } } = useSelector((state: any) => state)
 
-    useEffect(() => {
-        SplashScreen.hide()
-    }, []) */
+  //useEffect(() => {
+  //    SplashScreen.hide()
+  //}, [])
 
-    return <>{false ? <PrivateStack /> : <PublicStack />}</>
+  return <>{isAuth ? <PrivateStack /> : <PublicStack />}</>
 }
 
 export default AppNavigation
