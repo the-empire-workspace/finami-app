@@ -7,12 +7,15 @@ import { Button, DynamicForm } from '@components'
 import { registerForm } from './form'
 import { grantCameraPermission, grantReadSDPermission, grantWriteSDPermission, ImagePicker, translate } from '@utils'
 import ImageResizer from 'react-native-image-resizer'
+import { useDispatch } from 'react-redux'
+import { signin } from 'store/account/action'
 
 const Register: FC = () => {
 
   const { colors } = useTheme()
   const [image, setImage] = useState(LogoI)
-  const [form, setForm] = useState([])
+  const [form, setForm] = useState([{}, false])
+  const dispatch = useDispatch()
 
   const getImage = async () => {
     await grantCameraPermission()
@@ -27,7 +30,9 @@ const Register: FC = () => {
       return Alert.alert('Unable to resize the photo')
     }
   }
-  
+
+  const register = () => dispatch(signin({ ...form[0], avatar: image?.uri }))
+
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
       <View style={styles.content}>
@@ -38,7 +43,7 @@ const Register: FC = () => {
           <DynamicForm formData={registerForm(colors.secundaryText, translate)} returnData={(data: any) => { setForm(data) }} />
         </View>
         <View style={styles.button}>
-          <Button text={translate('create_account')} onPress={() => { console.log('hola') }} disabled={!form[1] && image.uri} />
+          <Button text={translate('create_account')} onPress={register} disabled={!form[1] && image?.uri} />
         </View>
       </View>
     </View>

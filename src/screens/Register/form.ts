@@ -20,7 +20,7 @@ export const registerForm = (color: any, translate: any) => [
   },
   {
     element: 'input',
-    name: 'profesion',
+    name: 'profession',
     label: null,
     type: 'text',
     style: { ...styles.input, color: color },
