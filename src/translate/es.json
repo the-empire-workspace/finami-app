@@ -1,0 +1,9 @@
+{
+  "welcome": "Bienvenido a esta nueva app",
+  "change_language": "Cambiar Lenguaje",
+  "register": "Registrarse",
+  "create_account": "Crear Cuenta",
+  "job": "Profesion",
+  "name_lastname": "Nombre y Apellido",
+  "camera_permission": "Para poder utilizar la camara es necesario, darle permisos a la aplicacion"
+}
