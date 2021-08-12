@@ -5,7 +5,7 @@ export const lightColors = {
   text: '#121212',
   secundaryText: '#8596A6',
   error: '#D32F2F',
-};
+}
 
 // Dark theme colors
 export const darkColors = {
@@ -15,4 +15,4 @@ export const darkColors = {
   text: '#F0F0F2',
   secundaryText: '#8596A6',
   error: '#EF9A9A',
-};
+}

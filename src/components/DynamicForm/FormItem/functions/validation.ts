@@ -1,6 +1,6 @@
 const Validation = (validations: any, value: any, formData: any) => {
   var validates = true
-  for (var val in validations) {
+  for (var val in validations)
     switch (val) {
       case 'regex':
         if (validations[val].test(value)) {
@@ -26,12 +26,11 @@ const Validation = (validations: any, value: any, formData: any) => {
 
         break
       case 'required':
-        if (value) {
+        if (value)
           if (value.length !== 0) {
             validates = true
             break
           }
-        }
 
         validates = validates && false
         break
@@ -52,10 +51,8 @@ const Validation = (validations: any, value: any, formData: any) => {
       default:
         break
     }
-  }
-  if (!('required' in validations)) {
-    if (!value) validates = true
-  }
+
+  if (!('required' in validations)) if (!value) validates = true
 
   return validates
 }

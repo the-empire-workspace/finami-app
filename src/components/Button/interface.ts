@@ -1,5 +1,5 @@
-export interface Props{
-  text:string,
-  onPress: any,
+export interface Props {
+  text: string
+  onPress: any
   disabled: any
 }

@@ -11,7 +11,7 @@ export default class ErrorBoundary extends Component {
 
   state = {
     error: null,
-    message: ''
+    message: '',
   }
 
   constructor(props: any) {
@@ -29,12 +29,13 @@ export default class ErrorBoundary extends Component {
   render() {
     return (
       <>
-        {(this.state.error) ?
-          (
-            <View>
-              <Text>{this.state.message}</Text>
-            </View>
-          ) : this.props.children}
+        {this.state.error ? (
+          <View>
+            <Text>{this.state.message}</Text>
+          </View>
+        ) : (
+          this.props.children
+        )}
       </>
     )
   }
