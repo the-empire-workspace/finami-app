@@ -1,4 +1,4 @@
-import { styles } from "./styles";
+import { styles } from './styles'
 
 export const registerForm = (color: any, translate: any) => [
   {
@@ -47,19 +47,19 @@ export const registerForm = (color: any, translate: any) => [
     values: [
       {
         value: 'usd',
-        label: 'USD'
+        label: 'USD',
       },
       {
         value: 'eur',
-        label: 'EUR'
+        label: 'EUR',
       },
       {
         value: 'btc',
-        label: 'Bitcoin'
+        label: 'Bitcoin',
       },
     ],
     validations: {
       required: true,
-    }
+    },
   },
 ]

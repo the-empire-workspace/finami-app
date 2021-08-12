@@ -1,4 +1,4 @@
 export interface DispatchProps {
-  type: string,
+  type: string
   payload: any
 }

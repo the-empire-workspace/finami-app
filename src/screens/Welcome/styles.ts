@@ -6,24 +6,24 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  content:{
+  content: {
     height: '50%',
     justifyContent: 'space-between',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  logo:{
+  logo: {
     width: 150,
-    height: 265
+    height: 265,
   },
   button: {
     paddingVertical: 15,
     paddingHorizontal: 60,
     borderRadius: 30,
   },
-  buttonText:{
+  buttonText: {
     fontSize: 18,
-    fontWeight: "800"
-  }
+    fontWeight: '800',
+  },
 })

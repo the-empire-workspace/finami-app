@@ -28,8 +28,8 @@ const _writeSDModal = {
   ..._buttons,
 }
 
-
-const _warnAboutCameraPermissions = () => Alert.alert('Warning', translate('camera_permission'), [{ text: 'OK' }])
+const _warnAboutCameraPermissions = () =>
+  Alert.alert('Warning', translate('camera_permission'), [{ text: 'OK' }])
 
 export const AndroidPermissionTypes = {
   camera: {
@@ -49,13 +49,12 @@ export const AndroidPermissionTypes = {
   },
 }
 
-
 export const Grant = async (permissionType: any) => {
-
   const granted = await PermissionsAndroid.request(
     permissionType.ask,
     permissionType.modal,
   )
-  if (granted !== PermissionsAndroid.RESULTS.GRANTED) if (permissionType.warn) permissionType.warn()
+  if (granted !== PermissionsAndroid.RESULTS.GRANTED)
+    if (permissionType.warn) permissionType.warn()
   return granted
 }

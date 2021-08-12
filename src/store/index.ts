@@ -15,7 +15,10 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, reducers)
 
 const sagaMiddleware = createSagaMiddleware()
-const store: any = createStore(persistedReducer, applyMiddleware(sagaMiddleware))
+const store: any = createStore(
+  persistedReducer,
+  applyMiddleware(sagaMiddleware),
+)
 sagaMiddleware.run(rootSaga)
 
 const persistor = persistStore(store)

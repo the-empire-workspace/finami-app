@@ -6,7 +6,14 @@ const Stack = createNativeStackNavigator()
 
 export const PrivateStack = () => {
   return (
-    <Stack.Navigator screenOptions={{ animationTypeForReplace: 'pop', animation: 'slide_from_bottom', headerShown: false }} initialRouteName='Dashboard'>
+    <Stack.Navigator
+      screenOptions={{
+        animationTypeForReplace: 'pop',
+        animation: 'slide_from_bottom',
+        headerShown: false,
+      }}
+      initialRouteName="Dashboard"
+    >
       <Stack.Screen name="Dashboard" component={Dashboard} />
     </Stack.Navigator>
   )
