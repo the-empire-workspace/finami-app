@@ -28,9 +28,11 @@ jest.mock('react-native-appearance', () => {
 jest.mock("react-native/Libraries/LogBox/Data/LogBoxData", () => {
   return {
     isLogBoxErrorMessage: (...args: any) => {
+      console.log(args)
       return '';
     },
     reportLogBoxError: (...args: any) => {
+      console.log(args)
       return '';
     },
   };
