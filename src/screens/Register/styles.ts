@@ -6,36 +6,36 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  input:{
-    textAlign: 'center'
+  input: {
+    textAlign: 'center',
   },
-  content:{
+  content: {
     height: '50%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
-  logo:{
+  logo: {
     height: 150,
     width: 150,
     borderRadius: 100,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
-  logoContainer:{
+  logoContainer: {
     width: 150,
     height: 150,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,
-    marginBottom: 50
+    marginBottom: 50,
   },
-  formContainer:{
+  formContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    width: '70%'
+    width: '70%',
   },
-  button:{
-    marginTop: 50
-  }
+  button: {
+    marginTop: 50,
+  },
 })

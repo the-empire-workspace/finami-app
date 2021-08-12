@@ -17,12 +17,20 @@ const setValidData = (element: any, data: any, name: any, value: any) => {
   }
 }
 
-const returnForm = (value: any, form: any, name: any, data: any, setData: any, setValidate: any) => {
+const returnForm = (
+  value: any,
+  form: any,
+  name: any,
+  data: any,
+  setData: any,
+  setValidate: any,
+) => {
   let changed
 
   for (let element of form) {
     if (element.element === 'multiple') {
-      for (let item of element.element_array) changed = setValidData(item, data, name, value)
+      for (let item of element.element_array)
+        changed = setValidData(item, data, name, value)
       continue
     }
     changed = setValidData(element, data, name, value)
@@ -32,8 +40,11 @@ const returnForm = (value: any, form: any, name: any, data: any, setData: any, s
   setValidate(data[name][1])
 
   const reduceValid = (prev: any, current: any) => prev && current[1][1]
-  
-  let validation = Object.keys(data).length < 2 ? data[name][1] : Object.entries(data).reduce(reduceValid, true)
+
+  let validation =
+    Object.keys(data).length < 2
+      ? data[name][1]
+      : Object.entries(data).reduce(reduceValid, true)
 
   return [data, validation]
 }

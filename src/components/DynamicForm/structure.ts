@@ -1,7 +1,5 @@
 import { TextInput } from 'react-native'
-import { Picker } from '@react-native-picker/picker';
-
-
+import { Picker } from '@react-native-picker/picker'
 
 const Structure: any = {
   input: {
@@ -13,7 +11,7 @@ const Structure: any = {
     disabled: false,
     onChange: (val: any) => {
       // console.log('target value')
-      // console.log(val.target.value)
+      console.log(val.target.value)
     },
   },
   select: {
@@ -24,10 +22,9 @@ const Structure: any = {
     disabled: false,
     onChange: (val: any) => {
       // console.log('target value')
-      // console.log(val.target.value)
+      console.log(val.target.value)
     },
-  }
-
+  },
 }
 
 export default Structure
