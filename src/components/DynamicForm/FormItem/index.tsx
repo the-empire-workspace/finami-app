@@ -64,11 +64,10 @@ const FormItem: FC<ItemProps> = ({
     ? values.placeholderTextColor
     : 'white'
 
-  const error = validate ? styles.error : {}
   values.style = values.style
-    ? { ...styles.input, ...values.style, ...error }
+    ? { ...styles.input, ...values.style }
     : styles.input
-
+  values.style.color = !validate ? styles.error.color : styles.input.color
   const Label = mainLabel ? <Text>{mainLabel}</Text> : null
 
   return (

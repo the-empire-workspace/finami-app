@@ -6,15 +6,37 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  newButton: {
+    width: '100%',
+    height: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  newButtonText: {
+    fontSize: 40,
+  },
   upperBox: {
     flex: 1,
     paddingTop: 40,
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
+  infoLine: {
+    width: 2,
+    height: '100%',
+    backgroundColor: 'green',
+  },
+  infoBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    alignItems: 'center',
+    height: 80,
+    paddingHorizontal: 10,
+  },
   amountText: {
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 14,
     textAlign: 'center',
   },
   labelText: {

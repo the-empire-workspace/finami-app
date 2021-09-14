@@ -19,21 +19,21 @@ jest.mock('react-native-appearance', () => {
     AppearanceProvider: ({ children }: any) => {
       return children
     },
-    useColorScheme: () => { 
+    useColorScheme: () => {
       return
-    }
+    },
   }
 })
 
-jest.mock("react-native/Libraries/LogBox/Data/LogBoxData", () => {
+jest.mock('react-native/Libraries/LogBox/Data/LogBoxData', () => {
   return {
     isLogBoxErrorMessage: (...args: any) => {
       console.log(args)
-      return '';
+      return ''
     },
     reportLogBoxError: (...args: any) => {
       console.log(args)
-      return '';
+      return ''
     },
-  };
+  }
 })
