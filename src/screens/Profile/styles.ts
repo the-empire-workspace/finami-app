@@ -12,9 +12,20 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center'
   },
+  infoLine: {
+    width: 10,
+    height: 100,
+    color: 'green'
+  },
+  infoBox: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingHorizontal: 10
+  },
   amountText: {
     fontWeight: 'bold',
-    fontSize: 24,
+    fontSize: 14,
     textAlign: 'center',
   },
   labelText: {
