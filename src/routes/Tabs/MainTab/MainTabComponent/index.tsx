@@ -9,35 +9,40 @@ const Nav = [
     key: 'Dashboard',
     label: 'Dashboard',
     icon: LogoI,
-    route: 'Dashboard'
-  }, {
+    route: 'Dashboard',
+  },
+  {
     key: 'Incoming',
     label: 'Incoming',
     icon: LogoI,
-    route: 'Incoming'
+    route: 'Incoming',
   },
   {
     key: 'Outcoming',
     label: 'Outcoming',
     icon: LogoI,
-    route: 'Outcoming'
+    route: 'Outcoming',
   },
   {
     key: 'Profile',
     label: 'Profile',
     icon: LogoI,
-    route: 'Profile'
+    route: 'Profile',
   },
 ]
 
-const MainTabComponent: FC<any> = ({ navigation, state }) => {
+const MainTabComponent: FC<any> = ({ navigation }) => {
   const { colors } = useTheme()
 
   return (
     <View style={[styles.nav, { backgroundColor: colors?.background }]}>
       {Nav.map((data: any, index: any) => (
-        <TouchableOpacity style={styles.navItem} key={index} onPress={() => navigation.navigate(data.route)}>
-          <Image style={{ maxHeight: '100%', maxWidth: '100%' }} source={data.icon} />
+        <TouchableOpacity
+          style={styles.navItem}
+          key={index}
+          onPress={() => navigation.navigate(data.route)}
+        >
+          <Image style={styles.navImage} source={data.icon} />
         </TouchableOpacity>
       ))}
     </View>
@@ -45,4 +50,3 @@ const MainTabComponent: FC<any> = ({ navigation, state }) => {
 }
 
 export default MainTabComponent
-

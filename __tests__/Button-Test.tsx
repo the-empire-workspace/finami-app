@@ -10,7 +10,15 @@ import { Button } from '../src/components'
 import renderer from 'react-test-renderer'
 
 it('renders Button Correctly', () => {
-  renderer.create(<Button text="test" onPress={() => { console.log('test') }} disabled={false} />)
+  renderer.create(
+    <Button
+      text="test"
+      onPress={() => {
+        console.log('test')
+      }}
+      disabled={false}
+    />,
+  )
 })
 
 jest.mock('react-native-appearance', () => {

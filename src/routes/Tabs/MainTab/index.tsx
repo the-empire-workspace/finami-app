@@ -10,7 +10,7 @@ const MainTab: FC<any> = () => {
     <Tab.Navigator
       screenOptions={{ headerShown: false }}
       initialRouteName={'Dashboard'}
-      tabBar={(props) => <MainTabComponent {...props} />}
+      tabBar={props => <MainTabComponent {...props} />}
     >
       <Tab.Screen name="Dashboard" component={Dashboard} />
       <Tab.Screen name="Incoming" component={Incomings} />

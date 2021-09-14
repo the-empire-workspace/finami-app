@@ -6,7 +6,6 @@ import { useTheme } from 'providers'
 const Stack = createNativeStackNavigator()
 
 export const PrivateStack = () => {
-
   const { colors } = useTheme()
   return (
     <Stack.Navigator
@@ -17,7 +16,11 @@ export const PrivateStack = () => {
       }}
       initialRouteName="main"
     >
-      <Stack.Screen name="main" component={MainTab} initialParams={{ colors }} />
+      <Stack.Screen
+        name="main"
+        component={MainTab}
+        initialParams={{ colors }}
+      />
     </Stack.Navigator>
   )
 }

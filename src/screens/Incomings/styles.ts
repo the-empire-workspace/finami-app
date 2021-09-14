@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: 70,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   newButtonText: {
     fontSize: 40,
@@ -19,12 +19,12 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 40,
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   infoLine: {
     width: 2,
     height: '100%',
-    backgroundColor: 'green'
+    backgroundColor: 'green',
   },
   infoBox: {
     flexDirection: 'row',
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     height: 80,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
   },
   amountText: {
     fontWeight: 'bold',
@@ -44,41 +44,41 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: 'center',
     marginVertical: 10,
-    fontStyle: 'italic'
+    fontStyle: 'italic',
   },
   chart: {
-    marginVertical: 20
+    marginVertical: 20,
   },
   categoryBox: {
     width: '20%',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   categoryIcon: {
     maxWidth: '100%',
     height: 50,
-    marginBottom: 10
+    marginBottom: 10,
   },
   categoryText: {
     fontSize: 10,
-    textAlign: 'center'
+    textAlign: 'center',
   },
   categories: {
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-around',
   },
   downBox: {
     flex: 1,
     width: '100%',
     justifyContent: 'flex-start',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   transactionsBox: {
     width: '100%',
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
   },
   transactionItem: {
     width: '100%',
@@ -87,24 +87,22 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     height: 100,
     alignItems: 'center',
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
   transactionTitle: {
     fontSize: 20,
   },
-  transactionCategory:{
-    fontSize: 15
+  transactionCategory: {
+    fontSize: 15,
   },
-  transactionAmount:{
+  transactionAmount: {
     fontSize: 20,
     fontWeight: 'bold',
-    textAlign: 'right'
+    textAlign: 'right',
   },
-  transactionDate:{
+  transactionDate: {
     fontSize: 15,
-    textAlign: 'right'
+    textAlign: 'right',
   },
-  transactionItemBox:{
-    
-  }
+  transactionItemBox: {},
 })

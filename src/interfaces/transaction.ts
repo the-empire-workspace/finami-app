@@ -1,5 +1,5 @@
 export interface Transaction {
-  id: any,
+  id: any
   amount: any
   icon?: any
   frequency?: any

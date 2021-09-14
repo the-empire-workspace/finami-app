@@ -25,20 +25,20 @@ const Input: FC<InputProps> = ({
 
   return element === 'select'
     ? React.createElement(
-      mainRender,
-      { ...values, selectedValue: value, onValueChange: onChangeSelect },
-      values.values.map((option: any, index: any) =>
-        React.createElement(mainRender?.Item, {
-          ...option,
-          ...{ key: index },
-        }),
-      ),
-    )
+        mainRender,
+        { ...values, selectedValue: value, onValueChange: onChangeSelect },
+        values.values.map((option: any, index: any) =>
+          React.createElement(mainRender?.Item, {
+            ...option,
+            ...{ key: index },
+          }),
+        ),
+      )
     : React.createElement(mainRender, {
-      ...values,
-      value: value,
-      onChange: onChangeInput,
-    })
+        ...values,
+        value: value,
+        onChange: onChangeInput,
+      })
 }
 
 const FormItem: FC<ItemProps> = ({
