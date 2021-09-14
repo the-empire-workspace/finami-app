@@ -14,6 +14,7 @@ module.exports = {
       '|react-native-screens' +
       '|react-native-reanimated' +
       '|react-native-image-resizer' +
+      '|@react-native-community/art' +
       ')/)',
   ],
 }

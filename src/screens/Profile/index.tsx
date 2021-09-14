@@ -1,10 +1,7 @@
 import React, { FC } from 'react'
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
+import { FlatList, Text, TouchableOpacity, View } from 'react-native'
 import { styles } from './styles'
-import PieChart from 'react-native-pie-chart';
 import { useTheme } from 'providers';
-import { TransactionCategory } from 'interfaces';
-import LogoI from '@assets/img/logoI.png'
 import { Transaction } from 'interfaces/transaction';
 import uuid from 'react-native-uuid';
 
