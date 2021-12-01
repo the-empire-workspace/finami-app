@@ -4,9 +4,11 @@ import { styles } from './styles'
 import { useTheme } from 'providers'
 import { Transaction } from 'interfaces/transaction'
 import uuid from 'react-native-uuid'
+import { useNavigation } from '@react-navigation/core'
 
 const Dashboard: FC = () => {
   const { colors } = useTheme()
+  const navigation: any = useNavigation()
 
   const transactions: Array<Transaction> = [
     {
@@ -59,7 +61,7 @@ const Dashboard: FC = () => {
               Totales
             </Text>
           </View>
-          <View style={styles.infoLine} />
+          <View style={[styles.infoLine, { backgroundColor: colors.text }]} />
           <View>
             <Text style={[styles.amountText, { color: colors.text }]}>
               $000.000.000,00
@@ -68,7 +70,7 @@ const Dashboard: FC = () => {
               Mensuales
             </Text>
           </View>
-          <View style={styles.infoLine} />
+          <View style={[styles.infoLine, { backgroundColor: colors.text }]} />
           <View>
             <Text style={[styles.amountText, { color: colors.text }]}>
               $000.000.000,00
@@ -80,6 +82,7 @@ const Dashboard: FC = () => {
         </View>
         <TouchableOpacity
           style={[styles.newButton, { backgroundColor: colors.primary }]}
+          onPress={() => navigation.navigate('entry')}
         >
           <Text style={[styles.newButtonText, { color: colors.background }]}>
             +

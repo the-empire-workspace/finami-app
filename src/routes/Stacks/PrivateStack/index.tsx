@@ -1,12 +1,11 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { MainTab } from '../../Tabs'
-import { useTheme } from 'providers'
+import { Entry } from '@screens'
 
 const Stack = createNativeStackNavigator()
 
 export const PrivateStack = () => {
-  const { colors } = useTheme()
   return (
     <Stack.Navigator
       screenOptions={{
@@ -19,7 +18,10 @@ export const PrivateStack = () => {
       <Stack.Screen
         name="main"
         component={MainTab}
-        initialParams={{ colors }}
+      />
+      <Stack.Screen
+        name="entry"
+        component={Entry}
       />
     </Stack.Navigator>
   )

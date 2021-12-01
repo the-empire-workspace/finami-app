@@ -8,12 +8,13 @@ export const styles = StyleSheet.create({
   },
   newButton: {
     width: '100%',
-    height: 70,
+    height: 90,
     justifyContent: 'center',
     alignItems: 'center',
   },
   newButtonText: {
     fontSize: 40,
+    fontWeight: '700'
   },
   upperBox: {
     flex: 1,
@@ -22,17 +23,17 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
   },
   infoLine: {
-    width: 2,
-    height: '100%',
-    backgroundColor: 'green',
+    width: 1,
+    height: '100%'
   },
   infoBox: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
     alignItems: 'center',
-    height: 80,
+    height: 70,
     paddingHorizontal: 10,
+    marginBottom: 25,
   },
   amountText: {
     fontWeight: 'bold',

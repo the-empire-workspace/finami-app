@@ -14,8 +14,8 @@ const Input: FC<InputProps> = ({
   const [value, setValue] = useState('')
 
   const onChangeInput = (val: any) => {
-    setValue(val.nativeEvent.text)
-    onChange(val.nativeEvent.text)
+    setValue(val?.nativeEvent?.text || val)
+    onChange(val?.nativeEvent?.text || val)
   }
 
   const onChangeSelect = (val: any) => {
@@ -25,20 +25,20 @@ const Input: FC<InputProps> = ({
 
   return element === 'select'
     ? React.createElement(
-        mainRender,
-        { ...values, selectedValue: value, onValueChange: onChangeSelect },
-        values.values.map((option: any, index: any) =>
-          React.createElement(mainRender?.Item, {
-            ...option,
-            ...{ key: index },
-          }),
-        ),
-      )
+      mainRender,
+      { ...values, selectedValue: value, onValueChange: onChangeSelect },
+      values.values.map((option: any, index: any) =>
+        React.createElement(mainRender?.Item, {
+          ...option,
+          ...{ key: index },
+        }),
+      ),
+    )
     : React.createElement(mainRender, {
-        ...values,
-        value: value,
-        onChange: onChangeInput,
-      })
+      ...values,
+      value: value,
+      onChange: onChangeInput,
+    })
 }
 
 const FormItem: FC<ItemProps> = ({

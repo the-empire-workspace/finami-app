@@ -4,7 +4,7 @@ import { useTheme } from '@providers'
 import { styles } from './styles'
 import { Props } from './interface'
 
-const Button: FC<Props> = ({ text, onPress, disabled }) => {
+const Button: FC<Props> = ({ text, disabled, onPress = () => { } }) => {
   const { colors } = useTheme()
 
   return (
