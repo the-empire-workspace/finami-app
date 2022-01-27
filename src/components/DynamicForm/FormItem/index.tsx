@@ -3,43 +3,8 @@ import { returnForm } from './functions'
 import { View, Text } from 'react-native'
 import { styles } from './styles'
 import { useTheme } from 'providers'
-import { InputProps, ItemProps } from './interface'
-
-const Input: FC<InputProps> = ({
-  element,
-  mainRender,
-  values,
-  onChange,
-}: any) => {
-  const [value, setValue] = useState('')
-
-  const onChangeInput = (val: any) => {
-    setValue(val?.nativeEvent?.text || val)
-    onChange(val?.nativeEvent?.text || val)
-  }
-
-  const onChangeSelect = (val: any) => {
-    setValue(val)
-    onChange(val)
-  }
-
-  return element === 'select'
-    ? React.createElement(
-      mainRender,
-      { ...values, selectedValue: value, onValueChange: onChangeSelect },
-      values.values.map((option: any, index: any) =>
-        React.createElement(mainRender?.Item, {
-          ...option,
-          ...{ key: index },
-        }),
-      ),
-    )
-    : React.createElement(mainRender, {
-      ...values,
-      value: value,
-      onChange: onChangeInput,
-    })
-}
+import { ItemProps } from './interface'
+import { Input, MultipleElement } from './elements'
 
 const FormItem: FC<ItemProps> = ({
   data,
@@ -49,7 +14,7 @@ const FormItem: FC<ItemProps> = ({
   form,
 }: any) => {
   const { colors } = useTheme()
-  const [validate, setValidate] = useState(false)
+  const [validate, setValidate] = useState(!!values.defaultValue)
   const {
     element,
     element_array,
@@ -68,37 +33,25 @@ const FormItem: FC<ItemProps> = ({
     ? { ...styles.input, ...values.style }
     : styles.input
   values.style.color = !validate ? styles.error.color : styles.input.color
+
   const Label = mainLabel ? <Text>{mainLabel}</Text> : null
 
   return (
     <>
       {element === 'multiple' ? (
-        element_array.map((item: any, index: any) => {
-          const { elements, label, render } = item
-          const onChangeMultiple = (val: any) =>
-            returnData(
-              returnForm(
-                val.target.value,
-                form,
-                item.name,
-                data,
-                setData,
-                setValidate,
-              ),
-            )
-
-          return (
-            <View key={index}>
-              {label ? <Text>{label}</Text> : null}
-              <Input
-                element={elements}
-                mainRender={render}
-                values={item}
-                onChange={onChangeMultiple}
-              />
-            </View>
-          )
-        })
+        <View style={styles.multipleBox}>
+          {element_array?.map((item: any, index: any) => (
+            <MultipleElement
+              item={item}
+              key={index}
+              returnData={returnData}
+              form={form}
+              data={data}
+              setData={setData}
+              length={element_array.length}
+            />
+          ))}
+        </View>
       ) : (
         <View>
           {Label}

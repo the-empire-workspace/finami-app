@@ -7,15 +7,17 @@ import {
   grantCameraPermission,
   grantReadSDPermission,
   grantWriteSDPermission,
-  ImagePicker
+  ImagePicker,
 } from '@utils'
 import ImageResizer from 'react-native-image-resizer'
 import { Props } from './interface'
 
-const Avatar: FC<Props> = ({ actionAvatar = () => { } }) => {
+const Avatar: FC<Props> = ({ actionAvatar = () => {}, defaultAvatar }) => {
   const { colors } = useTheme()
 
-  const [image, setImage] = useState(LogoI)
+  const [image, setImage] = useState(
+    defaultAvatar ? { uri: defaultAvatar } : LogoI,
+  )
 
   const getImage = async () => {
     await grantCameraPermission()
@@ -38,12 +40,21 @@ const Avatar: FC<Props> = ({ actionAvatar = () => { } }) => {
     }
   }
 
+  const { width, height } = Image.resolveAssetSource(LogoI)
+
   return (
     <TouchableOpacity
-      style={[styles.logoContainer, { backgroundColor: colors.secundary }]}
+      style={[styles.logoContainer, { backgroundColor: colors.primary }]}
       onPress={getImage}
     >
-      <Image style={styles.logo} source={image} />
+      <Image
+        style={[
+          image === LogoI
+            ? { width: width / 4, height: height / 4 }
+            : styles.logo,
+        ]}
+        source={image}
+      />
     </TouchableOpacity>
   )
 }

@@ -34,7 +34,7 @@ const categoryForm = (color: any, translate: any) => [
       minLength: 4,
       maxLength: 72,
     },
-  }
+  },
 ]
 
 export default categoryForm

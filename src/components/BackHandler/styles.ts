@@ -7,17 +7,17 @@ export const styles = StyleSheet.create({
     paddingVertical: 25,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   text: {
     fontSize: 18,
   },
   question: {
     width: 22.2,
-    height: 22
+    height: 22,
   },
   arrow: {
     width: 18,
-    height: 23
-  }
+    height: 23,
+  },
 })

@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
-  main:{
-    padding: 15
-  }
+  main: {
+    padding: 15,
+  },
 })

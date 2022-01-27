@@ -4,17 +4,17 @@ const setValidData = (element: any, data: any, name: any, value: any) => {
   let validation = true
   if (element.name === name) {
     validation = validation && Validation(element.validations, value, data)
-    data[name] = [value, validation]
+    data[name] = { value, validation }
     return data
   }
-  if (element.defaultValue === data[element.name][0]) {
+  if (element.defaultValue === data[element.name]?.value) {
     if (element.defaultValue === undefined) element.defaultValue = ''
-
     let validate =
       validation && Validation(element.validations, element.defaultValue, data)
-    data[element.name] = [element.defaultValue, validate]
+    data[element.name] = { value: element.defaultValue, validation: validate }
     return data
   }
+  return data
 }
 
 const returnForm = (
@@ -37,16 +37,16 @@ const returnForm = (
   }
 
   setData(changed)
-  setValidate(data[name][1])
+  setValidate(data[name].validation)
 
-  const reduceValid = (prev: any, current: any) => prev && current[1][1]
+  const reduceValid = (prev: any, current: any) => prev && current[1].validation
 
   let validation =
     Object.keys(data).length < 2
-      ? data[name][1]
+      ? data[name].validation
       : Object.entries(data).reduce(reduceValid, true)
 
-  return [data, validation]
+  return { value: data, validation }
 }
 
 export default returnForm

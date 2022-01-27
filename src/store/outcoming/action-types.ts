@@ -1,0 +1,1 @@
+export const SET_OUTCOMING = 'SET_OUTCOMING'

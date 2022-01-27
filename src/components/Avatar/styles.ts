@@ -16,18 +16,17 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  logo: {
-    height: 150,
-    width: 150,
-    borderRadius: 100,
-    backgroundColor: 'white',
-  },
   logoContainer: {
     width: 150,
     height: 150,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 100,
+    overflow: 'hidden',
+  },
+  logo: {
+    width: 150,
+    height: 150,
   },
   formContainer: {
     alignItems: 'center',

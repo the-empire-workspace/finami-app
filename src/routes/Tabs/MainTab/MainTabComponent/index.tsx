@@ -39,16 +39,27 @@ const MainTabComponent: FC<any> = ({ navigation, state }) => {
   return (
     <View style={[styles.nav, { backgroundColor: colors?.background }]}>
       {Nav.map((data: any, index: any) => {
+        const { width, height } = Image.resolveAssetSource(data?.icon)
 
-        const { width, height } = Image.resolveAssetSource(data?.icon);
-
-        return (<TouchableOpacity
-          style={[styles.navItem, (state?.index === index) ? { backgroundColor: colors.secundary } : {}]}
-          key={index}
-          onPress={() => navigation.navigate(data.route)}
-        >
-          <Image style={{ width: width / 18, height: height / 18 }} source={data.icon} width={width / 18} height={height / 18} />
-        </TouchableOpacity>)
+        return (
+          <TouchableOpacity
+            style={[
+              styles.navItem,
+              state?.index === index
+                ? { backgroundColor: colors.secundary }
+                : {},
+            ]}
+            key={index}
+            onPress={() => navigation.navigate(data.route)}
+          >
+            <Image
+              style={{ width: width / 18, height: height / 18 }}
+              source={data.icon}
+              width={width / 18}
+              height={height / 18}
+            />
+          </TouchableOpacity>
+        )
       })}
     </View>
   )

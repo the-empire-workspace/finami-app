@@ -9,6 +9,10 @@ export const styles = StyleSheet.create({
   },
   input: {
     textAlign: 'center',
+    paddingBottom: 16,
+  },
+  select: {
+    textAlign: 'center',
   },
   formContainer: {
     alignItems: 'center',
@@ -27,6 +31,6 @@ export const styles = StyleSheet.create({
   switchText: {
     fontSize: 16,
     width: 95,
-    paddingHorizontal: 5
-  }
+    paddingHorizontal: 5,
+  },
 })

@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles } from './styles'
 import AppNavigator from '@routes'
 
