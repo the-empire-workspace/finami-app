@@ -5,5 +5,11 @@
   "create_account": "Crear Cuenta",
   "job": "Profesion",
   "name_lastname": "Nombre y Apellido",
-  "camera_permission": "Para poder utilizar la camara es necesario, darle permisos a la aplicacion"
+  "camera_permission": "Para poder utilizar la camara es necesario, darle permisos a la aplicacion",
+  "categories": "Categorias",
+  "items": "Elemento",
+  "name": "Nombre",
+  "description": "Descripcion",
+  "payment_date": "Fecha de pago",
+  "amount": "Monto"
 }

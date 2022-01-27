@@ -31,3 +31,7 @@ jest.mock('react-native-appearance', () => {
     },
   }
 })
+
+jest.mock('react-native-date-picker', () => {
+  return {}
+})

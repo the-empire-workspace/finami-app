@@ -5,5 +5,12 @@
   "create_account": "Create Account",
   "job": "Job",
   "name_lastname": "Name and Lastname",
-  "camera_permission": "In order to use the Camera, you'll need to allow this App access to it"
+  "camera_permission": "In order to use the Camera, you'll need to allow this App access to it",
+  "categories": "Categories",
+  "items": "Items",
+  "name": "Name",
+  "description": "Description",
+  "create_entry": "Create Entry",
+  "payment_date": "Payment Date",
+  "amount": "Amount"
 }

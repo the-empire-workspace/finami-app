@@ -5,46 +5,23 @@ export const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     height: '100%',
+    paddingHorizontal: 10,
   },
   newButton: {
     width: '100%',
-    height: 70,
+    height: 90,
     justifyContent: 'center',
     alignItems: 'center',
   },
   newButtonText: {
     fontSize: 40,
+    fontWeight: '700',
   },
   upperBox: {
     flex: 1,
-    paddingTop: 40,
+    paddingTop: 50,
     justifyContent: 'flex-start',
     alignItems: 'center',
-  },
-  infoLine: {
-    width: 2,
-    height: '100%',
-    backgroundColor: 'green',
-  },
-  infoBox: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '100%',
-    alignItems: 'center',
-    height: 80,
-    paddingHorizontal: 10,
-  },
-  amountText: {
-    fontWeight: 'bold',
-    fontSize: 14,
-    textAlign: 'center',
-  },
-  labelText: {
-    fontWeight: '100',
-    fontSize: 16,
-    textAlign: 'center',
-    marginVertical: 10,
-    fontStyle: 'italic',
   },
   chart: {
     marginVertical: 20,
@@ -75,34 +52,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  transactionsBox: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  transactionItem: {
-    width: '100%',
-    maxWidth: '100%',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    height: 100,
+  noItemBox: {
+    flex: 1,
     alignItems: 'center',
-    paddingHorizontal: 20,
+    justifyContent: 'center',
   },
-  transactionTitle: {
-    fontSize: 20,
+  noItemText: {
+    fontSize: 40,
   },
-  transactionCategory: {
-    fontSize: 15,
-  },
-  transactionAmount: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'right',
-  },
-  transactionDate: {
-    fontSize: 15,
-    textAlign: 'right',
-  },
-  transactionItemBox: {},
 })

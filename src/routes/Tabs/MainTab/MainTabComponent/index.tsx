@@ -2,25 +2,28 @@ import React, { FC } from 'react'
 import { Image, TouchableOpacity, View } from 'react-native'
 import { styles } from './styles'
 import LogoI from '@assets/img/logoI.png'
+import Dashboard from '@assets/img/dashboard.png'
+import Incoming from '@assets/img/incoming.png'
+import Outcoming from '@assets/img/outcoming.png'
 import { useTheme } from 'providers'
 
 const Nav = [
   {
     key: 'Dashboard',
     label: 'Dashboard',
-    icon: LogoI,
+    icon: Dashboard,
     route: 'Dashboard',
   },
   {
     key: 'Incoming',
     label: 'Incoming',
-    icon: LogoI,
+    icon: Incoming,
     route: 'Incoming',
   },
   {
     key: 'Outcoming',
     label: 'Outcoming',
-    icon: LogoI,
+    icon: Outcoming,
     route: 'Outcoming',
   },
   {
@@ -31,20 +34,33 @@ const Nav = [
   },
 ]
 
-const MainTabComponent: FC<any> = ({ navigation }) => {
+const MainTabComponent: FC<any> = ({ navigation, state }) => {
   const { colors } = useTheme()
-
   return (
     <View style={[styles.nav, { backgroundColor: colors?.background }]}>
-      {Nav.map((data: any, index: any) => (
-        <TouchableOpacity
-          style={styles.navItem}
-          key={index}
-          onPress={() => navigation.navigate(data.route)}
-        >
-          <Image style={styles.navImage} source={data.icon} />
-        </TouchableOpacity>
-      ))}
+      {Nav.map((data: any, index: any) => {
+        const { width, height } = Image.resolveAssetSource(data?.icon)
+
+        return (
+          <TouchableOpacity
+            style={[
+              styles.navItem,
+              state?.index === index
+                ? { backgroundColor: colors.secundary }
+                : {},
+            ]}
+            key={index}
+            onPress={() => navigation.navigate(data.route)}
+          >
+            <Image
+              style={{ width: width / 18, height: height / 18 }}
+              source={data.icon}
+              width={width / 18}
+              height={height / 18}
+            />
+          </TouchableOpacity>
+        )
+      })}
     </View>
   )
 }
