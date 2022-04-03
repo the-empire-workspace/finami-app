@@ -1,4 +1,7 @@
 export interface Props {
-  actionAvatar: Function
+  actionAvatar?: Function
   defaultAvatar?: any
+  statical?: boolean
+  width?: number
+  height?: number
 }

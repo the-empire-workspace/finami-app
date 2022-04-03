@@ -1,10 +1,11 @@
-import React, { FC } from 'react'
+import React, { FC, useCallback, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { styles } from './styles'
 import { useTheme } from 'providers'
-import { useNavigation } from '@react-navigation/core'
+import { useNavigation, useFocusEffect } from '@react-navigation/core'
 import { useSelector } from 'react-redux'
 import { ItemList, TotalBox } from 'components'
+import { processEntries } from 'utils'
 
 const Outcomings: FC = () => {
   const { colors } = useTheme()
@@ -13,11 +14,18 @@ const Outcomings: FC = () => {
   const {
     outcoming: { items: outcomingsItems },
   } = useSelector((state: any) => state)
+  const [total, setTotal] = useState({ monthly: 0, total: 0, pending: 0 })
+
+  useFocusEffect(
+    useCallback(() => {
+      setTotal(processEntries(outcomingsItems))
+    }, [outcomingsItems]),
+  )
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
       <View style={[styles.upperBox]}>
-        <TotalBox />
+        <TotalBox total={total} type="Egresos" />
         <TouchableOpacity
           style={[styles.newButton, { backgroundColor: colors.primary }]}
           onPress={() => navigation.navigate('entry', { type: 'outcomings' })}
@@ -28,7 +36,7 @@ const Outcomings: FC = () => {
         </TouchableOpacity>
         <View style={styles.downBox}>
           {outcomingsItems?.length ? (
-            <ItemList items={outcomingsItems} type="incomings" />
+            <ItemList items={outcomingsItems} type="outcomings" />
           ) : (
             <View style={styles.noItemBox}>
               <Text style={[styles.noItemText, { color: colors.text }]}>

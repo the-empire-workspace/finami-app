@@ -1,7 +1,7 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { MainTab } from '../../Tabs'
-import { Entry, ConcurrentPayment } from '@screens'
+import { Entry, ConcurrentPayment, Category } from '@screens'
 
 const Stack = createNativeStackNavigator()
 
@@ -18,6 +18,7 @@ export const PrivateStack = () => {
       <Stack.Screen name="main" component={MainTab} />
       <Stack.Screen name="entry" component={Entry} />
       <Stack.Screen name="concurrentPayment" component={ConcurrentPayment} />
+      <Stack.Screen name="category" component={Category} />
     </Stack.Navigator>
   )
 }

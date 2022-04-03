@@ -53,34 +53,12 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  transactionsBox: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  transactionItem: {
-    width: '100%',
-    maxWidth: '100%',
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    height: 100,
+  noItemBox: {
+    flex: 1,
     alignItems: 'center',
-    paddingHorizontal: 20,
+    justifyContent: 'center',
   },
-  transactionTitle: {
-    fontSize: 20,
+  noItemText: {
+    fontSize: 40,
   },
-  transactionCategory: {
-    fontSize: 15,
-  },
-  transactionAmount: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'right',
-  },
-  transactionDate: {
-    fontSize: 15,
-    textAlign: 'right',
-  },
-  transactionItemBox: {},
 })

@@ -1,144 +1,116 @@
-import React, { FC } from 'react'
-import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
+import React, { FC, useCallback, useState } from 'react'
+import { Text, useWindowDimensions, View } from 'react-native'
 import { styles } from './styles'
-import PieChart from 'react-native-pie-chart'
 import { useTheme } from 'providers'
-import { TransactionCategory } from 'interfaces'
-import LogoI from '@assets/img/logoI.png'
-import { Transaction } from 'interfaces/transaction'
-import uuid from 'react-native-uuid'
+import { useSelector } from 'react-redux'
+import { processEntries, randomColor } from 'utils'
+import { useFocusEffect } from '@react-navigation/native'
+import { ItemList } from 'components'
+import { PieChart } from 'react-native-chart-kit'
 
 const Dashboard: FC = () => {
   const widthAndHeight = 220
-  const series = [123, 321, 123, 789, 537]
-  const sliceColor = ['#F44336', '#2196F3', '#FFEB3B', '#4CAF50', '#FF9800']
+  const { width: screenWidth } = useWindowDimensions()
   const { colors } = useTheme()
+  const {
+    incoming: { items: itemsIncomings },
+    outcoming: { items: itemsOutcomings },
+  } = useSelector((state: any) => state)
 
-  const transactionCategories: Array<TransactionCategory> = [
-    {
-      name: 'Friday',
-      icon: LogoI,
-    },
-    {
-      name: 'Mercado',
-      icon: LogoI,
-    },
-    {
-      name: 'Entretenimiento',
-      icon: LogoI,
-    },
-    {
-      name: 'Alquileres',
-      icon: LogoI,
-    },
-  ]
+  const [total, setTotal] = useState(0)
+  const [allItems, setAllItems] = useState<any>([])
+  const [chart, setChart] = useState<any>([])
 
-  const transactions: Array<Transaction> = [
-    {
-      id: uuid.v4(),
-      description: 'Friday',
-      amount: 5.08,
-      type: 'out',
-      category: 'Friday',
-      payment_date: '10/10/2010',
-      status: 'complete',
-    },
-    {
-      id: uuid.v4(),
-      description: 'Mercado',
-      amount: 1000.08,
-      type: 'out',
-      category: 'Mercado',
-      payment_date: '10/10/2010',
-      status: 'pending',
-    },
-    {
-      id: uuid.v4(),
-      description: 'Entretenimiento',
-      amount: 17000.0,
-      type: 'in',
-      category: 'Entretenimiento',
-      payment_date: '10/10/2010',
-      status: 'complete',
-    },
-    {
-      id: uuid.v4(),
-      description: 'Alquileres',
-      amount: 270000.0,
-      type: 'in',
-      category: 'Alquileres',
-      payment_date: '10/10/2010',
-      status: 'pending',
-    },
-  ]
+  const calculateTotal = () => {
+    const totalIncomings = processEntries(itemsIncomings)
+    const totalOutcomings = processEntries(itemsOutcomings)
+    setTotal(totalIncomings.total - totalOutcomings.total)
+  }
+
+  const setItems = () => {
+    const fullItems = [...itemsIncomings, ...itemsOutcomings]
+
+    const orderItems = fullItems.sort((a: any, b: any) => {
+      const aDate = a.date || a.payment_date
+      const bDate = b.date || b.payment_date
+      if (aDate < bDate) return 1
+      if (aDate > bDate) return -1
+      return 0
+    })
+
+    setAllItems(orderItems)
+
+    const chartData: any = []
+
+    for (const item of orderItems)
+      if (item.status === 'paid' || item.category) {
+        const amount = item?.amount || processEntries(item?.entries).total
+        const color = randomColor()
+        const newData = {
+          name: item.name,
+          amount,
+          color: color,
+          legendFontColor: color,
+          legendFontSize: 13,
+        }
+        chartData.push(newData)
+      }
+
+    setChart(chartData)
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      calculateTotal()
+      setItems()
+    }, [itemsIncomings, itemsOutcomings]),
+  )
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
       <View style={[styles.upperBox]}>
         <Text style={[styles.amountText, { color: colors.text }]}>
-          $ +/-000.000.000,00
+          $ {total ? total : '0'}
         </Text>
         <Text style={[styles.labelText, { color: colors.text }]}>
           Estado Financiero
         </Text>
 
         <PieChart
-          style={styles.chart}
-          widthAndHeight={widthAndHeight}
-          series={series}
-          sliceColor={sliceColor}
-          doughnut={true}
-          coverRadius={0.9}
-          coverFill={colors.background}
+          paddingLeft="10"
+          data={chart}
+          width={screenWidth - 10}
+          height={widthAndHeight}
+          accessor={'amount'}
+          chartConfig={{
+            backgroundColor: colors.background,
+            backgroundGradientFrom: colors.background,
+            backgroundGradientTo: colors.background,
+            decimalPlaces: 2, // optional, defaults to 2dp
+            color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+            style: {
+              borderRadius: 16,
+            },
+            propsForDots: {
+              r: '6',
+              strokeWidth: '2',
+              stroke: '#ffa726',
+            },
+          }}
+          backgroundColor={'transparent'}
+          style={{ backgroundColor: colors.background }}
         />
-
-        <View style={styles.categories}>
-          {transactionCategories.map(
-            (data: TransactionCategory, index: any) => (
-              <TouchableOpacity style={styles.categoryBox} key={index}>
-                <Image style={styles.categoryIcon} source={data.icon} />
-                <Text style={[styles.categoryText, { color: colors.text }]}>
-                  {data.name}
-                </Text>
-              </TouchableOpacity>
-            ),
-          )}
-        </View>
-
         <View style={styles.downBox}>
-          <FlatList
-            style={styles.transactionsBox}
-            data={transactions}
-            keyExtractor={item => item.id}
-            renderItem={({ item }: any) => (
-              <TouchableOpacity style={styles.transactionItem}>
-                <View style={styles.transactionItemBox}>
-                  <Text
-                    style={[styles.transactionTitle, { color: colors.text }]}
-                  >
-                    {item.description}
-                  </Text>
-                  <Text
-                    style={[styles.transactionCategory, { color: colors.text }]}
-                  >
-                    {item.category}
-                  </Text>
-                </View>
-                <View style={styles.transactionItemBox}>
-                  <Text
-                    style={[styles.transactionAmount, { color: colors.text }]}
-                  >
-                    {item.amount}
-                  </Text>
-                  <Text
-                    style={[styles.transactionDate, { color: colors.text }]}
-                  >
-                    {item.payment_date}
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            )}
-          />
+          {allItems?.length ? (
+            <ItemList items={allItems} type="dashboard" />
+          ) : (
+            <View style={styles.noItemBox}>
+              <Text style={[styles.noItemText, { color: colors.text }]}>
+                No Items
+              </Text>
+            </View>
+          )}
         </View>
       </View>
     </View>

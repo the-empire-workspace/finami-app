@@ -1,10 +1,11 @@
-import React, { FC } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { Text, TouchableOpacity, View } from 'react-native'
 import { styles } from './styles'
 import { useTheme } from 'providers'
 import { useNavigation } from '@react-navigation/core'
 import { useSelector } from 'react-redux'
 import { ItemList, TotalBox } from 'components'
+import { processEntries } from 'utils'
 
 const Incomings: FC = () => {
   const { colors } = useTheme()
@@ -13,11 +14,16 @@ const Incomings: FC = () => {
   const {
     incoming: { items: incomingsItems },
   } = useSelector((state: any) => state)
+  const [total, setTotal] = useState({ monthly: 0, total: 0, pending: 0 })
+
+  useEffect(() => {
+    setTotal(processEntries(incomingsItems))
+  }, [incomingsItems])
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
       <View style={[styles.upperBox]}>
-        <TotalBox />
+        <TotalBox total={total} type="Ingresos" />
         <TouchableOpacity
           style={[styles.newButton, { backgroundColor: colors.primary }]}
           onPress={() => navigation.navigate('entry', { type: 'incomings' })}

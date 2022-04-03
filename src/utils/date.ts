@@ -22,3 +22,6 @@ export const getUTCFullTime = (
 
   return `${year}${separator}${month}${separator}${day}`
 }
+
+export const numberOfWeeks = (d1: any, d2: any) =>
+  Math.round((d2 - d1) / (7 * 24 * 60 * 60 * 1000))

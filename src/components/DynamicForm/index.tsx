@@ -17,7 +17,6 @@ const DynamicForm: FC<Props> = ({ formData, returnData }) => {
 
   useEffect(() => {
     checkData()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formData])
 
   const form = formData.map((value: any) => {

@@ -7,7 +7,8 @@ import { itemForm, categoryForm, multiple } from './forms'
 import { translate } from '@utils'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import { setIncoming } from 'store/actions'
+import { setIncoming, setOutcoming } from 'store/actions'
+import { processConcurrentData, processCreation } from './functions'
 
 const Entry: FC = () => {
   const { colors } = useTheme()
@@ -15,14 +16,19 @@ const Entry: FC = () => {
   const navigation = useNavigation()
   const dispatch = useDispatch()
   const { params = {} }: any = route
+
   const {
     incoming: { items: IncomingItems },
+    outcoming: { items: OutcomingItems },
   } = useSelector((state: any) => state)
+
   const [image, setImage] = useState(params?.item?.image)
+
   const [form, setForm] = useState({
     form: { paymentType: null },
     valid: false,
   })
+
   const [itemView, setItemView] = useState(true)
 
   const [formulary, setFormulary] = useState(
@@ -54,17 +60,15 @@ const Entry: FC = () => {
         ? itemForm(colors.secundaryText, translate, params?.item)
         : categoryForm(colors.secundaryText, translate),
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemView])
 
   useEffect(() => {
     checkPaymentType()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [form.form?.paymentType])
 
   const saveForm = () => {
     const formData: any = form?.form
-    const newFormData: any = {}
+    let newFormData: any = {}
 
     for (const key of Object.keys(formData))
       newFormData[key] = formData[key].value
@@ -73,21 +77,32 @@ const Entry: FC = () => {
     if (typeof newFormData.payment_date === 'object')
       newFormData.payment_date = newFormData.payment_date?.getTime()
 
-    if (params?.type === 'incomings') {
-      newFormData.type = 'incomings'
-      newFormData.item = itemView
-      const newIncoming: any = IncomingItems
+    const paymentType: any = form?.form?.paymentType
+    if (paymentType?.value === 'concurrent') {
+      const newData = processConcurrentData(newFormData)
+      if (!newData) return
+      newFormData = newData
+    }
 
-      if (params?.item) {
-        const index = newIncoming.findIndex(
-          (income: any) => income.id === params?.item.id,
-        )
-        newIncoming.splice(index, 1, newFormData)
-      } else {
-        newFormData.id = IncomingItems.length
-        newIncoming.push(newFormData)
-      }
-      dispatch(setIncoming(newIncoming))
+    if (params?.type === 'incomings') {
+      const newIncomings = processCreation(
+        newFormData,
+        IncomingItems,
+        itemView,
+        params,
+      )
+      dispatch(setIncoming(newIncomings))
+      return navigation.goBack()
+    }
+
+    if (params?.type === 'outcomings') {
+      const newOutcomings = processCreation(
+        newFormData,
+        OutcomingItems,
+        itemView,
+        params,
+      )
+      dispatch(setOutcoming(newOutcomings))
       return navigation.goBack()
     }
   }

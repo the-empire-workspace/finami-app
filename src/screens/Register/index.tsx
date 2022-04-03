@@ -12,10 +12,14 @@ import { signin } from 'store/actions'
 const Register: FC = () => {
   const { colors } = useTheme()
   const [image, setImage] = useState(LogoI)
-  const [form, setForm] = useState([{}, false])
+  const [form, setForm] = useState<any>({ validation: false, value: {} })
   const dispatch = useDispatch()
 
-  const register = () => dispatch(signin({ ...form[0], avatar: image?.uri }))
+  const register = () => {
+    const result: any = {}
+    for (const key in form.value) result[key] = form.value[key].value
+    dispatch(signin({ ...result, avatar: image }))
+  }
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
@@ -33,7 +37,7 @@ const Register: FC = () => {
           <Button
             text={translate('create_account')}
             onPress={register}
-            disabled={!form[1] && image?.uri}
+            disabled={!form.validation && image?.uri}
           />
         </View>
       </View>

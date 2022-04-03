@@ -8,8 +8,11 @@ import rootSaga from './sagas'
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['account', 'incoming', 'outcoming'],
-  blacklist: [],
+  whitelist: ['account', 'incoming', 'outcoming', 'currency'],
+  blacklist: [
+    /* 'account' */
+    /* 'incoming' */
+  ],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)

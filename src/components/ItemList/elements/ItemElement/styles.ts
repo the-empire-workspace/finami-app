@@ -44,9 +44,17 @@ export const styles = StyleSheet.create({
     textAlign: 'right',
   },
   transactionItemBox: {
-    flex: 2,
+    flex: 1.5,
   },
   transactionItemInfo: {
     flex: 1,
   },
+  actionContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingVertical: 5,
+  },
+  deleteAction: { alignSelf: 'flex-end' },
 })

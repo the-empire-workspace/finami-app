@@ -6,7 +6,7 @@ import { Props } from './interface'
 import { ItemElement } from './elements'
 import { random } from 'lodash'
 
-const ItemList: FC<Props> = ({ items, type }) => {
+const ItemList: FC<Props> = ({ items, type, categoryId }) => {
   const { colors } = useTheme()
 
   return (
@@ -15,7 +15,12 @@ const ItemList: FC<Props> = ({ items, type }) => {
       data={items}
       keyExtractor={item => item.name + random(0, 1000)}
       renderItem={({ item, index }: any) => (
-        <ItemElement item={item} key={index} type={type} />
+        <ItemElement
+          item={item}
+          key={index}
+          type={type}
+          categoryId={categoryId}
+        />
       )}
     />
   )
