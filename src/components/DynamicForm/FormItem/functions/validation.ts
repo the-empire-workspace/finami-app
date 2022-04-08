@@ -26,7 +26,7 @@ const Validation = (validations: any, value: any, formData: any) => {
 
         break
       case 'required':
-        if (value)
+        if (value !== undefined || value !== null)
           if (value.length !== 0) {
             validates = true
             break
@@ -53,7 +53,6 @@ const Validation = (validations: any, value: any, formData: any) => {
     }
 
   if (!('required' in validations)) if (!value) validates = true
-
   return validates
 }
 

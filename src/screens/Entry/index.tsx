@@ -20,6 +20,7 @@ const Entry: FC = () => {
   const {
     incoming: { items: IncomingItems },
     outcoming: { items: OutcomingItems },
+    currency: { items: currencies }
   } = useSelector((state: any) => state)
 
   const [image, setImage] = useState(params?.item?.image)
@@ -33,14 +34,14 @@ const Entry: FC = () => {
 
   const [formulary, setFormulary] = useState(
     itemView
-      ? itemForm(colors.secundaryText, translate, params?.item)
+      ? itemForm(colors.secundaryText, translate, params?.item, currencies)
       : categoryForm(colors.secundaryText, translate),
   )
 
   const checkPaymentType = () => {
     const paymentType: any = form?.form?.paymentType
     if (paymentType) {
-      const newForm = itemForm(colors.secundaryText, translate, params?.item)
+      const newForm = itemForm(colors.secundaryText, translate, params?.item, currencies)
       if (paymentType?.value === 'concurrent') {
         const multip: any = multiple(
           colors.secundaryText,
@@ -57,7 +58,7 @@ const Entry: FC = () => {
   useEffect(() => {
     setFormulary(
       itemView
-        ? itemForm(colors.secundaryText, translate, params?.item)
+        ? itemForm(colors.secundaryText, translate, params?.item, currencies)
         : categoryForm(colors.secundaryText, translate),
     )
   }, [itemView])

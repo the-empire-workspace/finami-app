@@ -1,6 +1,6 @@
 import { styles } from '../styles'
 
-const itemForm = (color: any, translate: any, def: any = null) => [
+const itemForm = (color: any, translate: any, def: any = null, currencies: any) => [
   {
     element: 'input',
     name: 'name',
@@ -55,20 +55,7 @@ const itemForm = (color: any, translate: any, def: any = null) => [
     placeholderTextColor: color,
     style: { ...styles.select, color: color },
     itemStyle: { ...styles.select, color: color },
-    values: [
-      {
-        value: 'usd',
-        label: 'USD',
-      },
-      {
-        value: 'eur',
-        label: 'EUR',
-      },
-      {
-        value: 'btc',
-        label: 'Bitcoin',
-      },
-    ],
+    values: currencies?.map((currency: any) => ({ label: currency.name, value: currency.id })),
     validations: {
       required: true,
     },

@@ -15,11 +15,15 @@ const Dashboard: FC = () => {
   const {
     incoming: { items: itemsIncomings },
     outcoming: { items: itemsOutcomings },
+    account: { user },
+    currency: { items: currencies },
   } = useSelector((state: any) => state)
 
   const [total, setTotal] = useState(0)
   const [allItems, setAllItems] = useState<any>([])
   const [chart, setChart] = useState<any>([])
+
+  const currency = currencies.find((cur: any) => cur.id === user.currency)
 
   const calculateTotal = () => {
     const totalIncomings = processEntries(itemsIncomings)
@@ -66,11 +70,12 @@ const Dashboard: FC = () => {
     }, [itemsIncomings, itemsOutcomings]),
   )
 
+
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
       <View style={[styles.upperBox]}>
         <Text style={[styles.amountText, { color: colors.text }]}>
-          $ {total ? total : '0'}
+          {currency.symbol} {total ? total : '0'}
         </Text>
         <Text style={[styles.labelText, { color: colors.text }]}>
           Estado Financiero

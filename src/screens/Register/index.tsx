@@ -6,7 +6,7 @@ import LogoI from '@assets/img/logoI.png'
 import { Avatar, Button, DynamicForm } from '@components'
 import { registerForm } from './form'
 import { translate } from '@utils'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { signin } from 'store/actions'
 
 const Register: FC = () => {
@@ -14,7 +14,8 @@ const Register: FC = () => {
   const [image, setImage] = useState(LogoI)
   const [form, setForm] = useState<any>({ validation: false, value: {} })
   const dispatch = useDispatch()
-
+  const { currency: { items: currencies } } = useSelector((state: any) => state)
+  
   const register = () => {
     const result: any = {}
     for (const key in form.value) result[key] = form.value[key].value
@@ -27,7 +28,7 @@ const Register: FC = () => {
         <Avatar actionAvatar={setImage} />
         <View style={styles.formContainer}>
           <DynamicForm
-            formData={registerForm(colors.secundaryText, translate)}
+            formData={registerForm(colors.secundaryText, translate, currencies)}
             returnData={(data: any) => {
               setForm(data)
             }}
