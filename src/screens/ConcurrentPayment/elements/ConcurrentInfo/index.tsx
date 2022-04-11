@@ -18,7 +18,7 @@ const ConcurrentInfo: FC<Props> = ({ item }) => {
   return (
     <View style={styles.infoContainer}>
       <View style={styles.infoBox}>
-        <Text style={[styles.infoText, { color: colors.secundaryText }]}>
+        <Text style={[styles.infoText, { color: colors.secondaryText }]}>
           Ingreso Fijo:
         </Text>
         <Text style={[styles.infoText, { color: colors.text }]}>
@@ -26,7 +26,7 @@ const ConcurrentInfo: FC<Props> = ({ item }) => {
         </Text>
       </View>
       <View style={styles.infoBox}>
-        <Text style={[styles.infoText, { color: colors.secundaryText }]}>
+        <Text style={[styles.infoText, { color: colors.secondaryText }]}>
           Ingreso Total:
         </Text>
         <Text style={[styles.infoText, { color: colors.text }]}>
@@ -34,7 +34,7 @@ const ConcurrentInfo: FC<Props> = ({ item }) => {
         </Text>
       </View>
       <View style={styles.infoBox}>
-        <Text style={[styles.infoText, { color: colors.secundaryText }]}>
+        <Text style={[styles.infoText, { color: colors.secondaryText }]}>
           Frecuencia de pago:
         </Text>
         <Text style={[styles.infoText, { color: colors.text }]}>
@@ -42,7 +42,7 @@ const ConcurrentInfo: FC<Props> = ({ item }) => {
         </Text>
       </View>
       <View style={styles.infoBox}>
-        <Text style={[styles.infoText, { color: colors.secundaryText }]}>
+        <Text style={[styles.infoText, { color: colors.secondaryText }]}>
           Ultimo Pago:
         </Text>
         <Text style={[styles.infoText, { color: colors.text }]}>
@@ -50,7 +50,7 @@ const ConcurrentInfo: FC<Props> = ({ item }) => {
         </Text>
       </View>
       <View style={styles.infoBox}>
-        <Text style={[styles.infoText, { color: colors.secundaryText }]}>
+        <Text style={[styles.infoText, { color: colors.secondaryText }]}>
           Proximo Pago:
         </Text>
         <Text style={[styles.infoText, { color: colors.text }]}>

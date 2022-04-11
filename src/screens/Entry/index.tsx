@@ -34,17 +34,17 @@ const Entry: FC = () => {
 
   const [formulary, setFormulary] = useState(
     itemView
-      ? itemForm(colors.secundaryText, translate, params?.item, currencies)
-      : categoryForm(colors.secundaryText, translate),
+      ? itemForm(colors.secondaryText, translate, params?.item, currencies)
+      : categoryForm(colors.secondaryText, translate),
   )
 
   const checkPaymentType = () => {
     const paymentType: any = form?.form?.paymentType
     if (paymentType) {
-      const newForm = itemForm(colors.secundaryText, translate, params?.item, currencies)
+      const newForm = itemForm(colors.secondaryText, translate, params?.item, currencies)
       if (paymentType?.value === 'concurrent') {
         const multip: any = multiple(
-          colors.secundaryText,
+          colors.secondaryText,
           translate,
           params?.item,
         )
@@ -58,8 +58,8 @@ const Entry: FC = () => {
   useEffect(() => {
     setFormulary(
       itemView
-        ? itemForm(colors.secundaryText, translate, params?.item, currencies)
-        : categoryForm(colors.secundaryText, translate),
+        ? itemForm(colors.secondaryText, translate, params?.item, currencies)
+        : categoryForm(colors.secondaryText, translate),
     )
   }, [itemView])
 
@@ -118,7 +118,7 @@ const Entry: FC = () => {
         </Text>
         <Switch
           trackColor={{ true: colors.text, false: colors.text }}
-          thumbColor={itemView ? colors.secundary : colors.secundary}
+          thumbColor={itemView ? colors.secondary : colors.secondary}
           ios_backgroundColor={colors.text}
           onValueChange={() => setItemView(prev => !prev)}
           value={itemView}

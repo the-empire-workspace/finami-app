@@ -17,7 +17,7 @@ const ConcurrentHeader: FC<Props> = ({ item }) => {
 
   return (
     <View
-      style={[styles.headerContainer, { backgroundColor: colors.secundary }]}
+      style={[styles.headerContainer, { backgroundColor: colors.secondary }]}
     >
       <BackHandler />
       <View style={styles.headerActions}>

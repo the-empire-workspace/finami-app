@@ -1,9 +1,9 @@
 export const lightColors = {
   background: '#FFFFFF',
   primary: '#512DA8',
-  secundary: '#2C4059',
+  secondary: '#2C4059',
   text: '#121212',
-  secundaryText: '#8596A6',
+  secondaryText: '#8596A6',
   error: '#D32F2F',
 }
 
@@ -11,8 +11,8 @@ export const lightColors = {
 export const darkColors = {
   background: '#172633',
   primary: '#45648C',
-  secundary: '#2C4059',
+  secondary: '#2C4059',
   text: '#F0F0F2',
-  secundaryText: '#8596A6',
+  secondaryText: '#8596A6',
   error: '#EF9A9A',
 }
