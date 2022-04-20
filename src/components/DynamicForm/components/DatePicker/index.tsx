@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react'
+import React, { useState, FC, useEffect } from 'react'
 import { Text, TouchableOpacity } from 'react-native'
 import DatePicker from 'react-native-date-picker'
 import { Props } from './interface'
@@ -32,6 +32,10 @@ const DatePicker2: FC<Props> = ({
     setValue(formatDate)
     if (onChange) onChange(newDate)
   }
+
+  useEffect(() => {
+    if (onChange) onChange(date)
+  }, [])
   return (
     <>
       <TouchableOpacity

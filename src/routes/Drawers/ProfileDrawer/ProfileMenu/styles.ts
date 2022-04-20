@@ -6,15 +6,15 @@ export const styles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     padding: 20,
-    paddingTop: 30
+    paddingTop: 30,
   },
   picker: {
-    width: '90%'
+    width: '90%',
   },
   pickerText: {
-    fontSize: 20
+    fontSize: 20,
   },
   box: {
-    marginVertical: 5
-  }
+    marginVertical: 5,
+  },
 })

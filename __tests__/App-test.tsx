@@ -45,3 +45,16 @@ jest.mock('react-native-date-picker', () => {
 jest.mock('react-native-chart-kit', () => {
   return {}
 })
+
+jest.mock('@react-navigation/drawer', () => {
+
+  const addIgnorePatterns = () => { }
+  const LogBoxData = {
+    addIgnorePatterns
+  }
+  const createDrawerNavigator = () => { }
+  return {
+    LogBoxData,
+    createDrawerNavigator
+  }
+})

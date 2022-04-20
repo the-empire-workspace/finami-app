@@ -22,10 +22,10 @@ export const styles = StyleSheet.create({
     height: 8,
     borderRadius: 100,
     margin: 5,
-    marginVertical: 10
+    marginVertical: 10,
   },
   dotContainer: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
-  }
+  },
 })

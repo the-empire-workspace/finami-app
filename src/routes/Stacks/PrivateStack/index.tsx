@@ -8,7 +8,6 @@ import { getCurrencyPrice } from 'store/actions'
 const Stack = createNativeStackNavigator()
 
 export const PrivateStack = () => {
-
   const dispatch = useDispatch()
 
   useEffect(() => {

@@ -22,7 +22,7 @@ export const setI18nConfig = (language: any = null) => {
   const { languageTag, isRTL } = language
     ? fallback
     : RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
-    fallback
+      fallback
 
   // clear translation cache
   translate.cache.clear()

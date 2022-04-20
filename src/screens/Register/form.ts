@@ -1,6 +1,11 @@
 import { styles } from './styles'
 
-export const registerForm = (color: any, translate: any, currencies: any, def: any) => [
+export const registerForm = (
+  color: any,
+  translate: any,
+  currencies: any,
+  def: any,
+) => [
   {
     element: 'input',
     name: 'name',
@@ -44,7 +49,10 @@ export const registerForm = (color: any, translate: any, currencies: any, def: a
     placeholderTextColor: color,
     style: { ...styles.input, color: color },
     itemStyle: { ...styles.input, color: color },
-    values: currencies?.map((currency: any) => ({ label: currency.name, value: currency.id })),
+    values: currencies?.map((currency: any) => ({
+      label: currency.name,
+      value: currency.id,
+    })),
     validations: {
       required: true,
     },

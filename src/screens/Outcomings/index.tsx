@@ -13,12 +13,13 @@ const Outcomings: FC = () => {
 
   const {
     outcoming: { items: outcomingsItems },
+    currency: { defaultPrices },
   } = useSelector((state: any) => state)
   const [total, setTotal] = useState({ monthly: 0, total: 0, pending: 0 })
 
   useFocusEffect(
     useCallback(() => {
-      setTotal(processEntries(outcomingsItems))
+      setTotal(processEntries(outcomingsItems, defaultPrices))
     }, [outcomingsItems]),
   )
 

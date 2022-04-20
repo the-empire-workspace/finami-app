@@ -22,4 +22,10 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     alignSelf: 'flex-start',
   },
+  profileMain: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
 })

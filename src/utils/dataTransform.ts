@@ -129,7 +129,11 @@ export const processCategoryDeep = (
   return merge
 }
 
-export const processEntries = (array: any = [], prevCurrent = null) => {
+export const processEntries = (
+  array: any = [],
+  prices: any = {},
+  prevCurrent = null,
+) => {
   const reduceArray = array
   const date = new Date()
   const firstDay = new Date(date.getFullYear(), date.getMonth(), 1)
@@ -138,36 +142,111 @@ export const processEntries = (array: any = [], prevCurrent = null) => {
     (prev: any, next: any, index: any) => {
       if (prevCurrent && index === 0) prev = prevCurrent
 
+      const price = prices[next.currency]
+
+      let amount = next.amount
+      if (price) {
+        if (price.op === 'multiply') amount = next.amount * price.value
+        if (price.op === 'divide') amount = next.amount / price.value
+      }
+
       if (next.paymentType === 'unique') {
-        if (next.status === 'pending') prev.pending += next.amount
-        if (next.status === 'paid') prev.total += next.amount
+        if (next.status === 'pending') prev.pending += amount
+        if (next.status === 'paid') prev.total += amount
 
         if (
           next.payment_date > firstDay.getTime() &&
           next.payment_date < lastDay.getTime()
         )
-          prev.monthly += next.amount
+          prev.monthly += amount
       }
 
       if (next.paymentType === 'concurrent') {
         if (next.frequency === 'months')
-          prev.monthly += next.amount / Number(next.amount_frequency)
+          prev.monthly += amount / Number(next.amount_frequency)
         if (next.frequency === 'weeks') {
           const weeks = numberOfWeeks(firstDay, lastDay)
           const weeksDifference = weeks / Number(next.amount_frequency)
-          prev.monthly += next.amount * weeksDifference
+          prev.monthly += amount * weeksDifference
         }
         for (const entry of next.entries) {
-          if (entry.status === 'pending') prev.pending += entry.amount
-          if (entry.status === 'paid') prev.total += entry.amount
+          let entryAmount = entry.amount
+          if (price) entryAmount = entry.amount * price
+
+          if (entry.status === 'pending') prev.pending += entryAmount
+          if (entry.status === 'paid') prev.total += entryAmount
         }
       }
 
-      if (next.category) prev = processEntries(next.entries, prev)
+      if (next.category) prev = processEntries(next.entries, prices, prev)
 
       return prev
     },
     { monthly: 0, total: 0, pending: 0 },
   )
   return totals
+}
+
+export const filterEntries = (
+  array: any,
+  from: any,
+  to: any,
+  prevCurrent: any = null,
+) => {
+  const reduceArray = array
+  const totals = reduceArray.reduce((prev: any, next: any, index: any) => {
+    if (prevCurrent && index === 0) prev = prevCurrent
+    const date = next.payment_date || next.date
+
+    if (next.paymentType === 'unique')
+      if (date >= from && date <= to) prev.push(next)
+
+    if (next.paymentType === 'concurrent') {
+      const newEntries = []
+      for (const entry of next.entries) {
+        const entryDate = entry.payment_date || entry.date
+        if (entryDate >= from && entryDate <= to) newEntries.push(entry)
+      }
+      next.entries = newEntries
+    }
+
+    if (next.category) prev = filterEntries(next.entries, from, to, prev)
+
+    return prev
+  }, [])
+  return totals
+}
+
+export const filterByCurrency = (
+  currency: any,
+  itemsIncomings: any,
+  itemsOutcomings: any = null,
+) => {
+  const reduceFunc = (prev: any, next: any) => {
+    if (next.currency === currency?.id) prev.push(next)
+    if (next.type === 'category')
+      for (const entry of next.entries)
+        if (entry.currency === currency?.id) prev.push(next)
+
+    return prev
+  }
+
+  const incomingsReduce = itemsIncomings
+    ? itemsIncomings.reduce(reduceFunc, [])
+    : []
+  const outcomingReduce = itemsOutcomings
+    ? itemsOutcomings.reduce(reduceFunc, [])
+    : []
+
+  const fullItems = [...incomingsReduce, ...outcomingReduce]
+
+  const orderItems = fullItems.sort((a: any, b: any) => {
+    const aDate = a.date || a.payment_date
+    const bDate = b.date || b.payment_date
+    if (aDate < bDate) return 1
+    if (aDate > bDate) return -1
+    return 0
+  })
+
+  return orderItems
 }

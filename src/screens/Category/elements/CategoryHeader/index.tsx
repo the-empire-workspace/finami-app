@@ -29,7 +29,7 @@ const CategoryHeader: FC<Props> = ({ item }) => {
       </View>
       <View style={styles.avatarContainer}>
         <Avatar
-          defaultAvatar={item?.image}
+          defaultAvatar={{ uri: item?.image }}
           statical={true}
           width={100}
           height={100}

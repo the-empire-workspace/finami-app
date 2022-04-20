@@ -14,6 +14,7 @@ const ItemElement: FC<Props> = ({ item, type, categoryId }) => {
   const navigation: any = useNavigation()
   const {
     incoming: { items: incomingsItems },
+    currency: { items: currencies },
   } = useSelector((state: any) => state)
 
   const onPress = () => {
@@ -56,6 +57,10 @@ const ItemElement: FC<Props> = ({ item, type, categoryId }) => {
     )
   }
 
+  const currency = currencies.find(
+    (current: any) => current.id === item.currency,
+  )
+
   return (
     <TouchableOpacity
       style={[styles.transactionItem, { backgroundColor: colors.background }]}
@@ -76,7 +81,7 @@ const ItemElement: FC<Props> = ({ item, type, categoryId }) => {
         </View>
         <View style={styles.transactionItemInfo}>
           <Text style={[styles.transactionAmount, { color: colors.text }]}>
-            {item.amount}
+            {currency.symbol} {item.amount.toFixed(currency.decimal || 2)}
           </Text>
           <Text style={[styles.transactionAmount, { color: colors.text }]}>
             {type === 'entry' ? item.status : item.paymentType}

@@ -53,6 +53,7 @@ const Validation = (validations: any, value: any, formData: any) => {
     }
 
   if (!('required' in validations)) if (!value) validates = true
+
   return validates
 }
 

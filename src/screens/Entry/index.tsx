@@ -20,7 +20,7 @@ const Entry: FC = () => {
   const {
     incoming: { items: IncomingItems },
     outcoming: { items: OutcomingItems },
-    currency: { items: currencies }
+    currency: { items: currencies },
   } = useSelector((state: any) => state)
 
   const [image, setImage] = useState(params?.item?.image)
@@ -41,7 +41,12 @@ const Entry: FC = () => {
   const checkPaymentType = () => {
     const paymentType: any = form?.form?.paymentType
     if (paymentType) {
-      const newForm = itemForm(colors.secondaryText, translate, params?.item, currencies)
+      const newForm = itemForm(
+        colors.secondaryText,
+        translate,
+        params?.item,
+        currencies,
+      )
       if (paymentType?.value === 'concurrent') {
         const multip: any = multiple(
           colors.secondaryText,
@@ -111,7 +116,10 @@ const Entry: FC = () => {
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
       <BackHandler />
-      <Avatar actionAvatar={setImage} defaultAvatar={params?.item?.image} />
+      <Avatar
+        actionAvatar={setImage}
+        defaultAvatar={{ uri: params?.item?.image }}
+      />
       <View style={styles.switchContainer}>
         <Text style={[styles.switchText, { color: colors.text }]}>
           {translate('categories')}

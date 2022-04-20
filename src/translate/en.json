@@ -12,5 +12,16 @@
   "description": "Description",
   "create_entry": "Create Entry",
   "payment_date": "Payment Date",
-  "amount": "Amount"
+  "amount": "Amount",
+  "report": "Report",
+  "account_status": "Account Status",
+  "transactions_from_date": "Transaction From Date",
+  "transactions_to_date": "Transaction To Date",
+  "incoming_total": "Incoming Total",
+  "incoming_monthly": "Incoming Monthly",
+  "incoming_pending": "Incoming Pending",
+  "outcoming_total": "Outcoming Total",
+  "outcoming_monthly": "Outcoming Monthly",
+  "outcoming_pending": "Outcoming Pending",
+  "finance_status": "Finance Status"
 }
