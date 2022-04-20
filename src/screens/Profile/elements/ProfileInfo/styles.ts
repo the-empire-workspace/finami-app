@@ -17,4 +17,15 @@ export const styles = StyleSheet.create({
     fontSize: 15,
     alignSelf: 'flex-start',
   },
+  roundDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 100,
+    margin: 5,
+    marginVertical: 10,
+  },
+  dotContainer: {
+    flexDirection: 'row',
+    alignSelf: 'flex-end',
+  },
 })

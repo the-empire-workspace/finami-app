@@ -32,8 +32,8 @@ const FormItem: FC<ItemProps> = ({
   values.style = values.style
     ? { ...styles.input, ...values.style }
     : styles.input
-  values.style.color = !validate ? styles.error.color : styles.input.color
 
+  values.style.color = !validate ? colors.error : colors.text
   const Label = mainLabel ? <Text>{mainLabel}</Text> : null
 
   return (

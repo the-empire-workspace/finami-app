@@ -17,7 +17,7 @@ const CategoryHeader: FC<Props> = ({ item }) => {
 
   return (
     <View
-      style={[styles.headerContainer, { backgroundColor: colors.secundary }]}
+      style={[styles.headerContainer, { backgroundColor: colors.secondary }]}
     >
       <BackHandler />
       <View style={styles.headerActions}>
@@ -29,7 +29,7 @@ const CategoryHeader: FC<Props> = ({ item }) => {
       </View>
       <View style={styles.avatarContainer}>
         <Avatar
-          defaultAvatar={item?.image}
+          defaultAvatar={{ uri: item?.image }}
           statical={true}
           width={100}
           height={100}

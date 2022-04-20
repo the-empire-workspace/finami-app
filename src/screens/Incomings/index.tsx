@@ -13,12 +13,13 @@ const Incomings: FC = () => {
 
   const {
     incoming: { items: incomingsItems },
+    currency: { defaultPrices },
   } = useSelector((state: any) => state)
   const [total, setTotal] = useState({ monthly: 0, total: 0, pending: 0 })
 
   useEffect(() => {
-    setTotal(processEntries(incomingsItems))
-  }, [incomingsItems])
+    setTotal(processEntries(incomingsItems, defaultPrices))
+  }, [incomingsItems?.length, defaultPrices])
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>

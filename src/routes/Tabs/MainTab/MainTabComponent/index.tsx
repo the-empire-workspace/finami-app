@@ -46,7 +46,7 @@ const MainTabComponent: FC<any> = ({ navigation, state }) => {
             style={[
               styles.navItem,
               state?.index === index
-                ? { backgroundColor: colors.secundary }
+                ? { backgroundColor: colors.secondary }
                 : {},
             ]}
             key={index}

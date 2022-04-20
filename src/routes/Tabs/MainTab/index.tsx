@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MainTabComponent from './MainTabComponent'
-import { Dashboard, Incomings, Outcomings, Profile } from '@screens'
+import { Dashboard, Incomings, Outcomings } from '@screens'
+import { ProfileDrawer } from '../../Drawers'
 
 const Tab = createBottomTabNavigator()
 
@@ -15,7 +16,7 @@ const MainTab: FC<any> = () => {
       <Tab.Screen name="Dashboard" component={Dashboard} />
       <Tab.Screen name="Incoming" component={Incomings} />
       <Tab.Screen name="Outcoming" component={Outcomings} />
-      <Tab.Screen name="Profile" component={Profile} />
+      <Tab.Screen name="Profile" component={ProfileDrawer} />
     </Tab.Navigator>
   )
 }

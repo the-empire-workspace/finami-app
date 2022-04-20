@@ -16,7 +16,7 @@ const Dashboard: FC = () => {
     incoming: { items: itemsIncomings },
     outcoming: { items: itemsOutcomings },
     account: { user },
-    currency: { items: currencies },
+    currency: { items: currencies, defaultPrices },
   } = useSelector((state: any) => state)
 
   const [total, setTotal] = useState(0)
@@ -26,8 +26,8 @@ const Dashboard: FC = () => {
   const currency = currencies.find((cur: any) => cur.id === user.currency)
 
   const calculateTotal = () => {
-    const totalIncomings = processEntries(itemsIncomings)
-    const totalOutcomings = processEntries(itemsOutcomings)
+    const totalIncomings = processEntries(itemsIncomings, defaultPrices)
+    const totalOutcomings = processEntries(itemsOutcomings, defaultPrices)
     setTotal(totalIncomings.total - totalOutcomings.total)
   }
 
@@ -48,7 +48,12 @@ const Dashboard: FC = () => {
 
     for (const item of orderItems)
       if (item.status === 'paid' || item.category) {
-        const amount = item?.amount || processEntries(item?.entries).total
+        let amount = item?.amount || processEntries(item?.entries).total
+        const price = defaultPrices[item.currency]
+        if (price) {
+          if (price.op === 'multiply') amount = amount * price.value
+          if (price.op === 'divide') amount = amount / price.value
+        }
         const color = randomColor()
         const newData = {
           name: item.name,
@@ -67,15 +72,14 @@ const Dashboard: FC = () => {
     useCallback(() => {
       calculateTotal()
       setItems()
-    }, [itemsIncomings, itemsOutcomings]),
+    }, [itemsIncomings.length, itemsOutcomings.length, defaultPrices]),
   )
-
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
       <View style={[styles.upperBox]}>
         <Text style={[styles.amountText, { color: colors.text }]}>
-          {currency.symbol} {total ? total : '0'}
+          {currency.symbol} {total ? total.toFixed(currency.decimal) : '0'}
         </Text>
         <Text style={[styles.labelText, { color: colors.text }]}>
           Estado Financiero

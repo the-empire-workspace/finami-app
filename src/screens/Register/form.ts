@@ -1,12 +1,17 @@
 import { styles } from './styles'
 
-export const registerForm = (color: any, translate: any, currencies: any) => [
+export const registerForm = (
+  color: any,
+  translate: any,
+  currencies: any,
+  def: any,
+) => [
   {
     element: 'input',
     name: 'name',
     label: null,
     type: 'text',
-    defaultValue: '',
+    defaultValue: def?.name || '',
     keyboardType: 'default',
     placeholder: translate('name_lastname'),
     returnKeyType: 'go',
@@ -24,7 +29,7 @@ export const registerForm = (color: any, translate: any, currencies: any) => [
     label: null,
     type: 'text',
     style: { ...styles.input, color: color },
-    defaultValue: '',
+    defaultValue: def?.profession || '',
     placeholderTextColor: color,
     keyboardType: 'default',
     placeholder: translate('job'),
@@ -39,12 +44,15 @@ export const registerForm = (color: any, translate: any, currencies: any) => [
     element: 'select',
     name: 'currency',
     type: 'select',
-    defaultValue: '',
+    defaultValue: def?.currency || '',
     placeholder: 'Moneda Predeterminada',
     placeholderTextColor: color,
     style: { ...styles.input, color: color },
     itemStyle: { ...styles.input, color: color },
-    values: currencies?.map((currency: any) => ({ label: currency.name, value: currency.id })),
+    values: currencies?.map((currency: any) => ({
+      label: currency.name,
+      value: currency.id,
+    })),
     validations: {
       required: true,
     },

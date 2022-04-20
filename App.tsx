@@ -10,6 +10,7 @@ import { ThemeProvider } from '@providers'
 import RNLocalize from 'react-native-localize'
 import { setI18nConfig } from '@utils'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
+import './src/utils/hideLogs'
 
 const App = () => {
   const handleLocalizationChange = () => {

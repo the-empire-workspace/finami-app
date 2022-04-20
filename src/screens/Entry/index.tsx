@@ -20,7 +20,7 @@ const Entry: FC = () => {
   const {
     incoming: { items: IncomingItems },
     outcoming: { items: OutcomingItems },
-    currency: { items: currencies }
+    currency: { items: currencies },
   } = useSelector((state: any) => state)
 
   const [image, setImage] = useState(params?.item?.image)
@@ -34,17 +34,22 @@ const Entry: FC = () => {
 
   const [formulary, setFormulary] = useState(
     itemView
-      ? itemForm(colors.secundaryText, translate, params?.item, currencies)
-      : categoryForm(colors.secundaryText, translate),
+      ? itemForm(colors.secondaryText, translate, params?.item, currencies)
+      : categoryForm(colors.secondaryText, translate),
   )
 
   const checkPaymentType = () => {
     const paymentType: any = form?.form?.paymentType
     if (paymentType) {
-      const newForm = itemForm(colors.secundaryText, translate, params?.item, currencies)
+      const newForm = itemForm(
+        colors.secondaryText,
+        translate,
+        params?.item,
+        currencies,
+      )
       if (paymentType?.value === 'concurrent') {
         const multip: any = multiple(
-          colors.secundaryText,
+          colors.secondaryText,
           translate,
           params?.item,
         )
@@ -58,8 +63,8 @@ const Entry: FC = () => {
   useEffect(() => {
     setFormulary(
       itemView
-        ? itemForm(colors.secundaryText, translate, params?.item, currencies)
-        : categoryForm(colors.secundaryText, translate),
+        ? itemForm(colors.secondaryText, translate, params?.item, currencies)
+        : categoryForm(colors.secondaryText, translate),
     )
   }, [itemView])
 
@@ -111,14 +116,17 @@ const Entry: FC = () => {
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
       <BackHandler />
-      <Avatar actionAvatar={setImage} defaultAvatar={params?.item?.image} />
+      <Avatar
+        actionAvatar={setImage}
+        defaultAvatar={{ uri: params?.item?.image }}
+      />
       <View style={styles.switchContainer}>
         <Text style={[styles.switchText, { color: colors.text }]}>
           {translate('categories')}
         </Text>
         <Switch
           trackColor={{ true: colors.text, false: colors.text }}
-          thumbColor={itemView ? colors.secundary : colors.secundary}
+          thumbColor={itemView ? colors.secondary : colors.secondary}
           ios_backgroundColor={colors.text}
           onValueChange={() => setItemView(prev => !prev)}
           value={itemView}

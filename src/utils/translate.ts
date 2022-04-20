@@ -32,3 +32,5 @@ export const setI18nConfig = (language: any = null) => {
   i18n.translations = { [languageTag]: translationGetters[languageTag] }
   i18n.locale = languageTag
 }
+
+export const getLanguage = () => i18n.locale

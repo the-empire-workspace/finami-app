@@ -21,12 +21,16 @@ const Avatar: FC<Props> = ({
 }) => {
   const { colors } = useTheme()
 
-  const [image, setImage] = useState(
-    defaultAvatar ? { uri: defaultAvatar } : LogoI,
-  )
+  const [image, setImage] = useState(defaultAvatar ? defaultAvatar : LogoI)
+
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
 
   useEffect(() => {
-    setImage({ uri: defaultAvatar })
+    setImage(defaultAvatar ? defaultAvatar : LogoI)
+    const { width, height } = Image.resolveAssetSource(
+      defaultAvatar ? defaultAvatar : LogoI,
+    )
+    setDimensions({ width: width || 150, height: height || 150 })
   }, [defaultAvatar])
 
   const getImage = async () => {
@@ -52,8 +56,6 @@ const Avatar: FC<Props> = ({
     }
   }
 
-  const { width, height } = Image.resolveAssetSource(LogoI)
-
   return (
     <TouchableOpacity
       style={[
@@ -67,11 +69,10 @@ const Avatar: FC<Props> = ({
       onPress={getImage}
     >
       <Image
-        style={[
-          image === LogoI
-            ? { width: width / 4, height: height / 4 }
-            : styles.logo,
-        ]}
+        style={{
+          width: dimensions.width ? dimensions.width / 4 : 150,
+          height: dimensions.height ? dimensions.height / 4 : 150,
+        }}
         source={image}
       />
     </TouchableOpacity>

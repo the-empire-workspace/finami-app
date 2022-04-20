@@ -1,11 +1,12 @@
 import React, { FC } from 'react'
-import { Text, View } from 'react-native'
+import { Text, TouchableOpacity, View } from 'react-native'
 import { styles } from './styles'
 import { useTheme } from 'providers'
 import { Avatar } from 'components'
 import { useSelector } from 'react-redux'
+import { Props } from './interface'
 
-const ProfileInfo: FC = () => {
+const ProfileInfo: FC<Props> = ({ navigation }) => {
   const { colors } = useTheme()
 
   const {
@@ -14,7 +15,21 @@ const ProfileInfo: FC = () => {
 
   return (
     <View style={styles.profileContainer}>
-      <Avatar statical={true} defaultAvatar={user.avatar} />
+      <TouchableOpacity
+        style={styles.dotContainer}
+        onPress={() => navigation.toggleDrawer()}
+      >
+        <View
+          style={[styles.roundDot, { backgroundColor: colors.secondary }]}
+        />
+        <View
+          style={[styles.roundDot, { backgroundColor: colors.secondary }]}
+        />
+        <View
+          style={[styles.roundDot, { backgroundColor: colors.secondary }]}
+        />
+      </TouchableOpacity>
+      <Avatar statical={true} defaultAvatar={{ uri: user.avatar }} />
       <Text style={[styles.profileName, { color: colors.text }]}>
         {user.name}
       </Text>
@@ -22,7 +37,7 @@ const ProfileInfo: FC = () => {
         style={[
           styles.profileProfession,
           {
-            color: colors.secundaryText,
+            color: colors.secondaryText,
           },
         ]}
       >
