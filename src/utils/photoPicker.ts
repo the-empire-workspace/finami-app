@@ -1,4 +1,4 @@
-import ImagePicker, { launchImageLibrary } from 'react-native-image-picker'
+import ImagePicker, {launchImageLibrary} from 'react-native-image-picker'
 
 const getOptions = (options = {}) => {
   return {
@@ -30,8 +30,8 @@ const call = (fn: any, opt: any) => {
   return new Promise((resolve, reject) => {
     fn.call(ImagePicker, opt, (res: any) => {
       if (res.error) return reject(res.error)
-      if (res.didCancel) return resolve({ ok: false })
-      resolve({ ...res, ok: true })
+      if (res.didCancel) return resolve({ok: false})
+      resolve({...res, ok: true})
     })
   })
 }

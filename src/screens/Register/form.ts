@@ -1,4 +1,4 @@
-import { styles } from './styles'
+import {styles} from './styles'
 
 export const registerForm = (
   color: any,
@@ -16,7 +16,7 @@ export const registerForm = (
     placeholder: translate('name_lastname'),
     returnKeyType: 'go',
     placeholderTextColor: color,
-    style: { ...styles.input, color: color },
+    style: {...styles.input, color: color},
     validations: {
       required: true,
       minLength: 4,
@@ -28,7 +28,7 @@ export const registerForm = (
     name: 'profession',
     label: null,
     type: 'text',
-    style: { ...styles.input, color: color },
+    style: {...styles.input, color: color},
     defaultValue: def?.profession || '',
     placeholderTextColor: color,
     keyboardType: 'default',
@@ -47,8 +47,8 @@ export const registerForm = (
     defaultValue: def?.currency || '',
     placeholder: 'Moneda Predeterminada',
     placeholderTextColor: color,
-    style: { ...styles.input, color: color },
-    itemStyle: { ...styles.input, color: color },
+    style: {...styles.input, color: color},
+    itemStyle: {...styles.input, color: color},
     values: currencies?.map((currency: any) => ({
       label: currency.name,
       value: currency.id,

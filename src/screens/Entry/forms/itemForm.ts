@@ -1,4 +1,4 @@
-import { styles } from '../styles'
+import {styles} from '../styles'
 
 const itemForm = (
   color: any,
@@ -16,7 +16,7 @@ const itemForm = (
     placeholder: translate('name'),
     returnKeyType: 'go',
     placeholderTextColor: color,
-    style: { ...styles.input, color: color },
+    style: {...styles.input, color: color},
     validations: {
       required: true,
       minLength: 4,
@@ -28,7 +28,7 @@ const itemForm = (
     name: 'description',
     label: null,
     type: 'text',
-    style: { ...styles.input, color: color },
+    style: {...styles.input, color: color},
     defaultValue: def ? def.description : '',
     placeholderTextColor: color,
     keyboardType: 'default',
@@ -44,7 +44,7 @@ const itemForm = (
     element: 'date',
     name: 'payment_date',
     label: null,
-    style: { ...styles.input, color: color },
+    style: {...styles.input, color: color},
     defaultValue: def ? def.payment_date : '',
     placeholder: translate('payment_date'),
     validations: {
@@ -56,10 +56,10 @@ const itemForm = (
     name: 'currency',
     type: 'select',
     defaultValue: def ? def.currency : '',
-    placeholder: 'Moneda Predeterminada',
+    placeholder: translate('default_currency'),
     placeholderTextColor: color,
-    style: { ...styles.select, color: color },
-    itemStyle: { ...styles.select, color: color },
+    style: {...styles.select, color: color},
+    itemStyle: {...styles.select, color: color},
     values: currencies?.map((currency: any) => ({
       label: currency.name,
       value: currency.id,
@@ -78,7 +78,7 @@ const itemForm = (
     placeholder: translate('amount'),
     returnKeyType: 'go',
     placeholderTextColor: color,
-    style: { ...styles.input, color: color },
+    style: {...styles.input, color: color},
     validations: {
       required: true,
       minLength: 1,
@@ -87,21 +87,44 @@ const itemForm = (
   },
   {
     element: 'select',
+    name: 'status',
+    type: 'select',
+    defaultValue: def ? def.status : '',
+    placeholder: translate('status'),
+    placeholderTextColor: color,
+    style: {...styles.select, color: color},
+    itemStyle: {...styles.select, color: color},
+    values: [
+      {
+        value: 'paid',
+        label: translate('paid'),
+      },
+      {
+        value: 'pending',
+        label: translate('pending'),
+      },
+    ],
+    validations: {
+      required: true,
+    },
+  },
+  {
+    element: 'select',
     name: 'paymentType',
     type: 'select',
     defaultValue: def ? def.paymentType : '',
-    placeholder: 'Tipo de Pago',
+    placeholder: translate('payment_type'),
     placeholderTextColor: color,
-    style: { ...styles.select, color: color },
-    itemStyle: { ...styles.select, color: color },
+    style: {...styles.select, color: color},
+    itemStyle: {...styles.select, color: color},
     values: [
       {
         value: 'concurrent',
-        label: 'Concurrent',
+        label: translate('concurrent'),
       },
       {
         value: 'unique',
-        label: 'Unique',
+        label: translate('unique'),
       },
     ],
     validations: {
@@ -118,22 +141,22 @@ export const multiple = (color: any, translate: any, def: any = null) => ({
       name: 'frequency',
       type: 'select',
       defaultValue: def ? def.frequency : '',
-      placeholder: 'Frecuencia',
+      placeholder: translate('frequency'),
       placeholderTextColor: color,
-      style: { ...styles.select, color: color },
-      itemStyle: { ...styles.select, color: color },
+      style: {...styles.select, color: color},
+      itemStyle: {...styles.select, color: color},
       values: [
         {
           value: 'days',
-          label: 'Dias',
+          label: translate('days'),
         },
         {
           value: 'weeks',
-          label: 'Semanas',
+          label: translate('weeks'),
         },
         {
           value: 'months',
-          label: 'meses',
+          label: translate('months'),
         },
       ],
       validations: {
@@ -150,7 +173,7 @@ export const multiple = (color: any, translate: any, def: any = null) => ({
       placeholder: translate('amount'),
       returnKeyType: 'go',
       placeholderTextColor: color,
-      style: { ...styles.input, color: color },
+      style: {...styles.input, color: color},
       validations: {},
     },
   ],

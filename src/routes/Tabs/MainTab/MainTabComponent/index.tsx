@@ -1,11 +1,11 @@
-import React, { FC } from 'react'
-import { Image, TouchableOpacity, View } from 'react-native'
-import { styles } from './styles'
+import React, {FC} from 'react'
+import {Image, TouchableOpacity, View} from 'react-native'
+import {styles} from './styles'
 import LogoI from '@assets/img/logoI.png'
 import Dashboard from '@assets/img/dashboard.png'
 import Incoming from '@assets/img/incoming.png'
 import Outcoming from '@assets/img/outcoming.png'
-import { useTheme } from 'providers'
+import {useTheme} from 'providers'
 
 const Nav = [
   {
@@ -34,26 +34,23 @@ const Nav = [
   },
 ]
 
-const MainTabComponent: FC<any> = ({ navigation, state }) => {
-  const { colors } = useTheme()
+const MainTabComponent: FC<any> = ({navigation, state}) => {
+  const {colors} = useTheme()
   return (
-    <View style={[styles.nav, { backgroundColor: colors?.background }]}>
+    <View style={[styles.nav, {backgroundColor: colors?.background}]}>
       {Nav.map((data: any, index: any) => {
-        const { width, height } = Image.resolveAssetSource(data?.icon)
+        const {width, height} = Image.resolveAssetSource(data?.icon)
 
         return (
           <TouchableOpacity
             style={[
               styles.navItem,
-              state?.index === index
-                ? { backgroundColor: colors.secondary }
-                : {},
+              state?.index === index ? {backgroundColor: colors.secondary} : {},
             ]}
             key={index}
-            onPress={() => navigation.navigate(data.route)}
-          >
+            onPress={() => navigation.navigate(data.route)}>
             <Image
-              style={{ width: width / 18, height: height / 18 }}
+              style={{width: width / 18, height: height / 18}}
               source={data.icon}
               width={width / 18}
               height={height / 18}

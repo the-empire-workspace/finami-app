@@ -1,12 +1,12 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { actionObject, FetchService } from 'utils'
-import { binanceAPI, ExchangeAPI } from 'utils/path'
-import { selectAccount, selectCurrency } from '../selector'
-import { GET_CURRENCY_PRICE, GET_CURRENCY_PRICE_ASYNC } from './action-types'
+import {call, put, select, takeLatest} from 'redux-saga/effects'
+import {actionObject, FetchService} from 'utils'
+import {binanceAPI, ExchangeAPI} from 'utils/path'
+import {selectAccount, selectCurrency} from '../selector'
+import {GET_CURRENCY_PRICE, GET_CURRENCY_PRICE_ASYNC} from './action-types'
 
 function* getDefaultPriceAsync() {
-  const { user } = yield select(selectAccount)
-  const { items: currencies } = yield select(selectCurrency)
+  const {user} = yield select(selectAccount)
+  const {items: currencies} = yield select(selectCurrency)
 
   const defaultCurrency = currencies.find(
     (currency: any) => currency.id === user.currency,
@@ -19,7 +19,7 @@ function* getDefaultPriceAsync() {
 
   for (const currency of currencies)
     if (defaultCurrency.id !== currency.id) {
-      let price = { value: 0, op: 'none' }
+      let price = {value: 0, op: 'none'}
       if (currency.type === 'CRYPTO' || defaultCurrency.type === 'CRYPTO') {
         const currencyPair =
           currency.name === 'USD' ? `B${currency.name}` : currency.name
@@ -33,14 +33,14 @@ function* getDefaultPriceAsync() {
             FetchService,
             `${binanceAPI}avgPrice?symbol=${PAIR}`,
           )
-          price = { value: result.price, op: 'divide' }
+          price = {value: result.price, op: 'divide'}
         } catch (error) {
           const XPAIR = `${currencyPair}${defaultCurrencyPair}`
           const result = yield call(
             FetchService,
             `${binanceAPI}avgPrice?symbol=${XPAIR}`,
           )
-          price = price = { value: result.price, op: 'multiply' }
+          price = price = {value: result.price, op: 'multiply'}
         }
       }
 

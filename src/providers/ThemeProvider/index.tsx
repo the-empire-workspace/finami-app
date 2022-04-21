@@ -1,12 +1,6 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  FC,
-  useEffect,
-} from 'react'
-import { useColorScheme } from 'react-native-appearance'
-import { lightColors, darkColors } from '@theme'
+import React, {createContext, useState, useContext, FC, useEffect} from 'react'
+import {Appearance} from 'react-native'
+import {lightColors, darkColors} from '@theme'
 
 export const ThemeContext = createContext({
   isDark: false,
@@ -17,7 +11,7 @@ export const ThemeContext = createContext({
 })
 
 export const ThemeProvider: FC = (props: any) => {
-  const colorScheme = useColorScheme()
+  const colorScheme = Appearance.getColorScheme()
   const [isDark, setIsDark] = useState(colorScheme === 'dark')
 
   useEffect(() => {

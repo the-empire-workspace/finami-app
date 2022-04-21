@@ -1,6 +1,8 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
-import { Text, View } from 'react-native'
+import {Text, View} from 'react-native'
+import {styles} from './styles'
+import {translate} from 'utils'
 
 export default class ErrorBoundary extends Component {
   static displayName = 'ErrorBoundary'
@@ -9,20 +11,20 @@ export default class ErrorBoundary extends Component {
     children: PropTypes.node,
   }
 
-  state = {
+  state: any = {
     error: null,
     message: '',
   }
 
   constructor(props: any) {
     super(props)
-    this.state = { error: null, message: '' }
+    this.state = {error: null, message: ''}
   }
 
   componentDidCatch(error: any) {
     this.setState({
       error,
-      message: 'Ha Ocurrido un error',
+      message: 'error_happend',
     })
   }
 
@@ -30,8 +32,11 @@ export default class ErrorBoundary extends Component {
     return (
       <>
         {this.state.error ? (
-          <View>
-            <Text>{this.state.message}</Text>
+          <View style={styles.root}>
+            <View style={styles.modal}>
+              <Text style={styles.title}>{translate(this.state.message)}</Text>
+              <Text style={styles.body}>{this.state.error?.message}</Text>
+            </View>
           </View>
         ) : (
           this.props.children
@@ -40,5 +45,5 @@ export default class ErrorBoundary extends Component {
     )
   }
 
-  handleDismiss = () => this.setState({ error: null })
+  handleDismiss = () => this.setState({error: null})
 }

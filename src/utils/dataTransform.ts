@@ -1,4 +1,4 @@
-import { numberOfWeeks } from './date'
+import {numberOfWeeks} from './date'
 
 const _getDeep = (data: any, deep: any) => {
   if (typeof deep === 'string') data = data[deep]
@@ -182,7 +182,7 @@ export const processEntries = (
 
       return prev
     },
-    { monthly: 0, total: 0, pending: 0 },
+    {monthly: 0, total: 0, pending: 0},
   )
   return totals
 }

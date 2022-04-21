@@ -1,1 +1,1 @@
-export { default as ProfileDrawer } from './ProfileDrawer'
+export {default as ProfileDrawer} from './ProfileDrawer'

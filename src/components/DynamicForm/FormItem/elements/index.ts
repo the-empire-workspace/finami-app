@@ -1,2 +1,2 @@
-export { default as Input } from './Input'
-export { default as MultipleElement } from './MultipleElement'
+export {default as Input} from './Input'
+export {default as MultipleElement} from './MultipleElement'

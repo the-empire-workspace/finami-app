@@ -1,20 +1,20 @@
-import { useRoute } from '@react-navigation/native'
-import { Avatar, BackHandler } from 'components'
-import { useTheme } from 'providers'
-import React, { FC } from 'react'
-import { Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
-import { styles } from './styles'
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
-import { CurrencyList, CurrencyReport, CurrencyTabIndicator } from './elements'
+import {useRoute} from '@react-navigation/native'
+import {Avatar, BackHandler} from 'components'
+import {useTheme} from 'providers'
+import React, {FC} from 'react'
+import {Text, View} from 'react-native'
+import {useSelector} from 'react-redux'
+import {styles} from './styles'
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs'
+import {CurrencyList, CurrencyReport, CurrencyTabIndicator} from './elements'
 
 const Tab = createMaterialTopTabNavigator()
 
 const CurrencyInfo: FC = () => {
-  const { colors } = useTheme()
+  const {colors} = useTheme()
   const route: any = useRoute()
   const {
-    currency: { items: currencies },
+    currency: {items: currencies},
   } = useSelector((state: any) => state)
 
   const currency = currencies.find(
@@ -29,12 +29,12 @@ const CurrencyInfo: FC = () => {
   )
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background }]}>
-      <View style={[{ backgroundColor: colors.secondary }]}>
+    <View style={[styles.root, {backgroundColor: colors.background}]}>
+      <View style={[{backgroundColor: colors.secondary}]}>
         <BackHandler />
         <View style={styles.infoCurrency}>
           <Avatar defaultAvatar={currency?.image} />
-          <Text style={[styles.currencyTitle, { color: colors.text }]}>
+          <Text style={[styles.currencyTitle, {color: colors.text}]}>
             {currency?.name}
           </Text>
         </View>

@@ -12,18 +12,6 @@ import renderer from 'react-test-renderer'
 it('renders correctly', () => {
   renderer.create(<App />)
 })
-// __mocks__/react-native-appearance.js
-
-jest.mock('react-native-appearance', () => {
-  return {
-    AppearanceProvider: ({ children }: any) => {
-      return children
-    },
-    useColorScheme: () => {
-      return
-    },
-  }
-})
 
 jest.mock('react-native/Libraries/LogBox/Data/LogBoxData', () => {
   return {
@@ -32,6 +20,10 @@ jest.mock('react-native/Libraries/LogBox/Data/LogBoxData', () => {
       return ''
     },
     reportLogBoxError: (...args: any) => {
+      console.log(args)
+      return ''
+    },
+    addIgnorePatterns: (...args: any) => {
       console.log(args)
       return ''
     },
@@ -47,14 +39,13 @@ jest.mock('react-native-chart-kit', () => {
 })
 
 jest.mock('@react-navigation/drawer', () => {
-
-  const addIgnorePatterns = () => { }
+  const addIgnorePatterns = () => {}
   const LogBoxData = {
-    addIgnorePatterns
+    addIgnorePatterns,
   }
-  const createDrawerNavigator = () => { }
+  const createDrawerNavigator = () => {}
   return {
     LogBoxData,
-    createDrawerNavigator
+    createDrawerNavigator,
   }
 })

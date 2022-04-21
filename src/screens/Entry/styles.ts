@@ -1,6 +1,14 @@
-import { StyleSheet } from 'react-native'
+import {StyleSheet} from 'react-native'
 
 export const styles = StyleSheet.create({
+  main: {
+    paddingVertical: 20,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  scrollView: {
+    width: '100%',
+  },
   root: {
     flex: 1,
     width: '100%',

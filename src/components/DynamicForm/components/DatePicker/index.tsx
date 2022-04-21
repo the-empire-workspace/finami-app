@@ -1,8 +1,8 @@
-import React, { useState, FC, useEffect } from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import React, {useState, FC, useEffect} from 'react'
+import {Text, TouchableOpacity} from 'react-native'
 import DatePicker from 'react-native-date-picker'
-import { Props } from './interface'
-import { styles } from './styles'
+import {Props} from './interface'
+import {styles} from './styles'
 
 const DatePicker2: FC<Props> = ({
   style,
@@ -39,18 +39,16 @@ const DatePicker2: FC<Props> = ({
   return (
     <>
       <TouchableOpacity
-        style={{ ...style, ...styles.main }}
+        style={{...style, ...styles.main}}
         onPress={() => {
           setOpen(true)
-        }}
-      >
+        }}>
         <Text
           style={{
             color: style?.color,
             textAlign: style?.textAlign,
             fontSize: style?.fontSize,
-          }}
-        >
+          }}>
           {value || placeholder}
         </Text>
       </TouchableOpacity>

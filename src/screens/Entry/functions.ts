@@ -1,5 +1,5 @@
-import { Alert } from 'react-native'
-import { processCategoryDeep, verifyId } from 'utils'
+import {Alert} from 'react-native'
+import {processCategoryDeep, verifyId} from 'utils'
 
 export const processConcurrentData = (newFormData: any) => {
   const now = new Date()

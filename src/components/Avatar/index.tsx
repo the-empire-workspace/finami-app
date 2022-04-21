@@ -1,7 +1,7 @@
-import React, { FC, useEffect, useState } from 'react'
-import { TouchableOpacity, Image, Alert } from 'react-native'
-import { useTheme } from '@providers'
-import { styles } from './styles'
+import React, {FC, useEffect, useState} from 'react'
+import {TouchableOpacity, Image, Alert} from 'react-native'
+import {useTheme} from '@providers'
+import {styles} from './styles'
 import LogoI from '@assets/img/logoI.png'
 import {
   grantCameraPermission,
@@ -10,7 +10,7 @@ import {
   ImagePicker,
 } from '@utils'
 import ImageResizer from 'react-native-image-resizer'
-import { Props } from './interface'
+import {Props} from './interface'
 
 const Avatar: FC<Props> = ({
   actionAvatar = () => {},
@@ -19,18 +19,18 @@ const Avatar: FC<Props> = ({
   width: staticWidth,
   height: staticHeight,
 }) => {
-  const { colors } = useTheme()
+  const {colors} = useTheme()
 
   const [image, setImage] = useState(defaultAvatar ? defaultAvatar : LogoI)
 
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
+  const [dimensions, setDimensions] = useState({width: 0, height: 0})
 
   useEffect(() => {
     setImage(defaultAvatar ? defaultAvatar : LogoI)
-    const { width, height } = Image.resolveAssetSource(
+    const {width, height} = Image.resolveAssetSource(
       defaultAvatar ? defaultAvatar : LogoI,
     )
-    setDimensions({ width: width || 150, height: height || 150 })
+    setDimensions({width: width || 600, height: height || 600})
   }, [defaultAvatar])
 
   const getImage = async () => {
@@ -41,14 +41,15 @@ const Avatar: FC<Props> = ({
       try {
         const newImage: any = await ImagePicker()
         if (!newImage.ok) return
-        const { uri } = await ImageResizer.createResizedImage(
+        const {uri} = await ImageResizer.createResizedImage(
           newImage.uri ? newImage.uri : newImage.assets[0].uri,
           300,
           300,
           'JPEG',
           80,
         )
-        setImage({ uri, isStatic: true })
+        setDimensions({width: 600, height: 600})
+        setImage({uri, isStatic: true})
         actionAvatar(uri)
       } catch (error) {
         return Alert.alert('Unable to resize the photo')
@@ -62,16 +63,15 @@ const Avatar: FC<Props> = ({
         styles.logoContainer,
         {
           backgroundColor: colors.primary,
-          ...(staticWidth ? { width: staticWidth } : {}),
-          ...(staticHeight ? { height: staticHeight } : {}),
+          ...(staticWidth ? {width: staticWidth} : {}),
+          ...(staticHeight ? {height: staticHeight} : {}),
         },
       ]}
-      onPress={getImage}
-    >
+      onPress={getImage}>
       <Image
         style={{
-          width: dimensions.width ? dimensions.width / 4 : 150,
-          height: dimensions.height ? dimensions.height / 4 : 150,
+          width: dimensions.width / 4,
+          height: dimensions.height / 4,
         }}
         source={image}
       />

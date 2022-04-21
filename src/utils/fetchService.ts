@@ -1,4 +1,4 @@
-import { call } from 'redux-saga/effects'
+import {call} from 'redux-saga/effects'
 import axios from 'axios'
 
 function* fetchService(

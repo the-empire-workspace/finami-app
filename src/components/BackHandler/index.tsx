@@ -1,10 +1,10 @@
-import React, { FC } from 'react'
-import { View, Image, TouchableOpacity } from 'react-native'
-import { styles } from './styles'
-import { Props } from './interface'
+import React, {FC} from 'react'
+import {View, Image, TouchableOpacity} from 'react-native'
+import {styles} from './styles'
+import {Props} from './interface'
 import Arrow from '@assets/img/arrow.png'
 import Question from '@assets/img/question.png'
-import { useNavigation } from '@react-navigation/core'
+import {useNavigation} from '@react-navigation/core'
 
 const BackHandler: FC<Props> = () => {
   const router = useNavigation()
