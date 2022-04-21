@@ -1,4 +1,4 @@
-import { styles } from '../styles'
+import {styles} from '../styles'
 
 const categoryForm = (color: any, translate: any) => [
   {
@@ -11,7 +11,7 @@ const categoryForm = (color: any, translate: any) => [
     placeholder: translate('name'),
     returnKeyType: 'go',
     placeholderTextColor: color,
-    style: { ...styles.input, color: color },
+    style: {...styles.input, color: color},
     validations: {
       required: true,
       minLength: 4,
@@ -23,7 +23,7 @@ const categoryForm = (color: any, translate: any) => [
     name: 'description',
     label: null,
     type: 'text',
-    style: { ...styles.input, color: color },
+    style: {...styles.input, color: color},
     defaultValue: '',
     placeholderTextColor: color,
     keyboardType: 'default',

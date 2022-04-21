@@ -1,10 +1,10 @@
-import React, { useState, FC, useEffect } from 'react'
-import { View } from 'react-native'
+import React, {useState, FC, useEffect} from 'react'
+import {View} from 'react-native'
 import FormItem from './FormItem'
-import { Props } from './interface'
+import {Props} from './interface'
 import Structure from './structure'
 
-const DynamicForm: FC<Props> = ({ formData, returnData }) => {
+const DynamicForm: FC<Props> = ({formData, returnData}) => {
   const [data, setData]: any = useState({})
   const checkData = () => {
     const names = []
@@ -20,7 +20,7 @@ const DynamicForm: FC<Props> = ({ formData, returnData }) => {
   }, [formData])
 
   const form = formData.map((value: any) => {
-    const { element } = value
+    const {element} = value
 
     if (element !== 'multiple')
       if (
@@ -30,7 +30,7 @@ const DynamicForm: FC<Props> = ({ formData, returnData }) => {
       ) {
         if (element === 'date' && value.defaultValue)
           value.date = new Date(value.defaultValue)
-        data[value.name] = { value: value.defaultValue, validation: true }
+        data[value.name] = {value: value.defaultValue, validation: true}
       }
 
     value.element_array?.map((array_element: any) => {
@@ -51,7 +51,7 @@ const DynamicForm: FC<Props> = ({ formData, returnData }) => {
 
     if (element) value.render = Structure[element]?.render
 
-    return { ...Structure[element], ...value }
+    return {...Structure[element], ...value}
   })
 
   return (

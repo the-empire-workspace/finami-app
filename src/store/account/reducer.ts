@@ -1,5 +1,5 @@
-import { DispatchProps } from 'interfaces'
-import { SIGNIN } from './action-types'
+import {DispatchProps} from 'interfaces'
+import {SIGNIN, UPDATE_LANGUAGE} from './action-types'
 
 const initialState = {
   isAuth: false,
@@ -8,16 +8,22 @@ const initialState = {
     profession: null,
     avatar: null,
     currency: null,
+    language: null,
   },
 }
 
 const AccountReducer = (
   state = initialState,
-  { type, payload }: DispatchProps,
+  {type, payload}: DispatchProps,
 ) => {
   switch (type) {
     case SIGNIN:
-      return { ...state, ...{ user: payload, isAuth: true } }
+      return {...state, ...{user: payload, isAuth: true}}
+    case UPDATE_LANGUAGE:
+      return {
+        ...state,
+        ...{user: {...state.user, language: payload}, isAuth: true},
+      }
     default:
       return state
   }

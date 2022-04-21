@@ -1,1 +1,1 @@
-export { default as FullReport } from './FullReport'
+export {default as FullReport} from './FullReport'

@@ -1,5 +1,5 @@
-import { Platform } from 'react-native'
-import { AndroidPermissionTypes, Grant } from './Types'
+import {Platform} from 'react-native'
+import {AndroidPermissionTypes, Grant} from './Types'
 
 export const grantCameraPermission = async () => {
   if (Platform.OS !== 'android') return

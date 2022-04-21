@@ -1,5 +1,5 @@
-import React, { useState, FC } from 'react'
-import { InputProps } from './interface'
+import React, {useState, FC} from 'react'
+import {InputProps} from './interface'
 
 const Input: FC<InputProps> = ({
   element,
@@ -22,11 +22,11 @@ const Input: FC<InputProps> = ({
   return element === 'select'
     ? React.createElement(
         mainRender,
-        { ...values, selectedValue: value, onValueChange: onChangeSelect },
+        {...values, selectedValue: value, onValueChange: onChangeSelect},
         values.values.map((option: any, index: any) =>
           React.createElement(mainRender?.Item, {
             ...option,
-            ...{ key: index },
+            ...{key: index},
           }),
         ),
       )

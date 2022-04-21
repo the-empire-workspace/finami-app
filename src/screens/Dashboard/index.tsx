@@ -1,22 +1,22 @@
-import React, { FC, useCallback, useState } from 'react'
-import { Text, useWindowDimensions, View } from 'react-native'
-import { styles } from './styles'
-import { useTheme } from 'providers'
-import { useSelector } from 'react-redux'
-import { processEntries, randomColor } from 'utils'
-import { useFocusEffect } from '@react-navigation/native'
-import { ItemList } from 'components'
-import { PieChart } from 'react-native-chart-kit'
+import React, {FC, useCallback, useState} from 'react'
+import {Text, useWindowDimensions, View} from 'react-native'
+import {styles} from './styles'
+import {useTheme} from 'providers'
+import {useSelector} from 'react-redux'
+import {processEntries, translate} from 'utils'
+import {useFocusEffect} from '@react-navigation/native'
+import {ItemList} from 'components'
+import {PieChart} from 'react-native-chart-kit'
 
 const Dashboard: FC = () => {
   const widthAndHeight = 220
-  const { width: screenWidth } = useWindowDimensions()
-  const { colors } = useTheme()
+  const {width: screenWidth} = useWindowDimensions()
+  const {colors} = useTheme()
   const {
-    incoming: { items: itemsIncomings },
-    outcoming: { items: itemsOutcomings },
-    account: { user },
-    currency: { items: currencies, defaultPrices },
+    incoming: {items: itemsIncomings},
+    outcoming: {items: itemsOutcomings},
+    account: {user},
+    currency: {items: currencies, defaultPrices},
   } = useSelector((state: any) => state)
 
   const [total, setTotal] = useState(0)
@@ -29,6 +29,24 @@ const Dashboard: FC = () => {
     const totalIncomings = processEntries(itemsIncomings, defaultPrices)
     const totalOutcomings = processEntries(itemsOutcomings, defaultPrices)
     setTotal(totalIncomings.total - totalOutcomings.total)
+    const chartData: any = [
+      {
+        name: translate('incomings'),
+        amount: totalIncomings.total,
+        color: colors.primary,
+        legendFontColor: colors.primary,
+        legendFontSize: 13,
+      },
+      {
+        name: translate('outcomings'),
+        amount: totalOutcomings.total,
+        color: colors.error,
+        legendFontColor: colors.error,
+        legendFontSize: 13,
+      },
+    ]
+
+    setChart(chartData)
   }
 
   const setItems = () => {
@@ -43,29 +61,6 @@ const Dashboard: FC = () => {
     })
 
     setAllItems(orderItems)
-
-    const chartData: any = []
-
-    for (const item of orderItems)
-      if (item.status === 'paid' || item.category) {
-        let amount = item?.amount || processEntries(item?.entries).total
-        const price = defaultPrices[item.currency]
-        if (price) {
-          if (price.op === 'multiply') amount = amount * price.value
-          if (price.op === 'divide') amount = amount / price.value
-        }
-        const color = randomColor()
-        const newData = {
-          name: item.name,
-          amount,
-          color: color,
-          legendFontColor: color,
-          legendFontSize: 13,
-        }
-        chartData.push(newData)
-      }
-
-    setChart(chartData)
   }
 
   useFocusEffect(
@@ -76,13 +71,13 @@ const Dashboard: FC = () => {
   )
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background }]}>
+    <View style={[styles.root, {backgroundColor: colors.background}]}>
       <View style={[styles.upperBox]}>
-        <Text style={[styles.amountText, { color: colors.text }]}>
+        <Text style={[styles.amountText, {color: colors.text}]}>
           {currency.symbol} {total ? total.toFixed(currency.decimal) : '0'}
         </Text>
-        <Text style={[styles.labelText, { color: colors.text }]}>
-          Estado Financiero
+        <Text style={[styles.labelText, {color: colors.text}]}>
+          {translate('finance_status')}
         </Text>
 
         <PieChart
@@ -108,15 +103,15 @@ const Dashboard: FC = () => {
             },
           }}
           backgroundColor={'transparent'}
-          style={{ backgroundColor: colors.background }}
+          style={{backgroundColor: colors.background}}
         />
         <View style={styles.downBox}>
           {allItems?.length ? (
             <ItemList items={allItems} type="dashboard" />
           ) : (
             <View style={styles.noItemBox}>
-              <Text style={[styles.noItemText, { color: colors.text }]}>
-                No Items
+              <Text style={[styles.noItemText, {color: colors.text}]}>
+                {translate('no_items')}
               </Text>
             </View>
           )}

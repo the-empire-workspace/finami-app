@@ -1,10 +1,10 @@
-import React, { useState, FC } from 'react'
-import { returnForm } from './functions'
-import { View, Text } from 'react-native'
-import { styles } from './styles'
-import { useTheme } from 'providers'
-import { ItemProps } from './interface'
-import { Input, MultipleElement } from './elements'
+import React, {useState, FC} from 'react'
+import {returnForm} from './functions'
+import {View, Text} from 'react-native'
+import {styles} from './styles'
+import {useTheme} from 'providers'
+import {ItemProps} from './interface'
+import {Input, MultipleElement} from './elements'
 
 const FormItem: FC<ItemProps> = ({
   data,
@@ -13,14 +13,9 @@ const FormItem: FC<ItemProps> = ({
   setData,
   form,
 }: any) => {
-  const { colors } = useTheme()
+  const {colors} = useTheme()
   const [validate, setValidate] = useState(!!values.defaultValue)
-  const {
-    element,
-    element_array,
-    render: mainRender,
-    label: mainLabel,
-  } = values
+  const {element, element_array, render: mainRender, label: mainLabel} = values
 
   const onChange = (val: any) =>
     returnData(returnForm(val, form, values.name, data, setData, setValidate))
@@ -30,7 +25,7 @@ const FormItem: FC<ItemProps> = ({
     : 'white'
 
   values.style = values.style
-    ? { ...styles.input, ...values.style }
+    ? {...styles.input, ...values.style}
     : styles.input
 
   values.style.color = !validate ? colors.error : colors.text
@@ -55,7 +50,7 @@ const FormItem: FC<ItemProps> = ({
       ) : (
         <View>
           {Label}
-          <View style={[styles.root, { borderBottomColor: colors.primary }]}>
+          <View style={[styles.root, {borderBottomColor: colors.primary}]}>
             <Input
               element={element}
               mainRender={mainRender}

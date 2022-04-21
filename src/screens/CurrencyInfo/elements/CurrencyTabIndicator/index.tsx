@@ -1,13 +1,13 @@
-import { useTheme } from 'providers'
-import React, { FC } from 'react'
-import { View } from 'react-native'
-import { styles } from './styles'
+import {useTheme} from 'providers'
+import React, {FC} from 'react'
+import {View} from 'react-native'
+import {styles} from './styles'
 
-const CurrencyTabIndicator: FC<any> = ({ state }) => {
-  const { colors } = useTheme()
-
+const CurrencyTabIndicator: FC<any> = ({state}) => {
+  const {colors} = useTheme()
+  const transparent = 'transparent'
   return (
-    <View style={[styles.root, { backgroundColor: colors.secondary }]}>
+    <View style={[styles.root, {backgroundColor: colors.secondary}]}>
       <View
         style={[
           styles.dot,
@@ -16,7 +16,7 @@ const CurrencyTabIndicator: FC<any> = ({ state }) => {
             backgroundColor:
               Number(JSON.stringify(state.index)) === 0
                 ? colors.primary
-                : 'transparent',
+                : transparent,
           },
         ]}
       />
@@ -28,7 +28,7 @@ const CurrencyTabIndicator: FC<any> = ({ state }) => {
             backgroundColor:
               Number(JSON.stringify(state.index)) === 1
                 ? colors.primary
-                : 'transparent',
+                : transparent,
           },
         ]}
       />

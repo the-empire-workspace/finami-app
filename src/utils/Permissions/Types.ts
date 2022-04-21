@@ -1,5 +1,5 @@
-import { PermissionsAndroid, Alert } from 'react-native'
-import { translate } from 'utils/translate'
+import {PermissionsAndroid, Alert} from 'react-native'
+import {translate} from 'utils/translate'
 
 //Author: Fulvio Farina
 ///Grant permissions Library for Android
@@ -29,7 +29,7 @@ const _writeSDModal = {
 }
 
 const _warnAboutCameraPermissions = () =>
-  Alert.alert('Warning', translate('camera_permission'), [{ text: 'OK' }])
+  Alert.alert('Warning', translate('camera_permission'), [{text: 'OK'}])
 
 export const AndroidPermissionTypes = {
   camera: {

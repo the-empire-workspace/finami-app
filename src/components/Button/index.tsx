@@ -1,11 +1,11 @@
-import React, { FC } from 'react'
-import { TouchableOpacity, Text } from 'react-native'
-import { useTheme } from '@providers'
-import { styles } from './styles'
-import { Props } from './interface'
+import React, {FC} from 'react'
+import {TouchableOpacity, Text} from 'react-native'
+import {useTheme} from '@providers'
+import {styles} from './styles'
+import {Props} from './interface'
 
-const Button: FC<Props> = ({ text, disabled, onPress = () => {} }) => {
-  const { colors } = useTheme()
+const Button: FC<Props> = ({text, disabled, onPress = () => {}}) => {
+  const {colors} = useTheme()
 
   return (
     <TouchableOpacity
@@ -13,10 +13,9 @@ const Button: FC<Props> = ({ text, disabled, onPress = () => {} }) => {
       onPress={onPress}
       style={[
         styles.root,
-        { backgroundColor: colors.background, borderColor: colors.primary },
-      ]}
-    >
-      <Text style={[styles.text, { color: colors.primary }]}>{text}</Text>
+        {backgroundColor: colors.background, borderColor: colors.primary},
+      ]}>
+      <Text style={[styles.text, {color: colors.primary}]}>{text}</Text>
     </TouchableOpacity>
   )
 }

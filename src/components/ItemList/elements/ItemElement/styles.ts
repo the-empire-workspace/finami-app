@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import {StyleSheet} from 'react-native'
 
 export const styles = StyleSheet.create({
   transactionItem: {
@@ -56,5 +56,5 @@ export const styles = StyleSheet.create({
     width: '100%',
     paddingVertical: 5,
   },
-  deleteAction: { alignSelf: 'flex-end' },
+  deleteAction: {alignSelf: 'flex-end'},
 })

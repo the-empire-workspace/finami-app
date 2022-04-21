@@ -1,5 +1,5 @@
 export const actionObject = (type: string, payload: any = null) => {
-  return { type, payload }
+  return {type, payload}
 }
 
 export const randomColor = () => {
