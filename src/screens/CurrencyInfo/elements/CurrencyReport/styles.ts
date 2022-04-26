@@ -4,7 +4,8 @@ export const styles = StyleSheet.create({
   root: {
     width: '100%',
     height: '100%',
-    padding: 40,
+    paddingTop: 20,
+    paddingBottom: 10,
   },
   dot: {
     width: 15,
@@ -20,6 +21,7 @@ export const styles = StyleSheet.create({
   formContainer: {
     marginTop: 20,
     marginBottom: 50,
+    paddingHorizontal: 40,
   },
   buttonContainer: {
     paddingHorizontal: 40,

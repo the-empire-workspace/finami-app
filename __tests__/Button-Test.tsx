@@ -24,3 +24,7 @@ it('renders Button Correctly', () => {
 jest.mock('react-native-date-picker', () => {
   return {}
 })
+
+jest.mock('@notifee/react-native', () =>
+  require('@notifee/react-native/jest-mock'),
+)

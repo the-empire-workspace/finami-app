@@ -16,7 +16,11 @@ const TotalBox: FC<Props> = ({total, type = 'incomings'}) => {
   return (
     <View style={styles.infoBox}>
       <View>
-        <Text style={[styles.amountText, {color: colors.text}]}>
+        <Text
+          style={[
+            styles.amountText,
+            {color: type === 'incomings' ? colors.success : colors.unsuccess},
+          ]}>
           {currency?.symbol}
           {total?.total?.toFixed(2) || '000'}
         </Text>
@@ -29,7 +33,11 @@ const TotalBox: FC<Props> = ({total, type = 'incomings'}) => {
       </View>
       <View style={[styles.infoLine, {backgroundColor: colors.text}]} />
       <View>
-        <Text style={[styles.amountText, {color: colors.text}]}>
+        <Text
+          style={[
+            styles.amountText,
+            {color: type === 'incomings' ? colors.success : colors.unsuccess},
+          ]}>
           {currency?.symbol}
           {total?.monthly?.toFixed(2) || '0'}
         </Text>
@@ -42,7 +50,7 @@ const TotalBox: FC<Props> = ({total, type = 'incomings'}) => {
       </View>
       <View style={[styles.infoLine, {backgroundColor: colors.text}]} />
       <View>
-        <Text style={[styles.amountText, {color: colors.text}]}>
+        <Text style={[styles.amountText, {color: colors.pending}]}>
           {currency?.symbol}
           {total?.pending?.toFixed(2) || '0'}
         </Text>

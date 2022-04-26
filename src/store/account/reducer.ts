@@ -1,5 +1,9 @@
 import {DispatchProps} from 'interfaces'
-import {SIGNIN, UPDATE_LANGUAGE} from './action-types'
+import {
+  SIGNIN,
+  UPDATE_LANGUAGE,
+  UPDATE_NOTIFICATION_TOKEN,
+} from './action-types'
 
 const initialState = {
   isAuth: false,
@@ -10,6 +14,7 @@ const initialState = {
     currency: null,
     language: null,
   },
+  tokenNotifications: null,
 }
 
 const AccountReducer = (
@@ -23,6 +28,11 @@ const AccountReducer = (
       return {
         ...state,
         ...{user: {...state.user, language: payload}, isAuth: true},
+      }
+    case UPDATE_NOTIFICATION_TOKEN:
+      return {
+        ...state,
+        tokenNotifications: payload,
       }
     default:
       return state

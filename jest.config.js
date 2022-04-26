@@ -15,6 +15,7 @@ module.exports = {
       '|react-native-reanimated' +
       '|react-native-image-resizer' +
       '|@react-native-community/art' +
+      '|@notifee' +
       ')/)',
   ],
 }

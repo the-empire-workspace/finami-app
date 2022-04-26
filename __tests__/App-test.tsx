@@ -30,6 +30,10 @@ jest.mock('react-native/Libraries/LogBox/Data/LogBoxData', () => {
   }
 })
 
+jest.mock('@notifee/react-native', () =>
+  require('@notifee/react-native/jest-mock'),
+)
+
 jest.mock('react-native-date-picker', () => {
   return {}
 })

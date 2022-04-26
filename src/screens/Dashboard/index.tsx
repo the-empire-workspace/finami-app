@@ -28,18 +28,34 @@ const Dashboard: FC = () => {
   const calculateTotal = () => {
     const totalIncomings = processEntries(itemsIncomings, defaultPrices)
     const totalOutcomings = processEntries(itemsOutcomings, defaultPrices)
+
     setTotal(totalIncomings.total - totalOutcomings.total)
+
     const chartData: any = [
       {
         name: translate('incomings'),
         amount: totalIncomings.total,
-        color: colors.primary,
-        legendFontColor: colors.primary,
+        color: colors.success,
+        legendFontColor: colors.success,
         legendFontSize: 13,
       },
       {
         name: translate('outcomings'),
         amount: totalOutcomings.total,
+        color: colors.unsuccess,
+        legendFontColor: colors.unsuccess,
+        legendFontSize: 13,
+      },
+      {
+        name: translate('pending_incomings'),
+        amount: totalIncomings.pending,
+        color: colors.pending,
+        legendFontColor: colors.pending,
+        legendFontSize: 13,
+      },
+      {
+        name: translate('pending_outcomings'),
+        amount: totalOutcomings.pending,
         color: colors.error,
         legendFontColor: colors.error,
         legendFontSize: 13,
@@ -73,7 +89,11 @@ const Dashboard: FC = () => {
   return (
     <View style={[styles.root, {backgroundColor: colors.background}]}>
       <View style={[styles.upperBox]}>
-        <Text style={[styles.amountText, {color: colors.text}]}>
+        <Text
+          style={[
+            styles.amountText,
+            {color: total > 0 ? colors.success : colors.unsuccess},
+          ]}>
           {currency.symbol} {total ? total.toFixed(currency.decimal) : '0'}
         </Text>
         <Text style={[styles.labelText, {color: colors.text}]}>

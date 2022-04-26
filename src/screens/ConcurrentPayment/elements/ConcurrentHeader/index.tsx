@@ -4,7 +4,7 @@ import {styles} from './styles'
 import {useTheme} from 'providers'
 import {useNavigation, useRoute} from '@react-navigation/native'
 import {BackHandler} from 'components'
-import {getUTCFullTime} from 'utils'
+import {getUTCFullTime, translate} from 'utils'
 import {Props} from './interface'
 
 const ConcurrentHeader: FC<Props> = ({item}) => {
@@ -21,7 +21,7 @@ const ConcurrentHeader: FC<Props> = ({item}) => {
       <View style={styles.headerActions}>
         <TouchableOpacity onPress={onPress}>
           <Text style={[styles.headerModify, {color: colors.text}]}>
-            Modificar
+            {translate('modify')}
           </Text>
         </TouchableOpacity>
       </View>
@@ -33,7 +33,7 @@ const ConcurrentHeader: FC<Props> = ({item}) => {
           {item?.description}
         </Text>
         <Text style={[styles.headerDate, {color: colors.text}]}>
-          Fecha de Inicio: {getUTCFullTime(item?.payment_date, '-')}
+          {translate('start_date')}: {getUTCFullTime(item?.payment_date, '-')}
         </Text>
       </View>
     </View>

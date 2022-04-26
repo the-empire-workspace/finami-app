@@ -24,7 +24,9 @@ export const processConcurrentData = (newFormData: any) => {
       amount: Number(newFormData.amount),
       status: 'paid',
       name: newFormData.name,
+      type: newFormData.type,
       date: newFormData.payment_date,
+      currency: newFormData.currency,
     },
   ]
 
