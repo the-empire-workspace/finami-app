@@ -12,15 +12,19 @@ const ConcurrentPayment: FC = () => {
   const {colors} = useTheme()
   const {
     incoming: {items: incomingsItems},
+    outcoming: {items: outcomingItems},
   } = useSelector((state: any) => state)
 
   const route = useRoute()
 
   const {params = {}}: any = route
 
+  const itemType =
+    params?.type === 'incomings' ? incomingsItems : outcomingItems
+
   const item = params?.categoryId
     ? getDeepItem(params.categoryId, incomingsItems, params.id)
-    : incomingsItems?.find((it: any) => it.id === params?.id)
+    : itemType?.find((it: any) => it.id === params?.id)
 
   return (
     <View style={[styles.root, {backgroundColor: colors.background}]}>

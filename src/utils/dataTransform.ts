@@ -171,8 +171,7 @@ export const processEntries = (
         }
         for (const entry of next.entries) {
           let entryAmount = entry.amount
-          if (price) entryAmount = entry.amount * price
-
+          if (price) entryAmount = entry.amount * price.value
           if (entry.status === 'pending') prev.pending += entryAmount
           if (entry.status === 'paid') prev.total += entryAmount
         }
@@ -184,7 +183,8 @@ export const processEntries = (
     },
     {monthly: 0, total: 0, pending: 0},
   )
-  return totals
+
+  return reduceArray.length ? totals : prevCurrent
 }
 
 export const filterEntries = (
@@ -249,4 +249,52 @@ export const filterByCurrency = (
   })
 
   return orderItems
+}
+
+export const processNotification = (
+  array: any,
+  type: any,
+  indicator: any,
+  prevNot: any = null,
+) => {
+  let notifications = prevNot || []
+
+  const now = new Date()
+
+  for (const entry of array) {
+    const itemEntry =
+      entry?.entries && entry.paymentType === 'concurrent'
+        ? entry?.entries[entry?.entries?.length - 1]
+        : []
+    const status = itemEntry?.status || entry.status
+    if (status === 'pending' && !entry.notifee) {
+      const date = itemEntry.date || itemEntry.date
+
+      if (now.getTime() > date)
+        notifications.push({
+          name: entry.name,
+          id: `${indicator}-${entry?.id}`,
+          type: type,
+          date,
+          overdate: true,
+        })
+
+      if (now.getTime() < date)
+        notifications.push({
+          name: entry.name,
+          id: `${indicator}-${entry?.id}`,
+          type: type,
+          date,
+          overdate: false,
+        })
+    }
+    if (entry.category)
+      notifications = processNotification(
+        entry.entries,
+        type,
+        indicator,
+        notifications,
+      )
+  }
+  return notifications
 }

@@ -2,7 +2,7 @@ import React, {FC} from 'react'
 import {Text, View} from 'react-native'
 import {styles} from './styles'
 import {useTheme} from 'providers'
-import {orderBy} from 'utils'
+import {getUTCFullTime, orderBy, translate} from 'utils'
 import {Props} from './interface'
 
 const ConcurrentInfo: FC<Props> = ({item}) => {
@@ -12,14 +12,15 @@ const ConcurrentInfo: FC<Props> = ({item}) => {
     if (next.status === 'paid') prev += next.amount
     return prev
   }
-  const orderDate = orderBy(item?.entries, 'date', 'desc')
-  const lastPayment = orderDate.filter((entry: any) => entry.status === 'paid')
+
+  const orderDate = orderBy(item?.entries, 'date', 'desc') || []
+  const lastPayment = orderDate?.filter((entry: any) => entry.status === 'paid')
 
   return (
     <View style={styles.infoContainer}>
       <View style={styles.infoBox}>
         <Text style={[styles.infoText, {color: colors.secondaryText}]}>
-          Ingreso Fijo:
+          {translate('fix_income')}:
         </Text>
         <Text style={[styles.infoText, {color: colors.text}]}>
           ${item?.amount}
@@ -27,7 +28,7 @@ const ConcurrentInfo: FC<Props> = ({item}) => {
       </View>
       <View style={styles.infoBox}>
         <Text style={[styles.infoText, {color: colors.secondaryText}]}>
-          Ingreso Total:
+          {translate('total_income')}:
         </Text>
         <Text style={[styles.infoText, {color: colors.text}]}>
           ${item?.entries?.reduce(reduceEntries, 0)}
@@ -35,26 +36,28 @@ const ConcurrentInfo: FC<Props> = ({item}) => {
       </View>
       <View style={styles.infoBox}>
         <Text style={[styles.infoText, {color: colors.secondaryText}]}>
-          Frecuencia de pago:
+          {translate('payment_frequency')}:
         </Text>
         <Text style={[styles.infoText, {color: colors.text}]}>
-          {item?.frequency}
+          {item?.amount_frequency} {translate(item?.frequency)}
         </Text>
       </View>
       <View style={styles.infoBox}>
         <Text style={[styles.infoText, {color: colors.secondaryText}]}>
-          Ultimo Pago:
+          {translate('last_payment')}:
         </Text>
         <Text style={[styles.infoText, {color: colors.text}]}>
-          {lastPayment ? 'Ninguno' : lastPayment.date}
+          {lastPayment
+            ? translate('none')
+            : getUTCFullTime(lastPayment.date, '-')}
         </Text>
       </View>
       <View style={styles.infoBox}>
         <Text style={[styles.infoText, {color: colors.secondaryText}]}>
-          Proximo Pago:
+          {translate('next_payment')}:
         </Text>
         <Text style={[styles.infoText, {color: colors.text}]}>
-          {new Date(orderDate[0]?.date)?.toISOString()}
+          {!!orderDate[0]?.date && getUTCFullTime(orderDate[0]?.date, '-')}
         </Text>
       </View>
     </View>

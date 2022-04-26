@@ -48,5 +48,18 @@
   "delete_title": "Eliminar Elemento",
   "delete_text": "Estas seguro de eliminar este elemento?",
   "back": "Volver",
-  "error_happend": "Ha ocurrido un error"
+  "error_happend": "Ha ocurrido un error",
+  "pending_incomings": "Ingresos Pendientes",
+  "pending_outcomings": "Egresos Pendientes",
+  "start_date": "Fecha de inicio",
+  "fix_income": "Ingreso Fijo",
+  "total_income": "Ingreso Total",
+  "payment_frequency": "Frecuencia de pago",
+  "last_payment": "Ultimo pago",
+  "next_payment": "Siguiente pago",
+  "none": "Ninguno",
+  "no_overdate_incomings_body": "Tienes un pago pendiente por cobrar, si ya lo hiciste actualiza su estado",
+  "overdate_incomings_body": "Tienes un pago tardio pendiente por cobrar, si ya lo hiciste actualiza su estado",
+  "no_overdate_outcomings_body": "Tienes un pago pendiente por pagar, si ya lo hiciste actualiza su estado",
+  "overdate_outcomings_body": "Tienes un pago tardio pendiente por pagar, si ya lo hiciste actualiza su estado"
 }

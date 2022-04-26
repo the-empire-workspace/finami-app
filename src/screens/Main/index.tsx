@@ -4,19 +4,21 @@ import {styles} from './styles'
 import AppNavigator from '@routes'
 import RNLocalize from 'react-native-localize'
 import {setI18nConfig} from '@utils'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
+import {scheduleNotification} from 'store/actions'
 
 const Main: FC = () => {
   const {
     account: {user},
   } = useSelector((state: any) => state)
-
+  const dispatch = useDispatch()
   const handleLocalizationChange = () => {
     setI18nConfig(user?.language)
   }
 
   useEffect(() => {
     setI18nConfig(user?.language)
+    dispatch(scheduleNotification())
     RNLocalize.addEventListener('change', handleLocalizationChange)
     return () => {
       RNLocalize.removeEventListener('change', handleLocalizationChange)

@@ -5,6 +5,7 @@ export const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     flex: 1,
+    paddingHorizontal: 40,
   },
   labelText: {
     fontSize: 14,

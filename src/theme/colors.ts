@@ -5,6 +5,9 @@ export const lightColors = {
   text: '#121212',
   secondaryText: '#8596A6',
   error: '#D32F2F',
+  success: '#8ACC60',
+  unsuccess: '#EA6A63',
+  pending: '#DFB551',
 }
 
 // Dark theme colors
@@ -15,4 +18,7 @@ export const darkColors = {
   text: '#F0F0F2',
   secondaryText: '#8596A6',
   error: '#EF9A9A',
+  success: '#8ACC60',
+  unsuccess: '#EA6A63',
+  pending: '#DFB551',
 }
