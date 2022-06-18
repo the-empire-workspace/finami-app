@@ -61,5 +61,8 @@
   "no_overdate_incomings_body": "You have a pending payment for receive, if you already have it, update the status",
   "overdate_incomings_body": "You have a late pending payment for receive, if you already have it, update the status",
   "no_overdate_outcomings_body": "You have a pending payment for pay, if you already do it, update the status",
-  "overdate_outcomings_body": "You have a late pending payment for pay, if you already do it, update the status"
+  "overdate_outcomings_body": "You have a late pending payment for pay, if you already do it, update the status",
+  "change_status": "You want to change the status of the entry",
+  "cancel": "Cancel",
+  "update": "Update"
 }

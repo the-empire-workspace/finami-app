@@ -268,7 +268,7 @@ export const processNotification = (
         : []
     const status = itemEntry?.status || entry.status
     if (status === 'pending' && !entry.notifee) {
-      const date = itemEntry.date || itemEntry.date
+      const date = itemEntry.date || entry.payment_date
 
       if (now.getTime() > date)
         notifications.push({
