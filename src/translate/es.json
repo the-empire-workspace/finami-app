@@ -61,5 +61,9 @@
   "no_overdate_incomings_body": "Tienes un pago pendiente por cobrar, si ya lo hiciste actualiza su estado",
   "overdate_incomings_body": "Tienes un pago tardio pendiente por cobrar, si ya lo hiciste actualiza su estado",
   "no_overdate_outcomings_body": "Tienes un pago pendiente por pagar, si ya lo hiciste actualiza su estado",
-  "overdate_outcomings_body": "Tienes un pago tardio pendiente por pagar, si ya lo hiciste actualiza su estado"
+  "overdate_outcomings_body": "Tienes un pago tardio pendiente por pagar, si ya lo hiciste actualiza su estado",
+  "change_status": "Desea cambiar el estado de la entrada",
+  "cancel": "Cancelar",
+  "update": "Actualizar",
+  "creation_date": "Fecha de Creacion"
 }

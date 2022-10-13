@@ -29,7 +29,6 @@ const CurrencyList: FC<any> = ({currency}) => {
       setItems()
     }, [itemsIncomings.length, itemsOutcomings.length]),
   )
-
   return (
     <View style={[styles.root, {backgroundColor: colors.background}]}>
       <ItemList items={allItems} type="dashboard" />

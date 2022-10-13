@@ -29,33 +29,33 @@ const Dashboard: FC = () => {
     const totalIncomings = processEntries(itemsIncomings, defaultPrices)
     const totalOutcomings = processEntries(itemsOutcomings, defaultPrices)
 
-    setTotal(totalIncomings.total - totalOutcomings.total)
+    setTotal(totalIncomings?.total - totalOutcomings?.total)
 
     const chartData: any = [
       {
         name: translate('incomings'),
-        amount: totalIncomings.total,
+        amount: totalIncomings?.total || 0,
         color: colors.success,
         legendFontColor: colors.success,
         legendFontSize: 13,
       },
       {
         name: translate('outcomings'),
-        amount: totalOutcomings.total,
+        amount: totalOutcomings?.total || 0,
         color: colors.unsuccess,
         legendFontColor: colors.unsuccess,
         legendFontSize: 13,
       },
       {
         name: translate('pending_incomings'),
-        amount: totalIncomings.pending,
+        amount: totalIncomings?.pending || 0,
         color: colors.pending,
         legendFontColor: colors.pending,
         legendFontSize: 13,
       },
       {
         name: translate('pending_outcomings'),
-        amount: totalOutcomings.pending,
+        amount: totalOutcomings?.pending || 0,
         color: colors.error,
         legendFontColor: colors.error,
         legendFontSize: 13,
@@ -94,7 +94,7 @@ const Dashboard: FC = () => {
             styles.amountText,
             {color: total > 0 ? colors.success : colors.unsuccess},
           ]}>
-          {currency.symbol} {total ? total.toFixed(currency.decimal) : '0'}
+          {currency?.symbol} {total ? total?.toFixed(currency?.decimal) : '0'}
         </Text>
         <Text style={[styles.labelText, {color: colors.text}]}>
           {translate('finance_status')}

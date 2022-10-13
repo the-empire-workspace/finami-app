@@ -1,12 +1,7 @@
-import {call} from 'redux-saga/effects'
+import { call } from 'redux-saga/effects'
 import axios from 'axios'
 
-function* fetchService(
-  url: any,
-  method = 'GET',
-  params = undefined,
-  auth = null,
-) {
+function* fetchService(url: any, method: any = 'GET', params: any = undefined, auth: any = null): any {
   const objectRequest: any = {
     method,
     url: `${url}`,

@@ -23,7 +23,7 @@ const ConcurrentPayment: FC = () => {
     params?.type === 'incomings' ? incomingsItems : outcomingItems
 
   const item = params?.categoryId
-    ? getDeepItem(params.categoryId, incomingsItems, params.id)
+    ? getDeepItem(params.categoryId, itemType, params.id)
     : itemType?.find((it: any) => it.id === params?.id)
 
   return (
