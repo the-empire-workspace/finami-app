@@ -19,12 +19,12 @@ const ItemElement: FC<Props> = ({ item, type, categoryId }) => {
   } = useSelector((state: any) => state)
 
   const onPress = () => {
-    const params: any = { type: type, id: item.id }
+    const params: any = { type: item?.type, id: item.id }
 
     if (categoryId?.length) params.categoryId = categoryId
 
     if (item.paymentType === 'unique')
-      return navigation.navigate('entry', { type, item })
+      return navigation.navigate('entry', { type: item?.type, item })
     if (item.paymentType === 'concurrent')
       return navigation.navigate('concurrentPayment', params)
     if (item?.category) return navigation.navigate('category', params)

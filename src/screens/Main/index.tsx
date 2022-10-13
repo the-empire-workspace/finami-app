@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { styles } from './styles'
 import AppNavigator from '@routes'
-import RNLocalize from 'react-native-localize'
 import { processCategoryDeep, setI18nConfig, verifyId } from '@utils'
 import { useSelector, useDispatch } from 'react-redux'
 import { scheduleNotification, setIncoming, setOutcoming } from 'store/actions'
@@ -17,9 +16,7 @@ const Main: FC = () => {
     outcoming: { items: outcomings }
   } = useSelector((state: any) => state)
   const dispatch = useDispatch()
-  const handleLocalizationChange = () => {
-    setI18nConfig(user?.language)
-  }
+  
   const [elementData, setElementData] = useState<any>({ element: null, ids: [], elements: [], type: null })
 
   const changeStatus = () => {
@@ -27,7 +24,7 @@ const Main: FC = () => {
 
     let items = []
     if (element.paymentType === 'concurrent') {
-      const oldElement = element.entries[element.entries.length - 1]
+      const oldElement = element?.entries[element?.entries.length - 1]
       const elementDate = new Date(oldElement.date)
       switch (element?.frequency) {
         case 'weeks':
@@ -45,8 +42,8 @@ const Main: FC = () => {
         default:
           break;
       }
-      element.entries[element.entries.length - 1] = { ...oldElement, status: 'paid' }
-      element.entries.push({ ...oldElement, date: elementDate.getTime(), status: 'pending' })
+      element.entries[element?.entries.length - 1] = { ...oldElement, status: 'paid' }
+      element?.entries?.push({ ...oldElement, date: elementDate.getTime(), status: 'pending' })
 
       if (ids.length > 1) {
         ids.pop()
@@ -59,7 +56,7 @@ const Main: FC = () => {
       } else items = verifyId({ item: element }, { ...element, status: 'paid' }, elements)
     }
 
-    if (items.length) {
+    if (items?.length) {
       if (type === 'in') dispatch(setIncoming(items))
       else dispatch(setOutcoming(items))
     }
@@ -75,10 +72,10 @@ const Main: FC = () => {
     for (let i = 0; i < dataArray.length; i++) {
       const id = Number(dataArray[i])
       if (i === 0) {
-        element = elements.find((el: any) => el.id === id)
+        element = elements?.find((el: any) => el.id === id)
         continue
       }
-      element = element.entries.find((el: any) => el.id === id)
+      element = element?.entries?.find((el: any) => el.id === id)
     }
 
     setElementData({ element, ids: dataArray, elements, type })
@@ -89,12 +86,10 @@ const Main: FC = () => {
   }
 
   useEffect(() => {
-    setI18nConfig(user?.language)
     dispatch(scheduleNotification())
-    RNLocalize.addEventListener('change', handleLocalizationChange)
-
     emitter.addListener('check_notification', checkInformation)
 
+    setI18nConfig(user?.language)
     notifee.onForegroundEvent(({ type, detail }) => {
       switch (type) {
         case EventType.PRESS:
@@ -102,10 +97,6 @@ const Main: FC = () => {
           break;
       }
     });
-
-    return () => {
-      RNLocalize.removeEventListener('change', handleLocalizationChange)
-    }
   }, [])
 
   return (

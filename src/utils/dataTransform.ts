@@ -1,4 +1,4 @@
-import {numberOfWeeks} from './date'
+import { numberOfWeeks } from './date'
 
 const _getDeep = (data: any, deep: any) => {
   if (typeof deep === 'string') data = data[deep]
@@ -60,22 +60,22 @@ export const simplifyArray = (array: any) => {
 
 export const verifyId = (params: any, newFormData: any, IncomingItems: any) => {
   if (params?.item) {
-    const index = IncomingItems.findIndex(
+    const index = IncomingItems?.findIndex(
       (income: any) => income.id === params?.item.id,
     )
     IncomingItems.splice(index, 1, newFormData)
   } else {
-    const index = IncomingItems.findIndex(
+    const index = IncomingItems?.findIndex(
       (income: any) => income.id === newFormData.id,
     )
     if (index >= 0) {
-      IncomingItems.splice(index, 1, newFormData)
+      IncomingItems?.splice(index, 1, newFormData)
       return IncomingItems
     }
     newFormData.id = IncomingItems.length
       ? IncomingItems[IncomingItems.length - 1].id + 1
       : 0
-    IncomingItems.push(newFormData)
+    IncomingItems?.push(newFormData)
   }
   return IncomingItems
 }
@@ -89,7 +89,7 @@ export const getDeep = (categoryIds: any, IncomingItems: any) => {
       deep.push(it)
       continue
     }
-    const it: any = deep[i - 1].entries.find(
+    const it: any = deep[i - 1]?.entries.find(
       (item: any) => item.id === categoryIds[i],
     )
     if (it) deep.push(it)
@@ -99,7 +99,7 @@ export const getDeep = (categoryIds: any, IncomingItems: any) => {
 
 export const getDeepItem = (categoryIds: any, IncomingItems: any, id: any) => {
   const deep = getDeep(categoryIds, IncomingItems)
-  return deep[deep.length - 1].entries.find((entry: any) => entry.id === id)
+  return deep[deep.length - 1]?.entries.find((entry: any) => entry.id === id)
 }
 
 export const processCategoryDeep = (
@@ -113,11 +113,11 @@ export const processCategoryDeep = (
 
   const deepModify = deep[deep.length - 1]
   if (del) {
-    const index = deepModify.entries.findIndex(
+    const index = deepModify?.entries?.findIndex(
       (income: any) => income.id === newFormData.id,
     )
-    deepModify.entries.splice(index, 1)
-  } else deepModify.entries = verifyId(params, newFormData, deepModify.entries)
+    deepModify?.entries.splice(index, 1)
+  } else deepModify.entries = verifyId(params, newFormData, deepModify?.entries)
 
   deep[deep.length - 1] = deepModify
 
@@ -150,7 +150,7 @@ export const processEntries = (
         if (price.op === 'divide') amount = next.amount / price.value
       }
 
-      if (next.paymentType === 'unique') {
+      if (next.paymentType === 'unique' && prev) {
         if (next.status === 'pending') prev.pending += amount
         if (next.status === 'paid') prev.total += amount
 
@@ -161,7 +161,7 @@ export const processEntries = (
           prev.monthly += amount
       }
 
-      if (next.paymentType === 'concurrent') {
+      if (next.paymentType === 'concurrent' && (prev && next)) {
         if (next.frequency === 'months')
           prev.monthly += amount / Number(next.amount_frequency)
         if (next.frequency === 'weeks') {
@@ -181,7 +181,7 @@ export const processEntries = (
 
       return prev
     },
-    {monthly: 0, total: 0, pending: 0},
+    { monthly: 0, total: 0, pending: 0 },
   )
 
   return reduceArray.length ? totals : prevCurrent
@@ -208,6 +208,7 @@ export const filterEntries = (
         if (entryDate >= from && entryDate <= to) newEntries.push(entry)
       }
       next.entries = newEntries
+      if (next?.entries.length) prev.push(next)
     }
 
     if (next.category) prev = filterEntries(next.entries, from, to, prev)
@@ -224,19 +225,16 @@ export const filterByCurrency = (
 ) => {
   const reduceFunc = (prev: any, next: any) => {
     if (next.currency === currency?.id) prev.push(next)
-    if (next.type === 'category')
-      for (const entry of next.entries)
-        if (entry.currency === currency?.id) prev.push(next)
+    if (next.category)
+      for (const entry of next.entries) {
+        if (entry.currency === currency?.id) prev.push(entry)
+      }
 
     return prev
   }
 
-  const incomingsReduce = itemsIncomings
-    ? itemsIncomings.reduce(reduceFunc, [])
-    : []
-  const outcomingReduce = itemsOutcomings
-    ? itemsOutcomings.reduce(reduceFunc, [])
-    : []
+  const incomingsReduce = itemsIncomings ? itemsIncomings.reduce(reduceFunc, []) : []
+  const outcomingReduce = itemsOutcomings ? itemsOutcomings.reduce(reduceFunc, []) : []
 
   const fullItems = [...incomingsReduce, ...outcomingReduce]
 

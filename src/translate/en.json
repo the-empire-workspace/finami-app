@@ -64,5 +64,6 @@
   "overdate_outcomings_body": "You have a late pending payment for pay, if you already do it, update the status",
   "change_status": "You want to change the status of the entry",
   "cancel": "Cancel",
-  "update": "Update"
+  "update": "Update",
+  "creation_date": "Creation Date"
 }

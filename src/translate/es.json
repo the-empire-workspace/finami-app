@@ -64,5 +64,6 @@
   "overdate_outcomings_body": "Tienes un pago tardio pendiente por pagar, si ya lo hiciste actualiza su estado",
   "change_status": "Desea cambiar el estado de la entrada",
   "cancel": "Cancelar",
-  "update": "Actualizar"
+  "update": "Actualizar",
+  "creation_date": "Fecha de Creacion"
 }
