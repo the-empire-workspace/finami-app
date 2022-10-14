@@ -1,9 +1,6 @@
-import {PermissionsAndroid, Alert} from 'react-native'
-import {translate} from 'utils/translate'
-
-//Author: Fulvio Farina
-///Grant permissions Library for Android
-//cleaned on August 8, 2021
+import { PermissionsAndroid, /* Alert */ } from 'react-native'
+/* import {translate} from 'utils/translate'
+ */
 
 const _buttons = {
   buttonNeutral: 'Later',
