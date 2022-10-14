@@ -35,7 +35,7 @@ export const AndroidPermissionTypes = {
   camera: {
     ask: PermissionsAndroid.PERMISSIONS.CAMERA,
     modal: _cameraModal,
-    warn: _warnAboutCameraPermissions,
+    /* warn: _warnAboutCameraPermissions, */
   },
   readSD: {
     ask: PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
