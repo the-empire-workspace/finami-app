@@ -1,9 +1,6 @@
-import {PermissionsAndroid, Alert} from 'react-native'
-import {translate} from 'utils/translate'
-
-//Author: Fulvio Farina
-///Grant permissions Library for Android
-//cleaned on August 8, 2021
+import { PermissionsAndroid, /* Alert */ } from 'react-native'
+/* import {translate} from 'utils/translate'
+ */
 
 const _buttons = {
   buttonNeutral: 'Later',
@@ -28,14 +25,14 @@ const _writeSDModal = {
   ..._buttons,
 }
 
-const _warnAboutCameraPermissions = () =>
+/* const _warnAboutCameraPermissions = () =>
   Alert.alert('Warning', translate('camera_permission'), [{text: 'OK'}])
-
+ */
 export const AndroidPermissionTypes = {
   camera: {
     ask: PermissionsAndroid.PERMISSIONS.CAMERA,
     modal: _cameraModal,
-    warn: _warnAboutCameraPermissions,
+    /* warn: _warnAboutCameraPermissions, */
   },
   readSD: {
     ask: PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
