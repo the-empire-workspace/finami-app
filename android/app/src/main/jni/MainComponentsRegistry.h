@@ -13,7 +13,7 @@ class MainComponentsRegistry
  public:
   // Adapt it to the package you used for your Java class.
   constexpr static auto kJavaDescriptor =
-      "Lcom/finamiapp/newarchitecture/components/MainComponentsRegistry;";
+      "Lcom/decode9/finamiapp/newarchitecture/components/MainComponentsRegistry;";
 
   static void registerNatives();
 
