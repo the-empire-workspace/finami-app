@@ -28,9 +28,9 @@ const _writeSDModal = {
   ..._buttons,
 }
 
-const _warnAboutCameraPermissions = () =>
+/* const _warnAboutCameraPermissions = () =>
   Alert.alert('Warning', translate('camera_permission'), [{text: 'OK'}])
-
+ */
 export const AndroidPermissionTypes = {
   camera: {
     ask: PermissionsAndroid.PERMISSIONS.CAMERA,
