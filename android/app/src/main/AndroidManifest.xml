@@ -1,4 +1,4 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.finamiapp">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.decode9.finamiapp">
 
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.CAMERA" />

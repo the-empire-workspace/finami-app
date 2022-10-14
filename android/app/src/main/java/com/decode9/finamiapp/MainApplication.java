@@ -1,4 +1,4 @@
-package com.finamiapp;
+package com.decode9.finamiapp;
 
 import android.app.Application;
 import android.content.Context;
@@ -10,7 +10,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.JSIModulePackage; // <- add
 import com.facebook.react.config.ReactFeatureFlags;
 import com.facebook.soloader.SoLoader;
-import com.finamiapp.newarchitecture.MainApplicationReactNativeHost;
+import com.decode9.finamiapp.newarchitecture.MainApplicationReactNativeHost;
 import com.swmansion.reanimated.ReanimatedJSIModulePackage; // <- add
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
@@ -83,7 +83,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.finamiapp.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.decode9.finamiapp.ReactNativeFlipper");
         aClass
           .getMethod(
             "initializeFlipper",
