@@ -7,6 +7,7 @@ import { getUTCFullTime, processCategoryDeep, translate, verifyId } from 'utils'
 import { useNavigation } from '@react-navigation/native'
 import { useDispatch, useSelector } from 'react-redux'
 import { setIncoming, setOutcoming } from 'store/actions'
+import LogoI from '@assets/img/logoI.png'
 
 const ItemElement: FC<Props> = ({ item, type, categoryId }) => {
   const { colors } = useTheme()
@@ -52,6 +53,7 @@ const ItemElement: FC<Props> = ({ item, type, categoryId }) => {
       const newIncome = modifyDeletion(incomingsItems, categoryId)
       dispatch(setIncoming(newIncome))
     }
+    
     if (item?.type === 'outcomings') {
       const newOutcome = modifyDeletion(outcomingItems, categoryId)
       dispatch(setOutcoming(newOutcome))
@@ -82,7 +84,7 @@ const ItemElement: FC<Props> = ({ item, type, categoryId }) => {
       style={[styles.transactionItem, { backgroundColor: colors.background }]}>
       <View style={[styles.transactionData]}>
         <View style={styles.imageContainer}>
-          <Image style={styles.image} source={{ uri: item.image }} />
+          <Image style={styles.image} source={item?.image ? { uri: item.image } : LogoI} />
         </View>
         <View style={styles.transactionItemBox}>
           <Text style={[styles.transactionTitle, { color: colors.text }]}>

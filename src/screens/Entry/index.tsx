@@ -89,7 +89,7 @@ const Entry: FC = () => {
       if (!newData) return
       newFormData = newData
     }
-    
+
     if (params?.type === 'incomings') {
       const newIncomings = processCreation(
         newFormData,
@@ -149,7 +149,7 @@ const Entry: FC = () => {
         <View style={styles.button}>
           <Button
             text={translate('create_entry')}
-            disabled={!(!!form.valid && image)}
+            disabled={!(!!form.valid)}
             onPress={saveForm}
           />
         </View>
