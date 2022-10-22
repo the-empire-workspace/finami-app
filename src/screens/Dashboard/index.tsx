@@ -28,7 +28,6 @@ const Dashboard: FC = () => {
   const calculateTotal = () => {
     const totalIncomings = processEntries(itemsIncomings, defaultPrices) || { monthly: 0, pending: 0, total: 0 }
     const totalOutcomings = processEntries(itemsOutcomings, defaultPrices) || { monthly: 0, pending: 0, total: 0 }
-    console.log(totalOutcomings)
     setTotal(totalIncomings?.total - totalOutcomings?.total)
 
     const chartData: any = [
@@ -85,8 +84,6 @@ const Dashboard: FC = () => {
       setItems()
     }, [itemsIncomings.length, itemsOutcomings.length, defaultPrices]),
   )
-
-  console.log(total)
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background }]}>
