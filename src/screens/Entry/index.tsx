@@ -25,7 +25,7 @@ const Entry: FC = () => {
 
   const [image, setImage] = useState(params?.item?.image)
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<any>({
     form: { paymentType: null },
     valid: false,
   })
@@ -56,6 +56,16 @@ const Entry: FC = () => {
         newForm.push(multip)
         return setFormulary(newForm)
       }
+
+      const newFormData = Object.keys(form?.form).reduce((prev: any, next: any) => {
+        const formItem = newForm?.find((item) => item?.name === next)
+        if (formItem) prev[next] = form?.form[next]
+        return prev
+      }, {})
+
+      const validation = Object.keys(newFormData).reduce((prev: any, next: any) => { return prev && form?.form[next]?.validation }, true)
+
+      setForm({ form: newFormData, valid: validation })
       setFormulary(newForm)
     }
   }
