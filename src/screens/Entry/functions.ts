@@ -44,7 +44,8 @@ const setCategoryData = (newFormData: any) => {
 
   return newFormData
 }
-
+/*Function commented because be unused */
+/* 
 const paymentUniqueStatus = (newFormData: any) => {
   if (newFormData.paymentType === 'unique') {
     const now = new Date()
@@ -63,7 +64,7 @@ const paymentUniqueStatus = (newFormData: any) => {
   }
   return newFormData
 }
-
+ */
 export const processCreation = (
   newFormData: any,
   IncomingItems: any,
@@ -79,7 +80,6 @@ export const processCreation = (
 
   const categoryIds = params?.categoryId
 
-  newFormData = paymentUniqueStatus(newFormData)
   if (categoryIds?.length)
     newFormData = processCategoryDeep(
       categoryIds,

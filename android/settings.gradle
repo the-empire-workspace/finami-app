@@ -1,4 +1,4 @@
-rootProject.name = 'FinamiApp'
+rootProject.name = 'Finami'
 include ':app'
 includeBuild('../node_modules/react-native-gradle-plugin')
 
