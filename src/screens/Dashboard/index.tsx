@@ -1,22 +1,22 @@
-import React, {FC, useCallback, useState} from 'react'
-import {Text, useWindowDimensions, View} from 'react-native'
-import {styles} from './styles'
-import {useTheme} from 'providers'
-import {useSelector} from 'react-redux'
-import {processEntries, translate} from 'utils'
-import {useFocusEffect} from '@react-navigation/native'
-import {ItemList} from 'components'
-import {PieChart} from 'react-native-chart-kit'
+import React, { FC, useCallback, useState } from 'react'
+import { Text, useWindowDimensions, View } from 'react-native'
+import { styles } from './styles'
+import { useTheme } from 'providers'
+import { useSelector } from 'react-redux'
+import { processEntries, translate } from 'utils'
+import { useFocusEffect } from '@react-navigation/native'
+import { ItemList } from 'components'
+import { PieChart } from 'react-native-chart-kit'
 
 const Dashboard: FC = () => {
   const widthAndHeight = 220
-  const {width: screenWidth} = useWindowDimensions()
-  const {colors} = useTheme()
+  const { width: screenWidth } = useWindowDimensions()
+  const { colors } = useTheme()
   const {
-    incoming: {items: itemsIncomings},
-    outcoming: {items: itemsOutcomings},
-    account: {user},
-    currency: {items: currencies, defaultPrices},
+    incoming: { items: itemsIncomings },
+    outcoming: { items: itemsOutcomings },
+    account: { user },
+    currency: { items: currencies, defaultPrices },
   } = useSelector((state: any) => state)
 
   const [total, setTotal] = useState(0)
@@ -26,9 +26,9 @@ const Dashboard: FC = () => {
   const currency = currencies.find((cur: any) => cur.id === user.currency)
 
   const calculateTotal = () => {
-    const totalIncomings = processEntries(itemsIncomings, defaultPrices)
-    const totalOutcomings = processEntries(itemsOutcomings, defaultPrices)
-
+    const totalIncomings = processEntries(itemsIncomings, defaultPrices) || { monthly: 0, pending: 0, total: 0 }
+    const totalOutcomings = processEntries(itemsOutcomings, defaultPrices) || { monthly: 0, pending: 0, total: 0 }
+    console.log(totalOutcomings)
     setTotal(totalIncomings?.total - totalOutcomings?.total)
 
     const chartData: any = [
@@ -86,17 +86,19 @@ const Dashboard: FC = () => {
     }, [itemsIncomings.length, itemsOutcomings.length, defaultPrices]),
   )
 
+  console.log(total)
+
   return (
-    <View style={[styles.root, {backgroundColor: colors.background}]}>
+    <View style={[styles.root, { backgroundColor: colors.background }]}>
       <View style={[styles.upperBox]}>
         <Text
           style={[
             styles.amountText,
-            {color: total > 0 ? colors.success : colors.unsuccess},
+            { color: total > 0 ? colors.success : colors.unsuccess },
           ]}>
           {currency?.symbol} {total ? total?.toFixed(currency?.decimal) : '0'}
         </Text>
-        <Text style={[styles.labelText, {color: colors.text}]}>
+        <Text style={[styles.labelText, { color: colors.text }]}>
           {translate('finance_status')}
         </Text>
 
@@ -123,14 +125,14 @@ const Dashboard: FC = () => {
             },
           }}
           backgroundColor={'transparent'}
-          style={{backgroundColor: colors.background}}
+          style={{ backgroundColor: colors.background }}
         />
         <View style={styles.downBox}>
           {allItems?.length ? (
             <ItemList items={allItems} type="dashboard" />
           ) : (
             <View style={styles.noItemBox}>
-              <Text style={[styles.noItemText, {color: colors.text}]}>
+              <Text style={[styles.noItemText, { color: colors.text }]}>
                 {translate('no_items')}
               </Text>
             </View>
