@@ -53,6 +53,7 @@ const ItemElement: FC<Props> = ({ item, type, categoryId }) => {
       const newIncome = modifyDeletion(incomingsItems, categoryId)
       dispatch(setIncoming(newIncome))
     }
+    
     if (item?.type === 'outcomings') {
       const newOutcome = modifyDeletion(outcomingItems, categoryId)
       dispatch(setOutcoming(newOutcome))
