@@ -65,5 +65,6 @@
   "change_status": "Desea cambiar el estado de la entrada",
   "cancel": "Cancelar",
   "update": "Actualizar",
-  "creation_date": "Fecha de Creacion"
+  "creation_date": "Fecha de Creacion",
+  "quantity": "Cantidad"
 }

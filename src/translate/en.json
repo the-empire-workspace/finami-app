@@ -65,5 +65,6 @@
   "change_status": "You want to change the status of the entry",
   "cancel": "Cancel",
   "update": "Update",
-  "creation_date": "Creation Date"
+  "creation_date": "Creation Date",
+  "quantity": "Quantity"
 }

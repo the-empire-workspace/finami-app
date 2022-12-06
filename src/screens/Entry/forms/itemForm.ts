@@ -170,7 +170,7 @@ export const multiple = (color: any, translate: any, def: any = null) => ({
       type: 'number',
       defaultValue: def ? def.amount_frequency : '',
       keyboardType: 'numeric',
-      placeholder: translate('amount'),
+      placeholder: translate('quantity'),
       returnKeyType: 'go',
       placeholderTextColor: color,
       style: {...styles.input, color: color},
