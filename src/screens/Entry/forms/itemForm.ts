@@ -73,7 +73,7 @@ const itemForm = (
     name: 'amount',
     label: null,
     type: 'number',
-    defaultValue: def ? def.amount : '',
+    defaultValue: def ? def.amount?.toString() : '',
     keyboardType: 'numeric',
     placeholder: translate('amount'),
     returnKeyType: 'go',
