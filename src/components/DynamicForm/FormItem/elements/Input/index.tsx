@@ -7,16 +7,17 @@ const Input: FC<InputProps> = ({
   values,
   onChange,
 }: any) => {
-  const [value, setValue] = useState(values.defaultValue)
+  const [value, setValue] = useState(values?.defaultValue || '')
 
   const onChangeInput = (val: any) => {
-    setValue(val?.nativeEvent?.text || val)
-    onChange(val?.nativeEvent?.text || val)
+    if (val?.persist) val.persist();
+    setValue(val?.nativeEvent?.text)
+    onChange(val?.nativeEvent?.text)
   }
 
   const onChangeSelect = (val: any) => {
-    setValue(val)
-    onChange(val)
+    setValue(val?.nativeEvent?.text || val)
+    onChange(val?.nativeEvent?.text || val)
   }
 
   useEffect(() => {
@@ -24,7 +25,7 @@ const Input: FC<InputProps> = ({
       setValue(values?.values[0]?.value)
       onChange(values?.values[0]?.value)
     }
-    if (values?.defaultValue) onChange(values?.defaultValue)
+    if (values?.defaultValue) onChange(values?.defaultValue || value)
   }, [element])
 
   return element === 'select'

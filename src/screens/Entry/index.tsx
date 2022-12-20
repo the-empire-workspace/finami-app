@@ -84,8 +84,8 @@ const Entry: FC = () => {
 
   const saveForm = () => {
     const formData: any = form?.form
+    
     let newFormData: any = {}
-
     for (const key of Object.keys(formData))
       newFormData[key] = formData[key].value
 
@@ -95,7 +95,7 @@ const Entry: FC = () => {
 
     const paymentType: any = form?.form?.paymentType
     if (paymentType?.value === 'concurrent') {
-      const newData = processConcurrentData(newFormData)
+      const newData = processConcurrentData(newFormData, params?.item,params?.type)
       if (!newData) return
       newFormData = newData
     }
