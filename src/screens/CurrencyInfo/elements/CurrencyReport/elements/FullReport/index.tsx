@@ -41,7 +41,7 @@ const FullReport: FC<any> = ({totals, onClose, dates}) => {
             {translate('incoming_total')}
           </Text>
           <Text style={[styles.contentText, {color: colors.text}]}>
-            {totals?.incoming?.total}
+            {totals?.incoming?.total || 0}
           </Text>
         </View>
         <View style={styles.textContainer}>
@@ -49,7 +49,7 @@ const FullReport: FC<any> = ({totals, onClose, dates}) => {
             {translate('incoming_monthly')}
           </Text>
           <Text style={[styles.contentText, {color: colors.text}]}>
-            {totals?.incoming?.monthly}
+            {totals?.incoming?.monthly || 0}
           </Text>
         </View>
         <View style={styles.textContainer}>
@@ -57,7 +57,7 @@ const FullReport: FC<any> = ({totals, onClose, dates}) => {
             {translate('incoming_pending')}
           </Text>
           <Text style={[styles.contentText, {color: colors.text}]}>
-            {totals?.incoming?.pending}
+            {totals?.incoming?.pending || 0}
           </Text>
         </View>
       </View>
@@ -68,7 +68,7 @@ const FullReport: FC<any> = ({totals, onClose, dates}) => {
             {translate('outcoming_total')}
           </Text>
           <Text style={[styles.contentText, {color: colors.text}]}>
-            {totals?.outcoming?.total}
+            {totals?.outcoming?.total || 0}
           </Text>
         </View>
         <View style={styles.textContainer}>
@@ -76,7 +76,7 @@ const FullReport: FC<any> = ({totals, onClose, dates}) => {
             {translate('outcoming_monthly')}
           </Text>
           <Text style={[styles.contentText, {color: colors.text}]}>
-            {totals?.outcoming?.monthly}
+            {totals?.outcoming?.monthly || 0}
           </Text>
         </View>
         <View style={styles.textContainer}>
@@ -84,7 +84,7 @@ const FullReport: FC<any> = ({totals, onClose, dates}) => {
             {translate('outcoming_pending')}
           </Text>
           <Text style={[styles.contentText, {color: colors.text}]}>
-            {totals?.outcoming?.pending}
+            {totals?.outcoming?.pending || 0}
           </Text>
         </View>
       </View>
@@ -95,7 +95,7 @@ const FullReport: FC<any> = ({totals, onClose, dates}) => {
             {translate('finance_status')}
           </Text>
           <Text style={[styles.contentText, {color: colors.text}]}>
-            {totals?.incoming?.total - totals?.outcoming?.total}
+            {(totals?.incoming?.total || 0) - (totals?.outcoming?.total || 0)}
           </Text>
         </View>
       </View>
