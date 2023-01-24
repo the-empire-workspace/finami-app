@@ -30,9 +30,6 @@ const categoryForm = (color: any, translate: any) => [
     placeholder: translate('description'),
     returnKeyType: 'go',
     validations: {
-      required: true,
-      minLength: 4,
-      maxLength: 72,
     },
   },
 ]

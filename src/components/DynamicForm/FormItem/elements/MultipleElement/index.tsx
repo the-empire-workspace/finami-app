@@ -1,10 +1,10 @@
-import React, {useState, FC} from 'react'
-import {returnForm} from '../../functions'
-import {View, Text} from 'react-native'
-import {styles} from './styles'
+import React, { useState, FC } from 'react'
+import { returnForm } from '../../functions'
+import { View, Text } from 'react-native'
+import { styles } from './styles'
 import Input from '../Input'
-import {useTheme} from '@react-navigation/native'
-import {Props} from './interface'
+import { useTheme } from '@react-navigation/native'
+import { Props } from './interface'
 
 const MultipleElement: FC<Props> = ({
   item,
@@ -15,12 +15,12 @@ const MultipleElement: FC<Props> = ({
   length,
 }) => {
   const [validateMultiple, setValidateMultiple] = useState(false)
-  const {element: elementMulti, label, render} = item
+  const { element: elementMulti, label, render } = item
 
-  const {colors} = useTheme()
+  const { colors } = useTheme()
 
   const styleInput = elementMulti === 'select' ? styles.select : styles.input
-  item.style = item.style ? {...styleInput, ...item.style} : styles.input
+  item.style = item.style ? { ...styleInput, ...item.style } : styles.input
   item.style.color = !validateMultiple ? styles.error.color : styles.input.color
 
   const onChangeMultiple = (val: any) => {
@@ -33,7 +33,7 @@ const MultipleElement: FC<Props> = ({
     <View
       style={[
         styles.rootMultiple,
-        {borderBottomColor: colors.primary, width: `${100 / length}%`},
+        { borderBottomColor: colors.primary, width: `${100 / length}%` },
       ]}>
       {label ? <Text>{label}</Text> : null}
       <Input

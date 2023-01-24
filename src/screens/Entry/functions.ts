@@ -1,7 +1,7 @@
 import { Alert } from 'react-native'
 import { processCategoryDeep, verifyId } from 'utils'
 
-export const processConcurrentData = (newFormData: any) => {
+export const processConcurrentData = (newFormData: any, item: any, type: any) => {
   const now = new Date()
   const paymentDate = new Date(newFormData.payment_date)
   now.setHours(0)
@@ -18,19 +18,19 @@ export const processConcurrentData = (newFormData: any) => {
     Alert.alert('', 'time must be same or major that now')
     return false
   }
-
-  const entries = [
-    {
-      amount: Number(newFormData.amount),
-      status: 'paid',
-      name: newFormData.name,
-      type: newFormData.type,
-      date: newFormData.payment_date,
-      currency: newFormData.currency,
-    },
-  ]
-
-  if (diff < 0) entries[0].status = 'pending'
+  const entries = item?.entries?.map((entry: any) => {
+    entry.amount = Number(newFormData.amount);
+    return entry
+  }) || [
+      {
+        amount: Number(newFormData.amount),
+        status: (diff < 0) ? 'pending' : 'paid',
+        name: newFormData.name,
+        type: type,
+        date: newFormData.payment_date,
+        currency: newFormData.currency,
+      },
+    ]
 
   newFormData.entries = entries
 
@@ -71,6 +71,7 @@ export const processCreation = (
   itemView: any,
   params: any,
 ) => {
+
   newFormData.type = params?.type
   newFormData.item = itemView
 
@@ -87,7 +88,6 @@ export const processCreation = (
       params,
       newFormData,
     )
-
   const newIncoming = verifyId(params, newFormData, IncomingItems)
 
   return newIncoming

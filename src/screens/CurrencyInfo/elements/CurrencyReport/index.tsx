@@ -25,8 +25,8 @@ const CurrencyReport: FC<any> = ({ currency }) => {
 
   const processReport = () => {
     const settedForm: any = form.form
-    const from = new Date(settedForm.from_date?.value).getTime()
-    const to = new Date(settedForm.to_date?.value).getTime()
+    const from = new Date(settedForm?.from_date?.value).getTime()
+    const to = new Date(settedForm?.to_date?.value).getTime()
     const currencyIncoming = filterByCurrency(currency, incomingItems)
     const currencyOutcoming = filterByCurrency(currency, outcomingItems)
     const incomingFilter = filterEntries(currencyIncoming, from, to)

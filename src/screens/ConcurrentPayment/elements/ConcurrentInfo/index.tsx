@@ -15,7 +15,6 @@ const ConcurrentInfo: FC<Props> = ({item}) => {
 
   const orderDate = orderBy(item?.entries, 'date', 'desc') || []
   const lastPayment = orderDate?.filter((entry: any) => entry.status === 'paid')
-
   return (
     <View style={styles.infoContainer}>
       <View style={styles.infoBox}>
