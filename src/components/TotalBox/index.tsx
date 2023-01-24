@@ -22,7 +22,7 @@ const TotalBox: FC<Props> = ({total, type = 'incomings'}) => {
             {color: type === 'incomings' ? colors.success : colors.unsuccess},
           ]}>
           {currency?.symbol}
-          {total?.total?.toFixed(2) || '000'}
+          {total?.total?.toFixed(2) || '0'}
         </Text>
         <Text style={[styles.labelText, {color: colors.text}]}>
           {translate(type)}
