@@ -4,7 +4,7 @@
 
 import 'react-native'
 import React from 'react'
-import {Button} from '../src/components'
+import { Button } from '../src/theme'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
@@ -28,3 +28,14 @@ jest.mock('react-native-date-picker', () => {
 jest.mock('@notifee/react-native', () =>
   require('@notifee/react-native/jest-mock'),
 )
+
+
+jest.mock('react-native-sqlite-storage', () => {
+  return {
+    openDatabase: () => {
+      return {
+        
+      }
+    }
+  }
+})

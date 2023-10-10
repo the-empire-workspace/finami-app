@@ -42,6 +42,17 @@ jest.mock('react-native-chart-kit', () => {
   return {}
 })
 
+
+jest.mock('react-native-sqlite-storage', () => {
+  return {
+    openDatabase: () => {
+      return {
+        
+      }
+    }
+  }
+})
+
 jest.mock('@react-navigation/drawer', () => {
   const addIgnorePatterns = () => {}
   const LogBoxData = {
