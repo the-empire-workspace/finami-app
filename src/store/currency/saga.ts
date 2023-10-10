@@ -1,14 +1,23 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { actionObject, FetchService } from 'utils'
+import { actionObject, FetchService, getCurrenciesQuery } from 'utils'
 import { binanceAPI, ExchangeAPI } from 'utils/path'
 import { selectAccount, selectCurrency } from '../selector'
-import { GET_CURRENCY_PRICE, GET_CURRENCY_PRICE_ASYNC } from './action-types'
+import { GET_CURRENCIES, GET_CURRENCIES_ASYNC, GET_CURRENCY_PRICE, GET_CURRENCY_PRICE_ASYNC } from './action-types'
+
+function* getCurrenciesAsync(): any {
+  try {
+    const currencies = yield call(getCurrenciesQuery)
+    yield put(actionObject(GET_CURRENCIES_ASYNC, currencies?.raw() || []))
+  } catch (error) {
+    console.log('error getting currencies', error)
+  }
+}
 
 function* getDefaultPriceAsync(): any {
   try {
 
     const { user } = yield select(selectAccount)
-    const { items: currencies } = yield select(selectCurrency)
+    const { currencies } = yield select(selectCurrency)
 
     const defaultCurrency = currencies.find((currency: any) => currency.id === user.currency)
     const exchangeResult =
@@ -58,6 +67,10 @@ function* getDefaultPriceAsync(): any {
     console.log(error)
   }
 
+}
+
+export function* watchGetCurrencies() {
+  yield takeLatest(GET_CURRENCIES, getCurrenciesAsync)
 }
 
 export function* watchGetDefaultPrice() {

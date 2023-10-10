@@ -1,0 +1,101 @@
+import database from "./init"
+import USD from '@assets/img/Iconografia-finami-12.png'
+import EUR from '@assets/img/Iconografia-finami-09.png'
+import BTC from '@assets/img/Iconografia-finami-16.png'
+import ETH from '@assets/img/Iconografia-finami-07.png'
+import { selectQuery } from "./helpers"
+
+const db = database;
+const createUserTable = async () => {
+  try {
+    await database.executeSql(`CREATE TABLE IF NOT EXISTS users (\
+      id INTEGER PRIMARY KEY AUTOINCREMENT,\
+      username VARCHAR,\
+      picture VARCHAR, \
+      language VARCHAR,\
+      notification_token VARCHAR\
+      )`)
+    console.log('user table created')
+  } catch (error) {
+    console.log('error creating user table', error)
+  }
+}
+
+const createCurrencyTable = async () => {
+  try {
+    await database.executeSql(`CREATE TABLE IF NOT EXISTS currencies (\
+      id INTEGER PRIMARY KEY AUTOINCREMENT,\
+      symbol VARCHAR,\
+      name VARCHAR,\
+      type VARCHAR,\
+      decimal INTEGER,\
+      image VARCHAR\
+      )`)
+
+    console.log('currency table created')
+    const currencies: any = await selectQuery(`SELECT * FROM currencies`)
+    if (!currencies || currencies?.length === 0) {
+      await database.executeSql('INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)', ['$', 'USD', 'FIAT', 2, USD])
+      await database.executeSql('INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)', ['€', 'EUR', 'FIAT', 2, EUR])
+      await database.executeSql('INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)', ['₿', 'BTC', 'CRYPTO', 8, BTC])
+      await database.executeSql('INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)', ['$', 'USDT', 'CRYPTO', 2, ETH])
+      console.log('currencies data created')
+    }
+  } catch (error) {
+    console.log('error creating currency table', error)
+  }
+}
+
+const createAccountTable = async () => {
+  try {
+    await database.executeSql(`CREATE TABLE IF NOT EXISTS accounts (\
+      id INTEGER PRIMARY KEY AUTOINCREMENT,\
+      user_id INTEGER,\
+      currency_id INTEGER,\
+      account_name VARCHAR,\
+      account_number VARCHAR,\
+      bank VARCHAR,\
+      account_comments VARCHAR,\
+      FOREIGN KEY(user_id) REFERENCES users(id)\
+      FOREIGN KEY(currency_id) REFERENCES currencies(id)\
+      )`)
+
+    console.log('account table created')
+  } catch (error) {
+    console.log('error creating account table', error)
+  }
+}
+
+const createEntriesTable = async () => {
+  try {
+    await database.executeSql(`CREATE TABLE IF NOT EXISTS entries (\
+      id INTEGER PRIMARY KEY AUTOINCREMENT,\
+      user_id INTEGER,\
+      account_id INTEGER,\
+      payment_type VARCHAR,\
+      amount REAL,\
+      entry_type VARCHAR, \
+      payment_concept VARCHAR,\
+      comment VARCHAR,\
+      emissor VARCHAR,\
+      email VARCHAR,\
+      phone VARCHAR,\
+      date DATETIME,\
+      FOREIGN KEY(account_id) REFERENCES accounts(id),\
+      FOREIGN KEY(user_id) REFERENCES users(id)\
+      )`)
+
+    console.log('entries table created')
+  } catch (error) {
+    console.log('error creating entries table', error)
+  }
+}
+
+const createTables = async () => {
+  await createUserTable()
+  await createCurrencyTable()
+  await createAccountTable()
+  await createEntriesTable()
+}
+
+export default createTables

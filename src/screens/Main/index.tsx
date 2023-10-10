@@ -4,19 +4,19 @@ import { styles } from './styles'
 import AppNavigator from '@routes'
 import { processCategoryDeep, setI18nConfig, verifyId } from '@utils'
 import { useSelector, useDispatch } from 'react-redux'
-import { scheduleNotification, setIncoming, setOutcoming } from 'store/actions'
+import { scheduleNotification, setIncoming, setOutcoming, signin } from 'store/actions'
 import notifee, { EventType } from '@notifee/react-native'
 import { emitter } from 'utils/eventEmitter'
 import { ModalStatus } from './elements'
 
 const Main: FC = () => {
   const {
-    account: { user },
+    account: { user, isAuth },
     incoming: { items: incomings },
     outcoming: { items: outcomings }
   } = useSelector((state: any) => state)
   const dispatch = useDispatch()
-  
+
   const [elementData, setElementData] = useState<any>({ element: null, ids: [], elements: [], type: null })
 
   const changeStatus = () => {
@@ -24,7 +24,7 @@ const Main: FC = () => {
 
     let items = []
     if (element.paymentType === 'concurrent') {
-      const oldElement = element?.entries[element?.entries.length - 1]
+      const oldElement = element?.entries[element?.entries?.length - 1]
       const elementDate = new Date(oldElement.date)
       switch (element?.frequency) {
         case 'weeks':
@@ -42,15 +42,15 @@ const Main: FC = () => {
         default:
           break;
       }
-      element.entries[element?.entries.length - 1] = { ...oldElement, status: 'paid' }
+      element.entries[element?.entries?.length - 1] = { ...oldElement, status: 'paid' }
       element?.entries?.push({ ...oldElement, date: elementDate.getTime(), status: 'pending' })
 
-      if (ids.length > 1) {
+      if (ids?.length > 1) {
         ids.pop()
         items = processCategoryDeep(ids, elements, { item: element }, { ...element })
       } else items = verifyId({ item: element }, { ...element }, elements)
     } else {
-      if (ids.length > 1) {
+      if (ids?.length > 1) {
         ids.pop()
         items = processCategoryDeep(ids, elements, { item: element }, { ...element, status: 'paid' })
       } else items = verifyId({ item: element }, { ...element, status: 'paid' }, elements)
@@ -69,7 +69,7 @@ const Main: FC = () => {
     const elements = (type === 'in') ? incomings : outcomings
     let element = null
 
-    for (let i = 0; i < dataArray.length; i++) {
+    for (let i = 0; i < dataArray?.length; i++) {
       const id = Number(dataArray[i])
       if (i === 0) {
         element = elements?.find((el: any) => el.id === id)
@@ -97,6 +97,7 @@ const Main: FC = () => {
           break;
       }
     });
+    if (!isAuth) dispatch(signin())
   }, [])
 
   return (

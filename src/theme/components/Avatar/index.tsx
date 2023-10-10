@@ -2,7 +2,7 @@ import React, { FC, useEffect, useState } from 'react'
 import { TouchableOpacity, Image, Alert } from 'react-native'
 import { useTheme } from '@providers'
 import { styles } from './styles'
-import LogoI from '@assets/img/logoI.png'
+import LogoI from '@assets/img/user.png'
 import {
   grantCameraPermission,
   grantReadSDPermission,
@@ -30,7 +30,7 @@ const Avatar: FC<Props> = ({
     const { width, height } = Image.resolveAssetSource(
       defaultAvatar ? defaultAvatar : LogoI,
     )
-    setDimensions({ width: width || 600, height: height || 600 })
+    setDimensions({ width: width || 300, height: height || 300 })
   }, [defaultAvatar])
 
   const getImage = async () => {
@@ -48,7 +48,7 @@ const Avatar: FC<Props> = ({
           'JPEG',
           80,
         )
-        setDimensions({ width: 600, height: 600 })
+        setDimensions({ width: 150, height: 150 })
         setImage({ uri, isStatic: true })
         actionAvatar(uri)
       } catch (error) {
@@ -62,16 +62,17 @@ const Avatar: FC<Props> = ({
       style={[
         styles.logoContainer,
         {
-          backgroundColor: colors.primary,
+          backgroundColor: colors.background25,
           ...(staticWidth ? { width: staticWidth } : {}),
           ...(staticHeight ? { height: staticHeight } : {}),
+          borderColor: colors.typography
         },
       ]}
       onPress={getImage}>
       <Image
         style={{
-          width: dimensions.width / 4,
-          height: dimensions.height / 4,
+          width: dimensions.width / 1,
+          height: dimensions.height / 1,
         }}
         source={image}
       />

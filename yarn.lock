@@ -1900,6 +1900,11 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
+"@types/react-native-sqlite-storage@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@types/react-native-sqlite-storage/-/react-native-sqlite-storage-6.0.1.tgz#4446638859c1e269e94a52ed67c19939e37c8709"
+  integrity sha512-nwp9dj2TbsuIARjTuIgYa0Dk5k4wvnmum7+n03fo+mc8gLo5TUPlp5pcfHabSOpJsr1PqYwL8wcA1IfzKDupLw==
+
 "@types/react-native@^0.67.4":
   version "0.67.4"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.67.4.tgz#97a8d3cff2a7606f247008e93d9fe2a3879bc84e"
@@ -6660,6 +6665,11 @@ react-native-screens@^3.13.1:
   dependencies:
     react-freeze "^1.0.0"
     warn-once "^0.1.0"
+
+react-native-sqlite-storage@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-sqlite-storage/-/react-native-sqlite-storage-6.0.1.tgz#ce6a6b852f07abbea68658d5363818c8bef45dfb"
+  integrity sha512-1tDFjrint6X6qSYKf3gDyz+XB+X79jfiL6xTugKHPRtF0WvqMtVgdLuNqZunIXjNEvNtNVEbXaeZ6MsguFu00A==
 
 react-native-svg@^12.3.0:
   version "12.3.0"

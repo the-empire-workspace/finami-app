@@ -1,5 +1,6 @@
 package com.decode9.finamiapp;
 
+import android.os.Bundle;
 import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
