@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { MainTab } from '../../Tabs'
-import { Entry, ConcurrentPayment, Category } from '@screens'
-import { useDispatch } from 'react-redux'
-import { getCurrencyPrice } from 'store/actions'
+import React, {useEffect} from 'react'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {MainTab} from '../../Tabs'
+import {Entry, ConcurrentPayment, Category} from '@screens'
+import {useDispatch} from 'react-redux'
+import {getCurrencyPrice} from 'store/actions'
 
 const Stack = createNativeStackNavigator()
 

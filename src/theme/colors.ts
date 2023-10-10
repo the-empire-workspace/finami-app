@@ -7,7 +7,7 @@ export const lightColors = {
   negative: '#EA6A63',
   typography: '#F0F0F2',
   typography2: '#8596A6',
-  progress:{
+  progress: {
     ingress: '#8ACC60',
     egress: '#EA6A63',
     needs: '#67A4FF',
@@ -20,8 +20,8 @@ export const lightColors = {
   states: {
     caution: '#F6BE16',
     alert: '#D13229',
-    desactive: '#9A9AA1'
-  }
+    desactive: '#9A9AA1',
+  },
 }
 
 // Dark theme colors
@@ -34,7 +34,7 @@ export const darkColors = {
   negative: '#EA6A63',
   typography: '#F0F0F2',
   typography2: '#8596A6',
-  progress:{
+  progress: {
     ingress: '#8ACC60',
     egress: '#EA6A63',
     needs: '#67A4FF',
@@ -47,6 +47,6 @@ export const darkColors = {
   states: {
     caution: '#F6BE16',
     alert: '#D13229',
-    desactive: '#9A9AA1'
-  }
+    desactive: '#9A9AA1',
+  },
 }

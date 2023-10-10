@@ -1,7 +1,5 @@
-import { DispatchProps } from 'interfaces'
-import {
-  SET_LOADING
-} from './action-types'
+import {DispatchProps} from 'interfaces'
+import {SET_LOADING} from './action-types'
 
 const initialState = {
   isLoading: false,
@@ -9,11 +7,11 @@ const initialState = {
 
 const AccountReducer = (
   state = initialState,
-  { type, payload }: DispatchProps,
+  {type, payload}: DispatchProps,
 ) => {
   switch (type) {
     case SET_LOADING:
-      return { ...state, isLoading: payload }
+      return {...state, isLoading: payload}
     default:
       return state
   }

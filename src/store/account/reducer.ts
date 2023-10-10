@@ -1,4 +1,4 @@
-import { DispatchProps } from 'interfaces'
+import {DispatchProps} from 'interfaces'
 import {
   SIGNIN_ASYNC,
   UPDATE_LANGUAGE_ASYNC,
@@ -8,20 +8,20 @@ import {
 const initialState = {
   isAuth: false,
   user: {},
-  tokenNotifications: null
+  tokenNotifications: null,
 }
 
 const AccountReducer = (
   state = initialState,
-  { type, payload }: DispatchProps,
+  {type, payload}: DispatchProps,
 ) => {
   switch (type) {
     case SIGNIN_ASYNC:
-      return { ...state, ...{ user: payload, isAuth: true } }
+      return {...state, ...{user: payload, isAuth: true}}
     case UPDATE_LANGUAGE_ASYNC:
       return {
         ...state,
-        ...{ user: { ...state.user, language: payload }, isAuth: true },
+        ...{user: {...state.user, language: payload}, isAuth: true},
       }
     case UPDATE_NOTIFICATION_TOKEN_ASYNC:
       return {

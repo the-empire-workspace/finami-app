@@ -1,11 +1,10 @@
-import database from "./init"
+import database from './init'
 import USD from '@assets/img/Iconografia-finami-12.png'
 import EUR from '@assets/img/Iconografia-finami-09.png'
 import BTC from '@assets/img/Iconografia-finami-16.png'
 import ETH from '@assets/img/Iconografia-finami-07.png'
-import { selectQuery } from "./helpers"
+import {selectQuery} from './helpers'
 
-const db = database;
 const createUserTable = async () => {
   try {
     await database.executeSql(`CREATE TABLE IF NOT EXISTS users (\
@@ -33,12 +32,24 @@ const createCurrencyTable = async () => {
       )`)
 
     console.log('currency table created')
-    const currencies: any = await selectQuery(`SELECT * FROM currencies`)
+    const currencies: any = await selectQuery('SELECT * FROM currencies')
     if (!currencies || currencies?.length === 0) {
-      await database.executeSql('INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)', ['$', 'USD', 'FIAT', 2, USD])
-      await database.executeSql('INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)', ['€', 'EUR', 'FIAT', 2, EUR])
-      await database.executeSql('INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)', ['₿', 'BTC', 'CRYPTO', 8, BTC])
-      await database.executeSql('INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)', ['$', 'USDT', 'CRYPTO', 2, ETH])
+      await database.executeSql(
+        'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
+        ['$', 'USD', 'FIAT', 2, USD],
+      )
+      await database.executeSql(
+        'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
+        ['€', 'EUR', 'FIAT', 2, EUR],
+      )
+      await database.executeSql(
+        'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
+        ['₿', 'BTC', 'CRYPTO', 8, BTC],
+      )
+      await database.executeSql(
+        'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
+        ['$', 'USDT', 'CRYPTO', 2, ETH],
+      )
       console.log('currencies data created')
     }
   } catch (error) {

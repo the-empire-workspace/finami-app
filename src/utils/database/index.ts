@@ -1,4 +1,4 @@
-export { default as createTables } from "./createTables";
+export {default as createTables} from './createTables'
 export * from './currencyModel'
 export * from './userModel'
 export * from './accountModel'

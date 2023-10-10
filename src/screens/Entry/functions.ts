@@ -1,7 +1,11 @@
-import { Alert } from 'react-native'
-import { processCategoryDeep, verifyId } from 'utils'
+import {Alert} from 'react-native'
+import {processCategoryDeep, verifyId} from 'utils'
 
-export const processConcurrentData = (newFormData: any, item: any, type: any) => {
+export const processConcurrentData = (
+  newFormData: any,
+  item: any,
+  type: any,
+) => {
   const now = new Date()
   const paymentDate = new Date(newFormData.payment_date)
   now.setHours(0)
@@ -19,18 +23,18 @@ export const processConcurrentData = (newFormData: any, item: any, type: any) =>
     return false
   }
   const entries = item?.entries?.map((entry: any) => {
-    entry.amount = Number(newFormData.amount);
+    entry.amount = Number(newFormData.amount)
     return entry
   }) || [
-      {
-        amount: Number(newFormData.amount),
-        status: (diff < 0) ? 'pending' : 'paid',
-        name: newFormData.name,
-        type: type,
-        date: newFormData.payment_date,
-        currency: newFormData.currency,
-      },
-    ]
+    {
+      amount: Number(newFormData.amount),
+      status: diff < 0 ? 'pending' : 'paid',
+      name: newFormData.name,
+      type: type,
+      date: newFormData.payment_date,
+      currency: newFormData.currency,
+    },
+  ]
 
   newFormData.entries = entries
 
@@ -45,7 +49,7 @@ const setCategoryData = (newFormData: any) => {
   return newFormData
 }
 /*Function commented because be unused */
-/* 
+/*
 const paymentUniqueStatus = (newFormData: any) => {
   if (newFormData.paymentType === 'unique') {
     const now = new Date()
@@ -71,7 +75,6 @@ export const processCreation = (
   itemView: any,
   params: any,
 ) => {
-
   newFormData.type = params?.type
   newFormData.item = itemView
 

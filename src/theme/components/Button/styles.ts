@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { Elements, Typos } from '@theme'
+import {StyleSheet} from 'react-native'
+import {Elements, Typos} from '@theme'
 
 const stylesLocal = StyleSheet.create({
   text: {
@@ -7,4 +7,4 @@ const stylesLocal = StyleSheet.create({
   },
 })
 
-export const styles = { ...stylesLocal, ...Elements, ...Typos }
+export const styles = {...stylesLocal, ...Elements, ...Typos}

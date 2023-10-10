@@ -1,20 +1,25 @@
-import { call, select, takeLatest } from 'redux-saga/effects'
+import {call, select, takeLatest} from 'redux-saga/effects'
 import {
   FetchService,
   processNotification,
   scheduleNofitication,
   translate,
 } from 'utils'
-import { finamiAPI } from 'utils/path'
+import {finamiAPI} from 'utils/path'
 
-import { selectAccount, selectIncoming, selectOutcoming } from '../selector'
-import { PUSH_NOTIFICATION, SCHEDULE_NOTIFICATION } from './action-types'
+import {selectAccount, selectIncoming, selectOutcoming} from '../selector'
+import {PUSH_NOTIFICATION, SCHEDULE_NOTIFICATION} from './action-types'
 
 function* pushNotificationAsync(): any {
   try {
-    const { tokenNotifications } = yield select(selectAccount)
+    const {tokenNotifications} = yield select(selectAccount)
     if (tokenNotifications) {
-      const result = yield call(FetchService, `${finamiAPI}notification/alarm`, 'POST', { token: tokenNotifications })
+      const result = yield call(
+        FetchService,
+        `${finamiAPI}notification/alarm`,
+        'POST',
+        {token: tokenNotifications},
+      )
       console.log(result)
     }
   } catch (error) {
@@ -24,8 +29,8 @@ function* pushNotificationAsync(): any {
 
 function* scheduleNotificationsAsync(): any {
   try {
-    const { items: incomings } = yield select(selectIncoming)
-    const { items: outcomings } = yield select(selectOutcoming)
+    const {items: incomings} = yield select(selectIncoming)
+    const {items: outcomings} = yield select(selectOutcoming)
 
     const notIncomings = processNotification(incomings, 'incomings', 'in')
     const notOutcomings = processNotification(outcomings, 'outcomings', 'out')

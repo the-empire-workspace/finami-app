@@ -1,5 +1,5 @@
-import { DispatchProps } from 'interfaces'
-import { COMPLETE_ONBOARDING_ASYNC, SET_STEP } from './action-types'
+import {DispatchProps} from 'interfaces'
+import {COMPLETE_ONBOARDING_ASYNC, SET_STEP} from './action-types'
 
 const initialState = {
   username: '',
@@ -10,18 +10,18 @@ const initialState = {
   bank: '',
   account_type: '',
   account_currency: '',
-  available_balance: ''
+  available_balance: '',
 }
 
 const OnboardingReducer = (
   state = initialState,
-  { type, payload }: DispatchProps,
+  {type, payload}: DispatchProps,
 ) => {
   switch (type) {
     case SET_STEP:
-      return { ...state, ...payload }
+      return {...state, ...payload}
     case COMPLETE_ONBOARDING_ASYNC:
-      return { ...state, ...payload }
+      return {...state, ...payload}
     default:
       return state
   }

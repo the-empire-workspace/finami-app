@@ -1,4 +1,4 @@
-import { numberOfWeeks } from './date'
+import {numberOfWeeks} from './date'
 
 const _getDeep = (data: any, deep: any) => {
   if (typeof deep === 'string') data = data[deep]
@@ -161,7 +161,7 @@ export const processEntries = (
           prev.monthly += amount
       }
 
-      if (next?.paymentType === 'concurrent' && (prev && next)) {
+      if (next?.paymentType === 'concurrent' && prev && next) {
         if (next?.frequency === 'months')
           prev.monthly += amount / Number(next?.amount_frequency)
         if (next?.frequency === 'weeks') {
@@ -181,7 +181,7 @@ export const processEntries = (
 
       return prev
     },
-    { monthly: 0, total: 0, pending: 0 },
+    {monthly: 0, total: 0, pending: 0},
   )
 
   return reduceArray?.length ? totals : prevCurrent
@@ -226,15 +226,18 @@ export const filterByCurrency = (
   const reduceFunc = (prev: any, next: any) => {
     if (next.currency === currency?.id) prev.push(next)
     if (next.category)
-      for (const entry of next.entries) {
+      for (const entry of next.entries)
         if (entry.currency === currency?.id) prev.push(entry)
-      }
 
     return prev
   }
 
-  const incomingsReduce = itemsIncomings ? itemsIncomings.reduce(reduceFunc, []) : []
-  const outcomingReduce = itemsOutcomings ? itemsOutcomings.reduce(reduceFunc, []) : []
+  const incomingsReduce = itemsIncomings
+    ? itemsIncomings.reduce(reduceFunc, [])
+    : []
+  const outcomingReduce = itemsOutcomings
+    ? itemsOutcomings.reduce(reduceFunc, [])
+    : []
 
   const fullItems = [...incomingsReduce, ...outcomingReduce]
 

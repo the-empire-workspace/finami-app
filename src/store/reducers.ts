@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux'
+import {combineReducers} from 'redux'
 import account from './account/reducer'
 import incoming from './incoming/reducer'
 import outcoming from './outcoming/reducer'
@@ -11,7 +11,7 @@ const reducers = combineReducers({
   outcoming,
   currency,
   onboarding,
-  intermitence
+  intermitence,
 })
 
 export default reducers

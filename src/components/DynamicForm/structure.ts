@@ -1,6 +1,6 @@
-import { TextInput } from 'react-native'
-import { Picker } from '@react-native-picker/picker'
-import { DatePicker } from './components'
+import {TextInput} from 'react-native'
+import {Picker} from '@react-native-picker/picker'
+import {DatePicker} from './components'
 
 const Structure: any = {
   input: {
@@ -36,7 +36,7 @@ const Structure: any = {
     onChange: (val: any) => {
       // console.log('target value')
       console.log(val.target.value)
-    }
+    },
   },
 }
 

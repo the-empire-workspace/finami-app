@@ -1,9 +1,9 @@
-import { StyleSheet } from 'react-native'
-import { Typos, Elements } from '@theme'
+import {StyleSheet} from 'react-native'
+import {Typos, Elements} from '@theme'
 
 const localStyles = StyleSheet.create({
   scrollRoot: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   root: {
     flex: 1,
@@ -12,28 +12,27 @@ const localStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 30
+    paddingVertical: 30,
   },
   titlesContainer: {
-    marginTop: 30
+    marginTop: 30,
   },
   container: {
     width: '100%',
   },
   centerContainer: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   formContainer: {
-    marginTop: 25
+    marginTop: 25,
   },
-  title: {
-  },
+  title: {},
   goBack: {
-    textDecorationLine: 'underline'
+    textDecorationLine: 'underline',
   },
   input: {
     width: '100%',
-  }
+  },
 })
 
-export const styles = { ...localStyles, ...Typos, ...Elements }
+export const styles = {...localStyles, ...Typos, ...Elements}

@@ -29,8 +29,7 @@ const categoryForm = (color: any, translate: any) => [
     keyboardType: 'default',
     placeholder: translate('description'),
     returnKeyType: 'go',
-    validations: {
-    },
+    validations: {},
   },
 ]
 

@@ -1,8 +1,13 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { actionObject, FetchService, getCurrenciesQuery } from 'utils'
-import { binanceAPI, ExchangeAPI } from 'utils/path'
-import { selectAccount, selectCurrency } from '../selector'
-import { GET_CURRENCIES, GET_CURRENCIES_ASYNC, GET_CURRENCY_PRICE, GET_CURRENCY_PRICE_ASYNC } from './action-types'
+import {call, put, select, takeLatest} from 'redux-saga/effects'
+import {actionObject, FetchService, getCurrenciesQuery} from 'utils'
+import {binanceAPI, ExchangeAPI} from 'utils/path'
+import {selectAccount, selectCurrency} from '../selector'
+import {
+  GET_CURRENCIES,
+  GET_CURRENCIES_ASYNC,
+  GET_CURRENCY_PRICE,
+  GET_CURRENCY_PRICE_ASYNC,
+} from './action-types'
 
 function* getCurrenciesAsync(): any {
   try {
@@ -15,20 +20,24 @@ function* getCurrenciesAsync(): any {
 
 function* getDefaultPriceAsync(): any {
   try {
+    const {user} = yield select(selectAccount)
+    const {currencies} = yield select(selectCurrency)
 
-    const { user } = yield select(selectAccount)
-    const { currencies } = yield select(selectCurrency)
-
-    const defaultCurrency = currencies.find((currency: any) => currency.id === user.currency)
+    const defaultCurrency = currencies.find(
+      (currency: any) => currency.id === user.currency,
+    )
     const exchangeResult =
       defaultCurrency?.type === 'FIAT'
-        ? yield call(FetchService, `${ExchangeAPI}latest/${defaultCurrency?.name}`)
+        ? yield call(
+            FetchService,
+            `${ExchangeAPI}latest/${defaultCurrency?.name}`,
+          )
         : null
     const prices: any = {}
 
     for (const currency of currencies)
       if (defaultCurrency?.id !== currency?.id) {
-        let price = { value: 0, op: 'none' }
+        let price = {value: 0, op: 'none'}
         if (currency?.type === 'CRYPTO' || defaultCurrency?.type === 'CRYPTO') {
           const currencyPair =
             currency?.name === 'USD' ? `B${currency?.name}` : currency?.name
@@ -42,14 +51,14 @@ function* getDefaultPriceAsync(): any {
               FetchService,
               `${binanceAPI}avgPrice?symbol=${PAIR}`,
             )
-            price = { value: result?.price, op: 'divide' }
+            price = {value: result?.price, op: 'divide'}
           } catch (error) {
             const XPAIR = `${currencyPair}${defaultCurrencyPair}`
             const result = yield call(
               FetchService,
               `${binanceAPI}avgPrice?symbol=${XPAIR}`,
             )
-            price = price = { value: result?.price, op: 'multiply' }
+            price = price = {value: result?.price, op: 'multiply'}
           }
         }
 
@@ -66,7 +75,6 @@ function* getDefaultPriceAsync(): any {
   } catch (error) {
     console.log(error)
   }
-
 }
 
 export function* watchGetCurrencies() {

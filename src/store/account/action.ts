@@ -1,4 +1,4 @@
-import { actionObject } from '@utils'
+import {actionObject} from '@utils'
 import {
   SIGNIN,
   UPDATE_LANGUAGE,
