@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import {MainTab} from '../../Tabs'
-import {Entry, ConcurrentPayment, Category, Register} from '@screens'
+import {Entry, ConcurrentPayment, Category} from '@screens'
 import {useDispatch} from 'react-redux'
 import {getCurrencyPrice} from 'store/actions'
 
@@ -26,7 +26,6 @@ export const PrivateStack = () => {
       <Stack.Screen name="entry" component={Entry} />
       <Stack.Screen name="concurrentPayment" component={ConcurrentPayment} />
       <Stack.Screen name="category" component={Category} />
-      <Stack.Screen name="editUser" component={Register} />
     </Stack.Navigator>
   )
 }

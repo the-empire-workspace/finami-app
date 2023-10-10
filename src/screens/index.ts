@@ -1,6 +1,6 @@
 export {default as Main} from './Main'
 export {default as Welcome} from './Welcome'
-export {default as Register} from './Register'
+export {StepOne, StepTwo, StepThree, StepFour} from './OnBoarding'
 export {default as Dashboard} from './Dashboard'
 export {default as Outcomings} from './Outcomings'
 export {default as Incomings} from './Incomings'

@@ -27,7 +27,7 @@ const CurrencyList: FC<any> = ({currency}) => {
   useFocusEffect(
     useCallback(() => {
       setItems()
-    }, [itemsIncomings.length, itemsOutcomings.length]),
+    }, [itemsIncomings?.length, itemsOutcomings?.length]),
   )
   return (
     <View style={[styles.root, {backgroundColor: colors.background}]}>

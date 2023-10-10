@@ -5,7 +5,7 @@ import {
   UPDATE_NOTIFICATION_TOKEN,
 } from './action-types'
 
-export const signin = (payload: any) => actionObject(SIGNIN, payload)
+export const signin = () => actionObject(SIGNIN)
 
 export const updateLanguage = (payload: any) =>
   actionObject(UPDATE_LANGUAGE, payload)

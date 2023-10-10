@@ -1,25 +1,25 @@
-import { Button, DynamicForm } from 'components'
-import { useTheme } from 'providers'
-import React, { FC, useState } from 'react'
-import { View } from 'react-native'
-import { useSelector } from 'react-redux'
-import { filterByCurrency, filterEntries, processEntries, translate } from 'utils'
-import { FullReport } from './elements'
+import {Button, DynamicForm} from 'components'
+import {useTheme} from 'providers'
+import React, {FC, useState} from 'react'
+import {View} from 'react-native'
+import {useSelector} from 'react-redux'
+import {filterByCurrency, filterEntries, processEntries, translate} from 'utils'
+import {FullReport} from './elements'
 import reportForm from './reportForm'
-import { styles } from './styles'
+import {styles} from './styles'
 
-const CurrencyReport: FC<any> = ({ currency }) => {
-  const { colors } = useTheme()
+const CurrencyReport: FC<any> = ({currency}) => {
+  const {colors} = useTheme()
 
-  const [form, setForm] = useState({ form: {}, valid: false })
+  const [form, setForm] = useState({form: {}, valid: false})
   const formulary = reportForm(colors.text, translate)
   const {
-    incoming: { items: incomingItems },
-    outcoming: { items: outcomingItems },
+    incoming: {items: incomingItems},
+    outcoming: {items: outcomingItems},
   } = useSelector((state: any) => state)
   const [totals, setTotals] = useState({
-    incoming: { total: 0, pending: 0, monthly: 0 },
-    outcoming: { total: 0, pending: 0, monthly: 0 },
+    incoming: {total: 0, pending: 0, monthly: 0},
+    outcoming: {total: 0, pending: 0, monthly: 0},
   })
   const [showTotal, setShowTotal] = useState(false)
 
@@ -33,12 +33,12 @@ const CurrencyReport: FC<any> = ({ currency }) => {
     const outcomingFilter = filterEntries(currencyOutcoming, from, to)
     const totalIncoming = processEntries(incomingFilter)
     const totalOutcoming = processEntries(outcomingFilter)
-    setTotals({ incoming: totalIncoming, outcoming: totalOutcoming })
+    setTotals({incoming: totalIncoming, outcoming: totalOutcoming})
     setShowTotal(true)
   }
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background }]}>
+    <View style={[styles.root, {backgroundColor: colors.background}]}>
       {showTotal ? (
         <FullReport
           totals={totals}
@@ -51,7 +51,7 @@ const CurrencyReport: FC<any> = ({ currency }) => {
             <DynamicForm
               formData={formulary}
               returnData={(data: any) => {
-                setForm({ form: data.value, valid: data.validation })
+                setForm({form: data.value, valid: data.validation})
               }}
             />
           </View>

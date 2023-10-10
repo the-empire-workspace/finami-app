@@ -1,19 +1,13 @@
 import {DispatchProps} from 'interfaces'
 import {
-  SIGNIN,
-  UPDATE_LANGUAGE,
-  UPDATE_NOTIFICATION_TOKEN,
+  SIGNIN_ASYNC,
+  UPDATE_LANGUAGE_ASYNC,
+  UPDATE_NOTIFICATION_TOKEN_ASYNC,
 } from './action-types'
 
 const initialState = {
   isAuth: false,
-  user: {
-    name: null,
-    profession: null,
-    avatar: null,
-    currency: null,
-    language: null,
-  },
+  user: {},
   tokenNotifications: null,
 }
 
@@ -22,14 +16,14 @@ const AccountReducer = (
   {type, payload}: DispatchProps,
 ) => {
   switch (type) {
-    case SIGNIN:
+    case SIGNIN_ASYNC:
       return {...state, ...{user: payload, isAuth: true}}
-    case UPDATE_LANGUAGE:
+    case UPDATE_LANGUAGE_ASYNC:
       return {
         ...state,
         ...{user: {...state.user, language: payload}, isAuth: true},
       }
-    case UPDATE_NOTIFICATION_TOKEN:
+    case UPDATE_NOTIFICATION_TOKEN_ASYNC:
       return {
         ...state,
         tokenNotifications: payload,

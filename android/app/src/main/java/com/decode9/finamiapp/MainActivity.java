@@ -1,5 +1,4 @@
 package com.decode9.finamiapp;
-
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.ReactRootView;

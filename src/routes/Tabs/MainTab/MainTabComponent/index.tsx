@@ -37,7 +37,7 @@ const Nav = [
 const MainTabComponent: FC<any> = ({navigation, state}) => {
   const {colors} = useTheme()
   return (
-    <View style={[styles.nav, {backgroundColor: colors?.background}]}>
+    <View style={[styles.nav, {backgroundColor: colors?.background100}]}>
       {Nav.map((data: any, index: any) => {
         const {width, height} = Image.resolveAssetSource(data?.icon)
 
@@ -45,7 +45,9 @@ const MainTabComponent: FC<any> = ({navigation, state}) => {
           <TouchableOpacity
             style={[
               styles.navItem,
-              state?.index === index ? {backgroundColor: colors.secondary} : {},
+              state?.index === index
+                ? {backgroundColor: colors.background25}
+                : {},
             ]}
             key={index}
             onPress={() => navigation.navigate(data.route)}>

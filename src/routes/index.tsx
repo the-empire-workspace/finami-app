@@ -11,7 +11,6 @@ const AppNavigation = () => {
   useEffect(() => {
     //    SplashScreen.hide()
   }, [])
-
   return <>{isAuth ? <PrivateStack /> : <PublicStack />}</>
 }
 

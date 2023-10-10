@@ -1,1 +1,1 @@
-export { default as ModalStatus } from './ModalStatus'
+export {default as ModalStatus} from './ModalStatus'

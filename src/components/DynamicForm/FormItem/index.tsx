@@ -28,7 +28,7 @@ const FormItem: FC<ItemProps> = ({
     ? {...styles.input, ...values.style}
     : styles.input
 
-  values.style.color = !validate ? colors.error : colors.text
+  values.style.color = !validate ? colors.negative : colors.typography
   const Label = mainLabel ? <Text>{mainLabel}</Text> : null
 
   return (
@@ -43,14 +43,14 @@ const FormItem: FC<ItemProps> = ({
               form={form}
               data={data}
               setData={setData}
-              length={element_array.length}
+              length={element_array?.length}
             />
           ))}
         </View>
       ) : (
         <View>
           {Label}
-          <View style={[styles.root, {borderBottomColor: colors.primary}]}>
+          <View style={styles[element]}>
             <Input
               element={element}
               mainRender={mainRender}
