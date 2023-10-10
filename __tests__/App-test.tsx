@@ -47,18 +47,19 @@ jest.mock('react-native-sqlite-storage', () => {
   return {
     openDatabase: () => {
       return {
-        
+
       }
-    }
+    },
+    DEBUG: () => { }
   }
 })
 
 jest.mock('@react-navigation/drawer', () => {
-  const addIgnorePatterns = () => {}
+  const addIgnorePatterns = () => { }
   const LogBoxData = {
     addIgnorePatterns,
   }
-  const createDrawerNavigator = () => {}
+  const createDrawerNavigator = () => { }
   return {
     LogBoxData,
     createDrawerNavigator,
