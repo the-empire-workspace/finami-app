@@ -15,7 +15,6 @@ export const createEntryQuery = async (data: any) => {
       phone,
       date,
     } = data
-    console.log('creating entry')
     const newEntry: any = await insertQuery(
       'INSERT INTO entries (user_id, account_id, payment_type, amount, entry_type, payment_concept, comment, emissor, email, phone, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
@@ -39,5 +38,16 @@ export const createEntryQuery = async (data: any) => {
   } catch (error) {
     console.log(error)
     return null
+  }
+}
+
+export const getEntriesQuery = async () => {
+  try {
+    const entries: any = await selectQuery(
+      'SELECT entries.amount, entries.comment, entries.date, entries.email, entries.emissor, entries.entry_type, entries.id, entries.payment_concept, entries.payment_type, entries.phone, entries.user_id, accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id',
+    )
+    return entries.raw()
+  } catch (error) {
+    console.log('error getting entries', error)
   }
 }

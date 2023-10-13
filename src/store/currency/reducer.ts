@@ -3,7 +3,7 @@ import {GET_CURRENCY_PRICE_ASYNC, GET_CURRENCIES_ASYNC} from './action-types'
 
 const initialState = {
   currencies: [],
-  defaultPrices: [],
+  defaultPrices: {},
 }
 
 const AccountReducer = (

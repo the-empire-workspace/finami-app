@@ -1,10 +1,10 @@
 import {insertQuery, selectQuery} from './helpers'
 
-export const createUserQuery = async ({username, picture}: any) => {
+export const createUserQuery = async ({username, picture, currency}: any) => {
   try {
     const newUser: any = await insertQuery(
-      'INSERT INTO users (username, picture) VALUES (?, ?)',
-      [username, picture],
+      'INSERT INTO users (username, picture, currency_id) VALUES (?, ?, ?)',
+      [username, picture, currency],
     )
     const user: any = await selectQuery('SELECT * FROM users WHERE id = ?', [
       newUser?.insertId,

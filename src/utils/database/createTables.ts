@@ -9,10 +9,12 @@ const createUserTable = async () => {
   try {
     await database.executeSql(`CREATE TABLE IF NOT EXISTS users (\
       id INTEGER PRIMARY KEY AUTOINCREMENT,\
+      currency_id INTEGER,\
       username VARCHAR,\
       picture VARCHAR, \
       language VARCHAR,\
-      notification_token VARCHAR\
+      notification_token VARCHAR,\
+      FOREIGN KEY(currency_id) REFERENCES currencies(id)\
       )`)
     console.log('user table created')
   } catch (error) {
@@ -103,8 +105,8 @@ const createEntriesTable = async () => {
 }
 
 const createTables = async () => {
-  await createUserTable()
   await createCurrencyTable()
+  await createUserTable()
   await createAccountTable()
   await createEntriesTable()
 }

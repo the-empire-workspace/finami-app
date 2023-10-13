@@ -299,3 +299,12 @@ export const processNotification = (
   }
   return notifications
 }
+
+export const operateChange = (op: string, value: number, amount: number) => {
+  switch (op) {
+    case 'divide':
+      return amount / value
+    case 'multiply':
+      return amount * value
+  }
+}

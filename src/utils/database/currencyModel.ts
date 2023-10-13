@@ -2,7 +2,8 @@ import {selectQuery} from './helpers'
 
 export const getCurrenciesQuery = async () => {
   try {
-    return await selectQuery('SELECT * FROM currencies')
+    const currencies: any = await selectQuery('SELECT * FROM currencies')
+    return currencies.raw()
   } catch (error) {
     console.log(error)
     return null

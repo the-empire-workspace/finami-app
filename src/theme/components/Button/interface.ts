@@ -4,4 +4,5 @@ export interface Props {
   styleText?: any
   disabled: any
   loading?: boolean
+  style?: any
 }

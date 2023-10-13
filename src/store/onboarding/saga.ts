@@ -11,7 +11,11 @@ import {signin} from 'store/actions'
 function* completeOnboardingAsync({payload}: any): any {
   try {
     const {username, image, ...data} = payload
-    const user = yield call(createUserQuery, {username, picture: image || null})
+    const user = yield call(createUserQuery, {
+      username,
+      picture: image || null,
+      currency: data?.account_currency,
+    })
     const account = yield call(createAccountQuery, {...data, user: user?.id})
     yield call(createEntryQuery, {
       user: user?.id,
