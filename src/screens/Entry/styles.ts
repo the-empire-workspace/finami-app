@@ -1,44 +1,45 @@
-import {StyleSheet} from 'react-native'
+import { StyleSheet } from 'react-native'
+import { Typos, Elements } from '@theme'
 
-export const styles = StyleSheet.create({
+
+const localStyles = StyleSheet.create({
   main: {
-    paddingVertical: 20,
+    paddingVertical: 18,
+    paddingHorizontal: 20,
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   scrollView: {
     width: '100%',
   },
-  root: {
-    flex: 1,
+  modal: {
     width: '100%',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    overflow: 'hidden',
   },
-  input: {
-    textAlign: 'center',
-    paddingBottom: 16,
-  },
-  select: {
-    textAlign: 'center',
-  },
-  formContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '70%',
-  },
-  button: {
-    marginTop: 50,
-  },
-  switchContainer: {
+  textContent: {
     flexDirection: 'row',
+    alignItems: 'flex-end',
+    marginBottom: 15
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingVertical: 25,
+    paddingHorizontal: 18,
+    paddingVertical: 15
   },
-  switchText: {
-    fontSize: 16,
-    width: 95,
-    paddingHorizontal: 5,
+  root: {
+    height: '100%',
+    width: '100%',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'transparent'
   },
+  textSeparator: {
+    marginRight: 3
+  }
 })
+
+export const styles = { ...localStyles, ...Typos, ...Elements }

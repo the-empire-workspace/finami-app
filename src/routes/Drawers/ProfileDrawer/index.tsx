@@ -1,8 +1,8 @@
-import React, {FC} from 'react'
-import {createDrawerNavigator} from '@react-navigation/drawer'
+import React, { FC } from 'react'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import Profile from '../../../screens/Profile'
 import ProfileMenu from './ProfileMenu'
-import {CurrencyInfo} from 'screens'
+import { CurrencyInfo } from 'screens'
 
 const Drawer = createDrawerNavigator()
 

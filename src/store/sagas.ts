@@ -7,6 +7,7 @@ import {
 import {watchCompleteOnboarding} from './onboarding/saga'
 import {
   watchGetDashboardValues,
+  watchGetItem,
   watchGetTotalBalance,
   watchSignIn,
 } from './account/saga'
@@ -21,5 +22,6 @@ export default function* rootSaga() {
     fork(watchSignIn),
     fork(watchGetTotalBalance),
     fork(watchGetDashboardValues),
+    fork(watchGetItem)
   ])
 }

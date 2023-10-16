@@ -1,4 +1,4 @@
-import {insertQuery, selectQuery} from './helpers'
+import { insertQuery, selectQuery } from './helpers'
 
 export const createEntryQuery = async (data: any) => {
   try {
@@ -49,5 +49,14 @@ export const getEntriesQuery = async () => {
     return entries.raw()
   } catch (error) {
     console.log('error getting entries', error)
+  }
+}
+
+export const getEntry = async (id: any) => {
+  try {
+    const entry: any = await selectQuery('SELECT entries.amount, entries.comment, entries.date, entries.email, entries.emissor, entries.entry_type, entries.id, entries.payment_concept, entries.payment_type, entries.phone, entries.user_id, accounts.account_name, accounts.account_number, accounts.bank, accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id WHERE entries.id = ?', [id])
+    return entry.raw()[0]
+  } catch (error) {
+    console.log('error getting entry', error)
   }
 }

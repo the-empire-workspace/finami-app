@@ -10,12 +10,7 @@ import {useSelector} from 'react-redux'
 const ItemList: FC<Props> = ({items, type}) => {
   const {colors} = useTheme()
 
-  const {currencies} = useSelector((state: any) => state.currency)
-  const {user} = useSelector((state: any) => state.account)
 
-  const currency = useMemo(() => {
-    return currencies.find((c: any) => c.id === user?.currency_id)
-  }, [currencies?.length, user?.currency_id])
 
   return (
     <FlatList
@@ -23,7 +18,7 @@ const ItemList: FC<Props> = ({items, type}) => {
       data={items}
       keyExtractor={item => item.concept + random(0, 1000)}
       renderItem={({item, index}: any) => (
-        <ItemElement item={item} key={index} type={type} currency={currency} />
+        <ItemElement item={item} key={index} type={type} />
       )}
     />
   )
