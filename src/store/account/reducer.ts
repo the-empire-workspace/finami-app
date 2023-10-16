@@ -1,5 +1,9 @@
 import {DispatchProps} from 'interfaces'
 import {
+  GET_DASHBOARD_VALUES_ASYNC,
+  GET_ITEM_ASYNC,
+  GET_TOTAL_BALANCE_ASYNC,
+  REMOVE_ITEM,
   SIGNIN_ASYNC,
   UPDATE_LANGUAGE_ASYNC,
   UPDATE_NOTIFICATION_TOKEN_ASYNC,
@@ -9,6 +13,14 @@ const initialState = {
   isAuth: false,
   user: {},
   tokenNotifications: null,
+  totalBalance: 0,
+  dashboardValues: {
+    monthIncome: 0,
+    monthExpenses: 0,
+    monthProjected: 0,
+    entries: [],
+  },
+  item: {},
 }
 
 const AccountReducer = (
@@ -28,6 +40,14 @@ const AccountReducer = (
         ...state,
         tokenNotifications: payload,
       }
+    case GET_TOTAL_BALANCE_ASYNC:
+      return {...state, totalBalance: payload}
+    case GET_DASHBOARD_VALUES_ASYNC:
+      return {...state, dashboardValues: payload}
+    case GET_ITEM_ASYNC:
+      return {...state, item: payload}
+    case REMOVE_ITEM:
+      return {...state, item: {}}
     default:
       return state
   }

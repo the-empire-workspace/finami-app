@@ -6,7 +6,7 @@ export const lightColors = {
   positive: '#8ACC60',
   negative: '#EA6A63',
   typography: '#F0F0F2',
-  typography2: '#8596A6',
+  typography2: '#121E28',
   progress: {
     ingress: '#8ACC60',
     egress: '#EA6A63',
@@ -33,7 +33,7 @@ export const darkColors = {
   positive: '#8ACC60',
   negative: '#EA6A63',
   typography: '#F0F0F2',
-  typography2: '#8596A6',
+  typography2: '#121E28',
   progress: {
     ingress: '#8ACC60',
     egress: '#EA6A63',

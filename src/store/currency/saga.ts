@@ -12,7 +12,7 @@ import {
 function* getCurrenciesAsync(): any {
   try {
     const currencies = yield call(getCurrenciesQuery)
-    yield put(actionObject(GET_CURRENCIES_ASYNC, currencies?.raw() || []))
+    yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
   } catch (error) {
     console.log('error getting currencies', error)
   }
@@ -21,10 +21,14 @@ function* getCurrenciesAsync(): any {
 function* getDefaultPriceAsync(): any {
   try {
     const {user} = yield select(selectAccount)
-    const {currencies} = yield select(selectCurrency)
+    let {currencies} = yield select(selectCurrency)
 
+    if (!currencies?.length) {
+      currencies = yield call(getCurrenciesQuery)
+      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
+    }
     const defaultCurrency = currencies.find(
-      (currency: any) => currency.id === user.currency,
+      (currency: any) => currency.id === user.currency_id,
     )
     const exchangeResult =
       defaultCurrency?.type === 'FIAT'

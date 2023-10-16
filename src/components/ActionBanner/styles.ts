@@ -2,17 +2,24 @@ import {StyleSheet} from 'react-native'
 import {Typos, Elements} from '@theme'
 
 const localStyles = StyleSheet.create({
-  nav: {
-    height: 60,
+  root: {
     width: '100%',
-    justifyContent: 'space-between',
+    display: 'flex',
     flexDirection: 'row',
-  },
-  navItem: {
-    width: '25%',
-    height: 60,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingBottom: 8,
+    paddingTop: 10,
+  },
+  buttonContainer: {
+    width: '47%',
+  },
+  marginLeft: {
+    marginLeft: 10,
+  },
+  marginRight: {
+    marginRight: 10,
   },
 })
 

@@ -1,181 +1,140 @@
-import React, {FC, useEffect, useState} from 'react'
-import {ScrollView, Switch, Text, View} from 'react-native'
+import React, {FC, useEffect, useMemo} from 'react'
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
 import {useTheme} from '@providers'
 import {styles} from './styles'
-import {Button, DynamicForm, Avatar, BackHandler} from '@components'
-import {itemForm, categoryForm, multiple} from './forms'
-import {translate} from '@utils'
+import {translate} from 'utils'
+import SvgX from '@assets/img/X.svg'
+import {useNavigation} from '@react-navigation/native'
 import {useDispatch, useSelector} from 'react-redux'
-import {useNavigation, useRoute} from '@react-navigation/native'
-import {setIncoming, setOutcoming} from 'store/actions'
-import {processConcurrentData, processCreation} from './functions'
+import {removeItem} from 'store/actions'
 
 const Entry: FC = () => {
   const {colors} = useTheme()
-  const route = useRoute()
-  const navigation = useNavigation()
   const dispatch = useDispatch()
-  const {params = {}}: any = route
+  const {item} = useSelector((state: any) => state.account)
 
-  const {
-    incoming: {items: IncomingItems},
-    outcoming: {items: OutcomingItems},
-    currency: {items: currencies},
-  } = useSelector((state: any) => state)
-
-  const [image, setImage] = useState(params?.item?.image)
-
-  const [form, setForm] = useState<any>({
-    form: {paymentType: null},
-    valid: false,
-  })
-
-  const [itemView, setItemView] = useState(true)
-
-  const [formulary, setFormulary] = useState(
-    itemView
-      ? itemForm(colors.secondaryText, translate, params?.item, currencies)
-      : categoryForm(colors.secondaryText, translate),
-  )
-
-  const checkPaymentType = () => {
-    const paymentType: any = form?.form?.paymentType
-    if (paymentType) {
-      const newForm = itemForm(
-        colors.secondaryText,
-        translate,
-        params?.item,
-        currencies,
-      )
-      if (paymentType?.value === 'concurrent') {
-        const multip: any = multiple(
-          colors.secondaryText,
-          translate,
-          params?.item,
-        )
-        newForm.push(multip)
-        return setFormulary(newForm)
-      }
-
-      const newFormData = Object.keys(form?.form).reduce(
-        (prev: any, next: any) => {
-          const formItem = newForm?.find(item => item?.name === next)
-          if (formItem) prev[next] = form?.form[next]
-          return prev
-        },
-        {},
-      )
-
-      const validation = Object.keys(newFormData).reduce(
-        (prev: any, next: any) => {
-          return prev && form?.form[next]?.validation
-        },
-        true,
-      )
-
-      setForm({form: newFormData, valid: validation})
-      setFormulary(newForm)
-    }
-  }
+  const router = useNavigation()
 
   useEffect(() => {
-    setFormulary(
-      itemView
-        ? itemForm(colors.secondaryText, translate, params?.item, currencies)
-        : categoryForm(colors.secondaryText, translate),
-    )
-  }, [itemView])
-
-  useEffect(() => {
-    checkPaymentType()
-  }, [form.form?.paymentType])
-
-  const saveForm = () => {
-    const formData: any = form?.form
-
-    let newFormData: any = {}
-    for (const key of Object.keys(formData))
-      newFormData[key] = formData[key].value
-
-    newFormData.image = image
-    if (typeof newFormData.payment_date === 'object')
-      newFormData.payment_date = newFormData.payment_date?.getTime()
-
-    const paymentType: any = form?.form?.paymentType
-    if (paymentType?.value === 'concurrent') {
-      const newData = processConcurrentData(
-        newFormData,
-        params?.item,
-        params?.type,
-      )
-      if (!newData) return
-      newFormData = newData
+    return () => {
+      dispatch(removeItem())
     }
+  }, [])
 
-    if (params?.type === 'incomings') {
-      const newIncomings = processCreation(
-        newFormData,
-        IncomingItems,
-        itemView,
-        params,
-      )
-      dispatch(setIncoming(newIncomings))
-      return navigation.goBack()
+  const itemValues = useMemo(() => {
+    const titleSelection: any = {
+      income: translate('income_detail'),
+      expense: translate('expense_detail'),
+      needs: translate('needs_detail'),
     }
+    const colorSelection: any = {
+      income: colors.progress.ingress,
+      expense: colors.progress.egress,
+      needs: colors.progress.needs,
+    }
+    return {
+      title: titleSelection[item?.entry_type],
+      color: colorSelection[item?.entry_type],
+    }
+  }, [item])
 
-    if (params?.type === 'outcomings') {
-      const newOutcomings = processCreation(
-        newFormData,
-        OutcomingItems,
-        itemView,
-        params,
-      )
-      dispatch(setOutcoming(newOutcomings))
-      return navigation.goBack()
-    }
-  }
+  const {currencies} = useSelector((state: any) => state.currency)
+
+  const currency = useMemo(() => {
+    return currencies.find((c: any) => c.id === item?.currency_id)
+  }, [currencies?.length, item?.currency_id])
 
   return (
-    <View style={[styles.root, {backgroundColor: colors.background}]}>
-      <BackHandler />
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.main}>
-        <Avatar
-          actionAvatar={setImage}
-          defaultAvatar={
-            params?.item?.image ? {uri: params?.item?.image} : null
-          }
-        />
-        <View style={styles.switchContainer}>
-          <Text style={[styles.switchText, {color: colors.text}]}>
-            {translate('categories')}
+    <View style={[styles.root]}>
+      <View style={[styles.modal, {backgroundColor: colors.background100}]}>
+        <View
+          style={[styles.modalHeader, {backgroundColor: itemValues?.color}]}>
+          <Text style={[styles.h3, {color: colors.typography2}]}>
+            {itemValues?.title}
           </Text>
-          <Switch
-            trackColor={{true: colors.text, false: colors.text}}
-            thumbColor={itemView ? colors.secondary : colors.secondary}
-            ios_backgroundColor={colors.text}
-            onValueChange={() => setItemView(prev => !prev)}
-            value={itemView}
-          />
-          <Text style={[styles.switchText, {color: colors.text}]}>
-            {translate('items')}
-          </Text>
+          <TouchableOpacity
+            onPress={() => {
+              router.goBack()
+            }}>
+            <SvgX width={32} height={32} />
+          </TouchableOpacity>
         </View>
-        <View style={styles.formContainer}>
-          <DynamicForm
-            formData={formulary}
-            returnData={(data: any) => {
-              setForm({form: data.value, valid: data.validation})
-            }}
-          />
-        </View>
-        <View style={styles.button}>
-          <Button
-            text={translate('create_entry')}
-            disabled={!form.valid}
-            onPress={saveForm}
-          />
-        </View>
-      </ScrollView>
+        <ScrollView
+          style={[styles.scrollView]}
+          contentContainerStyle={styles.main}>
+          <View style={[styles.textContent]}>
+            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+              {translate('concept')}:
+            </Text>
+            <Text style={[styles.strongBody]}>
+              {item?.payment_concept || translate('unavailable')}
+            </Text>
+          </View>
+          <View style={[styles.textContent]}>
+            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+              {translate('comments')}:
+            </Text>
+            <Text style={[styles.strongBody]}>
+              {item?.comment || translate('unavailable')}
+            </Text>
+          </View>
+          <View style={[styles.textContent]}>
+            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+              {translate('amount')}:
+            </Text>
+            <Text style={[styles.strongBody]}>
+              {currency?.symbol || ''}{' '}
+              {item?.amount?.toLocaleString('en-US', {
+                minimumFractionDigits: currency?.decimal,
+              })}
+            </Text>
+          </View>
+          <View style={[styles.textContent]}>
+            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+              {translate('date')}:
+            </Text>
+            <Text style={[styles.strongBody]}>
+              {new Date(item?.date).toLocaleDateString('en-US', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })}
+            </Text>
+          </View>
+          <View style={[styles.textContent]}>
+            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+              {translate('emissor')}:
+            </Text>
+            <Text style={[styles.strongBody]}>
+              {item?.emissor || translate('unavailable')}
+            </Text>
+          </View>
+          <View style={[styles.textContent]}>
+            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+              {translate('phone')}:
+            </Text>
+            <Text style={[styles.strongBody]}>
+              {item?.phone || translate('unavailable')}
+            </Text>
+          </View>
+          <View style={[styles.textContent]}>
+            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+              {translate('email')}:
+            </Text>
+            <Text style={[styles.strongBody]}>
+              {item?.email || translate('unavailable')}
+            </Text>
+          </View>
+          <View style={[styles.textContent]}>
+            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+              {translate('account')}:
+            </Text>
+            <Text style={[styles.strongBody]}>{`${
+              item?.account_name
+            } - *${item?.account_number?.slice(-4)}`}</Text>
+          </View>
+        </ScrollView>
+      </View>
     </View>
   )
 }

@@ -2,16 +2,19 @@ import {StyleSheet} from 'react-native'
 import {Typos, Elements} from '@theme'
 
 const localStyles = StyleSheet.create({
-  transactionItem: {
-    paddingHorizontal: 20,
-    paddingVertical: 15,
+  root: {
+    width: '100%',
+    display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderRadius: 5,
+    paddingHorizontal: 20,
+    paddingBottom: 8,
   },
-  concept: {
-    marginBottom: 5,
+  infoBox: {
+    textAlign: 'center',
+    alignItems: 'center',
+    width: '33.33%',
   },
 })
 

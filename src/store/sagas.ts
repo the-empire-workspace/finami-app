@@ -5,7 +5,12 @@ import {
   watchScheduleNotification,
 } from './notification/saga'
 import {watchCompleteOnboarding} from './onboarding/saga'
-import {watchSignIn} from './account/saga'
+import {
+  watchGetDashboardValues,
+  watchGetItem,
+  watchGetTotalBalance,
+  watchSignIn,
+} from './account/saga'
 
 export default function* rootSaga() {
   yield all([
@@ -15,5 +20,8 @@ export default function* rootSaga() {
     fork(watchGetCurrencies),
     fork(watchCompleteOnboarding),
     fork(watchSignIn),
+    fork(watchGetTotalBalance),
+    fork(watchGetDashboardValues),
+    fork(watchGetItem),
   ])
 }

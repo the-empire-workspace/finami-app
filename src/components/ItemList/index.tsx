@@ -5,22 +5,16 @@ import {styles} from './styles'
 import {Props} from './interface'
 import {ItemElement} from './elements'
 import {random} from 'lodash'
-
-const ItemList: FC<Props> = ({items, type, categoryId}) => {
+const ItemList: FC<Props> = ({items, type}) => {
   const {colors} = useTheme()
 
   return (
     <FlatList
-      style={[styles.transactionsBox, {backgroundColor: colors.primary}]}
+      style={[styles.transactionsBox, {backgroundColor: colors.background100}]}
       data={items}
-      keyExtractor={item => item.name + random(0, 1000)}
+      keyExtractor={item => item.concept + random(0, 1000)}
       renderItem={({item, index}: any) => (
-        <ItemElement
-          item={item}
-          key={index}
-          type={type}
-          categoryId={categoryId}
-        />
+        <ItemElement item={item} key={index} type={type} />
       )}
     />
   )

@@ -23,7 +23,11 @@ export const PrivateStack = () => {
       }}
       initialRouteName="main">
       <Stack.Screen name="main" component={MainTab} />
-      <Stack.Screen name="entry" component={Entry} />
+      <Stack.Screen
+        name="entry"
+        component={Entry}
+        options={{presentation: 'transparentModal'}}
+      />
       <Stack.Screen name="concurrentPayment" component={ConcurrentPayment} />
       <Stack.Screen name="category" component={Category} />
     </Stack.Navigator>

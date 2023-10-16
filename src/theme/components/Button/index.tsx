@@ -10,6 +10,7 @@ const Button: FC<Props> = ({
   onPress = () => {},
   styleText = {},
   loading = false,
+  style = {},
 }) => {
   const {colors} = useTheme()
 
@@ -17,7 +18,7 @@ const Button: FC<Props> = ({
     <TouchableOpacity
       disabled={disabled || loading}
       onPress={onPress}
-      style={[styles.button, {backgroundColor: colors.background25}]}>
+      style={[styles.button, {backgroundColor: colors.background25}, style]}>
       {loading && <ActivityIndicator color={colors.typography} size="small" />}
       <Text
         style={[

@@ -5,20 +5,22 @@ import AppNavigator from '@routes'
 import {processCategoryDeep, setI18nConfig, verifyId} from '@utils'
 import {useSelector, useDispatch} from 'react-redux'
 import {
-  scheduleNotification,
+  /*
+  getCurrencyPrice,
+  scheduleNotification, */
   setIncoming,
   setOutcoming,
   signin,
-} from 'store/actions'
+} from 'store/actions' /*
 import notifee, {EventType} from '@notifee/react-native'
-import {emitter} from 'utils/eventEmitter'
+import {emitter} from 'utils/eventEmitter' */
 import {ModalStatus} from './elements'
 
 const Main: FC = () => {
   const {
-    account: {user, isAuth},
+    account: {user, isAuth} /*
     incoming: {items: incomings},
-    outcoming: {items: outcomings},
+    outcoming: {items: outcomings}, */,
   } = useSelector((state: any) => state)
   const dispatch = useDispatch()
 
@@ -91,7 +93,7 @@ const Main: FC = () => {
 
     setElementData({element: null, ids: [], elements: [], type: null})
   }
-
+  /*
   const checkInformation = (data: string) => {
     const dataArray = data.split('-')
     const type = dataArray.shift()
@@ -108,26 +110,29 @@ const Main: FC = () => {
     }
 
     setElementData({element, ids: dataArray, elements, type})
-  }
+  } */
 
   const close = () => {
     setElementData({element: null, ids: [], elements: [], type: null})
   }
+  /*
+    useEffect(() => {
+      dispatch(scheduleNotification())
+      emitter.addListener('check_notification', checkInformation)
+
+      notifee.onForegroundEvent(({ type, detail }) => {
+        switch (type) {
+          case EventType.PRESS:
+            checkInformation(detail?.notification?.id || '')
+            break
+        }
+      })
+    }, []) */
 
   useEffect(() => {
-    dispatch(scheduleNotification())
-    emitter.addListener('check_notification', checkInformation)
-
-    setI18nConfig(user?.language)
-    notifee.onForegroundEvent(({type, detail}) => {
-      switch (type) {
-        case EventType.PRESS:
-          checkInformation(detail?.notification?.id || '')
-          break
-      }
-    })
     if (!isAuth) dispatch(signin())
-  }, [])
+    if (isAuth) setI18nConfig(user?.language)
+  }, [isAuth])
 
   return (
     <SafeAreaView style={[styles.root]}>
