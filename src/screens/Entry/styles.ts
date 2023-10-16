@@ -1,6 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { Typos, Elements } from '@theme'
-
+import {StyleSheet} from 'react-native'
+import {Typos, Elements} from '@theme'
 
 const localStyles = StyleSheet.create({
   main: {
@@ -21,25 +20,25 @@ const localStyles = StyleSheet.create({
   textContent: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    marginBottom: 15
+    marginBottom: 15,
   },
   modalHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 18,
-    paddingVertical: 15
+    paddingVertical: 15,
   },
   root: {
     height: '100%',
     width: '100%',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: 'transparent'
+    backgroundColor: 'transparent',
   },
   textSeparator: {
-    marginRight: 3
-  }
+    marginRight: 3,
+  },
 })
 
-export const styles = { ...localStyles, ...Typos, ...Elements }
+export const styles = {...localStyles, ...Typos, ...Elements}

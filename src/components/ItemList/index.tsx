@@ -1,16 +1,12 @@
-import React, {FC, useMemo} from 'react'
+import React, {FC} from 'react'
 import {FlatList} from 'react-native'
 import {useTheme} from '@providers'
 import {styles} from './styles'
 import {Props} from './interface'
 import {ItemElement} from './elements'
 import {random} from 'lodash'
-import {useSelector} from 'react-redux'
-
 const ItemList: FC<Props> = ({items, type}) => {
   const {colors} = useTheme()
-
-
 
   return (
     <FlatList

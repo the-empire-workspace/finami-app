@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { MainTab } from '../../Tabs'
-import { Entry, ConcurrentPayment, Category } from '@screens'
-import { useDispatch } from 'react-redux'
-import { getCurrencyPrice } from 'store/actions'
+import React, {useEffect} from 'react'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {MainTab} from '../../Tabs'
+import {Entry, ConcurrentPayment, Category} from '@screens'
+import {useDispatch} from 'react-redux'
+import {getCurrencyPrice} from 'store/actions'
 
 const Stack = createNativeStackNavigator()
 
@@ -23,7 +23,11 @@ export const PrivateStack = () => {
       }}
       initialRouteName="main">
       <Stack.Screen name="main" component={MainTab} />
-      <Stack.Screen name="entry" component={Entry} options={{ presentation: 'transparentModal' }} />
+      <Stack.Screen
+        name="entry"
+        component={Entry}
+        options={{presentation: 'transparentModal'}}
+      />
       <Stack.Screen name="concurrentPayment" component={ConcurrentPayment} />
       <Stack.Screen name="category" component={Category} />
     </Stack.Navigator>

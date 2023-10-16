@@ -22,6 +22,6 @@ export default function* rootSaga() {
     fork(watchSignIn),
     fork(watchGetTotalBalance),
     fork(watchGetDashboardValues),
-    fork(watchGetItem)
+    fork(watchGetItem),
   ])
 }

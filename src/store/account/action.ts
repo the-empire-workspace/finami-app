@@ -1,4 +1,4 @@
-import { actionObject } from '@utils'
+import {actionObject} from '@utils'
 import {
   GET_DASHBOARD_VALUES,
   GET_ITEM,
