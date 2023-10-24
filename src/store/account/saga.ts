@@ -53,7 +53,6 @@ function* getDashboardValues(): any {
   try {
     const {defaultPrices} = yield select(selectCurrency)
     const entries = yield call(getEntriesQuery)
-
     const dashboardValues = entries?.reduce(
       (values: any, entry: any) => {
         const change = defaultPrices[String(entry?.currency_id)]
