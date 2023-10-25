@@ -43,9 +43,20 @@ const StepTwo: FC = () => {
   const {
     currency: { currencies },
   } = useSelector((state: any) => state)
-  const currenciesFormatValues = currencies.map((item: any) => {
-    return { label: `${item.name} - ${item.symbol}`, value: `${item.id}` };
+  const currenciesFormatValues = [...currencies]?.map((item: any) => {
+    return { label: `${item.name} - ${item.symbol}`, value: `${item.id} ` };
   });
+  /* const [currenciesFormatValues,setCurrenciesFormatValues] = useState([])
+  useEffect(() => {
+    dispatch(getCurrencies())
+    const {
+      currency: { currencies },
+    } = useSelector((state: any) => state)
+    const currenciesFormat = currencies?.map((item: any) => {
+      return { label: `${item.name} - ${item.symbol}`, value: `${item.id}` };
+    });
+    setCurrenciesFormatValues(currenciesFormat)
+  }, [getCurrencies]) */ 
 
   /* const form = useMemo(() => {
     return stepTwoForm(
@@ -76,7 +87,7 @@ const StepTwo: FC = () => {
   }, [colors, translate])
   const bankForm = useMemo(() => {
     return BankForm(colors.typography, translate, { account_name, account_comments, organization, account_number, available_balance }, colors.background100, currenciesFormatValues)
-  })
+  }, [colors, translate])
 
   const submitStep = () => {
     const keys = Object.keys(data)

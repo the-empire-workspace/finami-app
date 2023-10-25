@@ -11,6 +11,7 @@
   "account_name": "Nombre de la cuenta",
   "account_number": "Nro. de cuenta / Código",
   "account_type": "Tipo de cuenta",
+  "account_currency": "Tipo de Moneda",	
   "comments_optional": "Comentario (opcional)",
   "organization_entity_optional": "Organizacion",
   "cash":"Efectivo",

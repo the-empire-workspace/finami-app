@@ -27,8 +27,8 @@ const StepTwo: FC = () => {
   const {
     currency: { currencies },
   } = useSelector((state: any) => state)
-  const currenciesFormatValues = currencies?.map((item: any) => {
-    return { label: `${item.name} - ${item.symbol}`, value: `${item.id}` };
+  const currenciesFormatValues = [...currencies]?.map((item: any) => {
+    return { label: `${item.name} - ${item.symbol}`, value: `${item.id} ` };
   });
 
   const form = useMemo(() => {
