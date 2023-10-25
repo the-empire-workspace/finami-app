@@ -104,5 +104,6 @@
   "cancel": "Cancel",
   "update": "Update",
   "creation_date": "Creation Date",
-  "quantity": "Quantity"
+  "quantity": "Quantity",
+  "principal_currency": "Principal Currency"
 }
