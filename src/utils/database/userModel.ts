@@ -1,6 +1,6 @@
-import {insertQuery, selectQuery} from './helpers'
+import { insertQuery, selectQuery } from './helpers'
 
-export const createUserQuery = async ({username, picture, currency}: any) => {
+export const createUserQuery = async ({ username, picture, currency }: any) => {
   try {
     const newUser: any = await insertQuery(
       'INSERT INTO users (username, picture, currency_id) VALUES (?, ?, ?)',
@@ -17,7 +17,7 @@ export const createUserQuery = async ({username, picture, currency}: any) => {
 }
 export const getUserQuery = async () => {
   try {
-    const users: any = await selectQuery('SELECT * FROM users')
+    const users: any = await selectQuery('SELECT users.id, picture, username, currency_id, symbol as currency_symbol, name as currency_name FROM users LEFT JOIN currencies ON currencies.id = users.currency_id')
     return users.raw()[0]
   } catch (error) {
     console.log(error)

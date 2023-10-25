@@ -26,7 +26,7 @@ const StepTwo: FC = () => {
   }, [colors, translate, username])
 
   const submitStep = () => {
-    if (data.username && data.image) {
+    if (data.username ) {
       dispatch(setStep(data))
       router.navigate('StepThree')
     }

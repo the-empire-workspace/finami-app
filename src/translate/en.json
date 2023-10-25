@@ -22,6 +22,14 @@
   "comments": "Comments",
   "date": "Date",
   "emissor": "Issuer",
+  "accounts": "Accounts",
+  "currencies": "Currencies",
+  "dynamic-calculator": "Dynamic Calculator",
+  "financial-calculator": "Financial Calculator",
+  "language": "Lenguage",	
+  "comming": "(Comming Soon)",	
+  "terms-conditions": "Terms & Conditions",	
+  "delete-account": "Delete Account",
   "phone": "Phone",
   "email": "Email",
   "account": "Account",
@@ -105,4 +113,5 @@
   "update": "Update",
   "creation_date": "Creation Date",
   "quantity": "Quantity"
+  
 }
