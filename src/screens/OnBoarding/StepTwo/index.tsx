@@ -19,7 +19,7 @@ const StepTwo: FC = () => {
   const [data, setData] = useState({
     username: username || '',
     image: image || '',
-    currency: currency || [],
+    currency: currency || [] ,
   })
   useEffect(() => {
     dispatch(getCurrencies())

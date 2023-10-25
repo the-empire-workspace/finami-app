@@ -1,15 +1,9 @@
-import {styles} from './styles'
+import {styles} from '../styles'
 
 export const stepTwoForm = (
   color: any,
   translate: any,
   def: any,
-  currencies: any = [
-    {
-      label: translate('none'),
-      value: 'none',
-    },
-  ],
 ) => [
   {
     element: 'input',

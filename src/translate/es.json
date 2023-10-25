@@ -10,6 +10,7 @@
   "welcome_caution": "Queremos asegurarte que tu información está segura con nosotros, solo tú tendrás acceso a ella.",
   "account_name": "Nombre de la cuenta",
   "account_number": "Nro. de cuenta / Código",
+  "account_type": "Tipo de cuenta",
   "comments_optional": "Comentario (opcional)",
   "organization_entity_optional": "Organizacion",
   "cash":"Efectivo",

@@ -1,15 +1,15 @@
-import { styles } from './styles'
+import { styles } from '../styles'
 
 export const selectForm = (color: any, translate: any, def: any, background?: any) => [
 {
     element: 'select',
-    name: 'principal_currency',
-    label: translate('principal_currency'),
+    name: 'account_type',
+    label: translate('account_type'),
     labelStyle: background ? { ...styles.label, backgroundColor: background } : { ...styles.label },
     type: 'text',
     //defaultValue: def?.currenciesFormatValues || [],
     keyboardType: 'default',
-    placeholder: translate('principal_currency'),
+    placeholder: translate('account_type'),
     returnKeyType: 'go',
     placeholderTextColor: color,
     style: { ...styles.input, color: color, borderColor: color },
