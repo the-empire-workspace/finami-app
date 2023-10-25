@@ -25,7 +25,7 @@ export const stepTwoForm = (color: any, translate: any, def: any, background?: a
     label: translate('principal_currency'),
     labelStyle: background ? { ...styles.label, backgroundColor: background } : { ...styles.label },
     type: 'text',
-    defaultValue: def?.currenciesFormatValues || [],
+    defaultValue: def?.currenciesFormatValues[0] || [],
     keyboardType: 'default',
     placeholder: translate('principal_currency'),
     returnKeyType: 'go',

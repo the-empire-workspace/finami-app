@@ -6,12 +6,14 @@ import { translate } from '@utils'
 import { Button } from '@theme'
 import { useNavigation } from '@react-navigation/native'
 import { DynamicForm } from 'components'
-import { stepTwoForm } from './Forms/form'
+//import { stepTwoForm } from './Forms/form'
 import { WalletForm } from './Forms/Wallet'
+import { CashForm } from './Forms/Cash'
 import { selectForm } from './Forms/selectForm'
 import { useDispatch } from 'react-redux'
 import { completeOnboarding, getCurrencies } from 'store/actions'
 import { useSelector } from 'react-redux'
+import { BankForm } from './Forms/Bank'
 
 const StepTwo: FC = () => {
   const { colors } = useTheme()
@@ -41,8 +43,8 @@ const StepTwo: FC = () => {
   const {
     currency: { currencies },
   } = useSelector((state: any) => state)
-  const currenciesFormatValues = currencies?.map((item: any) => {
-    return { label: `${item.name} - ${item.symbol}`, value: `${item.id} ` };
+  const currenciesFormatValues = currencies.map((item: any) => {
+    return { label: `${item.name} - ${item.symbol}`, value: `${item.id}` };
   });
 
   /* const form = useMemo(() => {
@@ -66,8 +68,15 @@ const StepTwo: FC = () => {
   }, [colors, translate])
 
   const walletFrom = useMemo(() => {
-    return WalletForm(colors.typography, translate, { account_type },colors.background100)
+    return WalletForm(colors.typography, translate, { account_type }, colors.background100)
   }, [colors, translate])
+
+  const cashFrom = useMemo(() => {
+    return CashForm(colors.typography, translate, { account_number, account_comments, available_balance }, colors.background100, currenciesFormatValues)
+  }, [colors, translate])
+  const bankForm = useMemo(() => {
+    return BankForm(colors.typography, translate, { account_name, account_comments, organization, account_number, available_balance }, colors.background100, currenciesFormatValues)
+  })
 
   const submitStep = () => {
     const keys = Object.keys(data)
@@ -91,27 +100,11 @@ const StepTwo: FC = () => {
     if (data.account_type === 'wallet') return (
       <DynamicForm returnData={changeValues} formData={walletFrom} />
     )
-    else if (data.account_type === 'bank') return (<Text
-      style={[
-        styles.goBack,
-        styles.strongBody,
-        { color: colors.typography },
-      ]}>
-      bancko
-    </Text>)
-    return (<Text
-      style={[
-        styles.goBack,
-        styles.strongBody,
-        { color: colors.typography },
-      ]}>
-      cach
-    </Text>)
+    else if (data.account_type === 'bank') return <DynamicForm returnData={changeValues} formData={bankForm} />
+    return (
+      <DynamicForm returnData={changeValues} formData={cashFrom} />
+    )
   }
-
-  useEffect(() => {
-    dispatch(getCurrencies())
-  }, [])
 
   return (
     <ScrollView

@@ -10,7 +10,7 @@ export const WalletForm = (color: any, translate: any, def: any, background?: an
     keyboardType: 'default',
     placeholder: translate('account_number'),
     returnKeyType: 'go',
-    placeholderTextColor: color.status.desactive,
+    placeholderTextColor: 'white',
     style: { ...styles.input, color: color, borderColor: color },
     validations: {
       required: true,
