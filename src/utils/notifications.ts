@@ -1,4 +1,4 @@
-import notifee, {TimestampTrigger, TriggerType} from '@notifee/react-native'
+/* import notifee, {TimestampTrigger, TriggerType} from '@notifee/react-native'
 
 export const displayNotification = async () => {
   // Create a channel
@@ -53,3 +53,6 @@ export const scheduleNofitication = async (
     trigger,
   )
 }
+ */
+
+export {}

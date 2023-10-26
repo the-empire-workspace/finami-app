@@ -1,5 +1,5 @@
 import {useRoute} from '@react-navigation/native'
-import {Avatar, BackHandler} from 'components'
+import {BackHandler} from 'components'
 import {useTheme} from 'providers'
 import React, {FC} from 'react'
 import {Text, View} from 'react-native'
@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux'
 import {styles} from './styles'
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs'
 import {CurrencyList, CurrencyReport, CurrencyTabIndicator} from './elements'
+import {Avatar} from 'theme'
 
 const Tab = createMaterialTopTabNavigator()
 

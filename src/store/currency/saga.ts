@@ -84,7 +84,6 @@ function* getDefaultPriceAsync(): any {
 export function* watchGetCurrencies() {
   yield takeLatest(GET_CURRENCIES, getCurrenciesAsync)
 }
-
 export function* watchGetDefaultPrice() {
   yield takeLatest(GET_CURRENCY_PRICE, getDefaultPriceAsync)
 }

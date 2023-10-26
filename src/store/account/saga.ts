@@ -1,5 +1,7 @@
 import {call, put, select, takeLatest} from 'redux-saga/effects'
 import {
+  GET_ACCOUNTS,
+  GET_ACCOUNTS_ASYNC,
   GET_DASHBOARD_VALUES,
   GET_DASHBOARD_VALUES_ASYNC,
   GET_ITEM,
@@ -11,6 +13,7 @@ import {
 } from './action-types'
 import {
   actionObject,
+  getAccountsQuery,
   getEntriesQuery,
   getEntry,
   getUserQuery,
@@ -53,7 +56,6 @@ function* getDashboardValues(): any {
   try {
     const {defaultPrices} = yield select(selectCurrency)
     const entries = yield call(getEntriesQuery)
-
     const dashboardValues = entries?.reduce(
       (values: any, entry: any) => {
         const change = defaultPrices[String(entry?.currency_id)]
@@ -90,6 +92,15 @@ export function* getItemAsync({payload}: any): any {
   }
 }
 
+export function* getAccountsAsync(): any {
+  try {
+    const accounts = yield call(getAccountsQuery)
+    yield put(actionObject(GET_ACCOUNTS_ASYNC, accounts))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function* watchSignIn() {
   yield takeLatest(SIGNIN, signInAsync)
 }
@@ -104,4 +115,8 @@ export function* watchGetDashboardValues() {
 
 export function* watchGetItem() {
   yield takeLatest(GET_ITEM, getItemAsync)
+}
+
+export function* watchGetAccounts() {
+  yield takeLatest(GET_ACCOUNTS, getAccountsAsync)
 }

@@ -17,7 +17,9 @@ export const createUserQuery = async ({username, picture, currency}: any) => {
 }
 export const getUserQuery = async () => {
   try {
-    const users: any = await selectQuery('SELECT * FROM users')
+    const users: any = await selectQuery(
+      'SELECT users.id, picture, username, currency_id, symbol as currency_symbol, name as currency_name FROM users LEFT JOIN currencies ON currencies.id = users.currency_id',
+    )
     return users.raw()[0]
   } catch (error) {
     console.log(error)

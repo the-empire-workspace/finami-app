@@ -1,5 +1,6 @@
 import {DispatchProps} from 'interfaces'
 import {
+  GET_ACCOUNTS_ASYNC,
   GET_DASHBOARD_VALUES_ASYNC,
   GET_ITEM_ASYNC,
   GET_TOTAL_BALANCE_ASYNC,
@@ -21,6 +22,7 @@ const initialState = {
     entries: [],
   },
   item: {},
+  accounts: [],
 }
 
 const AccountReducer = (
@@ -48,6 +50,8 @@ const AccountReducer = (
       return {...state, item: payload}
     case REMOVE_ITEM:
       return {...state, item: {}}
+    case GET_ACCOUNTS_ASYNC:
+      return {...state, accounts: payload}
     default:
       return state
   }
