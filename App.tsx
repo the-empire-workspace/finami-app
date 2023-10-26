@@ -7,7 +7,7 @@ import {NavigationContainer} from '@react-navigation/native'
 import {ThemeProvider} from '@providers'
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 import './src/utils/hideLogs'
-import notifee, {EventType} from '@notifee/react-native'
+/* import notifee, {EventType} from '@notifee/react-native' */
 import {emitter} from 'utils/eventEmitter'
 import {setI18nConfig} from '@utils'
 import SQLite from 'react-native-sqlite-storage'
@@ -19,12 +19,12 @@ import {
 import {WagmiConfig} from 'wagmi'
 import {mainnet, polygon, arbitrum} from 'wagmi/chains'
 
-notifee.onBackgroundEvent(async ({type, detail}) => {
+/* notifee.onBackgroundEvent(async ({type, detail}) => {
   const {notification} = detail
 
   if (type === EventType.PRESS)
     emitter.emit('check_notification', notification?.id)
-})
+}) */
 
 SQLite.DEBUG(false)
 
