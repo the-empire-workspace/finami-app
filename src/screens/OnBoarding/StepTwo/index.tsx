@@ -27,14 +27,14 @@ const StepTwo: FC = () => {
   const {
     currency: { currencies },
   } = useSelector((state: any) => state)
-  const currenciesFormatValues = [...currencies]?.map((currency: any) => ({
+  const currenciesFormatValues = useMemo(() => [...currencies]?.map((currency: any) => ({
     label: `${currency?.name} - ${currency?.symbol}`,
     value: String(currency?.id),
-  }))
+  })), [currencies.length])
 
   const form = useMemo(() => {
     return stepTwoForm(colors.typography, translate, { username: username || '', currenciesFormatValues: currenciesFormatValues }, colors.background100, currenciesFormatValues)
-  }, [colors, translate, username])
+  }, [colors, translate, username, currenciesFormatValues])
 
   const submitStep = () => {
     if (data.username && data.currency) {

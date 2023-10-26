@@ -6,19 +6,17 @@ import { translate } from '@utils'
 import { Button } from '@theme'
 import { useNavigation } from '@react-navigation/native'
 import { DynamicForm } from 'components'
-//import { stepTwoForm } from './Forms/form'
-import { WalletForm } from './Forms/Wallet'
-import { CashForm } from './Forms/Cash'
-import { selectForm } from './Forms/selectForm'
 import { useDispatch } from 'react-redux'
 import { completeOnboarding, getCurrencies } from 'store/actions'
 import { useSelector } from 'react-redux'
-import { BankForm, BankForm2 } from './Forms/Bank'
+import { bankForm, cashForm, mainForm } from './form'
+import { useWeb3Modal } from '@web3modal/wagmi-react-native'
 
 const StepTwo: FC = () => {
   const { colors } = useTheme()
   const router: any = useNavigation()
   const dispatch = useDispatch()
+  const {open} = useWeb3Modal()
   const { isLoading } = useSelector((state: any) => state?.intermitence)
   const {
     account_name = '',
@@ -30,14 +28,7 @@ const StepTwo: FC = () => {
     available_balance = '',
     ...onboarding
   } = useSelector((state: any) => state?.onboarding)
-  const [data, setData] = useState<any>({
-    account_name,
-    account_number,
-    account_type,
-    account_currency,
-    available_balance,
-  })
-  console.log(data)
+  const [values, setValues] = useState<any>({ account_type: { value: 'cash' } })
   const {
     currency: { currencies },
   } = useSelector((state: any) => state)
@@ -88,7 +79,7 @@ const StepTwo: FC = () => {
     )
   }, [colors, translate, account_name, account_comments, currencies]) */
 
-  const formSelect = useMemo(() => {
+  /* const formSelect = useMemo(() => {
     return selectForm(colors.typography, translate, { account_type }, colors.background100)
   }, [colors, translate])
 
@@ -97,7 +88,7 @@ const StepTwo: FC = () => {
   }, [colors, translate])
 
   const cashFrom = useMemo(() => {
-    return CashForm(colors.typography, translate, { account_number, account_comments, available_balance }, colors.background100, /* currenciesFormatValues */)
+    return CashForm(colors.typography, translate, { account_number, account_comments, available_balance }, colors.background100, /* currenciesFormatValues )
   }, [colors, translate])
 
   const bankForm = useMemo(() => {
@@ -106,41 +97,51 @@ const StepTwo: FC = () => {
 
   const bankForm2 = useMemo(() => {
     return BankForm2(colors.typography, translate, { available_balance, currencies }, colors.background100, currencies)
-  }, [colors, translate])
+  }, [colors, translate]) */
+
+  const form = useMemo(() => {
+    const formsTypes: any = {
+      'cash': [...mainForm(translate, values, colors), ...cashForm(translate, values, currencies, colors)],
+      'bank_account': [...mainForm(translate, values, colors), ...bankForm(translate, values, currencies, colors)],
+    }
+    return formsTypes[values?.account_type?.value] || mainForm(translate, values, colors)
+  }, [values?.account_type])
 
   const submitStep = () => {
-    const keys = Object.keys(data)
+    console.log(values)
+    const keys = Object.keys(values)
     let valid = true
     for (const key of keys)
       valid =
-        valid && (!!data[key] || key === 'organization' || key === 'account_comments')
-    if (valid) dispatch(completeOnboarding({ ...data, ...onboarding }))
+        valid && (!!values[key] || key === 'organization' || key === 'account_comments')
+    if (valid) dispatch(completeOnboarding({ ...values, ...onboarding }))
   }
 
   const changeValues = (change: any) => {
     const keys = Object.keys(change?.value)
     for (const key of keys)
       if (change?.value[key]?.validation)
-        setData((oldData: any) => ({
+        setValues((oldData: any) => ({
           ...oldData,
           [key]: change?.value[key]?.value,
         }))
   }
-  const FormsOption = () => {
-    if (data.account_type === 'wallet') return (
-      <DynamicForm returnData={changeValues} formData={walletFrom} />
-    )
-    else if (data.account_type === 'bank') return (
-      <>
-        <DynamicForm returnData={changeValues} formData={bankForm} />
-        <DynamicForm returnData={changeValues} formData={bankForm2} /> 
-      </>
 
-    )
-    return (
-      <DynamicForm returnData={changeValues} formData={cashFrom} />
-    )
-  }
+  /*   const FormsOption = () => {
+      if (data.account_type === 'wallet') return (
+        <DynamicForm returnData={changeValues} formData={walletFrom} />
+      )
+      else if (data.account_type === 'bank') return (
+        <>
+          <DynamicForm returnData={changeValues} formData={bankForm} />
+          <DynamicForm returnData={changeValues} formData={bankForm2} /> 
+        </>
+  
+      )
+      return (
+        <DynamicForm returnData={changeValues} formData={cashFrom} />
+      )
+    } */
 
   return (
     <ScrollView
@@ -158,11 +159,12 @@ const StepTwo: FC = () => {
               {translate('back')}
             </Text>
           </TouchableOpacity>
-          <View style={[styles.container, styles.formContainer]}>
-            <DynamicForm returnData={changeValues} formData={formSelect} />
-            <FormsOption />
-            {/* <DynamicForm returnData={changeValues} formData={form} /> */}
-          </View>
+          <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <DynamicForm formData={form} returnData={(data: any) => {
+              for (const value in data?.value) setValues((prev: any) => ({ ...prev, [value]: data?.value[value] }))
+            }} />
+            {values?.account_type?.value === 'wallet' && <Button text={translate('connect_wallet')} onPress={() => open()} disabled={false}></Button>}
+          </ScrollView>
         </View>
         <View style={[styles.container, styles.formContainer]}>
           <Button

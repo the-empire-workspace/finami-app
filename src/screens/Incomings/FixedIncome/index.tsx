@@ -3,7 +3,6 @@ import { Text, TouchableOpacity, View } from 'react-native'
 import ArrowFatLeft from '@assets/img/ArrowFatLeft.svg'
 import { styles } from './styles'
 import { useTheme } from 'providers'
-import { Header } from 'components'
 import { useNavigation } from '@react-navigation/native'
 const FixedIncome: FC = () => {
   const { colors } = useTheme()
