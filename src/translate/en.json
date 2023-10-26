@@ -36,6 +36,8 @@
   "language": "Language",
   "comming": "(Comming Soon)",
   "new_account": "New Account",
+  "currency_type": "Currency Type",
+  "bank_name": "Bank Name",
   "terms-conditions": "Terms & Conditions",
   "delete-account": "Delete Account",
   "account_type": "Account Type",
