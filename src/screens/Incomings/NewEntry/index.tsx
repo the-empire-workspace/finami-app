@@ -11,8 +11,9 @@ const NewEntry: FC = () => {
   const router: any = useNavigation()
   return (
     <View style={[styles.root, { backgroundColor: colors.background100 }]}>
-      <BackHandler />
-        <Text style={styles.h3}>NewEntry2</Text>
+      <BackHandler title={'NewEntry'} />
+        <Text style={styles.h3}>NewEntry</Text>
+        
     </View>
   )
 }

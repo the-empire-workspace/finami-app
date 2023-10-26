@@ -30,7 +30,7 @@ const FormItem: FC<ItemProps> = ({
 
   values.style.color = !validate ? colors.negative : colors.typography
   const Label = mainLabel ? <Text>{mainLabel}</Text> : null
-
+  //array
   return (
     <>
       {element === 'multiple' ? (
