@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { Typos, Elements } from 'theme'
+import {StyleSheet} from 'react-native'
+import {Typos, Elements} from 'theme'
 
 const localStyles = StyleSheet.create({
   profileContainer: {
@@ -13,16 +13,16 @@ const localStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 15
+    marginTop: 15,
   },
   text: {
-    marginRight: 5
+    marginRight: 5,
   },
   CurrencyContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 20
+    marginTop: 20,
   },
   currency: {
     position: 'absolute',
@@ -35,7 +35,7 @@ const localStyles = StyleSheet.create({
     justifyContent: 'center',
     border: 1,
     borderColor: 'black',
-  }
+  },
 })
 
-export const styles = { ...localStyles, ...Typos, ...Elements }
+export const styles = {...localStyles, ...Typos, ...Elements}

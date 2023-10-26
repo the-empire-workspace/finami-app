@@ -1,22 +1,26 @@
-import React, { FC } from 'react'
-import { View, Image, TouchableOpacity, Text } from 'react-native'
-import { styles } from './styles'
-import { Props } from './interface'
+import React, {FC} from 'react'
+import {View, TouchableOpacity, Text} from 'react-native'
+import {styles} from './styles'
+import {Props} from './interface'
 import Arrow from '@assets/img/ArrowLeft.svg'
-import { useNavigation } from '@react-navigation/core'
-import { useTheme } from 'providers'
+import {useNavigation} from '@react-navigation/core'
+import {useTheme} from 'providers'
 
-const BackHandler: FC<Props> = ({ title }) => {
+const BackHandler: FC<Props> = ({title}) => {
   const router = useNavigation()
 
-  const { colors } = useTheme()
+  const {colors} = useTheme()
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background50 }]}>
+    <View style={[styles.root, {backgroundColor: colors.background50}]}>
       <TouchableOpacity onPress={() => router.goBack()}>
         <Arrow width={32} height={32} />
       </TouchableOpacity>
-      {!!title && <Text style={[styles.h3, styles.text, { color: colors.typography }]} >{title}</Text>}
+      {!!title && (
+        <Text style={[styles.h3, styles.text, {color: colors.typography}]}>
+          {title}
+        </Text>
+      )}
     </View>
   )
 }

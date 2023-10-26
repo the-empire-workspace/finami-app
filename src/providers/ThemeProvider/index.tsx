@@ -1,6 +1,6 @@
-import React, { createContext, useState, useContext, FC, useEffect } from 'react'
-import { Appearance } from 'react-native'
-import { lightColors, darkColors } from '@theme'
+import React, {createContext, useState, useContext, FC, useEffect} from 'react'
+import {Appearance} from 'react-native'
+import {lightColors, darkColors} from '@theme'
 
 export const ThemeContext = createContext({
   isDark: false,

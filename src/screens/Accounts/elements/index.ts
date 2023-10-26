@@ -1,1 +1,1 @@
-export { default as AccountMain } from './AccountMain'
+export {default as AccountMain} from './AccountMain'

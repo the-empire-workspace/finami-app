@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { Typos, Elements } from 'theme'
+import {StyleSheet} from 'react-native'
+import {Typos, Elements} from 'theme'
 
 const localStyles = StyleSheet.create({
   profileContainer: {
@@ -18,19 +18,19 @@ const localStyles = StyleSheet.create({
     borderTopWidth: 1,
   },
   downSelection: {
-    borderBottomWidth: 1
+    borderBottomWidth: 1,
   },
   image: {
     width: 95,
     height: 44,
-    marginLeft: 5
+    marginLeft: 5,
   },
   poweredByContainer: {
     flexDirection: 'row',
-    alignItems: 'center',	
+    alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10
-  }
+    marginTop: 10,
+  },
 })
 
-export const styles = { ...localStyles, ...Typos, ...Elements }
+export const styles = {...localStyles, ...Typos, ...Elements}

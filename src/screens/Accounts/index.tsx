@@ -1,12 +1,10 @@
-import React, { FC } from "react";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { AccountMain } from "./elements";
-
+import React, {FC} from 'react'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {AccountMain} from './elements'
 
 const Stack = createNativeStackNavigator()
 
 const Accounts: FC = () => {
-
   return (
     <Stack.Navigator
       screenOptions={{
@@ -20,4 +18,4 @@ const Accounts: FC = () => {
   )
 }
 
-export default Accounts;
+export default Accounts

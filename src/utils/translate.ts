@@ -1,9 +1,9 @@
 import es from '@translate/es.json'
 import en from '@translate/en.json'
-import { memoize } from 'lodash'
+import {memoize} from 'lodash'
 import i18n from 'i18n-js'
-import { findBestLanguageTag } from 'react-native-localize'
-import { I18nManager } from 'react-native'
+import {findBestLanguageTag} from 'react-native-localize'
+import {I18nManager} from 'react-native'
 
 export const translationGetters: any = {
   es: es,
@@ -17,19 +17,18 @@ export const translate: any = memoize(
 
 export const setI18nConfig = (language: any = null) => {
   // fallback if no available language fits
-  const fallback = { languageTag: language || 'es', isRTL: false }
+  const fallback = {languageTag: language || 'es', isRTL: false}
 
-  const { languageTag, isRTL } = language
+  const {languageTag, isRTL} = language
     ? fallback
-    : findBestLanguageTag(Object.keys(translationGetters)) ||
-    fallback
+    : findBestLanguageTag(Object.keys(translationGetters)) || fallback
 
   // clear translation cache
   translate.cache.clear()
   // update layout direction
   I18nManager.forceRTL(isRTL)
   // set i18n-js config
-  i18n.translations = { [languageTag]: translationGetters[languageTag] }
+  i18n.translations = {[languageTag]: translationGetters[languageTag]}
   i18n.locale = languageTag
 }
 

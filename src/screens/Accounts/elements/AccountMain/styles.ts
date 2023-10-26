@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { Typos, Elements } from '@theme'
+import {StyleSheet} from 'react-native'
+import {Typos, Elements} from '@theme'
 
 export const localStyles = StyleSheet.create({
   root: {
@@ -9,11 +9,11 @@ export const localStyles = StyleSheet.create({
   },
   buttonContainer: {
     paddingHorizontal: 20,
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   scrollContainer: {
     paddingHorizontal: 20,
-    paddingTop: 10
+    paddingTop: 10,
   },
   accountItem: {
     width: '100%',
@@ -22,11 +22,11 @@ export const localStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderRadius: 5
+    borderRadius: 5,
   },
   accountInfoContainer: {
     gap: 5,
-  }
+  },
 })
 
-export const styles = { ...localStyles, ...Typos, ...Elements }
+export const styles = {...localStyles, ...Typos, ...Elements}
