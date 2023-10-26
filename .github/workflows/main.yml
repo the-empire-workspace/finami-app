@@ -32,7 +32,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v2.4.0
         with:
-          node-version: '14.*'
+          node-version: '18.*'
       
       - name: Yarn Install
         run: yarn install && yarn test && yarn lint --fix
