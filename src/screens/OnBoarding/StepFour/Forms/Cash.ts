@@ -35,7 +35,7 @@ export const CashForm = (color: any, translate: any, def: any, background?: any,
       maxLength: 72,
     },
   },
-  {
+  /* {
     element: 'select',
     name: 'account_currency',
     label: translate('account_currency'),
@@ -51,7 +51,7 @@ export const CashForm = (color: any, translate: any, def: any, background?: any,
     validations: {
       required: true,
     },
-  }, 
+  },  */
   {
     element: 'input',
     name: 'available_balance',

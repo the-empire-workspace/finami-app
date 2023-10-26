@@ -13,7 +13,7 @@ import { selectForm } from './Forms/selectForm'
 import { useDispatch } from 'react-redux'
 import { completeOnboarding, getCurrencies } from 'store/actions'
 import { useSelector } from 'react-redux'
-import { BankForm } from './Forms/Bank'
+import { BankForm, BankForm2 } from './Forms/Bank'
 
 const StepTwo: FC = () => {
   const { colors } = useTheme()
@@ -37,15 +37,29 @@ const StepTwo: FC = () => {
     account_currency,
     available_balance,
   })
-  useEffect(() => {
-    dispatch(getCurrencies())
-  }, [])
+  console.log(data)
   const {
     currency: { currencies },
   } = useSelector((state: any) => state)
-  const currenciesFormatValues = [...currencies]?.map((item: any) => {
-    return { label: `${item.name} - ${item.symbol}`, value: `${item.id} ` };
-  });
+  /* const currenciesFormat = currencies?.length
+    ? [...currencies]?.map((currency: any) => ({
+      label: `${currency?.name} (${currency?.symbol})`,
+      value: String(currency?.id),
+    }))
+    : [
+      {
+        label: translate('none'),
+        value: 'none',
+      },
+    ] */
+  /* const currenciesFormatValues = useMemo(() => [...currencies]?.map((currency: any) => ({
+    label: `${currency?.name} - ${currency?.symbol}`,
+    value: String(currency?.id),
+  })),[currencies]) */
+
+  /*  const currenciesFormatValues = [...currencies]?.map((item: any) => {
+     return { label: `${item.name} - ${item.symbol}`, value: `${item.id} ` };
+   });  */
   /* const [currenciesFormatValues,setCurrenciesFormatValues] = useState([])
   useEffect(() => {
     dispatch(getCurrencies())
@@ -56,7 +70,7 @@ const StepTwo: FC = () => {
       return { label: `${item.name} - ${item.symbol}`, value: `${item.id}` };
     });
     setCurrenciesFormatValues(currenciesFormat)
-  }, [getCurrencies]) */ 
+  }, [getCurrencies]) */
 
   /* const form = useMemo(() => {
     return stepTwoForm(
@@ -83,10 +97,15 @@ const StepTwo: FC = () => {
   }, [colors, translate])
 
   const cashFrom = useMemo(() => {
-    return CashForm(colors.typography, translate, { account_number, account_comments, available_balance }, colors.background100, currenciesFormatValues)
+    return CashForm(colors.typography, translate, { account_number, account_comments, available_balance }, colors.background100, /* currenciesFormatValues */)
   }, [colors, translate])
+
   const bankForm = useMemo(() => {
-    return BankForm(colors.typography, translate, { account_name, account_comments, organization, account_number, available_balance }, colors.background100, currenciesFormatValues)
+    return BankForm(colors.typography, translate, { account_name, account_comments, organization, account_number, available_balance, account_currency, currencies }, colors.background100, currencies)
+  }, [colors, translate])
+
+  const bankForm2 = useMemo(() => {
+    return BankForm2(colors.typography, translate, { available_balance, currencies }, colors.background100, currencies)
   }, [colors, translate])
 
   const submitStep = () => {
@@ -111,7 +130,13 @@ const StepTwo: FC = () => {
     if (data.account_type === 'wallet') return (
       <DynamicForm returnData={changeValues} formData={walletFrom} />
     )
-    else if (data.account_type === 'bank') return <DynamicForm returnData={changeValues} formData={bankForm} />
+    else if (data.account_type === 'bank') return (
+      <>
+        <DynamicForm returnData={changeValues} formData={bankForm} />
+        <DynamicForm returnData={changeValues} formData={bankForm2} /> 
+      </>
+
+    )
     return (
       <DynamicForm returnData={changeValues} formData={cashFrom} />
     )
