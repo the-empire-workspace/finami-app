@@ -26,13 +26,17 @@
   "currencies": "Currencies",
   "dynamic-calculator": "Dynamic Calculator",
   "financial-calculator": "Financial Calculator",
-  "language": "Language",	
-  "comming": "(Comming Soon)",	
+  "language": "Language",
+  "comming": "(Comming Soon)",
   "new_account": "New Account",
-  "terms-conditions": "Terms & Conditions",	
+  "terms-conditions": "Terms & Conditions",
   "delete-account": "Delete Account",
   "account_type": "Account Type",
   "phone": "Phone",
+  "cash": "Cash",
+  "wallet": "Crypto Wallet",	
+  "bank_account": "Bank Account",
+  "connect_wallet": "Connect Wallet",
   "email": "Email",
   "account": "Account",
   "unavailable": "Unavailable",
@@ -115,5 +119,4 @@
   "update": "Update",
   "creation_date": "Creation Date",
   "quantity": "Quantity"
-  
 }
