@@ -1,5 +1,7 @@
-import {call, put, select, takeLatest} from 'redux-saga/effects'
+import { call, put, select, takeLatest } from 'redux-saga/effects'
 import {
+  GET_ACCOUNTS,
+  GET_ACCOUNTS_ASYNC,
   GET_DASHBOARD_VALUES,
   GET_DASHBOARD_VALUES_ASYNC,
   GET_ITEM,
@@ -11,12 +13,13 @@ import {
 } from './action-types'
 import {
   actionObject,
+  getAccountsQuery,
   getEntriesQuery,
   getEntry,
   getUserQuery,
   operateChange,
 } from 'utils'
-import {selectCurrency} from 'store/selector'
+import { selectCurrency } from 'store/selector'
 
 function* signInAsync(): any {
   try {
@@ -29,7 +32,7 @@ function* signInAsync(): any {
 
 function* getTotalBalanceAsync(): any {
   try {
-    const {defaultPrices} = yield select(selectCurrency)
+    const { defaultPrices } = yield select(selectCurrency)
     const entries = yield call(getEntriesQuery)
     const totalBalance = entries?.reduce((total: any, entry: any) => {
       const change = defaultPrices[String(entry?.currency_id)]
@@ -51,7 +54,7 @@ function* getTotalBalanceAsync(): any {
 
 function* getDashboardValues(): any {
   try {
-    const {defaultPrices} = yield select(selectCurrency)
+    const { defaultPrices } = yield select(selectCurrency)
     const entries = yield call(getEntriesQuery)
     const dashboardValues = entries?.reduce(
       (values: any, entry: any) => {
@@ -71,7 +74,7 @@ function* getDashboardValues(): any {
         values.monthProjected += amount
         return values
       },
-      {monthIncome: 0, monthExpenses: 0, monthProjected: 0, entries: []},
+      { monthIncome: 0, monthExpenses: 0, monthProjected: 0, entries: [] },
     )
 
     yield put(actionObject(GET_DASHBOARD_VALUES_ASYNC, dashboardValues))
@@ -80,10 +83,19 @@ function* getDashboardValues(): any {
   }
 }
 
-export function* getItemAsync({payload}: any): any {
+export function* getItemAsync({ payload }: any): any {
   try {
     const item = yield call(getEntry, payload)
     yield put(actionObject(GET_ITEM_ASYNC, item))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function* getAccountsAsync(): any {
+  try {
+    const accounts = yield call(getAccountsQuery)
+    yield put(actionObject(GET_ACCOUNTS_ASYNC, accounts))
   } catch (error) {
     console.log(error)
   }
@@ -103,4 +115,8 @@ export function* watchGetDashboardValues() {
 
 export function* watchGetItem() {
   yield takeLatest(GET_ITEM, getItemAsync)
+}
+
+export function* watchGetAccounts() {
+  yield takeLatest(GET_ACCOUNTS, getAccountsAsync)
 }

@@ -9,7 +9,6 @@ import {
   GET_CURRENCY_PRICE,
   GET_CURRENCY_PRICE_ASYNC,
 } from './action-types'
-import QuickNode from '@quicknode/sdk';
 
 
 function* getCurrenciesAsync(): any {
@@ -84,19 +83,6 @@ function* getDefaultPriceAsync(): any {
   }
 }
 
-function* getCryptoCurrenciesAsync(): any {
-  try {
-    const qn = new QuickNode.API({ graphApiKey: QuickNodeAPIKey })
-    const events = yield call(qn.events.getAll, { first: 1000, chain: 'ethereum', filter: { contractStandard: { eq: 'ERC20' } } })
-    console.log(events)
-  } catch (error) {
-    console.log('error getting currencies', error)
-  }
-}
-
-export function* watchGetCryptoCurrencies() {
-  yield takeLatest(GET_CRYPTO_CURRENCIES, getCryptoCurrenciesAsync)
-}
 export function* watchGetCurrencies() {
   yield takeLatest(GET_CURRENCIES, getCurrenciesAsync)
 }

@@ -1,5 +1,6 @@
-import {actionObject} from '@utils'
+import { actionObject } from '@utils'
 import {
+  GET_ACCOUNTS,
   GET_DASHBOARD_VALUES,
   GET_ITEM,
   GET_TOTAL_BALANCE,
@@ -21,3 +22,4 @@ export const getTotalBalance = () => actionObject(GET_TOTAL_BALANCE)
 export const getDashboardValues = () => actionObject(GET_DASHBOARD_VALUES)
 export const getItem = (payload: any) => actionObject(GET_ITEM, payload)
 export const removeItem = () => actionObject(REMOVE_ITEM)
+export const getAccounts = () => actionObject(GET_ACCOUNTS)

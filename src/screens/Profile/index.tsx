@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux'
 import { Props } from './interface'
 import { useFocusEffect, useRoute } from '@react-navigation/native'
 
-const Profile: FC<Props> = ({ navigation }) => {
+const Profile: FC = () => {
 
   const { colors } = useTheme()
 
