@@ -40,7 +40,7 @@ const InfoBanner: FC<any> = ({values}) => {
         </Text>
       </View>
       <View style={[styles.infoBox]}>
-        <Text style={[styles.strongBody, {color: values?.month3?.color}]}>
+        <Text style={[styles.strongBody, {color: colors.states.caution}]}>
           {currency?.symbol || ''}{' '}
           {values?.month3?.value?.toLocaleString('en-US', {
             minimumFractionDigits: currency?.decimal,
