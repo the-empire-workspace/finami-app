@@ -1,43 +1,41 @@
-import { styles } from './styles'
-
-export const stepTwoForm = (color: any, translate: any, def: any, background?: any, currenciesFormatValues?: any) => [
+import { styles } from '../styles'
+export const WalletForm = (color: any, translate: any, def: any, background?: any) => [
   {
     element: 'input',
-    name: 'username',
-    label: translate('username'),
+    name: 'account_number',
+    label: translate('account_number'),
     labelStyle: background ? { ...styles.label, backgroundColor: background } : { ...styles.label },
     type: 'text',
-    defaultValue: def?.username || '',
+    defaultValue: def?.account_number || '',
     keyboardType: 'default',
-    placeholder: translate('username'),
+    placeholder: translate('account_number'),
     returnKeyType: 'go',
-    placeholderTextColor: color,
+    placeholderTextColor: 'white',
     style: { ...styles.input, color: color, borderColor: color },
     validations: {
       required: true,
-      minLength: 4,
+      minLength: 6,
       maxLength: 72,
     },
   },
   {
-    element: 'select',
-    name: 'principal_currency',
-    label: translate('principal_currency'),
+    element: 'input',
+    name: 'account_comments',
+    label: translate('comments_optional'),
     labelStyle: background ? { ...styles.label, backgroundColor: background } : { ...styles.label },
     type: 'text',
-    defaultValue: def?.currenciesFormatValues[0] || [],
+    defaultValue: def?.account_comments || '',
     keyboardType: 'default',
-    placeholder: translate('principal_currency'),
+    placeholder: translate('comments_optional'),
     returnKeyType: 'go',
     placeholderTextColor: color,
     style: { ...styles.input, color: color, borderColor: color },
-    values: currenciesFormatValues,
     validations: {
-      required: true,
+      minLength: 0,
+      maxLength: 72,
     },
   },
 ]
 function dispatch(arg0: any) {
   throw new Error('Function not implemented.')
 }
-

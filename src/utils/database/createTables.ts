@@ -67,7 +67,7 @@ const createAccountTable = async () => {
       currency_id INTEGER,\
       account_name VARCHAR,\
       account_number VARCHAR,\
-      bank VARCHAR,\
+      organization VARCHAR,\
       account_comments VARCHAR,\
       FOREIGN KEY(user_id) REFERENCES users(id)\
       FOREIGN KEY(currency_id) REFERENCES currencies(id)\

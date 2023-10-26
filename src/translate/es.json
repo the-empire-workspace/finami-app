@@ -10,8 +10,13 @@
   "welcome_caution": "Queremos asegurarte que tu información está segura con nosotros, solo tú tendrás acceso a ella.",
   "account_name": "Nombre de la cuenta",
   "account_number": "Nro. de cuenta / Código",
+  "account_type": "Tipo de cuenta",
+  "account_currency": "Tipo de Moneda",	
   "comments_optional": "Comentario (opcional)",
-  "bank_entity_optional": "Banco (opcional)",
+  "organization_entity_optional": "Organizacion",
+  "cash":"Efectivo",
+  "bank": "Banco",
+  "wallet": "E-Wallet",
   "savings": "Ahorro",
   "checking": "Corriente",
   "start": "Comenzar",
@@ -122,5 +127,6 @@
   "cancel": "Cancelar",
   "update": "Actualizar",
   "creation_date": "Fecha de Creacion",
-  "quantity": "Cantidad"
+  "quantity": "Cantidad",
+  "principal_currency": "Moneda Principal"
 }

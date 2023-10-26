@@ -11,8 +11,7 @@ const localStyles = StyleSheet.create({
     height: '100%',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    paddingVertical: 30,
+    padding: 20,
   },
   container: {
     width: '100%',
@@ -22,6 +21,7 @@ const localStyles = StyleSheet.create({
   },
   formContainer: {
     marginTop: 25,
+    gap:15
   },
   title: {
     marginTop: 30,
@@ -32,6 +32,17 @@ const localStyles = StyleSheet.create({
   },
   input: {
     width: '100%',
+    position: 'relative',
+    padding: 10,
+  },
+  label: {
+    position: 'absolute',
+    color: 'white',
+    top: -15,
+    left: -5,
+    opacity:1,
+    padding:5,
+    zIndex: 3,
   },
 })
 

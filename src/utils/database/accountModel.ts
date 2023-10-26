@@ -10,7 +10,7 @@ export const createAccountQuery = async ({
 }: any) => {
   try {
     const newAccount: any = await insertQuery(
-      'INSERT INTO accounts (user_id, currency_id, account_name, account_number, bank, account_comments) VALUES (?, ?, ?, ?, ?, ?)',
+      'INSERT INTO accounts (user_id, currency_id, account_name, account_number, organization, account_comments) VALUES (?, ?, ?, ?, ?, ?)',
       [
         user,
         Number(account_currency),

@@ -36,6 +36,15 @@ const localStyles = StyleSheet.create({
   buttonLocal: {
     textTransform: 'uppercase',
   },
+  label: {
+    position: 'absolute',
+    color: 'white',
+    top: -15,
+    left: -5,
+    opacity:1,
+    padding:5,
+    zIndex: 3,
+  },
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}

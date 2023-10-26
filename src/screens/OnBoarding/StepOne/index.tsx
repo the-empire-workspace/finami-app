@@ -10,7 +10,7 @@ const StepOne: FC = () => {
   const {colors} = useTheme()
   const router: any = useNavigation()
   return (
-    <View style={[styles.root, {backgroundColor: colors.background50}]}>
+    <View style={[styles.root, {backgroundColor: colors.background100}]}>
       <View />
       <View style={styles.container}>
         <Text style={[styles.h1, styles.title, {color: colors.typography}]}>
