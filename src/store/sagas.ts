@@ -6,6 +6,7 @@ import {
 } from './notification/saga'
 import {watchCompleteOnboarding} from './onboarding/saga'
 import {
+  watchGetAccounts,
   watchGetDashboardValues,
   watchGetItem,
   watchGetTotalBalance,
@@ -23,5 +24,6 @@ export default function* rootSaga() {
     fork(watchGetTotalBalance),
     fork(watchGetDashboardValues),
     fork(watchGetItem),
+    fork(watchGetAccounts),
   ])
 }

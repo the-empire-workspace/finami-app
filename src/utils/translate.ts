@@ -2,7 +2,7 @@ import es from '@translate/es.json'
 import en from '@translate/en.json'
 import {memoize} from 'lodash'
 import i18n from 'i18n-js'
-import RNLocalize from 'react-native-localize'
+import {findBestLanguageTag} from 'react-native-localize'
 import {I18nManager} from 'react-native'
 
 export const translationGetters: any = {
@@ -21,8 +21,7 @@ export const setI18nConfig = (language: any = null) => {
 
   const {languageTag, isRTL} = language
     ? fallback
-    : RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
-      fallback
+    : findBestLanguageTag(Object.keys(translationGetters)) || fallback
 
   // clear translation cache
   translate.cache.clear()

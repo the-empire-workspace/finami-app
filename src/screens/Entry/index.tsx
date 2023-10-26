@@ -63,37 +63,51 @@ const Entry: FC = () => {
           style={[styles.scrollView]}
           contentContainerStyle={styles.main}>
           <View style={[styles.textContent]}>
-            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+            <Text
+              style={[
+                styles.smallStrongBody,
+                styles.textSeparator,
+                {color: colors.typography},
+              ]}>
               {translate('concept')}:
             </Text>
-            <Text style={[styles.strongBody]}>
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
               {item?.payment_concept || translate('unavailable')}
             </Text>
           </View>
           <View style={[styles.textContent]}>
-            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+            <Text
+              style={[
+                styles.smallStrongBody,
+                styles.textSeparator,
+                {color: colors.typography},
+              ]}>
               {translate('comments')}:
             </Text>
-            <Text style={[styles.strongBody]}>
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
               {item?.comment || translate('unavailable')}
             </Text>
           </View>
           <View style={[styles.textContent]}>
-            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+            <Text
+              style={[
+                styles.smallStrongBody,
+                styles.textSeparator,
+                {color: colors.typography},
+              ]}>
               {translate('amount')}:
-            </Text>
-            {/* <Text style={[styles.strongBody]}>
-              {currency?.symbol || ''}{' '}
-              {item?.amount?.toLocaleString('en-US', {
-                minimumFractionDigits: currency?.decimal,
-              })}
-            </Text> */}
+            </Text>            
           </View>
           <View style={[styles.textContent]}>
-            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+            <Text
+              style={[
+                styles.smallStrongBody,
+                styles.textSeparator,
+                {color: colors.typography},
+              ]}>
               {translate('date')}:
             </Text>
-            <Text style={[styles.strongBody]}>
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
               {new Date(item?.date).toLocaleDateString('en-US', {
                 day: 'numeric',
                 month: 'long',
@@ -102,34 +116,54 @@ const Entry: FC = () => {
             </Text>
           </View>
           <View style={[styles.textContent]}>
-            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+            <Text
+              style={[
+                styles.smallStrongBody,
+                styles.textSeparator,
+                {color: colors.typography},
+              ]}>
               {translate('emissor')}:
             </Text>
-            <Text style={[styles.strongBody]}>
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
               {item?.emissor || translate('unavailable')}
             </Text>
           </View>
           <View style={[styles.textContent]}>
-            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+            <Text
+              style={[
+                styles.smallStrongBody,
+                styles.textSeparator,
+                {color: colors.typography},
+              ]}>
               {translate('phone')}:
             </Text>
-            <Text style={[styles.strongBody]}>
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
               {item?.phone || translate('unavailable')}
             </Text>
           </View>
           <View style={[styles.textContent]}>
-            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+            <Text
+              style={[
+                styles.smallStrongBody,
+                styles.textSeparator,
+                {color: colors.typography},
+              ]}>
               {translate('email')}:
             </Text>
-            <Text style={[styles.strongBody]}>
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
               {item?.email || translate('unavailable')}
             </Text>
           </View>
           <View style={[styles.textContent]}>
-            <Text style={[styles.smallStrongBody, styles.textSeparator]}>
+            <Text
+              style={[
+                styles.smallStrongBody,
+                styles.textSeparator,
+                {color: colors.typography},
+              ]}>
               {translate('account')}:
             </Text>
-            <Text style={[styles.strongBody]}>{`${
+            <Text style={[styles.strongBody, {color: colors.typography}]}>{`${
               item?.account_name
             } - *${item?.account_number?.slice(-4)}`}</Text>
           </View>
