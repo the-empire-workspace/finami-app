@@ -11,6 +11,8 @@ import {
 } from '@screens'
 import {useDispatch} from 'react-redux'
 import {getCurrencyPrice} from 'store/actions'
+import FixedIncome from 'screens/Incomings/FixedIncome'
+import NewEntry from 'screens/Incomings/NewEntry'
 
 const Stack = createNativeStackNavigator()
 
@@ -35,6 +37,8 @@ export const PrivateStack = () => {
         component={Entry}
         options={{presentation: 'transparentModal'}}
       />
+      <Stack.Screen name="fixedIncoming" component={FixedIncome}/>
+      <Stack.Screen name="newEntry" component={NewEntry}/>
       <Stack.Screen name="concurrentPayment" component={ConcurrentPayment} />
       <Stack.Screen name="category" component={Category} />
       <Stack.Screen name="profile" component={Profile} />

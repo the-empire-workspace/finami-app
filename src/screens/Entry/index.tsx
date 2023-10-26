@@ -40,9 +40,9 @@ const Entry: FC = () => {
 
   const {currencies} = useSelector((state: any) => state.currency)
 
-  const currency = useMemo(() => {
+  /* const currency = useMemo(() => {
     return currencies.find((c: any) => c.id === item?.currency_id)
-  }, [currencies?.length, item?.currency_id])
+  }, [currencies?.length, item?.currency_id]) */
 
   return (
     <View style={[styles.root]}>
@@ -96,13 +96,7 @@ const Entry: FC = () => {
                 {color: colors.typography},
               ]}>
               {translate('amount')}:
-            </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
-              {currency?.symbol || ''}{' '}
-              {item?.amount?.toLocaleString('en-US', {
-                minimumFractionDigits: currency?.decimal,
-              })}
-            </Text>
+            </Text>            
           </View>
           <View style={[styles.textContent]}>
             <Text
