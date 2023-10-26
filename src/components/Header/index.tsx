@@ -3,7 +3,7 @@ import {View, TouchableOpacity, Text} from 'react-native'
 import {styles} from './styles'
 import {Props} from './interface'
 import SvgNotification from '@assets/img/Notifications.svg'
-/* import {useNavigation} from '@react-navigation/core' */
+import {useNavigation} from '@react-navigation/core'
 import {useDispatch} from 'react-redux'
 import {getCurrencyPrice, getTotalBalance} from 'store/actions'
 import {useSelector} from 'react-redux'
@@ -11,7 +11,7 @@ import {Avatar} from 'theme'
 import {useTheme} from 'providers'
 import {translate} from 'utils'
 const Header: FC<Props> = () => {
-  /* const router = useNavigation() */
+  const router: any = useNavigation()
   const dispatch = useDispatch()
   const {defaultPrices, currencies} = useSelector(
     (state: any) => state.currency,
@@ -30,14 +30,15 @@ const Header: FC<Props> = () => {
 
   return (
     <View style={styles.root}>
-      <TouchableOpacity onPress={() => {}}>
-        <Avatar
-          defaultAvatar={{uri: user?.picture}}
-          statical={true}
-          height={42}
-          width={42}
-        />
-      </TouchableOpacity>
+      <Avatar
+        defaultAvatar={{uri: user?.picture}}
+        statical={true}
+        height={42}
+        width={42}
+        actionAvatar={() => {
+          router.navigate('profile')
+        }}
+      />
       <View style={styles.container}>
         <Text
           style={[

@@ -34,6 +34,7 @@ const Avatar: FC<Props> = ({
   }, [defaultAvatar])
 
   const getImage = async () => {
+    if (statical && actionAvatar) actionAvatar()
     if (!statical) {
       await grantCameraPermission()
       await grantWriteSDPermission()

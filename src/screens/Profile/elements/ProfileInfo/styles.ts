@@ -1,31 +1,41 @@
 import {StyleSheet} from 'react-native'
+import {Typos, Elements} from 'theme'
 
-export const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   profileContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 40,
+    paddingVertical: 23,
     paddingHorizontal: 20,
+    position: 'relative',
   },
-  profileName: {
-    fontSize: 30,
-    alignSelf: 'flex-start',
-    marginVertical: 5,
-    marginTop: 10,
-  },
-  profileProfession: {
-    fontSize: 15,
-    alignSelf: 'flex-start',
-  },
-  roundDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 100,
-    margin: 5,
-    marginVertical: 10,
-  },
-  dotContainer: {
+  textContainer: {
     flexDirection: 'row',
-    alignSelf: 'flex-end',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 15,
+  },
+  text: {
+    marginRight: 5,
+  },
+  CurrencyContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 20,
+  },
+  currency: {
+    position: 'absolute',
+    left: 20,
+    top: 20,
+    width: 46,
+    height: 46,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    border: 1,
+    borderColor: 'black',
   },
 })
+
+export const styles = {...localStyles, ...Typos, ...Elements}

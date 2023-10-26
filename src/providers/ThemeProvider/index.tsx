@@ -10,7 +10,7 @@ export const ThemeContext = createContext({
   },
 })
 
-export const ThemeProvider: FC = (props: any) => {
+export const ThemeProvider: FC<any> = (props: any) => {
   const colorScheme = Appearance.getColorScheme()
   const [isDark, setIsDark] = useState(colorScheme === 'dark')
 

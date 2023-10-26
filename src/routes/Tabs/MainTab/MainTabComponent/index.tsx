@@ -64,7 +64,9 @@ const MainTabComponent: FC<any> = ({navigation, state}) => {
             key={index}
             onPress={() => navigation.navigate(data.route)}>
             <Icon width={data?.width} height={data?.height} />
-            <Text style={[styles.extraSmallBody]}>{data?.text}</Text>
+            <Text style={[styles.extraSmallBody, {color: colors.typography}]}>
+              {data?.text}
+            </Text>
           </TouchableOpacity>
         )
       })}

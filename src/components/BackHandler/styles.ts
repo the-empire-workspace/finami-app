@@ -1,23 +1,19 @@
 import {StyleSheet} from 'react-native'
-
-export const styles = StyleSheet.create({
+import {Typos, Elements} from '@theme'
+const localStyles = StyleSheet.create({
   root: {
-    width: '100%',
-    paddingHorizontal: 25,
-    paddingVertical: 25,
-    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
+    flexDirection: 'row',
+    height: 91,
+    width: '100%',
+    paddingHorizontal: 20,
+    paddingTop: 34,
+    paddingBottom: 25,
   },
   text: {
-    fontSize: 18,
-  },
-  question: {
-    width: 22.2,
-    height: 22,
-  },
-  arrow: {
-    width: 18,
-    height: 23,
+    marginLeft: 10,
   },
 })
+
+export const styles = {...localStyles, ...Typos, ...Elements}
