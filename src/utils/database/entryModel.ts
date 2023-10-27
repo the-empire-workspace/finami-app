@@ -13,10 +13,12 @@ export const createEntryQuery = async (data: any) => {
       email,
       phone,
       date,
-      status
+      status,
+      frecuency_type,
+      frecuency_time,
     } = data
     const newEntry: any = await insertQuery(
-      'INSERT INTO entries (account_id, payment_type, amount, entry_type, status, payment_concept, comment, emissor, email, phone, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      'INSERT INTO entries (account_id, payment_type, amount, entry_type, status, payment_concept, comment, emissor, email, phone, status, frecuency_type, frecuency_time, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
       [
         account,
         payment_type,
@@ -28,6 +30,9 @@ export const createEntryQuery = async (data: any) => {
         emissor,
         email,
         phone,
+        status,
+        frecuency_type,
+        frecuency_time,
         date,
       ],
     )
@@ -44,7 +49,7 @@ export const createEntryQuery = async (data: any) => {
 export const getEntriesQuery = async () => {
   try {
     const entries: any = await selectQuery(
-      'SELECT entries.amount, entries.comment, entries.date, entries.email, entries.emissor, entries.entry_type, entries.id, entries.payment_concept, entries.payment_type, entries.phone, accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id',
+      'SELECT entries.amount, entries.comment, entries.date, entries.email, entries.emissor, entries.status, entries.frecuency_time,entries.frecuency_type, entries.entry_type, entries.id, entries.payment_concept, entries.payment_type, entries.phone, accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id',
     )
     return entries.raw()
   } catch (error) {
@@ -55,7 +60,7 @@ export const getEntriesQuery = async () => {
 export const getEntry = async (id: any) => {
   try {
     const entry: any = await selectQuery(
-      'SELECT entries.amount, entries.comment, entries.date, entries.email, entries.emissor, entries.entry_type, entries.id, entries.payment_concept, entries.payment_type, entries.phone, accounts.account_name, accounts.account_number, accounts.organization, accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id WHERE entries.id = ?',
+      'SELECT entries.amount, entries.comment, entries.date, entries.email, entries.emissor, entries.status, entries.frecuency_time,entries.frecuency_type, entries.entry_type, entries.id, entries.payment_concept, entries.payment_type, entries.phone, accounts.account_name, accounts.account_number, accounts.organization, accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id WHERE entries.id = ?',
       [id],
     )
     return entry.raw()[0]

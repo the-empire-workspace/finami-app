@@ -13,7 +13,6 @@ import { useNavigation } from '@react-navigation/native'
   const [selected, setSelected] = useState(false)
   const handleSelected = () => {
     setSelected(!selected)
-    console.log(selected)
   }
   const renderDropdown = () => {
     if (selected) {

@@ -30,7 +30,7 @@ export const NewEntryForm = (color: any, translate: any, colors: any) => [
     placeholderTextColor: color,
     style: { ...styles.input, color: color, borderColor: color },
     validations: {
-      required: true,
+      required: false,
       minLength: 4,
       maxLength: 72,
     },
@@ -96,6 +96,7 @@ export const NewEntryForm = (color: any, translate: any, colors: any) => [
     labelStyle: { backgroundColor: colors.background100 },
     type: 'text',
     keyboardType: 'number-pad',
+    defaultValue: '1',
     placeholder: '-',
     returnKeyType: 'go',
     placeholderTextColor: color,
@@ -106,24 +107,20 @@ export const NewEntryForm = (color: any, translate: any, colors: any) => [
       maxLength: 72,
     },
   },
- /*  {
-    element: 'DatePicker',
+ {
+    element: 'date',
     name: 'date',
-    label: translate("amount"),
+    label: translate("next_entry_date"),
     labelStyle: { backgroundColor: colors.background100 },
-    type: 'DatePicker',
+    type: 'date',
     keyboardType: 'default',
-    placeholder: translate('00'),
     returnKeyType: 'go',
     placeholderTextColor: color,
     style: {...styles.input, color: color, borderColor: color},
     validations: {
       required: true,
-      minLength: 4,
-      maxLength: 72,
     },
   }, 
- */
   {
     element: 'input',
     name: 'emissor',
@@ -143,7 +140,7 @@ export const NewEntryForm = (color: any, translate: any, colors: any) => [
   },
   {
     element: 'input',
-    name: 'emissor_phone',
+    name: 'phone',
     label: translate("emissor_phone"),
     labelStyle: { backgroundColor: colors.background100 },
     type: 'text',
@@ -160,7 +157,7 @@ export const NewEntryForm = (color: any, translate: any, colors: any) => [
   },
   {
     element: 'input',
-    name: 'emissor_email',
+    name: 'email',
     label: translate("emissor_email"),
     labelStyle: { backgroundColor: colors.background100 },
     type: 'text',
