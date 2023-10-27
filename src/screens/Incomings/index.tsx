@@ -8,7 +8,7 @@ import { Header, InfoBanner, ItemList, TotalBox, DropDown } from 'components'
 import { processEntries, translate } from 'utils'
 import { getDashboardValues } from 'store/actions'
 
-const Incomings: FC = () => {
+const Incoming: FC = () => {
   const { colors } = useTheme()
   const dispatch = useDispatch()
 
@@ -87,4 +87,4 @@ const Incomings: FC = () => {
    ) */
 }
 
-export default Incomings
+export default Incoming

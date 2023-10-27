@@ -7,12 +7,26 @@ export const localStyles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  scrollContainer: {
+    paddingHorizontal: 20,
+    paddingTop: 10
+  },
   header:{
     width: '100%',
     minHeight:100,
     paddingTop: 34,
     paddingHorizontal: 20,
     paddingBottom: 25
+  },
+  container: {
+    width: '100%',
+    padding:20
+  },
+  buttonLocal: {
+    textTransform: 'uppercase',
+  },
+  formContainer: {
+    marginTop: 25,
   },
   headerTop:{
     flex:1,
