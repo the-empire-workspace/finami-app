@@ -17,6 +17,10 @@
   "wallet": "E-Wallet",
   "comments_optional": "Comments (optional)",
   "bank_entity_optional": "Bank Entity (optional)",
+  "urgency_level": "Urgency Level",
+  "low": "Low",
+  "medium": "Medium",
+  "high": "High",
   "organization_entity_optional": "Organization",
   "savings": "Savings",
   "checking": "Checking",
@@ -43,7 +47,6 @@
   "delete_account_warning": "Please note that this action is irreversible. Once your account is deleted, all your data will be permanently removed from our system.",
   "terms-conditions": "Terms & Conditions",
   "delete-account": "Delete Account",
-  "account_type": "Account Type",
   "phone": "Phone",
   "cash": "Cash",
   "wallet": "Crypto Wallet",
@@ -100,6 +103,7 @@
   "days": "Days",
   "weeks": "Weeks",
   "months": "Months",
+  "years": "Years",
   "outcomings": "Outcomings",
   "no_items": "No Items",
   "modify": "Modify",
@@ -136,5 +140,7 @@
   "update": "Update",
   "creation_date": "Creation Date",
   "quantity": "Quantity",
-  "principal_currency": "Principal Currency"
+  "principal_currency": "Principal Currency",
+  "emissor_phone": "Issuer Phone",
+  "emissor_email": "Issuer Email"
 }
