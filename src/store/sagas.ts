@@ -8,6 +8,7 @@ import { watchCompleteOnboarding } from './onboarding/saga'
 import {
   watchCreateCryptoAccount,
   watchCreateCurrencyAccount,
+  watchDeleteAccount,
   watchGetAccounts,
   watchGetDashboardValues,
   watchGetItem,
@@ -28,6 +29,7 @@ export default function* rootSaga() {
     fork(watchGetItem),
     fork(watchGetAccounts),
     fork(watchCreateCryptoAccount),
-    fork(watchCreateCurrencyAccount)
+    fork(watchCreateCurrencyAccount),
+    fork(watchDeleteAccount)
   ])
 }

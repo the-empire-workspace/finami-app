@@ -73,7 +73,7 @@ const ProfileNav: FC<any> = () => {
       <TouchableOpacity
         style={[styles.selectionList, styles.downSelection]}
         onPress={() => {
-          navigation.navigate('/terms-conditions')
+          navigation.navigate('deleteProfile')
         }}>
         <Text style={[styles.body, {color: colors.typography}]}>
           {translate('delete-account')}

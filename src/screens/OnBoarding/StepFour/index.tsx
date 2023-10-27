@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useState } from 'react'
+import React, { FC, useMemo, useState } from 'react'
 import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { styles } from './styles'
 import { useTheme } from 'providers'
@@ -7,7 +7,7 @@ import { Button } from '@theme'
 import { useNavigation } from '@react-navigation/native'
 import { DynamicForm } from 'components'
 import { useDispatch } from 'react-redux'
-import { completeOnboarding, getCurrencies } from 'store/actions'
+import { completeOnboarding } from 'store/actions'
 import { useSelector } from 'react-redux'
 import { bankForm, cashForm, mainForm } from './form'
 import { useWeb3Modal } from '@web3modal/wagmi-react-native'
@@ -16,7 +16,7 @@ const StepTwo: FC = () => {
   const { colors } = useTheme()
   const router: any = useNavigation()
   const dispatch = useDispatch()
-  const {open} = useWeb3Modal()
+  const { open } = useWeb3Modal()
   const { isLoading } = useSelector((state: any) => state?.intermitence)
   const {
     account_name = '',
@@ -29,75 +29,7 @@ const StepTwo: FC = () => {
     ...onboarding
   } = useSelector((state: any) => state?.onboarding)
   const [values, setValues] = useState<any>({ account_type: { value: 'cash' } })
-  const {
-    currency: { currencies },
-  } = useSelector((state: any) => state)
-  /* const currenciesFormat = currencies?.length
-    ? [...currencies]?.map((currency: any) => ({
-      label: `${currency?.name} (${currency?.symbol})`,
-      value: String(currency?.id),
-    }))
-    : [
-      {
-        label: translate('none'),
-        value: 'none',
-      },
-    ] */
-  /* const currenciesFormatValues = useMemo(() => [...currencies]?.map((currency: any) => ({
-    label: `${currency?.name} - ${currency?.symbol}`,
-    value: String(currency?.id),
-  })),[currencies]) */
-
-  /*  const currenciesFormatValues = [...currencies]?.map((item: any) => {
-     return { label: `${item.name} - ${item.symbol}`, value: `${item.id} ` };
-   });  */
-  /* const [currenciesFormatValues,setCurrenciesFormatValues] = useState([])
-  useEffect(() => {
-    dispatch(getCurrencies())
-    const {
-      currency: { currencies },
-    } = useSelector((state: any) => state)
-    const currenciesFormat = currencies?.map((item: any) => {
-      return { label: `${item.name} - ${item.symbol}`, value: `${item.id}` };
-    });
-    setCurrenciesFormatValues(currenciesFormat)
-  }, [getCurrencies]) */
-
-  /* const form = useMemo(() => {
-    return stepTwoForm(
-      colors.typography,
-      translate,
-      {
-        account_name,
-        account_comments,
-        account_number,
-        organization,
-        account_currency,
-        available_balance,
-      },
-      
-    )
-  }, [colors, translate, account_name, account_comments, currencies]) */
-
-  /* const formSelect = useMemo(() => {
-    return selectForm(colors.typography, translate, { account_type }, colors.background100)
-  }, [colors, translate])
-
-  const walletFrom = useMemo(() => {
-    return WalletForm(colors.typography, translate, { account_type }, colors.background100)
-  }, [colors, translate])
-
-  const cashFrom = useMemo(() => {
-    return CashForm(colors.typography, translate, { account_number, account_comments, available_balance }, colors.background100, /* currenciesFormatValues )
-  }, [colors, translate])
-
-  const bankForm = useMemo(() => {
-    return BankForm(colors.typography, translate, { account_name, account_comments, organization, account_number, available_balance, account_currency, currencies }, colors.background100, currencies)
-  }, [colors, translate])
-
-  const bankForm2 = useMemo(() => {
-    return BankForm2(colors.typography, translate, { available_balance, currencies }, colors.background100, currencies)
-  }, [colors, translate]) */
+  const { currencies } = useSelector((state: any) => state.currency)
 
   const form = useMemo(() => {
     const formsTypes: any = {
@@ -108,40 +40,13 @@ const StepTwo: FC = () => {
   }, [values?.account_type])
 
   const submitStep = () => {
-    console.log(values)
-    const keys = Object.keys(values)
-    let valid = true
-    for (const key of keys)
-      valid =
-        valid && (!!values[key] || key === 'organization' || key === 'account_comments')
-    if (valid) dispatch(completeOnboarding({ ...values, ...onboarding }))
+    const sendValues = Object.keys(values).reduce((prev: any, next: any) => {
+      prev[next] = values[next]?.value
+      return prev
+    }, {})
+    const valid = Object.keys(values).reduce((prev: any, next: any) => prev && values[next]?.validation, true)
+    if (valid) dispatch(completeOnboarding({ ...sendValues, ...onboarding }))
   }
-
-  const changeValues = (change: any) => {
-    const keys = Object.keys(change?.value)
-    for (const key of keys)
-      if (change?.value[key]?.validation)
-        setValues((oldData: any) => ({
-          ...oldData,
-          [key]: change?.value[key]?.value,
-        }))
-  }
-
-  /*   const FormsOption = () => {
-      if (data.account_type === 'wallet') return (
-        <DynamicForm returnData={changeValues} formData={walletFrom} />
-      )
-      else if (data.account_type === 'bank') return (
-        <>
-          <DynamicForm returnData={changeValues} formData={bankForm} />
-          <DynamicForm returnData={changeValues} formData={bankForm2} /> 
-        </>
-  
-      )
-      return (
-        <DynamicForm returnData={changeValues} formData={cashFrom} />
-      )
-    } */
 
   return (
     <ScrollView

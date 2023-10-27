@@ -2,6 +2,7 @@ import { DispatchProps } from 'interfaces'
 import {
   CREATE_CRYPTO_ACCOUNT_ASYNC,
   CREATE_CURRENCY_ACCOUNT_ASYNC,
+  DELETE_ACCOUNT_ASYNC,
   GET_ACCOUNTS_ASYNC,
   GET_DASHBOARD_VALUES_ASYNC,
   GET_ITEM_ASYNC,
@@ -16,6 +17,7 @@ const initialState = {
   isAuth: false,
   user: {},
   tokenNotifications: null,
+  currency: null,
   totalBalance: 0,
   dashboardValues: {
     monthIncome: 0,
@@ -58,6 +60,8 @@ const AccountReducer = (
       return { ...state, accounts: payload }
     case CREATE_CURRENCY_ACCOUNT_ASYNC:
       return { ...state, accounts: payload }
+    case DELETE_ACCOUNT_ASYNC:
+      return initialState
     default:
       return state
   }
