@@ -5,6 +5,7 @@ const initialState = {
   username: '',
   image: null,
   account_name: '',
+  currency: '',
   account_comments: '',
   account_number: '',
   bank: '',
