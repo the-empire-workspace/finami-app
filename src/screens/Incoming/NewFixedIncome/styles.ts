@@ -20,7 +20,17 @@ export const localStyles = StyleSheet.create({
   },
   container: {
     width: '100%',
-    padding:20
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap:25,
+    paddingHorizontal: 20,
+    paddingBottom: 10,
+    paddingTop: 10,
+  },
+  buttonContainer: {
+    width: '47%',
   },
   buttonLocal: {
     textTransform: 'uppercase',

@@ -6,7 +6,6 @@ import { useTheme } from 'providers'
 import { useNavigation } from '@react-navigation/native'
 const FixedIncome: FC = () => {
   const { colors } = useTheme()
-
   const router: any = useNavigation()
   return (
     <View style={[styles.root, { backgroundColor: colors.background100 }]}>
@@ -20,7 +19,7 @@ const FixedIncome: FC = () => {
           >
             <ArrowFatLeft />
           </TouchableOpacity>
-          <Text style={styles.h1} >Ingresos Pendientes</Text>
+          <Text style={styles.h1} >Ingresos Fijos</Text>
         </View>
         <TouchableOpacity 
           style={[styles.headerButton,{backgroundColor: colors.background25}]}
@@ -30,8 +29,8 @@ const FixedIncome: FC = () => {
           >
           <Text style={styles.h3}>Nuevo ingreso</Text>
         </TouchableOpacity>
-        {/* <Text style={styles.h3}>FixedIncome2</Text> */}
       </View>
+        <Text style={styles.h1}>text</Text> 
     </View>
   )
 }
