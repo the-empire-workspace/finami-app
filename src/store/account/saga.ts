@@ -19,15 +19,18 @@ import {
 import {
   TruncateTables,
   actionObject,
+  chainConnection,
   createAccountQuery,
   createEntryQuery,
   getAccountsQuery,
+  getBalancesMoralis,
   getEntriesQuery,
   getEntry,
   getUserQuery,
   operateChange,
 } from 'utils'
 import { selectCurrency } from 'store/selector'
+import { formatEther } from 'viem'
 
 function* signInAsync(): any {
   try {
@@ -111,7 +114,11 @@ export function* getAccountsAsync(): any {
 
 export function* createCryptoAccountAsync({ payload }: any): any {
   try {
-    console.log(payload)
+    const balances = yield call(getBalancesMoralis, payload?.address, payload?.netId)
+   
+    for (const balance of balances) {
+      
+    }
     /* const accounts = yield call(createAccountQuery, { user: 1, account_currency: 1, account_name: 'crypto wallet', })
     yield put(actionObject(CREATE_CRYPTO_ACCOUNT_ASYNC, accounts)) */
   } catch (error) {
