@@ -4,5 +4,5 @@ LogBox.ignoreLogs(['[notifee] no background event ...'])
 
 LogBox.ignoreLogs([
   'ReactImageView:',
-  ' Selector unknown returned the root state when called.',
+  'Selector unknown returned the root state when called. This can lead to unnecessary rerenders.',
 ])

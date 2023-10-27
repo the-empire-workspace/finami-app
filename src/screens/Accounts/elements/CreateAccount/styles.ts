@@ -9,7 +9,8 @@ export const localStyles = StyleSheet.create({
   },
   scrollContainer: {
     paddingHorizontal: 20,
-    paddingTop: 10
+    paddingTop: 15,
+    paddingBottom:15
   }
 })
 

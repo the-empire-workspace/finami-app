@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react'
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import {MainTab} from '../../Tabs'
+import React, { useEffect } from 'react'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { MainTab } from '../../Tabs'
 import {
   Entry,
   ConcurrentPayment,
@@ -9,11 +9,12 @@ import {
   Currencies,
   Accounts,
 } from '@screens'
-import {useDispatch} from 'react-redux'
-import {getCurrencyPrice} from 'store/actions'
+import { useDispatch } from 'react-redux'
+import { getCurrencyPrice } from 'store/actions'
 import FixedIncome from 'screens/Incomings/FixedIncome'
 import NewEntry from 'screens/Incomings/NewEntry'
 import Incoming from 'screens/Incomings'
+import { ProfileDelete } from 'screens/Profile/elements'
 
 const Stack = createNativeStackNavigator()
 
@@ -36,11 +37,16 @@ export const PrivateStack = () => {
       <Stack.Screen
         name="entry"
         component={Entry}
-        options={{presentation: 'transparentModal'}}
+        options={{ presentation: 'transparentModal' }}
       />
-      <Stack.Screen name="Incoming" options={{presentation: 'transparentModal'}} component={Incoming} />
-      <Stack.Screen name="fixedIncoming" component={FixedIncome}/>
-      <Stack.Screen name="newEntry" component={NewEntry}/>
+      <Stack.Screen
+        name="deleteProfile"
+        component={ProfileDelete}
+        options={{ presentation: 'transparentModal' }}
+      />
+      <Stack.Screen name="Incoming" options={{ presentation: 'transparentModal' }} component={Incoming} />
+      <Stack.Screen name="fixedIncoming" component={FixedIncome} />
+      <Stack.Screen name="newEntry" component={NewEntry} />
       <Stack.Screen name="concurrentPayment" component={ConcurrentPayment} />
       <Stack.Screen name="category" component={Category} />
       <Stack.Screen name="profile" component={Profile} />

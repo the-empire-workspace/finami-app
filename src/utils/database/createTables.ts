@@ -3,7 +3,7 @@ import USD from '@assets/img/Iconografia-finami-12.png'
 import EUR from '@assets/img/Iconografia-finami-09.png'
 import BTC from '@assets/img/Iconografia-finami-16.png'
 import ETH from '@assets/img/Iconografia-finami-07.png'
-import {selectQuery} from './helpers'
+import { selectQuery } from './helpers'
 
 const createUserTable = async () => {
   try {
@@ -67,6 +67,7 @@ const createAccountTable = async () => {
       currency_id INTEGER,\
       account_name VARCHAR,\
       account_number VARCHAR,\
+      account_type VARCHAR,\
       organization VARCHAR,\
       account_comments VARCHAR,\
       FOREIGN KEY(user_id) REFERENCES users(id)\
@@ -81,9 +82,8 @@ const createAccountTable = async () => {
 
 const createEntriesTable = async () => {
   try {
-    await database.executeSql(`CREATE TABLE IF NOT EXISTS entries (\
+    const created = await database.executeSql(`CREATE TABLE IF NOT EXISTS entries (\
       id INTEGER PRIMARY KEY AUTOINCREMENT,\
-      user_id INTEGER,\
       account_id INTEGER,\
       payment_type VARCHAR,\
       amount REAL,\
@@ -93,11 +93,10 @@ const createEntriesTable = async () => {
       emissor VARCHAR,\
       email VARCHAR,\
       phone VARCHAR,\
+      status VARCHAR,\
       date DATETIME,\
-      FOREIGN KEY(account_id) REFERENCES accounts(id),\
-      FOREIGN KEY(user_id) REFERENCES users(id)\
+      FOREIGN KEY(account_id) REFERENCES accounts(id)
       )`)
-
     console.log('entries table created')
   } catch (error) {
     console.log('error creating entries table', error)

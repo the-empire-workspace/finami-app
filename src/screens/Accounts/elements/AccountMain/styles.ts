@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native'
-import {Typos, Elements} from '@theme'
+import { StyleSheet } from 'react-native'
+import { Typos, Elements } from '@theme'
 
 export const localStyles = StyleSheet.create({
   root: {
@@ -14,6 +14,7 @@ export const localStyles = StyleSheet.create({
   scrollContainer: {
     paddingHorizontal: 20,
     paddingTop: 10,
+    gap: 5,
   },
   accountItem: {
     width: '100%',
@@ -29,4 +30,4 @@ export const localStyles = StyleSheet.create({
   },
 })
 
-export const styles = {...localStyles, ...Typos, ...Elements}
+export const styles = { ...localStyles, ...Typos, ...Elements }

@@ -16,7 +16,7 @@ const StepTwo: FC = () => {
   const router: any = useNavigation()
   const dispatch = useDispatch()
   const { username, image, currency } = useSelector((state: any) => state?.onboarding)
-  const [data, setData] = useState({
+  const [data, setData] = useState<any>({
     username: username || '',
     image: image || '',
     currency: currency || [],
@@ -24,9 +24,7 @@ const StepTwo: FC = () => {
   useEffect(() => {
     dispatch(getCurrencies())
   }, [])
-  const {
-    currency: { currencies },
-  } = useSelector((state: any) => state)
+  const { currencies } = useSelector((state: any) => state.currency)
   const currenciesFormatValues = useMemo(() => [...currencies]?.map((currency: any) => ({
     label: `${currency?.name} - ${currency?.symbol}`,
     value: String(currency?.id),
@@ -37,18 +35,18 @@ const StepTwo: FC = () => {
   }, [colors, translate, username, currenciesFormatValues])
 
   const submitStep = () => {
-    if (data.username && data.currency) {
-      dispatch(setStep(data))
+    if (data?.username && data?.currency) {
+      const sendValues = Object.keys(data).reduce((prev: any, next: any) => {
+        prev[next] = data[next]?.value
+        return prev
+      }, {})
+      dispatch(setStep(sendValues))
       router.navigate('StepThree')
     }
   }
 
   const changeUsername = (change: any) => {
-    if (change?.value?.username?.validation)
-      setData(oldData => ({
-        ...oldData,
-        username: change.value?.username?.value,
-      }))
+    for (const value in change?.value) setData((prev: any) => ({ ...prev, [value]: change?.value[value] }))
   }
 
   return (
@@ -74,7 +72,7 @@ const StepTwo: FC = () => {
             <Avatar
               defaultAvatar={data?.image ? { uri: data?.image } : null}
               actionAvatar={(change: any) => {
-                setData(oldData => ({ ...oldData, image: change }))
+                setData((oldData: any) => ({ ...oldData, image: change }))
               }}
             />
           </View>

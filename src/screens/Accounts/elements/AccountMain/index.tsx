@@ -42,7 +42,7 @@ const Currencies: FC = () => {
                 {translate('account_type')}:
               </Text>
               <Text style={[styles.smallBody, { color: colors.typography }]}>
-                {item?.account_type}
+                {translate(item?.account_type)}
               </Text>
             </View>
             <Text

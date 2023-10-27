@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native'
-import {Typos, Elements} from '@theme'
+import { StyleSheet } from 'react-native'
+import { Typos, Elements } from '@theme'
 
 const localStyles = StyleSheet.create({
   scrollRoot: {
@@ -35,4 +35,4 @@ const localStyles = StyleSheet.create({
   },
 })
 
-export const styles = {...localStyles, ...Typos, ...Elements}
+export const styles = { ...localStyles, ...Typos, ...Elements }
