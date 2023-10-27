@@ -26,6 +26,7 @@ import { useNavigation } from '@react-navigation/native'
                 router.navigate('fixedIncoming')
               }}
             >
+            pendingIncoming
               <Text>x</Text>
             </TouchableOpacity>
           )) */}
@@ -38,6 +39,7 @@ import { useNavigation } from '@react-navigation/native'
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonItems,{backgroundColor: colors.background25}]}
+            onPress={() => router.navigate('pendingIncoming')}
           >
 
             <Text>Ingresos Pendientes</Text>

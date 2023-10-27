@@ -25,7 +25,7 @@ const FixedIncome: FC = () => {
         <TouchableOpacity 
           style={[styles.headerButton,{backgroundColor: colors.background25}]}
            onPress={() => {
-             router.navigate('newEntry')
+             router.navigate('newFixedIncome')
            }}
           >
           <Text style={styles.h3}>Nuevo ingreso</Text>

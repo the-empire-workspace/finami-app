@@ -93,6 +93,8 @@ const createEntriesTable = async () => {
       emissor VARCHAR,\
       email VARCHAR,\
       phone VARCHAR,\
+      frecuency_type VARCHAR,\
+      frecuency_time VARCHAR,\
       date DATETIME,\
       FOREIGN KEY(account_id) REFERENCES accounts(id),\
       FOREIGN KEY(user_id) REFERENCES users(id)\

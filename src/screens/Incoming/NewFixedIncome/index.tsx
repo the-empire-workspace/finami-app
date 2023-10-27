@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native'
 import { translate } from 'utils'
 import { NewEntryForm } from './form'
 import { Button } from 'theme/components'
-const NewEntry: FC = () => {
+const NewFixedIncome: FC = () => {
   const { colors } = useTheme()
   const [data, setData] = useState({
     payment_concept: '',
@@ -47,4 +47,4 @@ const NewEntry: FC = () => {
     </ScrollView>
   )
 }
-export default NewEntry
+export default NewFixedIncome
