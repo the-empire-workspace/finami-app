@@ -47,6 +47,7 @@
   "phone": "Phone",
   "cash": "Cash",
   "wallet": "Crypto Wallet",
+  "change_wallet": "Change Wallet",
   "bank_account": "Bank Account",
   "connect_wallet": "Connect Wallet",
   "email": "Email",

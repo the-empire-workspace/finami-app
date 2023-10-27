@@ -1,7 +1,7 @@
 export const mainForm = (
   translate: any,
   def: any,
-  colors:any
+  colors: any
 ) => [
     {
       element: 'select',
@@ -22,10 +22,6 @@ export const mainForm = (
           label: translate('bank_account'),
           value: 'bank_account',
         },
-        {
-          label: translate('wallet'),
-          value: 'wallet',
-        },
       ],
       validations: {
         required: true,
@@ -35,7 +31,7 @@ export const mainForm = (
     }
   ]
 
-export const cashForm = (translate: any, def: any, currencies: any = [], colors:any) => [
+export const cashForm = (translate: any, def: any, currencies: any = [], colors: any) => [
   {
     element: 'input',
     name: 'account_name',
@@ -107,7 +103,7 @@ export const cashForm = (translate: any, def: any, currencies: any = [], colors:
 ]
 
 
-export const bankForm = (translate: any, def: any, currencies: any = [], colors:any) => [
+export const bankForm = (translate: any, def: any, currencies: any = [], colors: any) => [
   {
     element: 'input',
     name: 'account_name',

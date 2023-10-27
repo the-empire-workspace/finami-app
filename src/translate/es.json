@@ -134,6 +134,7 @@
   "delete_account_subtitle": "Lamentamos que te marches.",
   "delete_account_body": "Para confirmar la eliminación de su cuenta, por favor escriba su nombre de usuario en la casilla a continuación.",
   "delete_account_warning": "Ten en cuenta que esta acción es irreversible. Una vez que su cuenta sea eliminada, todos sus datos serán permanentemente eliminados de nuestro sistema.",
+  "change_wallet": "Cambiar Wallet",	
   "cancel": "Cancelar",
   "update": "Actualizar",
   "creation_date": "Fecha de Creacion",

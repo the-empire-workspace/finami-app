@@ -30,8 +30,13 @@ const CreateAccount: FC = () => {
       'bank_account': [...mainForm(translate, values, colors), ...bankForm(translate, values, currencies, colors)],
       'connect': [...mainForm(translate, values, colors), ...cryptoForm(translate, values, colors)],
     }
+    if (values?.account_type?.value === 'wallet') {
+      setValues((prev: any) => ({ account_type: prev.account_type }))
+    } else {
+      setValues((prev: any) => ({ account_type: prev.account_type, account_currency: { value: String(currencies[0]?.id) } }))
+    }
     return formsTypes[(newConnect && values?.account_type?.value === 'wallet') ? 'connect' : values?.account_type?.value] || mainForm(translate, values, colors)
-  }, [values?.account_type])
+  }, [values?.account_type?.value, newConnect])
 
 
   const checkWalletExist = () => {
@@ -46,16 +51,16 @@ const CreateAccount: FC = () => {
   }, [isConnected, status])
 
   const createAccount = () => {
-    setNewConnect(false)
-    setValues({ account_type: { value: 'cash' } })
-    if (values?.account_type === 'wallet') {
-      dispatch(createCryptoAccount({ ...values, address, netId: selectedNetworkId }))
-      return
-    }
     const sendValues = Object.keys(values).reduce((prev: any, next: any) => {
       prev[next] = values[next]?.value
       return prev
     }, {})
+    if (values?.account_type?.value === 'wallet') {
+      console.log('sent this')
+      dispatch(createCryptoAccount({ ...sendValues, address, netId: selectedNetworkId }))
+      return
+    }
+
     dispatch(createCurrencyAccount(sendValues))
   }
 
@@ -67,7 +72,7 @@ const CreateAccount: FC = () => {
         <DynamicForm formData={form} returnData={(data: any) => {
           for (const value in data?.value) setValues((prev: any) => ({ ...prev, [value]: data?.value[value] }))
         }} />
-        {(values?.account_type?.value === 'wallet' && !newConnect) && <Button text={translate('connect_wallet')} onPress={() => open()} disabled={false} />}
+        {values?.account_type?.value === 'wallet' && <Button text={(newConnect) ? translate('change_wallet') : translate('connect_wallet')} onPress={() => open()} disabled={false} />}
       </ScrollView>
       <View style={[styles.scrollContainer]}>
         <Button text={translate('create_account')} onPress={createAccount} disabled={Object.keys(values)?.reduce((prev: any, next: any) => { return prev || !values[next]?.validation }, false)} />

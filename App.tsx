@@ -1,23 +1,22 @@
-import React, {useEffect} from 'react'
-import {ErrorBoundary} from '@components'
-import {store} from '@store'
-import {Provider} from 'react-redux'
-import {Main} from '@screens'
-import {NavigationContainer} from '@react-navigation/native'
-import {ThemeProvider} from '@providers'
-import {SafeAreaProvider} from 'react-native-safe-area-context'
+import React, { useEffect } from 'react'
+import { ErrorBoundary } from '@components'
+import { store } from '@store'
+import { Provider } from 'react-redux'
+import { Main } from '@screens'
+import { NavigationContainer } from '@react-navigation/native'
+import { ThemeProvider } from '@providers'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 import './src/utils/hideLogs'
 /* import notifee, {EventType} from '@notifee/react-native' */
-import {emitter} from 'utils/eventEmitter'
-import {setI18nConfig} from '@utils'
+import { setI18nConfig } from '@utils'
 import SQLite from 'react-native-sqlite-storage'
 import {
   createWeb3Modal,
   defaultWagmiConfig,
   Web3Modal,
 } from '@web3modal/wagmi-react-native'
-import {WagmiConfig} from 'wagmi'
-import {mainnet, polygon, arbitrum} from 'wagmi/chains'
+import { WagmiConfig } from 'wagmi'
+import { mainnet, polygon, bsc } from 'wagmi/chains'
 
 /* notifee.onBackgroundEvent(async ({type, detail}) => {
   const {notification} = detail
@@ -38,9 +37,9 @@ const metadata = {
   icons: ['https://finami.com/favicon.ico'],
 }
 
-const chains = [mainnet, polygon, arbitrum]
+const chains = [mainnet, polygon, bsc]
 
-const wagmiConfig = defaultWagmiConfig({chains, projectId, metadata})
+const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata })
 
 createWeb3Modal({
   projectId,
