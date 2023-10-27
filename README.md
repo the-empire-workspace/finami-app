@@ -37,7 +37,4 @@ Esta es una aplicación desarrollada en React Native.
    yarn android:dev
    ```
 
-   Si deseas ejecutar la aplicación en iOS, utiliza el comando `yarn ios:dev`.
-
-
 ¡Ahora deberías ver la aplicación Finami-App ejecutándose en tu emulador o dispositivo en modo de desarrollo!
