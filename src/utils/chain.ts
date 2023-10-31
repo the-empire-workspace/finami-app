@@ -1,5 +1,5 @@
-import { createPublicClient, http } from 'viem'
-import { mainnet, polygon, bsc } from 'wagmi/chains'
+import {createPublicClient, http} from 'viem'
+import {mainnet, polygon, bsc} from 'wagmi/chains'
 
 export const chainConnection = (chain: any) => {
   const selectChain: any = {
@@ -8,6 +8,9 @@ export const chainConnection = (chain: any) => {
     56: bsc,
   }
 
-  const client = createPublicClient({ chain: selectChain[chain], transport: http() })
+  const client = createPublicClient({
+    chain: selectChain[chain],
+    transport: http(),
+  })
   return client
 }

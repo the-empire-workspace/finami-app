@@ -21,7 +21,7 @@ const localStyles = StyleSheet.create({
   },
   formContainer: {
     marginTop: 25,
-    gap:15
+    gap: 15,
   },
   title: {
     marginTop: 30,
@@ -40,8 +40,8 @@ const localStyles = StyleSheet.create({
     color: 'white',
     top: -15,
     left: -5,
-    opacity:1,
-    padding:5,
+    opacity: 1,
+    padding: 5,
     zIndex: 3,
   },
 })

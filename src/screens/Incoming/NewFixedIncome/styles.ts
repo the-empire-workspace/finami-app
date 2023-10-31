@@ -9,14 +9,14 @@ export const localStyles = StyleSheet.create({
   },
   scrollContainer: {
     paddingHorizontal: 20,
-    paddingTop: 10
+    paddingTop: 10,
   },
-  header:{
+  header: {
     width: '100%',
-    minHeight:100,
+    minHeight: 100,
     paddingTop: 34,
     paddingHorizontal: 20,
-    paddingBottom: 25
+    paddingBottom: 25,
   },
   container: {
     width: '100%',
@@ -24,7 +24,7 @@ export const localStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    gap:25,
+    gap: 25,
     paddingHorizontal: 20,
     paddingBottom: 10,
     paddingTop: 10,
@@ -38,15 +38,15 @@ export const localStyles = StyleSheet.create({
   formContainer: {
     marginTop: 25,
   },
-  headerTop:{
-    flex:1,
+  headerTop: {
+    flex: 1,
     flexDirection: 'row',
     width: '100%',
-    minHeight:60,
-    paddingBottom:25
+    minHeight: 60,
+    paddingBottom: 25,
   },
-  headerButton:{
-    flex:1,
+  headerButton: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',

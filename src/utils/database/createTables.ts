@@ -1,9 +1,7 @@
 import database from './init'
 import USD from '@assets/img/Iconografia-finami-12.png'
 import EUR from '@assets/img/Iconografia-finami-09.png'
-import BTC from '@assets/img/Iconografia-finami-16.png'
-import ETH from '@assets/img/Iconografia-finami-07.png'
-import { selectQuery } from './helpers'
+import {selectQuery} from './helpers'
 
 const createUserTable = async () => {
   try {
@@ -31,6 +29,7 @@ const createCurrencyTable = async () => {
       type VARCHAR,\
       decimal INTEGER,\
       address VARCHAR, \
+      network VARCHAR, \
       image VARCHAR\
       )`)
 
@@ -44,18 +43,6 @@ const createCurrencyTable = async () => {
       await database.executeSql(
         'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
         ['€', 'EUR', 'FIAT', 2, EUR],
-      )
-      await database.executeSql(
-        'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
-        ['₿', 'BTC', 'CRYPTO', 8, BTC],
-      )
-      await database.executeSql(
-        'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
-        ['Ξ', 'ETH', 'CRYPTO', 8, ETH],
-      )
-      await database.executeSql(
-        'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
-        ['$', 'USDT', 'CRYPTO', 2, ETH],
       )
       console.log('currencies data created')
     }
@@ -87,7 +74,7 @@ const createAccountTable = async () => {
 
 const createEntriesTable = async () => {
   try {
-    const created = await database.executeSql(`CREATE TABLE IF NOT EXISTS entries (\
+    await database.executeSql(`CREATE TABLE IF NOT EXISTS entries (\
       id INTEGER PRIMARY KEY AUTOINCREMENT,\
       account_id INTEGER,\
       payment_type VARCHAR,\

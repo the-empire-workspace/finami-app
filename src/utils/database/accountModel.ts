@@ -1,4 +1,8 @@
-import { insertQuery, selectQuery } from './helpers'
+import {operateChange} from 'utils/dataTransform'
+import {getAccountEntriesQuery} from './entryModel'
+import {insertQuery, selectQuery} from './helpers'
+import {getNetworkCurrency} from 'utils/moralis'
+import {getExchangeValues} from 'utils/exchangeData'
 
 export const createAccountQuery = async ({
   user,
@@ -22,22 +26,53 @@ export const createAccountQuery = async ({
         comments,
       ],
     )
-    const account: any = await selectQuery('SELECT * FROM accounts where id = ?', [newAccount.insertId])
+    const account: any = await selectQuery(
+      'SELECT * FROM accounts where id = ?',
+      [newAccount.insertId],
+    )
     return account.raw()[0]
   } catch (error) {
-    console.log(error)
+    console.log('error account creation', error)
     return null
   }
 }
 
-export const getAccountsQuery = async () => {
+export const getAccountsQuery = async (currencies: any) => {
   try {
     const accounts: any = await selectQuery(
-      "SELECT accounts.id, account_name, account_number, organization,account_type, account_comments, currency_name, currency_symbol, decimal, SUM(CASE WHEN entries.entry_type = 'income' THEN entries.amount WHEN entries.entry_type = 'expense' THEN -entries.amount ELSE 0 END) as total_amount FROM accounts LEFT JOIN (SELECT id, name as currency_name, symbol as currency_symbol, decimal FROM currencies) cur ON cur.id = accounts.currency_id LEFT JOIN entries ON entries.account_id = accounts.id GROUP BY account_name",
+      "SELECT accounts.id, account_name, account_number, organization, account_type, account_comments, currency_name, currency_symbol, decimal, SUM(CASE WHEN entries.entry_type = 'income' THEN entries.amount WHEN entries.entry_type = 'expense' THEN -entries.amount ELSE 0 END) as total_amount FROM accounts LEFT JOIN (SELECT id, name as currency_name, symbol as currency_symbol, decimal FROM currencies) cur ON cur.id = accounts.currency_id LEFT JOIN entries ON entries.account_id = accounts.id GROUP BY account_name",
     )
-    return accounts.raw()
+
+    const rawAccounts = accounts.raw()
+    for (const account of rawAccounts)
+      if (account?.account_type === 'wallet') {
+        const netCurrency = getNetworkCurrency(account?.organization)
+
+        const currency = currencies.find(
+          (c: any) => c?.symbol === netCurrency?.symbol,
+        )
+
+        const defaultPrices = await getExchangeValues(currencies, currency?.id)
+        const entries = await getAccountEntriesQuery(account?.account_name)
+        const currenciesAccount = await entries.reduce(
+          (prev: any, next: any) => {
+            const change = defaultPrices[String(next?.currency_id)]
+            const amount = change
+              ? operateChange(change?.op, change?.value, next.amount)
+              : next.amount
+            return prev + (next?.entry_type === 'income' ? amount : -amount)
+          },
+          0,
+        )
+        account.currency_name = currency?.name
+        account.currency_symbol = currency?.symbol
+        account.decimal = currency?.decimal
+        account.total_amount = currenciesAccount
+      }
+
+    return rawAccounts
   } catch (error) {
-    console.log(error)
+    console.log('error getting accounts', error)
     return null
   }
 }

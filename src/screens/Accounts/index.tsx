@@ -1,6 +1,6 @@
-import React, { FC } from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { AccountMain, CreateAccount } from './elements'
+import React, {FC} from 'react'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {AccountMain, CreateAccount} from './elements'
 
 const Stack = createNativeStackNavigator()
 

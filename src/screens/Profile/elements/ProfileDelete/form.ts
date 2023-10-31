@@ -3,7 +3,7 @@ export const deleteForm = (translate: any, def: any, colors: any) => [
     element: 'input',
     name: 'username',
     label: translate('username'),
-    labelStyle: { backgroundColor: colors.background100 },
+    labelStyle: {backgroundColor: colors.background100},
     type: 'text',
     defaultValue: def?.username?.value || '',
     placeholder: translate('username'),
@@ -16,4 +16,3 @@ export const deleteForm = (translate: any, def: any, colors: any) => [
     },
   },
 ]
-

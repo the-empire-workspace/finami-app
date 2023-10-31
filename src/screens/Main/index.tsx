@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { styles } from './styles'
+import React, {FC, useEffect, useState} from 'react'
+import {SafeAreaView} from 'react-native-safe-area-context'
+import {styles} from './styles'
 import AppNavigator from '@routes'
-import { processCategoryDeep, setI18nConfig, verifyId } from '@utils'
-import { useSelector, useDispatch } from 'react-redux'
+import {processCategoryDeep, setI18nConfig, verifyId} from '@utils'
+import {useSelector, useDispatch} from 'react-redux'
 import {
   /*
   getCurrencyPrice,
@@ -14,10 +14,10 @@ import {
 } from 'store/actions' /*
 import notifee, {EventType} from '@notifee/react-native'
 import {emitter} from 'utils/eventEmitter' */
-import { ModalStatus } from './elements'
+import {ModalStatus} from './elements'
 
 const Main: FC = () => {
-  const { user, isAuth } = useSelector((state: any) => state.account)
+  const {user, isAuth} = useSelector((state: any) => state.account)
   const dispatch = useDispatch()
 
   const [elementData, setElementData] = useState<any>({
@@ -28,7 +28,7 @@ const Main: FC = () => {
   })
 
   const changeStatus = () => {
-    const { ids, element, elements, type } = elementData
+    const {ids, element, elements, type} = elementData
 
     let items = []
     if (element.paymentType === 'concurrent') {
@@ -68,26 +68,26 @@ const Main: FC = () => {
         items = processCategoryDeep(
           ids,
           elements,
-          { item: element },
-          { ...element },
+          {item: element},
+          {...element},
         )
-      } else items = verifyId({ item: element }, { ...element }, elements)
+      } else items = verifyId({item: element}, {...element}, elements)
     } else if (ids?.length > 1) {
       ids.pop()
       items = processCategoryDeep(
         ids,
         elements,
-        { item: element },
-        { ...element, status: 'paid' },
+        {item: element},
+        {...element, status: 'paid'},
       )
     } else
-      items = verifyId({ item: element }, { ...element, status: 'paid' }, elements)
+      items = verifyId({item: element}, {...element, status: 'paid'}, elements)
 
     if (items?.length)
       if (type === 'in') dispatch(setIncoming(items))
       else dispatch(setOutcoming(items))
 
-    setElementData({ element: null, ids: [], elements: [], type: null })
+    setElementData({element: null, ids: [], elements: [], type: null})
   }
   /*
   const checkInformation = (data: string) => {
@@ -109,7 +109,7 @@ const Main: FC = () => {
   } */
 
   const close = () => {
-    setElementData({ element: null, ids: [], elements: [], type: null })
+    setElementData({element: null, ids: [], elements: [], type: null})
   }
   /*
     useEffect(() => {

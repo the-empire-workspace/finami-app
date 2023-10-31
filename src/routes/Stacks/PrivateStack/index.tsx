@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { MainTab } from '../../Tabs'
+import React, {useEffect} from 'react'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {MainTab} from '../../Tabs'
 import {
   Entry,
   ConcurrentPayment,
@@ -11,13 +11,12 @@ import {
 } from '@screens'
 import {useDispatch} from 'react-redux'
 import {getCurrencyPrice} from 'store/actions'
-import { ProfileDelete } from 'screens/Profile/elements'
+import {ProfileDelete} from 'screens/Profile/elements'
 import FixedIncome from 'screens/Incoming/FixedIncome'
 import NewFixedIncome from 'screens/Incoming/NewFixedIncome'
 import Incoming from 'screens/Incoming'
 import PendingIncome from 'screens/Incoming/PendingIncome'
 import NewPendingIncome from 'screens/Incoming/NewPendingIncome'
-
 
 const Stack = createNativeStackNavigator()
 
@@ -40,18 +39,18 @@ export const PrivateStack = () => {
       <Stack.Screen
         name="entry"
         component={Entry}
-        options={{ presentation: 'transparentModal' }}
+        options={{presentation: 'transparentModal'}}
       />
-        <Stack.Screen
+      <Stack.Screen
         name="deleteProfile"
         component={ProfileDelete}
-        options={{ presentation: 'transparentModal' }}
+        options={{presentation: 'transparentModal'}}
       />
       <Stack.Screen name="Incoming" component={Incoming} />
-      <Stack.Screen name="fixedIncoming" component={FixedIncome}/>
-      <Stack.Screen name="newFixedIncome" component={NewFixedIncome}/>
-      <Stack.Screen name="pendingIncoming" component={PendingIncome}/>
-      <Stack.Screen name="newPendingIncoming" component={NewPendingIncome}/>
+      <Stack.Screen name="fixedIncoming" component={FixedIncome} />
+      <Stack.Screen name="newFixedIncome" component={NewFixedIncome} />
+      <Stack.Screen name="pendingIncoming" component={PendingIncome} />
+      <Stack.Screen name="newPendingIncoming" component={NewPendingIncome} />
       <Stack.Screen name="concurrentPayment" component={ConcurrentPayment} />
       <Stack.Screen name="category" component={Category} />
       <Stack.Screen name="profile" component={Profile} />

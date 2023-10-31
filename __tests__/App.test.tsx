@@ -6,9 +6,8 @@ import 'react-native'
 import React from 'react'
 
 import App from '../App'
-
 // Note: import explicitly to use the types shiped with jest.
-import { it } from '@jest/globals'
+import {it} from '@jest/globals'
 
 // Note: test renderer must be required after react-native.
 import renderer from 'react-test-renderer'
@@ -16,7 +15,6 @@ import renderer from 'react-test-renderer'
 it('renders correctly', () => {
   renderer.create(<App />)
 })
-
 
 jest.mock('react-native/Libraries/LogBox/Data/LogBoxData', () => {
   return {
@@ -43,13 +41,12 @@ jest.mock('react-native-date-picker', () => {
   return {}
 })
 
-
 jest.mock('@react-navigation/drawer', () => {
-  const addIgnorePatterns = () => { }
+  const addIgnorePatterns = () => {}
   const LogBoxData = {
     addIgnorePatterns,
   }
-  const createDrawerNavigator = () => { }
+  const createDrawerNavigator = () => {}
   return {
     LogBoxData,
     createDrawerNavigator,
@@ -58,22 +55,22 @@ jest.mock('@react-navigation/drawer', () => {
 
 jest.mock('react-native-sqlite-storage', () => {
   return {
-    openDatabase: () => { },
-    DEBUG: () => { },
+    openDatabase: () => {},
+    DEBUG: () => {},
   }
 })
 
 jest.mock('@web3modal/wagmi-react-native', () => {
   return {
-    createWeb3Modal: () => { },
-    defaultWagmiConfig: () => { },
-    Web3Modal: () => { },
+    createWeb3Modal: () => {},
+    defaultWagmiConfig: () => {},
+    Web3Modal: () => {},
   }
 })
 
 jest.mock('wagmi', () => {
   return {
-    WagmiConfig: () => { },
+    WagmiConfig: () => {},
   }
 })
 
@@ -85,11 +82,8 @@ jest.mock('wagmi/chains', () => {
   }
 })
 
-
-jest.mock("react-native-localize", () => {
+jest.mock('react-native-localize', () => {
   return {
-    findBestLanguageTag: () => {
-
-    }
+    findBestLanguageTag: () => {},
   }
-});
+})

@@ -21,7 +21,7 @@ const InfoBanner: FC<any> = ({values}) => {
         <Text style={[styles.strongBody, {color: values?.month1?.color}]}>
           {currency?.symbol || ''}{' '}
           {values?.month1?.value?.toLocaleString('en-US', {
-            minimumFractionDigits: currency?.decimal,
+            maximumFractionDigits: currency?.decimal,
           })}
         </Text>
         <Text style={[styles.extraSmallBody, {color: colors.typography}]}>
@@ -32,7 +32,7 @@ const InfoBanner: FC<any> = ({values}) => {
         <Text style={[styles.strongBody, {color: values?.month2?.color}]}>
           - {currency?.symbol || ''}{' '}
           {values?.month2?.value?.toLocaleString('en-US', {
-            minimumFractionDigits: currency?.decimal,
+            maximumFractionDigits: currency?.decimal,
           })}
         </Text>
         <Text style={[styles.extraSmallBody, {color: colors.typography}]}>
@@ -43,7 +43,7 @@ const InfoBanner: FC<any> = ({values}) => {
         <Text style={[styles.strongBody, {color: colors.states.caution}]}>
           {currency?.symbol || ''}{' '}
           {values?.month3?.value?.toLocaleString('en-US', {
-            minimumFractionDigits: currency?.decimal,
+            maximumFractionDigits: currency?.decimal,
           })}
         </Text>
         <Text style={[styles.extraSmallBody, {color: colors.typography}]}>
