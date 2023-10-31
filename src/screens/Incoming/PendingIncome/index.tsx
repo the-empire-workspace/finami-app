@@ -4,6 +4,7 @@ import {styles} from './styles'
 import {useTheme} from 'providers'
 import {useNavigation} from '@react-navigation/native'
 import {BackHandler} from '@components'
+//import {translate} from 'utils'
 const PendingIncome: FC = () => {
   const {colors} = useTheme()
 

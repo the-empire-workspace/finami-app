@@ -1,7 +1,7 @@
 import React, {FC} from 'react'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import MainTabComponent from './MainTabComponent'
-import {Dashboard} from '@screens'
+import {Dashboard, Incoming} from '@screens'
 
 const Tab = createBottomTabNavigator()
 
@@ -12,6 +12,7 @@ const MainTab: FC<any> = () => {
       initialRouteName={'Dashboard'}
       tabBar={props => <MainTabComponent {...props} />}>
       <Tab.Screen name="Dashboard" component={Dashboard} />
+      <Tab.Screen name="Incoming" component={Incoming} />
     </Tab.Navigator>
   )
 }

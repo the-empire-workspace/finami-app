@@ -45,16 +45,18 @@ const DropDown: FC = ({}: any) => {
       style={
         selected
           ? [styles.root, {backgroundColor: colors.background50, height: 200}]
-          : [styles.root, {backgroundColor: colors.background50, height: 50}]
+          : [styles.root, {backgroundColor: colors.background50, height: 44}]
       }>
       {renderDropdown()}
       <View style={[styles.show]}>
         <TouchableOpacity>
-          <FileArrowUp />
+          <FileArrowUp width={24} height={24} />
         </TouchableOpacity>
-        <Text style={styles.h3}>text</Text>
+        <Text style={[styles.strongBody, {color: colors.typography}]}>
+          Texto Importante
+        </Text>
         <TouchableOpacity onPress={handleSelected}>
-          <DropDownArrow />
+          <DropDownArrow width={24} height={24} />
         </TouchableOpacity>
       </View>
     </View>

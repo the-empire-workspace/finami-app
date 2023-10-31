@@ -25,6 +25,7 @@ const localStyles = StyleSheet.create({
     padding: 5,
     height: 50,
     marginTop: 5,
+    paddingHorizontal: 20,
   },
   buttonItems: {
     width: '100%',
@@ -37,6 +38,22 @@ const localStyles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     width: '33.33%',
+  },
+  lastMovementsContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingHorizontal: 20,
+    paddingTop: 12,
+    paddingBottom: 8,
+    height: 44,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+  },
+  svg: {
+    position: 'absolute',
+    left: 40,
+    marginVertical: 'auto',
   },
 })
 
