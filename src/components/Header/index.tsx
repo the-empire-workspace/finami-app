@@ -48,7 +48,7 @@ const Header: FC<Props> = () => {
           ]}>
           {currency?.symbol || ''}{' '}
           {totalBalance?.toLocaleString('en-US', {
-            minimumFractionDigits: currency?.decimal,
+            maximumFractionDigits: currency?.decimal,
           })}
         </Text>
         <Text style={[styles.smallStrongBody, { color: colors.typography }]}>

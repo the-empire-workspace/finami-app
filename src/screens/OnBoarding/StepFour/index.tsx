@@ -36,15 +36,16 @@ const StepTwo: FC = () => {
       'cash': [...mainForm(translate, values, colors), ...cashForm(translate, values, currencies, colors)],
       'bank_account': [...mainForm(translate, values, colors), ...bankForm(translate, values, currencies, colors)],
     }
+    setValues((prev: any) => ({ account_type: prev.account_type, account_currency: { value: String(currencies[0]?.id) } }))
     return formsTypes[values?.account_type?.value] || mainForm(translate, values, colors)
-  }, [values?.account_type])
+  }, [values?.account_type?.value])
 
   const submitStep = () => {
     const sendValues = Object.keys(values).reduce((prev: any, next: any) => {
-      prev[next] = values[next]?.value
+      prev[next] = values[next]?.value || ''
       return prev
     }, {})
-    const valid = Object.keys(values).reduce((prev: any, next: any) => prev && values[next]?.validation, true)
+    const valid = Object.keys(values).reduce((prev: any, next: any) => prev && (values[next]?.validation === false || true), true)
     if (valid) dispatch(completeOnboarding({ ...sendValues, ...onboarding }))
   }
 

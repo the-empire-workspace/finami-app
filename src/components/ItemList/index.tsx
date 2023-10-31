@@ -12,7 +12,7 @@ const ItemList: FC<Props> = ({items, type}) => {
     <FlatList
       style={[styles.transactionsBox, {backgroundColor: colors.background100}]}
       data={items}
-      keyExtractor={item => item.concept + random(0, 1000)}
+      keyExtractor={item => item.id + random(0, 1000)}
       renderItem={({item, index}: any) => (
         <ItemElement item={item} key={index} type={type} />
       )}

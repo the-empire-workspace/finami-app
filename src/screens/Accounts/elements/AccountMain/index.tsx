@@ -29,10 +29,10 @@ const Currencies: FC = () => {
         </View>
       </View>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {accounts?.map((item: any, index: any) => (
-          <TouchableOpacity
+        {accounts?.map((item: any, index: any) => {
+          return <TouchableOpacity
             style={[styles.accountItem, { backgroundColor: colors.background25 }]}
-            key={index}>
+            key={item?.id}>
             <View style={[styles.accountInfoContainer]}>
               <Text style={[styles.strongBody, { color: colors.typography }]}>
                 {item?.account_name}
@@ -57,11 +57,12 @@ const Currencies: FC = () => {
                         : colors.progress.egress,
                 },
               ]}>
-              {item?.currency_symbol}
-              {item?.total_amount}
+              {item?.currency_symbol} {item?.total_amount?.toLocaleString('en-US', {
+                maximumFractionDigits: item?.decimal,
+              })}
             </Text>
           </TouchableOpacity>
-        ))}
+        })}
       </ScrollView>
     </View>
   )

@@ -19,18 +19,21 @@ import {
 import {
   TruncateTables,
   actionObject,
-  chainConnection,
   createAccountQuery,
   createEntryQuery,
+  createOrUpdateCurrencyQuery,
   getAccountsQuery,
   getBalancesMoralis,
+  getCurrenciesQuery,
   getEntriesQuery,
   getEntry,
+  getExchangeValues,
   getUserQuery,
   operateChange,
 } from 'utils'
 import { selectCurrency } from 'store/selector'
 import { formatEther } from 'viem'
+import { GET_CURRENCIES_ASYNC } from 'store/currency/action-types'
 
 function* signInAsync(): any {
   try {
@@ -105,7 +108,14 @@ export function* getItemAsync({ payload }: any): any {
 
 export function* getAccountsAsync(): any {
   try {
-    const accounts = yield call(getAccountsQuery)
+    let { currencies } = yield select(selectCurrency)
+
+    if (!currencies?.length) {
+      currencies = yield call(getCurrenciesQuery)
+      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
+    }
+
+    const accounts = yield call(getAccountsQuery, currencies)
     yield put(actionObject(GET_ACCOUNTS_ASYNC, accounts))
   } catch (error) {
     console.log(error)
@@ -115,12 +125,34 @@ export function* getAccountsAsync(): any {
 export function* createCryptoAccountAsync({ payload }: any): any {
   try {
     const balances = yield call(getBalancesMoralis, payload?.address, payload?.netId)
-   
+
     for (const balance of balances) {
-      
+      if (!balance?.token?.possibleSpam) {
+        const currencyData = {
+          symbol: balance?.token?.symbol,
+          name: balance?.token?.symbol,
+          type: 'CRYPTO',
+          decimal: balance?.token?.decimals,
+          image: balance?.token?.image || '',
+          address: balance?.token?.contractAddress?.lowercase || '',
+          network: payload?.netId,
+        }
+
+        const currency = yield call(createOrUpdateCurrencyQuery, currencyData)
+
+        const newAddress = {
+          available_balance: balance?.value,
+          account_currency: currency?.id,
+          account_name: payload?.account_name,
+          account_number: payload?.address,
+          account_type: payload?.account_type,
+          organization: payload?.netId,
+          comments: payload?.comments,
+        }
+
+        yield put(actionObject(CREATE_CURRENCY_ACCOUNT, newAddress))
+      }
     }
-    /* const accounts = yield call(createAccountQuery, { user: 1, account_currency: 1, account_name: 'crypto wallet', })
-    yield put(actionObject(CREATE_CRYPTO_ACCOUNT_ASYNC, accounts)) */
   } catch (error) {
     console.log(error)
   }
@@ -128,6 +160,13 @@ export function* createCryptoAccountAsync({ payload }: any): any {
 
 export function* createCurrencyAccountAsync({ payload }: any): any {
   try {
+    let { currencies } = yield select(selectCurrency)
+
+    if (!currencies?.length) {
+      currencies = yield call(getCurrenciesQuery)
+      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
+    }
+
     const user = yield call(getUserQuery)
     const account = yield call(createAccountQuery, { user: user.id, ...payload })
     if (Number(payload?.available_balance)) yield call(createEntryQuery, {
@@ -142,7 +181,7 @@ export function* createCurrencyAccountAsync({ payload }: any): any {
       phone: '',
       date: new Date()?.getTime(),
     })
-    const accounts = yield call(getAccountsQuery)
+    const accounts = yield call(getAccountsQuery, currencies)
     yield put(actionObject(CREATE_CURRENCY_ACCOUNT_ASYNC, accounts))
   } catch (error) {
     console.log(error)

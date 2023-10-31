@@ -9,6 +9,7 @@ const localStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     borderRadius: 5,
+    marginVertical: 2.5
   },
   concept: {
     marginBottom: 5,

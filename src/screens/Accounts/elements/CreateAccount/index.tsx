@@ -40,15 +40,16 @@ const CreateAccount: FC = () => {
 
 
   const checkWalletExist = () => {
-    const existAccount = accounts?.find((item: any) => item?.account_number === address)
-    if (!existAccount) setNewConnect(true)
+    const existAccount = accounts?.find((item: any) => item?.account_number === address && item?.organization === selectedNetworkId?.toString())
+    if (!existAccount) return setNewConnect(true)
+    return setNewConnect(false)
   }
 
   useEffect(() => {
     if (isConnected && status === 'connected' && address) {
       checkWalletExist()
     }
-  }, [isConnected, status])
+  }, [isConnected, status, selectedNetworkId])
 
   const createAccount = () => {
     const sendValues = Object.keys(values).reduce((prev: any, next: any) => {
@@ -56,14 +57,12 @@ const CreateAccount: FC = () => {
       return prev
     }, {})
     if (values?.account_type?.value === 'wallet') {
-      console.log('sent this')
       dispatch(createCryptoAccount({ ...sendValues, address, netId: selectedNetworkId }))
       return
     }
 
     dispatch(createCurrencyAccount(sendValues))
   }
-
 
   return (
     <View style={[styles.root, { backgroundColor: colors.background100 }]}>

@@ -31,6 +31,7 @@ const createCurrencyTable = async () => {
       type VARCHAR,\
       decimal INTEGER,\
       address VARCHAR, \
+      network VARCHAR, \
       image VARCHAR\
       )`)
 
@@ -44,18 +45,6 @@ const createCurrencyTable = async () => {
       await database.executeSql(
         'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
         ['€', 'EUR', 'FIAT', 2, EUR],
-      )
-      await database.executeSql(
-        'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
-        ['₿', 'BTC', 'CRYPTO', 8, BTC],
-      )
-      await database.executeSql(
-        'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
-        ['Ξ', 'ETH', 'CRYPTO', 8, ETH],
-      )
-      await database.executeSql(
-        'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
-        ['$', 'USDT', 'CRYPTO', 2, ETH],
       )
       console.log('currencies data created')
     }

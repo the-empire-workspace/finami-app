@@ -1,12 +1,12 @@
 import {call} from 'redux-saga/effects'
 import axios from 'axios'
 
-function* fetchService(
+async function fetchService(
   url: any,
   method: any = 'GET',
   params: any = undefined,
   auth: any = null,
-): any {
+): Promise<any> {
   const objectRequest: any = {
     method,
     url: `${url}`,
@@ -20,7 +20,7 @@ function* fetchService(
 
   if (auth) objectRequest.headers.Authorization = `Bearer ${auth}`
 
-  const response = yield call(axios, objectRequest)
+  const response = await axios(objectRequest)
   const responseBody = response.data
 
   return responseBody

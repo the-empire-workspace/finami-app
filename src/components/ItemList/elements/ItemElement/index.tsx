@@ -58,7 +58,7 @@ const ItemElement: FC<Props> = ({item}) => {
           {' '}
           {currency?.symbol || ''}{' '}
           {item?.amount?.toLocaleString('en-US', {
-            minimumFractionDigits: currency?.decimal,
+            maximumFractionDigits: currency?.decimal,
           })}
         </Text>
       </View>
