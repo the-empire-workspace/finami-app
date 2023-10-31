@@ -1,19 +1,19 @@
-import React, { FC, useEffect, useMemo, useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
-import { styles } from './styles'
-import { useTheme } from 'providers'
-import { useNavigation } from '@react-navigation/core'
-import { useDispatch, useSelector } from 'react-redux'
-import { Header, InfoBanner, ItemList, TotalBox, DropDown } from 'components'
-import { processEntries, translate } from 'utils'
-import { getDashboardValues } from 'store/actions'
+import React, {FC, useEffect, useMemo} from 'react'
+import {View} from 'react-native'
+import {styles} from './styles'
+import {useTheme} from 'providers'
+//import {useNavigation} from '@react-navigation/core'
+import {useDispatch, useSelector} from 'react-redux'
+import {Header, InfoBanner, DropDown} from 'components'
+//import {processEntries, translate} from 'utils'
+import {getDashboardValues} from 'store/actions'
 
 const Incoming: FC = () => {
-  const { colors } = useTheme()
+  const {colors} = useTheme()
   const dispatch = useDispatch()
 
-  const { defaultPrices } = useSelector((state: any) => state.currency)
-  const { dashboardValues } = useSelector((state: any) => state.account)
+  const {defaultPrices} = useSelector((state: any) => state.currency)
+  const {dashboardValues} = useSelector((state: any) => state.account)
 
   useEffect(() => {
     if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
@@ -39,11 +39,11 @@ const Incoming: FC = () => {
     }
   }, [dashboardValues, colors])
   return (
-    <View style={[styles.root, { backgroundColor: colors.background100 }]}>
-      <View style={[{ backgroundColor: colors.background50 }]}>
+    <View style={[styles.root, {backgroundColor: colors.background100}]}>
+      <View style={[{backgroundColor: colors.background50}]}>
         <Header />
         <InfoBanner values={infoValues} />
-        <DropDown  />
+        <DropDown />
       </View>
     </View>
   )
