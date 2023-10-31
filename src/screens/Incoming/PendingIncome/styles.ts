@@ -7,22 +7,22 @@ export const localStyles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  header:{
+  header: {
     width: '100%',
-    minHeight:170,
+    minHeight: 170,
     paddingHorizontal: 20,
-    paddingBottom: 20
+    paddingBottom: 20,
   },
-  headerTop:{
-    flex:1,
+  headerTop: {
+    flex: 1,
     flexDirection: 'row',
     width: '100%',
-    minHeight:80,
+    minHeight: 80,
     paddingTop: 34,
-    paddingBottom:25
+    paddingBottom: 25,
   },
-  headerButton:{
-    flex:1,
+  headerButton: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     width: '100%',

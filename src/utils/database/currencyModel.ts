@@ -1,4 +1,4 @@
-import { insertQuery, selectQuery } from './helpers'
+import {insertQuery, selectQuery} from './helpers'
 
 export const getCurrenciesQuery = async () => {
   try {
@@ -21,7 +21,14 @@ export const createOrUpdateCurrencyQuery = async (data: any) => {
     if (currency?.raw()?.length > 0) {
       await insertQuery(
         'UPDATE currencies SET name = ?, type = ?, decimal = ?, image = ?, address = ? WHERE symbol = ?',
-        [data.name, data.type, data.decimal, data.image, data?.address, data.symbol],
+        [
+          data.name,
+          data.type,
+          data.decimal,
+          data.image,
+          data?.address,
+          data.symbol,
+        ],
       )
 
       const newCurrency: any = await selectQuery(
@@ -31,13 +38,22 @@ export const createOrUpdateCurrencyQuery = async (data: any) => {
 
       return newCurrency.raw()[0]
     }
-    await insertQuery('INSERT INTO currencies (symbol, name, type, decimal, address, network, image) VALUES (?, ?, ?, ?, ?, ?, ?)', [data.symbol, data.name, data.type, data.decimal, data?.address, data?.network, data.image])
+    await insertQuery(
+      'INSERT INTO currencies (symbol, name, type, decimal, address, network, image) VALUES (?, ?, ?, ?, ?, ?, ?)',
+      [
+        data.symbol,
+        data.name,
+        data.type,
+        data.decimal,
+        data?.address,
+        data?.network,
+        data.image,
+      ],
+    )
     const newCurrency: any = await selectQuery(
       'SELECT * FROM currencies WHERE symbol = ? AND network = ?',
       [data.symbol, data?.network],
     )
     return newCurrency.raw()[0]
-  } catch (error) {
-
-  }
+  } catch (error) {}
 }

@@ -1,7 +1,6 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects'
-import { actionObject, FetchService, getCurrenciesQuery, getExchangeValues } from 'utils'
-import { binanceAPI, ExchangeAPI } from 'utils/path'
-import { selectAccount, selectCurrency } from '../selector'
+import {call, put, select, takeLatest} from 'redux-saga/effects'
+import {actionObject, getCurrenciesQuery, getExchangeValues} from 'utils'
+import {selectAccount, selectCurrency} from '../selector'
 import {
   GET_CURRENCIES,
   GET_CURRENCIES_ASYNC,
@@ -20,16 +19,15 @@ function* getCurrenciesAsync(): any {
 
 function* getDefaultPriceAsync(): any {
   try {
-    const { user } = yield select(selectAccount)
-    let { currencies } = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
-    
+
     const prices = yield call(getExchangeValues, currencies, user?.currency_id)
-    
 
     yield put(actionObject(GET_CURRENCY_PRICE_ASYNC, prices))
   } catch (error) {

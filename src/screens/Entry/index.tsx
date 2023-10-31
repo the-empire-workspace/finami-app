@@ -38,12 +38,6 @@ const Entry: FC = () => {
     }
   }, [item])
 
-  const {currencies} = useSelector((state: any) => state.currency)
-
-  /* const currency = useMemo(() => {
-    return currencies.find((c: any) => c.id === item?.currency_id)
-  }, [currencies?.length, item?.currency_id]) */
-
   return (
     <View style={[styles.root]}>
       <View style={[styles.modal, {backgroundColor: colors.background100}]}>
@@ -96,7 +90,7 @@ const Entry: FC = () => {
                 {color: colors.typography},
               ]}>
               {translate('amount')}:
-            </Text>            
+            </Text>
           </View>
           <View style={[styles.textContent]}>
             <Text

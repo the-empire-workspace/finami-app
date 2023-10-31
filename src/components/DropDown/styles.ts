@@ -12,27 +12,26 @@ const localStyles = StyleSheet.create({
   hidden: {
     backgroundColor: '#fff',
     flex: 1,
-    flexDirection:'column',
+    flexDirection: 'column',
     width: '100%',
     marginVertical: 10,
-
   },
   show: {
-    width:'100%',
-    flex:1, 
+    width: '100%',
+    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding:5,
-    height:50,
-    marginTop:5
+    padding: 5,
+    height: 50,
+    marginTop: 5,
   },
   buttonItems: {
     width: '100%',
-    padding:17,
-    marginVertical:5,
-    borderColor:'red',
-    borderWidth:1,
+    padding: 17,
+    marginVertical: 5,
+    borderColor: 'red',
+    borderWidth: 1,
   },
   infoBox: {
     textAlign: 'center',
@@ -42,5 +41,4 @@ const localStyles = StyleSheet.create({
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}
-export { Typos }
-
+export {Typos}

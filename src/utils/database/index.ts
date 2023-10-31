@@ -1,5 +1,5 @@
-export { default as createTables } from './createTables'
-export { default as TruncateTables } from './truncateTables'
+export {default as createTables} from './createTables'
+export {default as TruncateTables} from './truncateTables'
 export * from './currencyModel'
 export * from './userModel'
 export * from './accountModel'

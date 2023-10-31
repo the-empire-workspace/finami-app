@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects'
+import {call, put, select, takeLatest} from 'redux-saga/effects'
 import {
   CREATE_CRYPTO_ACCOUNT,
   CREATE_CURRENCY_ACCOUNT,
@@ -27,13 +27,11 @@ import {
   getCurrenciesQuery,
   getEntriesQuery,
   getEntry,
-  getExchangeValues,
   getUserQuery,
   operateChange,
 } from 'utils'
-import { selectCurrency } from 'store/selector'
-import { formatEther } from 'viem'
-import { GET_CURRENCIES_ASYNC } from 'store/currency/action-types'
+import {selectCurrency} from 'store/selector'
+import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
 function* signInAsync(): any {
   try {
@@ -46,7 +44,7 @@ function* signInAsync(): any {
 
 function* getTotalBalanceAsync(): any {
   try {
-    const { defaultPrices } = yield select(selectCurrency)
+    const {defaultPrices} = yield select(selectCurrency)
     const entries = yield call(getEntriesQuery)
     const totalBalance = entries?.reduce((total: any, entry: any) => {
       const change = defaultPrices[String(entry?.currency_id)]
@@ -68,7 +66,7 @@ function* getTotalBalanceAsync(): any {
 
 function* getDashboardValues(): any {
   try {
-    const { defaultPrices } = yield select(selectCurrency)
+    const {defaultPrices} = yield select(selectCurrency)
     const entries = yield call(getEntriesQuery)
     const dashboardValues = entries?.reduce(
       (values: any, entry: any) => {
@@ -88,7 +86,7 @@ function* getDashboardValues(): any {
         values.monthProjected += amount
         return values
       },
-      { monthIncome: 0, monthExpenses: 0, monthProjected: 0, entries: [] },
+      {monthIncome: 0, monthExpenses: 0, monthProjected: 0, entries: []},
     )
 
     yield put(actionObject(GET_DASHBOARD_VALUES_ASYNC, dashboardValues))
@@ -97,7 +95,7 @@ function* getDashboardValues(): any {
   }
 }
 
-export function* getItemAsync({ payload }: any): any {
+export function* getItemAsync({payload}: any): any {
   try {
     const item = yield call(getEntry, payload)
     yield put(actionObject(GET_ITEM_ASYNC, item))
@@ -108,7 +106,7 @@ export function* getItemAsync({ payload }: any): any {
 
 export function* getAccountsAsync(): any {
   try {
-    let { currencies } = yield select(selectCurrency)
+    let {currencies} = yield select(selectCurrency)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -122,11 +120,15 @@ export function* getAccountsAsync(): any {
   }
 }
 
-export function* createCryptoAccountAsync({ payload }: any): any {
+export function* createCryptoAccountAsync({payload}: any): any {
   try {
-    const balances = yield call(getBalancesMoralis, payload?.address, payload?.netId)
+    const balances = yield call(
+      getBalancesMoralis,
+      payload?.address,
+      payload?.netId,
+    )
 
-    for (const balance of balances) {
+    for (const balance of balances)
       if (!balance?.token?.possibleSpam) {
         const currencyData = {
           symbol: balance?.token?.symbol,
@@ -152,15 +154,14 @@ export function* createCryptoAccountAsync({ payload }: any): any {
 
         yield put(actionObject(CREATE_CURRENCY_ACCOUNT, newAddress))
       }
-    }
   } catch (error) {
     console.log(error)
   }
 }
 
-export function* createCurrencyAccountAsync({ payload }: any): any {
+export function* createCurrencyAccountAsync({payload}: any): any {
   try {
-    let { currencies } = yield select(selectCurrency)
+    let {currencies} = yield select(selectCurrency)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -168,19 +169,20 @@ export function* createCurrencyAccountAsync({ payload }: any): any {
     }
 
     const user = yield call(getUserQuery)
-    const account = yield call(createAccountQuery, { user: user.id, ...payload })
-    if (Number(payload?.available_balance)) yield call(createEntryQuery, {
-      account: account?.id,
-      payment_type: 'general',
-      amount: payload?.available_balance,
-      payment_concept: 'initial',
-      entry_type: 'income',
-      comment: '',
-      emissor: '',
-      email: '',
-      phone: '',
-      date: new Date()?.getTime(),
-    })
+    const account = yield call(createAccountQuery, {user: user.id, ...payload})
+    if (Number(payload?.available_balance))
+      yield call(createEntryQuery, {
+        account: account?.id,
+        payment_type: 'general',
+        amount: payload?.available_balance,
+        payment_concept: 'initial',
+        entry_type: 'income',
+        comment: '',
+        emissor: '',
+        email: '',
+        phone: '',
+        date: new Date()?.getTime(),
+      })
     const accounts = yield call(getAccountsQuery, currencies)
     yield put(actionObject(CREATE_CURRENCY_ACCOUNT_ASYNC, accounts))
   } catch (error) {
@@ -188,10 +190,13 @@ export function* createCurrencyAccountAsync({ payload }: any): any {
   }
 }
 
-export function* deleteAccountAsync({ payload }: any): any {
+export function* deleteAccountAsync({payload}: any): any {
   try {
     const user = yield call(getUserQuery)
-    if (user?.username?.replaceAll(' ', '') === payload?.username?.replaceAll(' ', '')) {
+    if (
+      user?.username?.replaceAll(' ', '') ===
+      payload?.username?.replaceAll(' ', '')
+    ) {
       yield call(TruncateTables)
       yield put(actionObject(DELETE_ACCOUNT_ASYNC, payload))
     }

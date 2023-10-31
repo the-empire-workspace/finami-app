@@ -1,4 +1,4 @@
-import { insertQuery, selectQuery } from './helpers'
+import {insertQuery, selectQuery} from './helpers'
 
 export const createEntryQuery = async (data: any) => {
   try {
@@ -34,24 +34,21 @@ export const createEntryQuery = async (data: any) => {
       date) \
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
-    const newEntry: any = await insertQuery(
-      query,
-      [
-        account,
-        payment_type,
-        amount,
-        entry_type,
-        status,
-        payment_concept,
-        comment,
-        emissor,
-        email,
-        phone,
-        frecuency_type,
-        frecuency_time,
-        date,
-      ],
-    )
+    const newEntry: any = await insertQuery(query, [
+      account,
+      payment_type,
+      amount,
+      entry_type,
+      status,
+      payment_concept,
+      comment,
+      emissor,
+      email,
+      phone,
+      frecuency_type,
+      frecuency_time,
+      date,
+    ])
     const entry: any = await selectQuery('SELECT * FROM entries WHERE id = ?', [
       newEntry?.insertId,
     ])
@@ -89,7 +86,7 @@ export const getAccountEntriesQuery = async (account: any) => {
   try {
     const entries: any = await selectQuery(
       'SELECT entries.amount, entries.comment, entries.date, entries.email, entries.emissor, entries.status, entries.frecuency_time,entries.frecuency_type, entries.entry_type, entries.id, entries.payment_concept, entries.payment_type, entries.phone, accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id WHERE accounts.account_name = ?',
-      [account]
+      [account],
     )
     return entries.raw()
   } catch (error) {

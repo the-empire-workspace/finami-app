@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native'
 
 export const styles = StyleSheet.create({
-  main:  {
+  main: {
     zIndex: 2,
     fontSize: 14,
     color: 'white',

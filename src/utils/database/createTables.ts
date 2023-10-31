@@ -1,9 +1,7 @@
 import database from './init'
 import USD from '@assets/img/Iconografia-finami-12.png'
 import EUR from '@assets/img/Iconografia-finami-09.png'
-import BTC from '@assets/img/Iconografia-finami-16.png'
-import ETH from '@assets/img/Iconografia-finami-07.png'
-import { selectQuery } from './helpers'
+import {selectQuery} from './helpers'
 
 const createUserTable = async () => {
   try {
@@ -76,7 +74,7 @@ const createAccountTable = async () => {
 
 const createEntriesTable = async () => {
   try {
-    const created = await database.executeSql(`CREATE TABLE IF NOT EXISTS entries (\
+    await database.executeSql(`CREATE TABLE IF NOT EXISTS entries (\
       id INTEGER PRIMARY KEY AUTOINCREMENT,\
       account_id INTEGER,\
       payment_type VARCHAR,\
