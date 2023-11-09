@@ -16,6 +16,8 @@ import {
   watchSignIn,
 } from './account/saga'
 
+//import {watchGetIncoming, watchSetIncoming} from './incoming/saga'
+
 export default function* rootSaga() {
   yield all([
     fork(watchGetDefaultPrice),
@@ -31,5 +33,7 @@ export default function* rootSaga() {
     fork(watchCreateCryptoAccount),
     fork(watchCreateCurrencyAccount),
     fork(watchDeleteAccount),
+    /* fork(watchGetIncoming),
+    fork(watchSetIncoming), */
   ])
 }

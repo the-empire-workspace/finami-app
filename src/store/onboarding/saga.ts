@@ -18,11 +18,11 @@ function* completeOnboardingAsync({payload}: any): any {
       currency: data?.principal_currency,
     })
     const account = yield call(createAccountQuery, {...data, user: user?.id})
-    if (Number(data?.available_balance))
+    if (Number(payload?.available_balance))
       yield call(createEntryQuery, {
         account: account?.id,
         payment_type: 'general',
-        amount: data?.available_balance,
+        amount: Number(payload?.available_balance),
         payment_concept: 'initial',
         entry_type: 'income',
         comment: '',

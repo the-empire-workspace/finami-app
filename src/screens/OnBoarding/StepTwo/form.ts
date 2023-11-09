@@ -29,13 +29,13 @@ export const stepTwoForm = (
   },
   {
     element: 'select',
-    name: 'principal_currency',
+    name: 'currency',
     label: translate('principal_currency'),
     labelStyle: background
       ? {...styles.label, backgroundColor: background}
       : {...styles.label},
     type: 'text',
-    defaultValue: def?.currenciesFormatValues[0] || [],
+    defaultValue: def?.currency || [],
     keyboardType: 'default',
     placeholder: translate('principal_currency'),
     returnKeyType: 'go',

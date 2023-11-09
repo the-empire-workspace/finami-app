@@ -10,6 +10,7 @@ import {Button} from 'theme'
 import {useWeb3Modal, useWeb3ModalState} from '@web3modal/wagmi-react-native'
 import {useAccount} from 'wagmi'
 import {createCryptoAccount, createCurrencyAccount} from 'store/actions'
+import {useNavigation} from '@react-navigation/native'
 const CreateAccount: FC = () => {
   const [newConnect, setNewConnect] = useState(false)
   const {colors} = useTheme()
@@ -21,6 +22,7 @@ const CreateAccount: FC = () => {
   const {accounts} = useSelector((state: any) => state.account)
   const {open} = useWeb3Modal()
   const dispatch = useDispatch()
+  const router: any = useNavigation()
 
   const {isConnected, address, status} = useAccount()
   const {selectedNetworkId} = useWeb3ModalState()
@@ -82,8 +84,8 @@ const CreateAccount: FC = () => {
       )
       return
     }
-
     dispatch(createCurrencyAccount(sendValues))
+    router.goBack()
   }
 
   return (

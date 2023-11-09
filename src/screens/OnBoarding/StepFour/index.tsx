@@ -18,10 +18,11 @@ const StepTwo: FC = () => {
   const dispatch = useDispatch()
   const {open} = useWeb3Modal()
   const {isLoading} = useSelector((state: any) => state?.intermitence)
-  const {...onboarding} = useSelector((state: any) => state?.onboarding)
+  const {username, image, currency} = useSelector(
+    (state: any) => state?.onboarding,
+  )
   const [values, setValues] = useState<any>({account_type: {value: 'cash'}})
   const {currencies} = useSelector((state: any) => state.currency)
-
   const form = useMemo(() => {
     const formsTypes: any = {
       cash: [
@@ -53,7 +54,8 @@ const StepTwo: FC = () => {
         prev && (values[next]?.validation === false || true),
       true,
     )
-    if (valid) dispatch(completeOnboarding({...sendValues, ...onboarding}))
+    if (valid)
+      dispatch(completeOnboarding({...sendValues, username, image, currency}))
   }
 
   return (

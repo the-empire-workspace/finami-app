@@ -306,5 +306,7 @@ export const operateChange = (op: string, value: number, amount: number) => {
       return amount / value
     case 'multiply':
       return amount * value
+    case 'none':
+      return amount
   }
 }

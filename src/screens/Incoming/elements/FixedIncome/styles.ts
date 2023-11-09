@@ -9,7 +9,7 @@ export const localStyles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    minHeight: 200,
+    minHeight: 170,
     paddingHorizontal: 20,
     paddingBottom: 20,
   },
@@ -64,6 +64,25 @@ export const localStyles = StyleSheet.create({
     position: 'absolute',
     left: 40,
     marginVertical: 'auto',
+  },
+  transactionsBox: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: 10,
+    paddingHorizontal: 20,
+  },
+  transactionItem: {
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRadius: 5,
+    marginVertical: 2.5,
+  },
+  concept: {
+    marginBottom: 5,
   },
 })
 
