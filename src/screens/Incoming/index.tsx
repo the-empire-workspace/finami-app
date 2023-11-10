@@ -22,9 +22,9 @@ const Incoming: FC = () => {
   const {items} = useSelector((state: any) => state.incoming)
 
   useEffect(() => {
-    //dispatch(getIncoming())
     if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
     /*ciclo_infinito*/
+    //if(items?.length)dispatch(getIncoming())
   }, [defaultPrices])
   const infoValues = useMemo(() => {
     return {

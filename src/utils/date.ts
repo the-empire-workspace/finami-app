@@ -25,3 +25,31 @@ export const getUTCFullTime = (
 
 export const numberOfWeeks = (d1: any, d2: any) =>
   Math.round((d2 - d1) / (7 * 24 * 60 * 60 * 1000))
+export const nextEntry = (
+  fecha: Date,
+  frecuencia: number,
+  tipoFrecuencia: string,
+): Date => {
+  let proximoPago = new Date(fecha)
+
+  switch (tipoFrecuencia) {
+    case 'days':
+      proximoPago.setTime(
+        proximoPago.getTime() + frecuencia * 24 * 60 * 60 * 1000,
+      )
+      break
+    case 'weeks':
+      proximoPago.setTime(
+        proximoPago.getTime() + frecuencia * 7 * 24 * 60 * 60 * 1000,
+      )
+      break
+    case 'months':
+      proximoPago.setMonth(proximoPago.getMonth() + frecuencia)
+      break
+    default:
+      console.log('Tipo de frecuencia no soportado')
+      break
+  }
+
+  return proximoPago
+}

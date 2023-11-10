@@ -132,6 +132,7 @@
   "fix_income": "Ingreso Fijo",
   "total_income": "Ingreso Total",
   "payment_frequency": "Frecuencia de pago",
+  "every": "Cada",
   "last_payment": "Ultimo pago",
   "last_payments": "Ultimos pagos",
   "next_payment": "Siguiente pago",

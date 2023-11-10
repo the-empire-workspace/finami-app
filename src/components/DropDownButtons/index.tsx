@@ -5,8 +5,9 @@ import {styles} from './styles'
 import DropDownArrow from '@assets/img/CaretDoubleDown.svg'
 import FileArrowUp from '@assets/img/FileArrowUp.svg'
 import {useNavigation} from '@react-navigation/native'
+import {DropDownInfoProps} from './interface'
 
-const DropDownButtons: FC = ({DropDownInfo}: any) => {
+const DropDownButtons: FC<DropDownInfoProps> = ({DropDownInfo}: any) => {
   const {colors} = useTheme()
   const router: any = useNavigation()
   const [selected, setSelected] = useState(false)

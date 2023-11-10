@@ -135,6 +135,7 @@
   "fix_income": "Fix Income",
   "total_income": "Total Income",
   "payment_frequency": "Payment Frequency",
+  
   "last_payment": "Last Payment",
   "next_payment": "Next Payment",
   "none": "None",
