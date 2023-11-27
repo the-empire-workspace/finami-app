@@ -73,7 +73,7 @@ export const getEntriesQuery = async () => {
 export const getEntry = async (id: any) => {
   try {
     const entry: any = await selectQuery(
-      'SELECT entries.amount, entries.comment, entries.date, entries.email, entries.emissor, entries.status, entries.frecuency_time,entries.frecuency_type, entries.entry_type, entries.id, entries.payment_concept, entries.payment_type, entries.phone, accounts.account_name, accounts.account_number, accounts.organization, accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id WHERE entries.id = ?',
+      'SELECT entries.amount, entries.comment, entries.date, entries.email, entries.emissor, entries.status, entries.frecuency_time,entries.frecuency_type, entries.entry_type, entries.id, entries.payment_concept, entries.payment_type, entries.phone, accounts.account_name, accounts.account_number, accounts.organization, accounts.currency_id, currencies.symbol AS currency_symbol, currencies.decimal FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id LEFT JOIN currencies ON currencies.id = accounts.currency_id WHERE entries.id = ?',
       [id],
     )
     return entry.raw()[0]
@@ -91,5 +91,13 @@ export const getAccountEntriesQuery = async (account: any) => {
     return entries.raw()
   } catch (error) {
     console.log('error getting entries', error)
+  }
+}
+
+export const deleteAccountEntryQuery = async (id: any) => {
+  try {
+    await selectQuery('DELETE FROM entries WHERE account_id = ?', [id])
+  } catch (error) {
+    console.log('error deleting entry', error)
   }
 }

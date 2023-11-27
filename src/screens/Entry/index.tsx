@@ -1,17 +1,17 @@
-import React, {FC, useEffect, useMemo} from 'react'
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
-import {useTheme} from '@providers'
-import {styles} from './styles'
-import {translate} from 'utils'
+import React, { FC, useEffect, useMemo } from 'react'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { useTheme } from '@providers'
+import { styles } from './styles'
+import { translate } from 'utils'
 import SvgX from '@assets/img/X.svg'
-import {useNavigation} from '@react-navigation/native'
-import {useDispatch, useSelector} from 'react-redux'
-import {removeItem} from 'store/actions'
+import { useNavigation } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { removeItem } from 'store/actions'
 
 const Entry: FC = () => {
-  const {colors} = useTheme()
+  const { colors } = useTheme()
   const dispatch = useDispatch()
-  const {item} = useSelector((state: any) => state.account)
+  const { item } = useSelector((state: any) => state.account)
 
   const router = useNavigation()
 
@@ -40,10 +40,10 @@ const Entry: FC = () => {
 
   return (
     <View style={[styles.root]}>
-      <View style={[styles.modal, {backgroundColor: colors.background100}]}>
+      <View style={[styles.modal, { backgroundColor: colors.background100 }]}>
         <View
-          style={[styles.modalHeader, {backgroundColor: itemValues?.color}]}>
-          <Text style={[styles.h3, {color: colors.typography2}]}>
+          style={[styles.modalHeader, { backgroundColor: itemValues?.color }]}>
+          <Text style={[styles.h3, { color: colors.typography2 }]}>
             {itemValues?.title}
           </Text>
           <TouchableOpacity
@@ -61,11 +61,11 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                {color: colors.typography},
+                { color: colors.typography },
               ]}>
               {translate('concept')}:
             </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
+            <Text style={[styles.strongBody, { color: colors.typography }]}>
               {item?.payment_concept || translate('unavailable')}
             </Text>
           </View>
@@ -74,11 +74,11 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                {color: colors.typography},
+                { color: colors.typography },
               ]}>
               {translate('comments')}:
             </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
+            <Text style={[styles.strongBody, { color: colors.typography }]}>
               {item?.comment || translate('unavailable')}
             </Text>
           </View>
@@ -87,9 +87,14 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                {color: colors.typography},
+                { color: colors.typography },
               ]}>
               {translate('amount')}:
+            </Text>
+            <Text style={[styles.strongBody, { color: colors.typography }]}>
+              {item?.currency_symbol} {item?.amount?.toLocaleString('en-US', {
+                maximumFractionDigits: item?.decimal,
+              }) || translate('unavailable')}
             </Text>
           </View>
           <View style={[styles.textContent]}>
@@ -97,11 +102,11 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                {color: colors.typography},
+                { color: colors.typography },
               ]}>
               {translate('date')}:
             </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
+            <Text style={[styles.strongBody, { color: colors.typography }]}>
               {new Date(item?.date).toLocaleDateString('en-US', {
                 day: 'numeric',
                 month: 'long',
@@ -114,11 +119,11 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                {color: colors.typography},
+                { color: colors.typography },
               ]}>
               {translate('emissor')}:
             </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
+            <Text style={[styles.strongBody, { color: colors.typography }]}>
               {item?.emissor || translate('unavailable')}
             </Text>
           </View>
@@ -127,11 +132,11 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                {color: colors.typography},
+                { color: colors.typography },
               ]}>
               {translate('phone')}:
             </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
+            <Text style={[styles.strongBody, { color: colors.typography }]}>
               {item?.phone || translate('unavailable')}
             </Text>
           </View>
@@ -140,11 +145,11 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                {color: colors.typography},
+                { color: colors.typography },
               ]}>
               {translate('email')}:
             </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
+            <Text style={[styles.strongBody, { color: colors.typography }]}>
               {item?.email || translate('unavailable')}
             </Text>
           </View>
@@ -153,13 +158,12 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                {color: colors.typography},
+                { color: colors.typography },
               ]}>
               {translate('account')}:
             </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>{`${
-              item?.account_name
-            } - *${item?.account_number?.slice(-4)}`}</Text>
+            <Text style={[styles.strongBody, { color: colors.typography }]}>{`${item?.account_name
+              } - *${item?.account_number?.slice(-4) || ''}`}</Text>
           </View>
         </ScrollView>
       </View>

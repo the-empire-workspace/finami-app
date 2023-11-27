@@ -1,9 +1,11 @@
-import {DispatchProps} from 'interfaces'
+import { DispatchProps } from 'interfaces'
 import {
   CREATE_CRYPTO_ACCOUNT_ASYNC,
   CREATE_CURRENCY_ACCOUNT_ASYNC,
   DELETE_ACCOUNT_ASYNC,
+  DELETE_SINGLE_ACCOUNT_ASYNC,
   GET_ACCOUNTS_ASYNC,
+  GET_ACCOUNT_ASYNC,
   GET_DASHBOARD_VALUES_ASYNC,
   GET_ITEM_ASYNC,
   GET_TOTAL_BALANCE_ASYNC,
@@ -11,6 +13,7 @@ import {
   SIGNIN_ASYNC,
   UPDATE_LANGUAGE_ASYNC,
   UPDATE_NOTIFICATION_TOKEN_ASYNC,
+  UPDATE_SINGLE_ACCOUNT_ASYNC,
 } from './action-types'
 
 const initialState = {
@@ -27,19 +30,20 @@ const initialState = {
   },
   item: {},
   accounts: [],
+  account: {},
 }
 
 const AccountReducer = (
   state = initialState,
-  {type, payload}: DispatchProps,
+  { type, payload }: DispatchProps,
 ) => {
   switch (type) {
     case SIGNIN_ASYNC:
-      return {...state, ...{user: payload, isAuth: true}}
+      return { ...state, ...{ user: payload, isAuth: true } }
     case UPDATE_LANGUAGE_ASYNC:
       return {
         ...state,
-        ...{user: {...state.user, language: payload}, isAuth: true},
+        ...{ user: { ...state.user, language: payload }, isAuth: true },
       }
     case UPDATE_NOTIFICATION_TOKEN_ASYNC:
       return {
@@ -47,21 +51,28 @@ const AccountReducer = (
         tokenNotifications: payload,
       }
     case GET_TOTAL_BALANCE_ASYNC:
-      return {...state, totalBalance: payload}
+      return { ...state, totalBalance: payload }
     case GET_DASHBOARD_VALUES_ASYNC:
-      return {...state, dashboardValues: payload}
+      return { ...state, dashboardValues: payload }
     case GET_ITEM_ASYNC:
-      return {...state, item: payload}
+      return { ...state, item: payload }
     case REMOVE_ITEM:
-      return {...state, item: {}}
+      return { ...state, item: {} }
     case GET_ACCOUNTS_ASYNC:
-      return {...state, accounts: payload}
+      return { ...state, accounts: payload }
     case CREATE_CRYPTO_ACCOUNT_ASYNC:
-      return {...state, accounts: payload}
+      return { ...state, accounts: payload }
     case CREATE_CURRENCY_ACCOUNT_ASYNC:
-      return {...state, accounts: payload}
+      return { ...state, accounts: payload }
+    case GET_ACCOUNT_ASYNC:
+      return { ...state, account: payload }
+    case DELETE_SINGLE_ACCOUNT_ASYNC:
+      return { ...state, accounts: payload }
+    case UPDATE_SINGLE_ACCOUNT_ASYNC:
+      return { ...state, accounts: payload }
     case DELETE_ACCOUNT_ASYNC:
       return initialState
+
     default:
       return state
   }

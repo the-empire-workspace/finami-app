@@ -1,8 +1,10 @@
-import {actionObject} from '@utils'
+import { actionObject } from '@utils'
 import {
   CREATE_CRYPTO_ACCOUNT,
   CREATE_CURRENCY_ACCOUNT,
   DELETE_ACCOUNT,
+  DELETE_SINGLE_ACCOUNT,
+  GET_ACCOUNT,
   GET_ACCOUNTS,
   GET_DASHBOARD_VALUES,
   GET_ITEM,
@@ -11,6 +13,7 @@ import {
   SIGNIN,
   UPDATE_LANGUAGE,
   UPDATE_NOTIFICATION_TOKEN,
+  UPDATE_SINGLE_ACCOUNT,
 } from './action-types'
 
 export const signin = () => actionObject(SIGNIN)
@@ -31,3 +34,11 @@ export const createCryptoAccount = (data: any) =>
 export const createCurrencyAccount = (data: any) =>
   actionObject(CREATE_CURRENCY_ACCOUNT, data)
 export const deleteAccount = (data: any) => actionObject(DELETE_ACCOUNT, data)
+
+export const getAccount = (id: any) => actionObject(GET_ACCOUNT, id)
+
+export const deleteSingleAccount = (id: any) =>
+  actionObject(DELETE_SINGLE_ACCOUNT, id)
+
+export const updateSingleAccount = (data: any) =>
+  actionObject(UPDATE_SINGLE_ACCOUNT, data)
