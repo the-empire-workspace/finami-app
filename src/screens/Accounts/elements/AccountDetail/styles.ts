@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { Typos, Elements } from '@theme'
+import {StyleSheet} from 'react-native'
+import {Typos, Elements} from '@theme'
 
 export const localStyles = StyleSheet.create({
   root: {
@@ -14,12 +14,12 @@ export const localStyles = StyleSheet.create({
   },
   accountData: {
     gap: 5,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   mainInfo: {
     paddingHorizontal: 20,
     gap: 15,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
   amountIndicator: {
     flexDirection: 'row',
@@ -28,7 +28,7 @@ export const localStyles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
     borderRadius: 5,
-    marginTop: 5
+    marginTop: 5,
   },
 
   actionContainer: {
@@ -36,19 +36,18 @@ export const localStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 5,
-    gap: 25
+    gap: 25,
   },
   actionContent: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
     justifyContent: 'space-between',
-    marginTop: 5
+    marginTop: 5,
   },
-  action: {
-  },
+  action: {},
   actionUp: {
-    transform: [{ rotate: '180deg' }],
+    transform: [{rotate: '180deg'}],
   },
   rootModal: {
     height: '100%',
@@ -62,15 +61,15 @@ export const localStyles = StyleSheet.create({
     padding: 12,
   },
   titleCenter: {
-    textAlign: 'center'
+    textAlign: 'center',
   },
-  modalBody:{
+  modalBody: {
     gap: 1,
   },
   filterSelection: {
     paddingVertical: 17,
     paddingHorizontal: 12,
-  }
+  },
 })
 
-export const styles = { ...localStyles, ...Typos, ...Elements }
+export const styles = {...localStyles, ...Typos, ...Elements}

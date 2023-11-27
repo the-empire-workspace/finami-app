@@ -16,7 +16,7 @@ const FixedIncome: FC = () => {
             onPress={() => {
               router.goBack()
             }}
-            style={[{backgroundColor: colors.background50, marginRight: 20}]}>
+            style={[{backgroundColor: colors.background50}, styles.arrowLeft]}>
             <ArrowFatLeft />
           </TouchableOpacity>
           <Text style={styles.h1}>Ingresos Fijos</Text>

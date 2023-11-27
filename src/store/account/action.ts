@@ -1,4 +1,4 @@
-import { actionObject } from '@utils'
+import {actionObject} from '@utils'
 import {
   CREATE_CRYPTO_ACCOUNT,
   CREATE_CURRENCY_ACCOUNT,

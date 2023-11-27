@@ -1,30 +1,30 @@
-import { BackHandler, DynamicForm } from 'components'
-import React, { FC, useEffect, useMemo, useState } from 'react'
-import { translate } from 'utils'
-import { bankForm, cashForm, cryptoForm, mainForm } from './form'
-import { ScrollView, View } from 'react-native'
-import { styles } from './styles'
-import { useTheme } from 'providers'
-import { useDispatch, useSelector } from 'react-redux'
-import { Button } from 'theme'
-import { useWeb3Modal, useWeb3ModalState } from '@web3modal/wagmi-react-native'
-import { useAccount } from 'wagmi'
-import { createCryptoAccount, createCurrencyAccount } from 'store/actions'
-import { useNavigation } from '@react-navigation/native'
+import {BackHandler, DynamicForm} from 'components'
+import React, {FC, useEffect, useMemo, useState} from 'react'
+import {translate} from 'utils'
+import {bankForm, cashForm, cryptoForm, mainForm} from './form'
+import {ScrollView, View} from 'react-native'
+import {styles} from './styles'
+import {useTheme} from 'providers'
+import {useDispatch, useSelector} from 'react-redux'
+import {Button} from 'theme'
+import {useWeb3Modal, useWeb3ModalState} from '@web3modal/wagmi-react-native'
+import {useAccount} from 'wagmi'
+import {createCryptoAccount, createCurrencyAccount} from 'store/actions'
+import {useNavigation} from '@react-navigation/native'
 const CreateAccount: FC = () => {
   const [newConnect, setNewConnect] = useState(false)
-  const { colors } = useTheme()
-  const { currencies } = useSelector((state: any) => state.currency)
+  const {colors} = useTheme()
+  const {currencies} = useSelector((state: any) => state.currency)
   const [values, setValues] = useState<any>({
-    account_type: { value: 'cash' },
-    account_currency: { value: String(currencies[0]?.id) },
+    account_type: {value: 'cash'},
+    account_currency: {value: String(currencies[0]?.id)},
   })
-  const { accounts } = useSelector((state: any) => state.account)
-  const { open } = useWeb3Modal()
+  const {accounts} = useSelector((state: any) => state.account)
+  const {open} = useWeb3Modal()
   const dispatch = useDispatch()
 
-  const { isConnected, address, status } = useAccount()
-  const { selectedNetworkId } = useWeb3ModalState()
+  const {isConnected, address, status} = useAccount()
+  const {selectedNetworkId} = useWeb3ModalState()
   const navigation = useNavigation()
 
   const form = useMemo(() => {
@@ -43,18 +43,18 @@ const CreateAccount: FC = () => {
       ],
     }
     if (values?.account_type?.value === 'wallet')
-      setValues((prev: any) => ({ account_type: prev.account_type }))
+      setValues((prev: any) => ({account_type: prev.account_type}))
     else
       setValues((prev: any) => ({
         account_type: prev.account_type,
-        account_currency: { value: String(currencies[0]?.id) },
+        account_currency: {value: String(currencies[0]?.id)},
       }))
 
     return (
       formsTypes[
-      newConnect && values?.account_type?.value === 'wallet'
-        ? 'connect'
-        : values?.account_type?.value
+        newConnect && values?.account_type?.value === 'wallet'
+          ? 'connect'
+          : values?.account_type?.value
       ] || mainForm(translate, values, colors)
     )
   }, [values?.account_type?.value, newConnect])
@@ -80,7 +80,7 @@ const CreateAccount: FC = () => {
     }, {})
     if (values?.account_type?.value === 'wallet') {
       dispatch(
-        createCryptoAccount({ ...sendValues, address, netId: selectedNetworkId }),
+        createCryptoAccount({...sendValues, address, netId: selectedNetworkId}),
       )
       navigation.goBack()
       return
@@ -91,14 +91,14 @@ const CreateAccount: FC = () => {
   }
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background100 }]}>
+    <View style={[styles.root, {backgroundColor: colors.background100}]}>
       <BackHandler title={translate('create_account')} />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <DynamicForm
           formData={form}
           returnData={(data: any) => {
             for (const value in data?.value)
-              setValues((prev: any) => ({ ...prev, [value]: data?.value[value] }))
+              setValues((prev: any) => ({...prev, [value]: data?.value[value]}))
           }}
         />
         {values?.account_type?.value === 'wallet' && (
