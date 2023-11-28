@@ -16,8 +16,6 @@ export const localStyles = StyleSheet.create({
     borderColor: '#F0F0F2',
     borderWidth: 2,
     borderRadius: 5,
-    marginHorizontal: 10,
-    marginVertical: 10,
     minHeight: 112,
   },
   scrollContainer: {
@@ -25,6 +23,9 @@ export const localStyles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     flexWrap: 'wrap',
+    gap: 20,
+    padding: 10,
+    paddingTop: 20,
   },
   actionContainer: {
     flexDirection: 'row',

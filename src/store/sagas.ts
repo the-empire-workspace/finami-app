@@ -16,6 +16,7 @@ import {
   watchGetItem,
   watchGetTotalBalance,
   watchSignIn,
+  watchUpdateLanguage,
   watchUpdateSingleAccount,
 } from './account/saga'
 
@@ -37,5 +38,6 @@ export default function* rootSaga() {
     fork(watchGetAccount),
     fork(watchDeleteSingleAccount),
     fork(watchUpdateSingleAccount),
+    fork(watchUpdateLanguage),
   ])
 }
