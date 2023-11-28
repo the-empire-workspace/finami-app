@@ -9,11 +9,14 @@ import {
   watchCreateCryptoAccount,
   watchCreateCurrencyAccount,
   watchDeleteAccount,
+  watchDeleteSingleAccount,
+  watchGetAccount,
   watchGetAccounts,
   watchGetDashboardValues,
   watchGetItem,
   watchGetTotalBalance,
   watchSignIn,
+  watchUpdateSingleAccount,
 } from './account/saga'
 
 export default function* rootSaga() {
@@ -31,5 +34,8 @@ export default function* rootSaga() {
     fork(watchCreateCryptoAccount),
     fork(watchCreateCurrencyAccount),
     fork(watchDeleteAccount),
+    fork(watchGetAccount),
+    fork(watchDeleteSingleAccount),
+    fork(watchUpdateSingleAccount),
   ])
 }

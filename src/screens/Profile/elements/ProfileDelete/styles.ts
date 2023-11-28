@@ -2,7 +2,7 @@ import {StyleSheet} from 'react-native'
 import {Typos, Elements} from '@theme'
 
 const localStyles = StyleSheet.create({
-  modal: {
+  modalLayout: {
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'flex-start',

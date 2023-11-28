@@ -3,7 +3,9 @@ import {
   CREATE_CRYPTO_ACCOUNT_ASYNC,
   CREATE_CURRENCY_ACCOUNT_ASYNC,
   DELETE_ACCOUNT_ASYNC,
+  DELETE_SINGLE_ACCOUNT_ASYNC,
   GET_ACCOUNTS_ASYNC,
+  GET_ACCOUNT_ASYNC,
   GET_DASHBOARD_VALUES_ASYNC,
   GET_ITEM_ASYNC,
   GET_TOTAL_BALANCE_ASYNC,
@@ -11,6 +13,7 @@ import {
   SIGNIN_ASYNC,
   UPDATE_LANGUAGE_ASYNC,
   UPDATE_NOTIFICATION_TOKEN_ASYNC,
+  UPDATE_SINGLE_ACCOUNT_ASYNC,
 } from './action-types'
 
 const initialState = {
@@ -27,6 +30,7 @@ const initialState = {
   },
   item: {},
   accounts: [],
+  account: {},
 }
 
 const AccountReducer = (
@@ -60,8 +64,15 @@ const AccountReducer = (
       return {...state, accounts: payload}
     case CREATE_CURRENCY_ACCOUNT_ASYNC:
       return {...state, accounts: payload}
+    case GET_ACCOUNT_ASYNC:
+      return {...state, account: payload}
+    case DELETE_SINGLE_ACCOUNT_ASYNC:
+      return {...state, accounts: payload}
+    case UPDATE_SINGLE_ACCOUNT_ASYNC:
+      return {...state, accounts: payload}
     case DELETE_ACCOUNT_ASYNC:
       return initialState
+
     default:
       return state
   }

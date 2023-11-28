@@ -40,6 +40,7 @@ const Currencies: FC = () => {
                 styles.accountItem,
                 {backgroundColor: colors.background25},
               ]}
+              onPress={() => router.navigate('accountDetail', {id: item?.id})}
               key={item?.id}>
               <View style={[styles.accountInfoContainer]}>
                 <Text style={[styles.strongBody, {color: colors.typography}]}>

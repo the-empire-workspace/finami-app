@@ -10,6 +10,7 @@ import {Button} from 'theme'
 import {useWeb3Modal, useWeb3ModalState} from '@web3modal/wagmi-react-native'
 import {useAccount} from 'wagmi'
 import {createCryptoAccount, createCurrencyAccount} from 'store/actions'
+import {useNavigation} from '@react-navigation/native'
 const CreateAccount: FC = () => {
   const [newConnect, setNewConnect] = useState(false)
   const {colors} = useTheme()
@@ -24,6 +25,7 @@ const CreateAccount: FC = () => {
 
   const {isConnected, address, status} = useAccount()
   const {selectedNetworkId} = useWeb3ModalState()
+  const navigation = useNavigation()
 
   const form = useMemo(() => {
     const formsTypes: any = {
@@ -80,10 +82,12 @@ const CreateAccount: FC = () => {
       dispatch(
         createCryptoAccount({...sendValues, address, netId: selectedNetworkId}),
       )
+      navigation.goBack()
       return
     }
 
     dispatch(createCurrencyAccount(sendValues))
+    navigation.goBack()
   }
 
   return (

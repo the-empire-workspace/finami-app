@@ -7,7 +7,7 @@ const Input: FC<InputProps> = ({
   values,
   onChange,
 }: any) => {
-  const [value, setValue] = useState(values?.defaultValue || '')
+  const [value, setValue] = useState('')
 
   const onChangeInput = (val: any) => {
     if (val?.persist) val.persist()
@@ -20,22 +20,19 @@ const Input: FC<InputProps> = ({
     onChange(val?.nativeEvent?.text || val)
   }
 
-  useEffect(() => {
+  const setVal = () => {
     if (element === 'select' && !value) {
-      setValue(values?.values[0]?.value)
-      onChange(values?.values[0]?.value)
+      setValue(values?.defaultValue || values?.values[0]?.value)
+      onChange(values?.defaultValue || values?.values[0]?.value)
+      return
     }
     if (values?.defaultValue) onChange(values?.defaultValue || value)
-  }, [element])
+    if (values?.defaultValue) setValue(values?.defaultValue)
+  }
 
   useEffect(() => {
-    if (element === 'select' && !value) {
-      setValue(values?.values[0]?.value)
-      onChange(values?.values[0]?.value)
-    }
-    if (values?.defaultValue) onChange(values?.defaultValue)
-  }, [element])
-
+    setVal()
+  }, [element, values?.defaultValue])
   return element === 'select'
     ? React.createElement(
         mainRender,

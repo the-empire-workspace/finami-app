@@ -65,6 +65,9 @@ export const localStyles = StyleSheet.create({
     left: 40,
     marginVertical: 'auto',
   },
+  arrowLeft: {
+    marginRight: 20,
+  },
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}

@@ -10,6 +10,12 @@ const elements = StyleSheet.create({
     borderRadius: 5,
     width: '100%',
   },
+  modal: {
+    width: '100%',
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    overflow: 'hidden',
+  },
 })
 
 export default elements
