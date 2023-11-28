@@ -37,7 +37,11 @@ const Currencies: FC = () => {
               ]}>
               {item?.total_amount.toLocaleString('en-US', {
                 minimumFractionDigits:
-                  item?.total_amount > 0 ? item?.decimal : 0,
+                  item?.total_amount > 0
+                    ? item?.decimal > 8
+                      ? 8
+                      : item?.decimal
+                    : 0,
               })}
             </Text>
             <Text style={[styles.strongBody, {color: colors.typography}]}>
@@ -47,9 +51,11 @@ const Currencies: FC = () => {
               <TouchableOpacity style={[styles.action]}>
                 <FileArrowUp width={24} height={24} />
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.action]}>
-                <Trash width={24} height={24} />
-              </TouchableOpacity>
+              {!item?.has_account && (
+                <TouchableOpacity style={[styles.action]}>
+                  <Trash width={24} height={24} />
+                </TouchableOpacity>
+              )}
             </View>
           </TouchableOpacity>
         ))}

@@ -17,6 +17,9 @@ import NewFixedIncome from 'screens/Incoming/NewFixedIncome'
 import Incoming from 'screens/Incoming'
 import PendingIncome from 'screens/Incoming/PendingIncome'
 import NewPendingIncome from 'screens/Incoming/NewPendingIncome'
+import DynamicCalculator from 'screens/DynamicCalculator'
+import FinancialCalculator from 'screens/FinancialCalculator'
+import Languages from 'screens/Language'
 
 const Stack = createNativeStackNavigator()
 
@@ -56,6 +59,12 @@ export const PrivateStack = () => {
       <Stack.Screen name="profile" component={Profile} />
       <Stack.Screen name="currencies" component={Currencies} />
       <Stack.Screen name="accounts" component={Accounts} />
+      <Stack.Screen name="dynamicCalculator" component={DynamicCalculator} />
+      <Stack.Screen
+        name="financialCalculator"
+        component={FinancialCalculator}
+      />
+      <Stack.Screen name="language" component={Languages} />
     </Stack.Navigator>
   )
 }

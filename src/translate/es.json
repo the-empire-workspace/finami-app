@@ -77,7 +77,7 @@
   "payment_date": "Fecha de pago",
   "create_entry": "Crear Entrada",
   "amount": "Monto",
-  "report": "Report",
+  "report": "Reporte",
   "account_status": "Estado de cuenta",
   "transactions_from_date": "Desde",
   "transactions_to_date": "Hasta",
@@ -156,5 +156,15 @@
   "confirm_delete_information": "¿Confirma que quiere borrar esta información?",
   "once_eliminated": "Una vez eliminada no podrá recuperarse.",
   "confirm": "Confirmar",
-  "edit_account": "Edición de Cuenta"
+  "edit_account": "Edición de Cuenta",
+  "base_currency": "Moneda Base",
+  "calculate_currency": "Moneda a calcular",
+  "total": "Total",
+  "interest_percentage": "Porcentaje de Interés (%)",
+  "period": "Periodo",
+  "day": "Día",
+  "month": "Mes",
+  "trimester": "Trimestre",
+  "semester": "Semestre",
+  "main-currency": "Moneda Principal"
 }

@@ -127,8 +127,9 @@ const Main: FC = () => {
 
   useEffect(() => {
     if (!isAuth) dispatch(signin())
+    console.log(isAuth, user)
     if (isAuth) setI18nConfig(user?.language)
-  }, [isAuth])
+  }, [isAuth, user])
 
   return (
     <SafeAreaView style={[styles.root]}>

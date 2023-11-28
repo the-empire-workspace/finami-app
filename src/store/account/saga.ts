@@ -19,6 +19,8 @@ import {
   GET_TOTAL_BALANCE_ASYNC,
   SIGNIN,
   SIGNIN_ASYNC,
+  UPDATE_LANGUAGE,
+  UPDATE_LANGUAGE_ASYNC,
   UPDATE_SINGLE_ACCOUNT,
   UPDATE_SINGLE_ACCOUNT_ASYNC,
 } from './action-types'
@@ -39,8 +41,9 @@ import {
   getUserQuery,
   operateChange,
   updateAccountQuery,
+  updateUserQuery,
 } from 'utils'
-import {selectCurrency} from 'store/selector'
+import {selectAccount, selectCurrency} from 'store/selector'
 import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
 function* signInAsync(): any {
@@ -49,6 +52,16 @@ function* signInAsync(): any {
     if (user) yield put(actionObject(SIGNIN_ASYNC, user))
   } catch (error) {
     console.log('error signing in user', error)
+  }
+}
+
+function* updateLanguageAsync({payload}: any): any {
+  try {
+    const {user} = yield select(selectAccount)
+    yield call(updateUserQuery, {...user, language: payload})
+    yield put(actionObject(UPDATE_LANGUAGE_ASYNC, payload))
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -272,6 +285,10 @@ export function* deleteAccountAsync({payload}: any): any {
 }
 export function* watchSignIn() {
   yield takeLatest(SIGNIN, signInAsync)
+}
+
+export function* watchUpdateLanguage() {
+  yield takeLatest(UPDATE_LANGUAGE, updateLanguageAsync)
 }
 
 export function* watchGetTotalBalance() {

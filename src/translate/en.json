@@ -155,5 +155,15 @@
   "confirm_delete_information": "Are you sure you want to delete this information?",
   "once_eliminated": "Once deleted, it cannot be recovered.",
   "confirm": "Confirm",
-  "edit_account": "Edit Account"
+  "edit_account": "Edit Account",
+  "base_currency": "Base Currency",
+  "calculate_currency": "Currency to Calculate",
+  "total": "Total",
+  "interest_percentage": "Percentage of Interest (%)",
+  "period": "Period",
+  "day": "Day",
+  "month": "Month",
+  "trimester": "Trimester",
+  "semester": "Semester",
+  "main-currency": "Main Currency"
 }
