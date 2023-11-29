@@ -25,7 +25,6 @@ const Incoming: FC = () => {
     dispatch(getIncoming())
     if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
     /*ciclo_infinito*/
-    console.log('too many times?')
   }, [defaultPrices])
   const infoValues = useMemo(() => {
     return {
