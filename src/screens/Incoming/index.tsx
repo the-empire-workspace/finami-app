@@ -24,7 +24,6 @@ const Incoming: FC = () => {
   useEffect(() => {
     dispatch(getIncoming())
     if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
-    /*ciclo_infinito*/
   }, [defaultPrices])
   const infoValues = useMemo(() => {
     return {
