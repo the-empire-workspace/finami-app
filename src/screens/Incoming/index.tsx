@@ -1,9 +1,9 @@
-import React, {FC, useEffect, useMemo} from 'react'
-import {Text, View} from 'react-native'
-import {styles} from './styles'
-import {useTheme} from 'providers'
-import {translate} from 'utils'
-import {useDispatch, useSelector} from 'react-redux'
+import React, { FC, useEffect, useMemo } from 'react'
+import { Text, View } from 'react-native'
+import { styles } from './styles'
+import { useTheme } from 'providers'
+import { translate } from 'utils'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Header,
   InfoBanner,
@@ -11,20 +11,21 @@ import {
   ActionBanner,
   ItemList,
 } from '@components'
-import {getDashboardValues, getIncoming} from 'store/actions'
+import { getDashboardValues, getIncoming } from 'store/actions'
 
 const Incoming: FC = () => {
-  const {colors} = useTheme()
+  const { colors } = useTheme()
   const dispatch = useDispatch()
 
-  const {defaultPrices} = useSelector((state: any) => state.currency)
-  const {dashboardValues} = useSelector((state: any) => state.account)
-  const {items} = useSelector((state: any) => state.incoming)
+  const { defaultPrices } = useSelector((state: any) => state.currency)
+  const { dashboardValues } = useSelector((state: any) => state.account)
+  const { items } = useSelector((state: any) => state.incoming)
 
   useEffect(() => {
-    //dispatch(getIncoming())
+    dispatch(getIncoming())
     if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
     /*ciclo_infinito*/
+    console.log('too many times?')
   }, [defaultPrices])
   const infoValues = useMemo(() => {
     return {
@@ -59,8 +60,8 @@ const Incoming: FC = () => {
     },
   ]
   return (
-    <View style={[styles.root, {backgroundColor: colors.background100}]}>
-      <View style={[{backgroundColor: colors.background50}]}>
+    <View style={[styles.root, { backgroundColor: colors.background100 }]}>
+      <View style={[{ backgroundColor: colors.background50 }]}>
         <Header />
         <InfoBanner values={infoValues} />
         <DropDownButtons DropDownInfo={DropDownInfo} />
@@ -77,7 +78,7 @@ const Incoming: FC = () => {
         />
       ) : (
         <View style={styles.noItemBox}>
-          <Text style={[styles.noItemText, {color: colors.typography}]}>
+          <Text style={[styles.noItemText, { color: colors.typography }]}>
             {translate('no_items')}
           </Text>
         </View>
