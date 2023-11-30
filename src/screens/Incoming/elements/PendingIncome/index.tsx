@@ -3,9 +3,12 @@ import {Text, TouchableOpacity, View} from 'react-native'
 import {styles} from './styles'
 import {useTheme} from 'providers'
 import {useNavigation} from '@react-navigation/native'
-import {BackHandler} from '@components'
+import {BackHandler, DetailsList} from '@components'
+import {useSelector} from 'react-redux'
+import {translate} from 'utils'
 const PendingIncome: FC = () => {
   const {colors} = useTheme()
+  const {items} = useSelector((state: any) => state.incoming)
 
   const router: any = useNavigation()
   return (
@@ -17,10 +20,25 @@ const PendingIncome: FC = () => {
           onPress={() => {
             router.navigate('newPendingIncoming')
           }}>
-          <Text style={styles.h3}>Nuevo Ingreso Pendiente</Text>
+          <Text style={styles.h3}>{translate('new_pending_incomings')}</Text>
         </TouchableOpacity>
-        {/* <Text style={styles.h3}>FixedIncome2</Text> */}
       </View>
+      {items?.length ? (
+        <DetailsList
+          items={[...items]?.reduce((prev: any, next: any) => {
+            return next.payment_type === 'pending_income'
+              ? [...prev, next]
+              : prev
+          }, [])}
+          type="default"
+        />
+      ) : (
+        <View style={styles.noItemBox}>
+          <Text style={[styles.noItemText, {color: colors.typography}]}>
+            {translate('no_items')}
+          </Text>
+        </View>
+      )}
     </View>
   )
 }

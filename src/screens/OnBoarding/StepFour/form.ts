@@ -71,7 +71,7 @@ export const cashForm = (
     label: translate('currency_type'),
     labelStyle: {backgroundColor: colors.background100},
     type: 'text',
-    defaultValue: def?.account_type?.value || '',
+    defaultValue: def?.account_currency?.value || '',
     keyboardType: 'default',
     placeholder: translate('currency_type'),
     returnKeyType: 'go',
@@ -94,11 +94,11 @@ export const cashForm = (
     defaultValue: def?.available_balance?.value || '',
     placeholder: translate('available_balance'),
     returnKeyType: 'next',
-    keyboardType: 'default',
+    keyboardType: 'number-pad',
     validations: {
-      required: false,
+      required: true,
       minLength: 0,
-      maxLength: 72,
+      maxLength: 10,
     },
   },
 ]
@@ -136,6 +136,7 @@ export const bankForm = (
     returnKeyType: 'next',
     keyboardType: 'default',
     validations: {
+      require: false,
       minLength: 0,
       maxLength: 72,
     },
@@ -185,7 +186,7 @@ export const bankForm = (
     defaultValue: def?.available_balance?.value || '',
     placeholder: translate('available_balance'),
     returnKeyType: 'next',
-    keyboardType: 'numeric',
+    keyboardType: 'number-pad',
     validations: {
       required: false,
       minLength: 0,

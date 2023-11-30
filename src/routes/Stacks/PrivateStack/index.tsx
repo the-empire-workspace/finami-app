@@ -12,11 +12,15 @@ import {
 import {useDispatch} from 'react-redux'
 import {getCurrencyPrice} from 'store/actions'
 import {ProfileDelete} from 'screens/Profile/elements'
-import FixedIncome from 'screens/Incoming/FixedIncome'
-import NewFixedIncome from 'screens/Incoming/NewFixedIncome'
-import Incoming from 'screens/Incoming'
-import PendingIncome from 'screens/Incoming/PendingIncome'
-import NewPendingIncome from 'screens/Incoming/NewPendingIncome'
+import {FixedIncome, PendingIncome} from 'screens/Incoming/elements'
+import {
+  NewFixedIncome,
+  DetailsFixedIncome,
+} from 'screens/Incoming/elements/FixedIncome/elements'
+import {
+  DetailsPendingIncome,
+  NewPendingIncome,
+} from 'screens/Incoming/elements/PendingIncome/elements/'
 import DynamicCalculator from 'screens/DynamicCalculator'
 import FinancialCalculator from 'screens/FinancialCalculator'
 import Languages from 'screens/Language'
@@ -49,7 +53,11 @@ export const PrivateStack = () => {
         component={ProfileDelete}
         options={{presentation: 'transparentModal'}}
       />
-      <Stack.Screen name="Incoming" component={Incoming} />
+      <Stack.Screen
+        name="detailsPendingIncome"
+        component={DetailsPendingIncome}
+      />
+      <Stack.Screen name="detailsFixedIncome" component={DetailsFixedIncome} />
       <Stack.Screen name="fixedIncoming" component={FixedIncome} />
       <Stack.Screen name="newFixedIncome" component={NewFixedIncome} />
       <Stack.Screen name="pendingIncoming" component={PendingIncome} />

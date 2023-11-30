@@ -1,9 +1,16 @@
 import React, {FC, useEffect, useMemo} from 'react'
-import {View} from 'react-native'
+import {Text, View} from 'react-native'
 import {styles} from './styles'
 import {useTheme} from 'providers'
+import {translate} from 'utils'
 import {useDispatch, useSelector} from 'react-redux'
-import {Header, InfoBanner, DropDown} from 'components'
+import {
+  Header,
+  InfoBanner,
+  DropDownButtons,
+  ActionBanner,
+  ItemList,
+} from '@components'
 import {getDashboardValues} from 'store/actions'
 
 const Incoming: FC = () => {
@@ -12,11 +19,13 @@ const Incoming: FC = () => {
 
   const {defaultPrices} = useSelector((state: any) => state.currency)
   const {dashboardValues} = useSelector((state: any) => state.account)
+  const {items} = useSelector((state: any) => state.incoming)
 
   useEffect(() => {
     if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
+    /*ciclo_infinito*/
+    //if(items?.length)dispatch(getIncoming())
   }, [defaultPrices])
-
   const infoValues = useMemo(() => {
     return {
       month1: {
@@ -36,53 +45,43 @@ const Incoming: FC = () => {
       },
     }
   }, [dashboardValues, colors])
+  const DropDownInfo = [
+    {
+      label: translate('fixed_incoming'),
+      router: 'fixedIncoming',
+    },
+    {
+      label: translate('pending_incoming'),
+      router: 'pendingIncoming',
+    },
+    {
+      title: translate('last_payments'),
+    },
+  ]
   return (
     <View style={[styles.root, {backgroundColor: colors.background100}]}>
       <View style={[{backgroundColor: colors.background50}]}>
         <Header />
         <InfoBanner values={infoValues} />
-        <DropDown />
+        <DropDownButtons DropDownInfo={DropDownInfo} />
       </View>
+      {items?.length ? (
+        <ItemList
+          items={[...items]?.reduce((prev: any, next: any) => {
+            return next.entry_type === 'income' ? [...prev, next] : prev
+          }, [])}
+          type="dashboard"
+        />
+      ) : (
+        <View style={styles.noItemBox}>
+          <Text style={[styles.noItemText, {color: colors.typography}]}>
+            {translate('no_items')}
+          </Text>
+        </View>
+      )}
+      <ActionBanner payment={true} expense={false} />
     </View>
   )
-  /*  const {colors} = useTheme()
-   const navigation: any = useNavigation()
-
-   const {
-     incoming: {items: incomingsItems},
-     currency: {defaultPrices},
-   } = useSelector((state: any) => state)
-   const [total, setTotal] = useState({monthly: 0, total: 0, pending: 0})
-
-   useEffect(() => {
-     setTotal(processEntries(incomingsItems, defaultPrices))
-   }, [incomingsItems?.length, defaultPrices])
-
-   return (
-     <View style={[styles.root, {backgroundColor: colors.background}]}>
-       <View style={[styles.upperBox]}>
-         <TotalBox total={total} type="incomings" />
-         <TouchableOpacity
-           style={[styles.newButton, {backgroundColor: colors.primary}]}
-           onPress={() => navigation.navigate('entry', {type: 'incomings'})}>
-           <Text style={[styles.newButtonText, {color: colors.background}]}>
-             +
-           </Text>
-         </TouchableOpacity>
-         <View style={styles.downBox}>
-           {incomingsItems?.length ? (
-             <ItemList items={incomingsItems} type="incomings" />
-           ) : (
-             <View style={styles.noItemBox}>
-               <Text style={[styles.noItemText, {color: colors.text}]}>
-                 {translate('no_items')}
-               </Text>
-             </View>
-           )}
-         </View>
-       </View>
-     </View>
-   ) */
 }
 
 export default Incoming

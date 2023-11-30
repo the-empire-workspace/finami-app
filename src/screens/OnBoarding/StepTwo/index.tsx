@@ -42,7 +42,7 @@ const StepTwo: FC = () => {
       translate,
       {
         username: username || '',
-        currenciesFormatValues: currenciesFormatValues,
+        currency: currency || '',
       },
       colors.background100,
       currenciesFormatValues,

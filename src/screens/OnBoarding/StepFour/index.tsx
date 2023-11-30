@@ -7,7 +7,7 @@ import {Button} from '@theme'
 import {useNavigation} from '@react-navigation/native'
 import {DynamicForm} from 'components'
 import {useDispatch} from 'react-redux'
-import {completeOnboarding} from 'store/actions'
+import {setStep} from 'store/actions'
 import {useSelector} from 'react-redux'
 import {bankForm, cashForm, mainForm} from './form'
 import {useWeb3Modal} from '@web3modal/wagmi-react-native'
@@ -18,10 +18,11 @@ const StepTwo: FC = () => {
   const dispatch = useDispatch()
   const {open} = useWeb3Modal()
   const {isLoading} = useSelector((state: any) => state?.intermitence)
-  const {...onboarding} = useSelector((state: any) => state?.onboarding)
+  const {username, image, currency} = useSelector(
+    (state: any) => state?.onboarding,
+  )
   const [values, setValues] = useState<any>({account_type: {value: 'cash'}})
   const {currencies} = useSelector((state: any) => state.currency)
-
   const form = useMemo(() => {
     const formsTypes: any = {
       cash: [
@@ -53,7 +54,12 @@ const StepTwo: FC = () => {
         prev && (values[next]?.validation === false || true),
       true,
     )
-    if (valid) dispatch(completeOnboarding({...sendValues, ...onboarding}))
+    console.log({valid, values})
+    if (valid) {
+      dispatch(setStep({...sendValues, username, image, currency}))
+      router.navigate('StepFive')
+      //dispatch(completeOnboarding({...sendValues, username, image, currency}))
+    }
   }
 
   return (
@@ -96,7 +102,7 @@ const StepTwo: FC = () => {
           <Button
             styleText={styles?.buttonLocal}
             disabled={false}
-            text={translate('start')}
+            text={translate('next')}
             onPress={submitStep}
             loading={isLoading}
           />
