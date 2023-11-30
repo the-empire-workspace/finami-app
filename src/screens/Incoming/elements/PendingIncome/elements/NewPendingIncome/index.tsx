@@ -31,18 +31,19 @@ const NewPendingIncome: FC = () => {
       (prev: any, next: any) => prev && data[next]?.validation,
       true,
     )
-    if (valid) {
+    if (valid)
       dispatch(
         setIncoming({
           ...sendValues,
           entry_type: 'income',
+          payment_type: 'pending_income',
           state: 'pending',
+          date: new Date(),
           //provicional_id
           id: Number(items?.length + 1),
         }),
       )
-      router.goBack()
-    }
+    router.goBack()
   }
   return (
     <ScrollView

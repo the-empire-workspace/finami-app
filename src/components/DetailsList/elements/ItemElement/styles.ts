@@ -14,6 +14,15 @@ const localStyles = StyleSheet.create({
   concept: {
     marginBottom: 5,
   },
+  amount: {
+    flex: 1,
+    alignSelf: 'flex-end',
+  },
+  buttons: {
+    flex: 1,
+    flexDirection: 'row',
+    gap: 16,
+  },
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}

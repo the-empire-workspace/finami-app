@@ -30,7 +30,6 @@ export const NewEntryForm = (color: any, translate: any, colors: any) => [
     placeholderTextColor: color,
     style: {...styles.input, color: color, borderColor: color},
     validations: {
-      required: true,
       minLength: 4,
       maxLength: 72,
     },
@@ -87,7 +86,6 @@ export const NewEntryForm = (color: any, translate: any, colors: any) => [
     placeholderTextColor: color,
     style: {...styles.input, color: color, borderColor: color},
     validations: {
-      required: true,
       minLength: 4,
       maxLength: 72,
     },
@@ -104,9 +102,8 @@ export const NewEntryForm = (color: any, translate: any, colors: any) => [
     placeholderTextColor: color,
     style: {...styles.input, color: color, borderColor: color},
     validations: {
-      required: true,
-      minLength: 10,
-      maxLength: 15,
+      minLength: 9,
+      maxLength: 20,
     },
   },
   {
@@ -121,7 +118,6 @@ export const NewEntryForm = (color: any, translate: any, colors: any) => [
     placeholderTextColor: color,
     style: {...styles.input, color: color, borderColor: color},
     validations: {
-      required: true,
       minLength: 5,
       maxLength: 72,
     },

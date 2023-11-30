@@ -7,7 +7,7 @@ import {Button} from '@theme'
 import {useNavigation} from '@react-navigation/native'
 import {DynamicForm} from 'components'
 import {useDispatch} from 'react-redux'
-import {completeOnboarding} from 'store/actions'
+import {completeOnboarding, setStep} from 'store/actions'
 import {useSelector} from 'react-redux'
 import {bankForm, cashForm, mainForm} from './form'
 import {useWeb3Modal} from '@web3modal/wagmi-react-native'
@@ -54,8 +54,12 @@ const StepTwo: FC = () => {
         prev && (values[next]?.validation === false || true),
       true,
     )
-    if (valid)
-      dispatch(completeOnboarding({...sendValues, username, image, currency}))
+    console.log({valid, values})
+    if (valid) {
+      dispatch(setStep({...sendValues, username, image, currency}))
+      router.navigate('StepFive')
+      //dispatch(completeOnboarding({...sendValues, username, image, currency}))
+    }
   }
 
   return (
@@ -98,7 +102,7 @@ const StepTwo: FC = () => {
           <Button
             styleText={styles?.buttonLocal}
             disabled={false}
-            text={translate('start')}
+            text={translate('next')}
             onPress={submitStep}
             loading={isLoading}
           />

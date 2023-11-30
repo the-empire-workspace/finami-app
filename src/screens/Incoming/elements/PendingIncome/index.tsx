@@ -3,7 +3,7 @@ import {Text, TouchableOpacity, View} from 'react-native'
 import {styles} from './styles'
 import {useTheme} from 'providers'
 import {useNavigation} from '@react-navigation/native'
-import {BackHandler, ItemList} from '@components'
+import {BackHandler, DetailsList, ItemList} from '@components'
 import {useSelector} from 'react-redux'
 import {translate} from 'utils'
 const PendingIncome: FC = () => {
@@ -11,7 +11,6 @@ const PendingIncome: FC = () => {
   const {items} = useSelector((state: any) => state.incoming)
 
   const router: any = useNavigation()
-  console.log(items.length)
   return (
     <View style={[styles.root, {backgroundColor: colors.background100}]}>
       <View style={[styles.header, {backgroundColor: colors.background50}]}>
@@ -25,7 +24,14 @@ const PendingIncome: FC = () => {
         </TouchableOpacity>
       </View>
       {items?.length ? (
-        <ItemList items={items} type="dashboard" />
+        <DetailsList
+          items={[...items]?.reduce((prev: any, next: any) => {
+            return next.payment_type === 'pending_income'
+              ? [...prev, next]
+              : prev
+          }, [])}
+          type="default"
+        />
       ) : (
         <View style={styles.noItemBox}>
           <Text style={[styles.noItemText, {color: colors.typography}]}>

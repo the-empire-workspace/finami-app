@@ -20,7 +20,7 @@ const NewFixedIncome: FC = () => {
   const {items} = useSelector((state: any) => state.incoming)
   const [data, setData] = useState<any>({})
   const form = useMemo(() => {
-    return NewEntryForm(colors.typography, translate, colors, accounts)
+    return NewEntryForm(colors.typography, translate, [], colors, accounts)
   }, [colors, translate, accounts])
   const handleChange = (newData: any) => {
     for (const value in newData?.value)
@@ -40,6 +40,7 @@ const NewFixedIncome: FC = () => {
         setIncoming({
           ...sendValues,
           entry_type: 'income',
+          payment_type: 'fixed_income',
           state: 'pending',
           //provicional_id
           id: Number(items?.length + 1),

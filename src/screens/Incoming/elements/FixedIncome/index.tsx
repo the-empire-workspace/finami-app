@@ -30,7 +30,12 @@ const FixedIncome: FC = () => {
         </TouchableOpacity>
       </View>
       {items?.length ? (
-        <DetailsList items={items} type="default" />
+        <DetailsList
+          items={[...items]?.reduce((prev: any, next: any) => {
+            return next.payment_type === 'fixed_income' ? [...prev, next] : prev
+          }, [])}
+          type="default"
+        />
       ) : (
         <View style={styles.noItemBox}>
           <Text style={[styles.noItemText, {color: colors.typography}]}>

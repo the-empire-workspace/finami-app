@@ -7,7 +7,7 @@ const localStyles = StyleSheet.create({
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     width: '100%',
-    paddingHorizontal: 10,
+    paddingHorizontal: 20,
   },
   hidden: {
     backgroundColor: '#fff',
@@ -16,14 +16,13 @@ const localStyles = StyleSheet.create({
     width: '100%',
     marginVertical: 10,
   },
-  show: {
+  showBar: {
     width: '100%',
     flex: 1,
     flexDirection: 'row',
     alignItems: 'flex-end',
     justifyContent: 'space-between',
     marginTop: 5,
-    paddingHorizontal: 20,
     paddingBottom: 12,
   },
   buttonItems: {
@@ -38,17 +37,6 @@ const localStyles = StyleSheet.create({
     alignItems: 'center',
     width: '33.33%',
   },
-  lastMovementsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingHorizontal: 20,
-    paddingTop: 12,
-    paddingBottom: 8,
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-  },
   svg: {
     position: 'absolute',
     left: 40,
@@ -61,6 +49,18 @@ const localStyles = StyleSheet.create({
   },
   textSeparator: {
     marginRight: 3,
+  },
+  buttonContainer: {
+    width: '48%',
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    gap: 30,
+  },
+  actionContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
 })
 

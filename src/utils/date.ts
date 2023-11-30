@@ -34,21 +34,31 @@ export const nextEntry = (
 
   switch (tipoFrecuencia) {
     case 'days':
-      proximoPago.setTime(
-        proximoPago.getTime() + frecuencia * 24 * 60 * 60 * 1000,
-      )
+      while (proximoPago < new Date())
+        proximoPago.setTime(
+          proximoPago.getTime() + frecuencia * 24 * 60 * 60 * 1000,
+        )
+
       break
     case 'weeks':
-      proximoPago.setTime(
-        proximoPago.getTime() + frecuencia * 7 * 24 * 60 * 60 * 1000,
-      )
+      while (proximoPago < new Date())
+        proximoPago.setTime(
+          proximoPago.getTime() + frecuencia * 7 * 24 * 60 * 60 * 1000,
+        )
+
       break
     case 'months':
-      proximoPago.setMonth(proximoPago.getMonth() + frecuencia)
+      while (proximoPago < new Date())
+        proximoPago.setMonth(proximoPago.getMonth() + frecuencia)
+
+      break
+    case 'years':
+      while (proximoPago < new Date())
+        proximoPago.setFullYear(proximoPago.getFullYear() + frecuencia)
+
       break
     default:
-      console.log('Tipo de frecuencia no soportado')
-      break
+      throw new Error(`Tipo de frecuencia no soportado ${tipoFrecuencia}`)
   }
 
   return proximoPago

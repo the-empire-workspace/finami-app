@@ -11,7 +11,7 @@ import {
   ActionBanner,
   ItemList,
 } from '@components'
-import {getDashboardValues, getIncoming} from 'store/actions'
+import {getDashboardValues} from 'store/actions'
 
 const Incoming: FC = () => {
   const {colors} = useTheme()
@@ -65,14 +65,11 @@ const Incoming: FC = () => {
         <InfoBanner values={infoValues} />
         <DropDownButtons DropDownInfo={DropDownInfo} />
       </View>
-      {dashboardValues.entries?.length ? (
+      {items?.length ? (
         <ItemList
-          items={[...dashboardValues.entries]?.reduce(
-            (prev: any, next: any) => {
-              return next.entry_type === 'income' ? [...prev, next] : prev
-            },
-            [],
-          )}
+          items={[...items]?.reduce((prev: any, next: any) => {
+            return next.entry_type === 'income' ? [...prev, next] : prev
+          }, [])}
           type="dashboard"
         />
       ) : (

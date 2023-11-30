@@ -1,11 +1,16 @@
-import {Text, View} from 'react-native'
+import {View} from 'react-native'
 import React from 'react'
 import {styles} from './styles'
 import {useTheme} from 'providers'
-import {BackHandler, DetailsList, DropDownDetails} from 'components'
+import {
+  BackHandler,
+  DetailsList,
+  DropDownDetails,
+  ProgressBar,
+} from 'components'
 import {translate} from 'utils'
 import {useSelector} from 'react-redux'
-const DetailsFixedIncome = () => {
+const DetailsPendingIncome = () => {
   const {colors} = useTheme()
 
   const {items} = useSelector((state: any) => state.incoming)
@@ -13,12 +18,13 @@ const DetailsFixedIncome = () => {
   return (
     <View style={[styles.root, {backgroundColor: colors.background100}]}>
       <BackHandler title={translate('fixed_income_detail')} />
+      <ProgressBar />
       <DropDownDetails
-        DropDownInfo={{item: items[0], title: translate('last_payments')}}
+        DropDownInfo={{item, title: translate('last_payments')}}
       />
       <DetailsList items={items} type="editable" />
     </View>
   )
 }
 
-export default DetailsFixedIncome
+export default DetailsPendingIncome

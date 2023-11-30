@@ -17,7 +17,10 @@ import {
   NewFixedIncome,
   DetailsFixedIncome,
 } from 'screens/Incoming/elements/FixedIncome/elements'
-import {NewPendingIncome} from 'screens/Incoming/elements/PendingIncome/elements/'
+import {
+  DetailsPendingIncome,
+  NewPendingIncome,
+} from 'screens/Incoming/elements/PendingIncome/elements/'
 
 const Stack = createNativeStackNavigator()
 
@@ -46,6 +49,10 @@ export const PrivateStack = () => {
         name="deleteProfile"
         component={ProfileDelete}
         options={{presentation: 'transparentModal'}}
+      />
+      <Stack.Screen
+        name="detailsPendingIncome"
+        component={DetailsPendingIncome}
       />
       <Stack.Screen name="detailsFixedIncome" component={DetailsFixedIncome} />
       <Stack.Screen name="fixedIncoming" component={FixedIncome} />

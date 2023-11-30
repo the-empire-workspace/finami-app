@@ -1,10 +1,16 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {FC, useState} from 'react'
 import {Text, TouchableOpacity, View} from 'react-native'
 import {useTheme} from 'providers'
 import {styles} from './styles'
 import DropDownArrow from '@assets/img/CaretDoubleDown.svg'
 import FileArrowUp from '@assets/img/FileArrowUp.svg'
+import Trash from '@assets/img/Trash.svg'
+import Pencil from '@assets/img/Pencil.svg'
+import UserList from '@assets/img/UserList.svg'
 import {nextEntry, translate} from 'utils'
+import {Divider} from 'components'
+import {Button} from 'theme'
 //import {useNavigation} from '@react-navigation/native'
 
 const DropDownDetails: FC = ({DropDownInfo}: any) => {
@@ -20,13 +26,11 @@ const DropDownDetails: FC = ({DropDownInfo}: any) => {
       email,
       phone,
     },
-    title
+    title,
   } = DropDownInfo
-  console.log({DropDownInfo})
   const {colors} = useTheme()
   //const router: any = useNavigation()
   const [selected, setSelected] = useState<boolean>(true)
-  console.log(nextEntry(date,Number(frecuency_time), frecuency_type))
 
   const formatInfo = [
     {
@@ -35,7 +39,7 @@ const DropDownDetails: FC = ({DropDownInfo}: any) => {
     },
     {
       label: translate('comment'),
-      info: comment,
+      info: comment || translate('unavailable'),
     },
     {
       label: translate('amount'),
@@ -43,11 +47,21 @@ const DropDownDetails: FC = ({DropDownInfo}: any) => {
     },
     {
       label: translate('payment_frequency'),
-      info: `${translate('every')} ${frecuency_type} ${frecuency_time}`,
+      info: `${translate('every')} ${frecuency_time} ${translate(
+        frecuency_type,
+      )}`,
     },
     {
       label: translate('next_entry_date'),
-      info: 'prox',
+      info: `${
+        frecuency_type
+          ? nextEntry(
+              date,
+              Number(frecuency_time),
+              frecuency_type,
+            ).toLocaleDateString()
+          : null
+      }`,
     },
   ]
   const renderDropdown = () => {
@@ -69,17 +83,123 @@ const DropDownDetails: FC = ({DropDownInfo}: any) => {
               </Text>
             </View>
           ))}
+          {email ||
+            phone ||
+            (emissor && (
+              <View>
+                <Divider />
+                <View style={[styles.textContent]}>
+                  <Text
+                    style={[
+                      styles.subtitle,
+                      styles.textSeparator,
+                      {color: colors.typography},
+                    ]}>
+                    {translate('emissor')}:
+                  </Text>
+                  <Text style={[styles.strongBody, {color: colors.typography}]}>
+                    {emissor || translate('unavailable')}
+                  </Text>
+                </View>
+                <View style={[styles.textContent]}>
+                  <Text
+                    style={[
+                      styles.subtitle,
+                      styles.textSeparator,
+                      {color: colors.typography},
+                    ]}>
+                    {translate('phone')}:
+                  </Text>
+                  <Text style={[styles.strongBody, {color: colors.typography}]}>
+                    {phone || translate('unavailable')}
+                  </Text>
+                </View>
+                <View style={[styles.textContent]}>
+                  <Text
+                    style={[
+                      styles.subtitle,
+                      styles.textSeparator,
+                      {color: colors.typography},
+                    ]}>
+                    {translate('email')}:
+                  </Text>
+                  <Text style={[styles.strongBody, {color: colors.typography}]}>
+                    {email || translate('unavailable')}
+                  </Text>
+                </View>
+              </View>
+            ))}
         </View>
       )
+    return (
+      <View style={[styles.hidden, {backgroundColor: colors.background50}]}>
+        <View style={[styles.textContent]}>
+          <Text
+            style={[
+              styles.subtitle,
+              styles.textSeparator,
+              {color: colors.typography},
+            ]}>
+            {translate('concept')}:
+          </Text>
+          <Text style={[styles.strongBody, {color: colors.typography}]}>
+            {payment_concept}
+          </Text>
+        </View>
+        <View style={[styles.textContent]}>
+          <Text
+            style={[
+              styles.subtitle,
+              styles.textSeparator,
+              {color: colors.typography},
+            ]}>
+            {translate('amount')}:
+          </Text>
+          <Text style={[styles.strongBody, {color: colors.typography}]}>
+            {amount}
+          </Text>
+        </View>
+      </View>
+    )
   }
   return (
     <View
       style={[
         styles.root,
-        {backgroundColor: colors.background50, height: selected ? 190 : 44},
+        {
+          backgroundColor: colors.background50,
+          height: selected ? (email || phone || emissor ? 325 : 250) : 175,
+        },
       ]}>
       {renderDropdown()}
-      <View style={[styles.show]}>
+      <View
+        style={[
+          styles.actionContainer,
+          {
+            marginTop: selected ? (email || phone || emissor ? 175 : 100) : 0,
+          },
+        ]}>
+        <View style={[styles.buttonContainer]}>
+          <TouchableOpacity>
+            <UserList width={24} height={24} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Pencil width={24} height={24} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Trash width={24} height={24} />
+          </TouchableOpacity>
+        </View>
+        <View style={[styles.buttonContainer]}>
+          <Button
+            text={translate('new_payment')}
+            disabled={false}
+            style={{backgroundColor: colors.progress.ingress}}
+            styleText={{color: colors.typography2}}
+          />
+        </View>
+      </View>
+      <View style={[styles.showBar]}>
         <TouchableOpacity>
           <FileArrowUp width={24} height={24} />
         </TouchableOpacity>
