@@ -5,12 +5,12 @@ import {useTheme} from 'providers'
 import {useNavigation} from '@react-navigation/native'
 import {BackHandler, DetailsList} from '@components'
 import {translate} from 'utils'
-import {useDispatch, useSelector} from 'react-redux'
-import {getIncoming} from 'store/actions'
+import {useSelector} from 'react-redux'
+//import {getIncoming} from 'store/actions'
 const FixedIncome: FC = () => {
   const {colors} = useTheme()
   const router: any = useNavigation()
-  const dispatch = useDispatch()
+  //const dispatch = useDispatch()
 
   useEffect(() => {
     //dispatch(getIncoming())

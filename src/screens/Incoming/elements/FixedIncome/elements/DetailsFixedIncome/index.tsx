@@ -1,4 +1,4 @@
-import {Text, View} from 'react-native'
+import {View} from 'react-native'
 import React from 'react'
 import {styles} from './styles'
 import {useTheme} from 'providers'
@@ -9,7 +9,6 @@ const DetailsFixedIncome = () => {
   const {colors} = useTheme()
 
   const {items} = useSelector((state: any) => state.incoming)
-  const {item} = useSelector((state: any) => state.account)
   return (
     <View style={[styles.root, {backgroundColor: colors.background100}]}>
       <BackHandler title={translate('fixed_income_detail')} />

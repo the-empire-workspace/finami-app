@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {FC, useState} from 'react'
 import {Text, TouchableOpacity, View} from 'react-native'
 import {useTheme} from 'providers'

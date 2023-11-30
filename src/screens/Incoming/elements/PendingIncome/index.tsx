@@ -3,7 +3,7 @@ import {Text, TouchableOpacity, View} from 'react-native'
 import {styles} from './styles'
 import {useTheme} from 'providers'
 import {useNavigation} from '@react-navigation/native'
-import {BackHandler, DetailsList, ItemList} from '@components'
+import {BackHandler, DetailsList} from '@components'
 import {useSelector} from 'react-redux'
 import {translate} from 'utils'
 const PendingIncome: FC = () => {
