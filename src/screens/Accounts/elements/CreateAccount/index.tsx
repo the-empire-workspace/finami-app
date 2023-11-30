@@ -22,10 +22,10 @@ const CreateAccount: FC = () => {
   const {accounts} = useSelector((state: any) => state.account)
   const {open} = useWeb3Modal()
   const dispatch = useDispatch()
-  const router: any = useNavigation()
 
   const {isConnected, address, status} = useAccount()
   const {selectedNetworkId} = useWeb3ModalState()
+  const navigation = useNavigation()
 
   const form = useMemo(() => {
     const formsTypes: any = {
@@ -82,10 +82,11 @@ const CreateAccount: FC = () => {
       dispatch(
         createCryptoAccount({...sendValues, address, netId: selectedNetworkId}),
       )
+      navigation.goBack()
       return
     }
     dispatch(createCurrencyAccount(sendValues))
-    router.goBack()
+    navigation.goBack()
   }
 
   return (

@@ -24,11 +24,11 @@ const ProfileNav: FC<any> = () => {
       },
       {
         name: translate('dynamic-calculator'),
-        redirect: 'dynamic-calculator',
+        redirect: 'dynamicCalculator',
       },
       {
         name: translate('financial-calculator'),
-        redirect: 'financial-calculator',
+        redirect: 'financialCalculator',
       },
       {
         name: translate('report'),

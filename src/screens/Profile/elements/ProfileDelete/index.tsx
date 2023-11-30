@@ -39,7 +39,7 @@ const Entry: FC = () => {
     <View style={[styles.root, {backgroundColor: colors.background100}]}>
       <ScrollView
         style={[styles.modalContainer]}
-        contentContainerStyle={[styles.modal]}>
+        contentContainerStyle={[styles.modalLayout]}>
         <WarningCircle width={64} height={64} />
         <Text
           style={[styles.h1, {color: colors.typography}, styles.deleteTitle]}>

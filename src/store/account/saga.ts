@@ -5,8 +5,12 @@ import {
   CREATE_CURRENCY_ACCOUNT_ASYNC,
   DELETE_ACCOUNT,
   DELETE_ACCOUNT_ASYNC,
+  DELETE_SINGLE_ACCOUNT,
+  DELETE_SINGLE_ACCOUNT_ASYNC,
+  GET_ACCOUNT,
   GET_ACCOUNTS,
   GET_ACCOUNTS_ASYNC,
+  GET_ACCOUNT_ASYNC,
   GET_DASHBOARD_VALUES,
   GET_DASHBOARD_VALUES_ASYNC,
   GET_ITEM,
@@ -15,6 +19,10 @@ import {
   GET_TOTAL_BALANCE_ASYNC,
   SIGNIN,
   SIGNIN_ASYNC,
+  UPDATE_LANGUAGE,
+  UPDATE_LANGUAGE_ASYNC,
+  UPDATE_SINGLE_ACCOUNT,
+  UPDATE_SINGLE_ACCOUNT_ASYNC,
 } from './action-types'
 import {
   TruncateTables,
@@ -22,6 +30,9 @@ import {
   createAccountQuery,
   createEntryQuery,
   createOrUpdateCurrencyQuery,
+  deleteAccountEntryQuery,
+  deleteAccountQuery,
+  getAccountQuery,
   getAccountsQuery,
   getBalancesMoralis,
   getCurrenciesQuery,
@@ -29,8 +40,10 @@ import {
   getEntry,
   getUserQuery,
   operateChange,
+  updateAccountQuery,
+  updateUserQuery,
 } from 'utils'
-import {selectCurrency} from 'store/selector'
+import {selectAccount, selectCurrency} from 'store/selector'
 import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
 function* signInAsync(): any {
@@ -39,6 +52,16 @@ function* signInAsync(): any {
     if (user) yield put(actionObject(SIGNIN_ASYNC, user))
   } catch (error) {
     console.log('error signing in user', error)
+  }
+}
+
+function* updateLanguageAsync({payload}: any): any {
+  try {
+    const {user} = yield select(selectAccount)
+    yield call(updateUserQuery, {...user, language: payload})
+    yield put(actionObject(UPDATE_LANGUAGE_ASYNC, payload))
+  } catch (error) {
+    console.log(error)
   }
 }
 
@@ -120,6 +143,22 @@ export function* getAccountsAsync(): any {
   }
 }
 
+export function* getAccountAsync({payload}: any): any {
+  try {
+    let {currencies} = yield select(selectCurrency)
+
+    if (!currencies?.length) {
+      currencies = yield call(getCurrenciesQuery)
+      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
+    }
+
+    const account = yield call(getAccountQuery, currencies, payload)
+    yield put(actionObject(GET_ACCOUNT_ASYNC, account))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export function* createCryptoAccountAsync({payload}: any): any {
   try {
     const balances = yield call(
@@ -153,6 +192,7 @@ export function* createCryptoAccountAsync({payload}: any): any {
         }
 
         yield put(actionObject(CREATE_CURRENCY_ACCOUNT, newAddress))
+        yield put(getDashboardValues())
       }
   } catch (error) {
     console.log(error)
@@ -185,6 +225,45 @@ export function* createCurrencyAccountAsync({payload}: any): any {
       })
     const accounts = yield call(getAccountsQuery, currencies)
     yield put(actionObject(CREATE_CURRENCY_ACCOUNT_ASYNC, accounts))
+    yield put(getDashboardValues())
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function* updateAccountAsync({payload}: any): any {
+  try {
+    let {currencies} = yield select(selectCurrency)
+
+    if (!currencies?.length) {
+      currencies = yield call(getCurrenciesQuery)
+      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
+    }
+
+    const user = yield call(getUserQuery)
+    yield call(updateAccountQuery, {user: user.id, ...payload})
+    const accounts = yield call(getAccountsQuery, currencies)
+    yield put(actionObject(UPDATE_SINGLE_ACCOUNT_ASYNC, accounts))
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+export function* deleteSingleAccountAsync({payload}: any): any {
+  try {
+    yield call(deleteAccountEntryQuery, payload)
+    yield call(deleteAccountQuery, payload)
+
+    let {currencies} = yield select(selectCurrency)
+
+    if (!currencies?.length) {
+      currencies = yield call(getCurrenciesQuery)
+      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
+    }
+
+    const accounts = yield call(getAccountsQuery, currencies)
+    yield put(actionObject(DELETE_SINGLE_ACCOUNT_ASYNC, accounts))
+    yield put(getDashboardValues())
   } catch (error) {
     console.log(error)
   }
@@ -206,6 +285,10 @@ export function* deleteAccountAsync({payload}: any): any {
 }
 export function* watchSignIn() {
   yield takeLatest(SIGNIN, signInAsync)
+}
+
+export function* watchUpdateLanguage() {
+  yield takeLatest(UPDATE_LANGUAGE, updateLanguageAsync)
 }
 
 export function* watchGetTotalBalance() {
@@ -231,6 +314,18 @@ export function* watchCreateCurrencyAccount() {
   yield takeLatest(CREATE_CURRENCY_ACCOUNT, createCurrencyAccountAsync)
 }
 
+export function* watchGetAccount() {
+  yield takeLatest(GET_ACCOUNT, getAccountAsync)
+}
+
 export function* watchDeleteAccount() {
   yield takeLatest(DELETE_ACCOUNT, deleteAccountAsync)
+}
+
+export function* watchDeleteSingleAccount() {
+  yield takeLatest(DELETE_SINGLE_ACCOUNT, deleteSingleAccountAsync)
+}
+
+export function* watchUpdateSingleAccount() {
+  yield takeLatest(UPDATE_SINGLE_ACCOUNT, updateAccountAsync)
 }

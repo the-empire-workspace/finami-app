@@ -91,6 +91,12 @@ const Entry: FC = () => {
               ]}>
               {translate('amount')}:
             </Text>
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
+              {item?.currency_symbol}{' '}
+              {item?.amount?.toLocaleString('en-US', {
+                maximumFractionDigits: item?.decimal,
+              }) || translate('unavailable')}
+            </Text>
           </View>
           <View style={[styles.textContent]}>
             <Text
@@ -159,7 +165,7 @@ const Entry: FC = () => {
             </Text>
             <Text style={[styles.strongBody, {color: colors.typography}]}>{`${
               item?.account_name
-            } - *${item?.account_number?.slice(-4)}`}</Text>
+            } - *${item?.account_number?.slice(-4) || ''}`}</Text>
           </View>
         </ScrollView>
       </View>

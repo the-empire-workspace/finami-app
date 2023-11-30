@@ -7,6 +7,7 @@ import {Avatar} from 'theme'
 import Pencil from '../../../../../assets/img/Pencil.svg'
 import Coins from '../../../../../assets/img/Coins.svg'
 import {useNavigation} from '@react-navigation/native'
+import {translate} from 'utils'
 
 const ProfileInfo: FC<any> = () => {
   const {colors} = useTheme()
@@ -37,7 +38,7 @@ const ProfileInfo: FC<any> = () => {
       <View style={styles.CurrencyContainer}>
         <Text
           style={[styles.text, styles.smallBody, {color: colors.typography}]}>
-          Moneda principal:
+          {translate('main-currency')}:
         </Text>
         <Text style={[styles.smallBody, {color: colors.typography}]}>
           {user?.currency_name} {user?.currency_symbol}
