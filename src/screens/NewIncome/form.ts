@@ -45,11 +45,11 @@ export const egressForm = (translate: any, def: any, colors: any = {}) => [
   },
   {
     element: 'input',
-    name: 'comment',
+    name: 'comments',
     label: translate('comments'),
     labelStyle: {backgroundColor: colors?.background100},
     type: 'text',
-    defaultValue: def?.comment?.value || '',
+    defaultValue: def?.comments?.value || '',
     placeholder: translate('comments'),
     returnKeyType: 'next',
     keyboardType: 'default',
@@ -76,58 +76,6 @@ export const egressForm = (translate: any, def: any, colors: any = {}) => [
     },
   },
   {
-    element: 'multiple',
-    label: translate('frequency'),
-    labelStyle: {backgroundColor: colors?.background100},
-    element_array: [
-      {
-        element: 'input',
-        name: 'frecuency_time',
-        label: null,
-        type: 'number',
-        defaultValue: def ? def.amount_frequency?.value : '',
-        style: {
-          borderRightWidth: 1,
-          borderRadius: 0,
-        },
-        elementStyle: {
-          width: '35%',
-        },
-        keyboardType: 'numeric',
-        placeholder: translate('quantity'),
-        returnKeyType: 'go',
-        validations: {},
-      },
-      {
-        element: 'select',
-        name: 'frecuency_type',
-        type: 'select',
-        defaultValue: def ? def.frequency?.value : '',
-        placeholder: translate('frequency'),
-        elementStyle: {
-          width: '65%',
-        },
-        values: [
-          {
-            value: 'days',
-            label: translate('days'),
-          },
-          {
-            value: 'weeks',
-            label: translate('weeks'),
-          },
-          {
-            value: 'months',
-            label: translate('months'),
-          },
-        ],
-        validations: {
-          required: true,
-        },
-      },
-    ],
-  },
-  {
     element: 'date',
     name: 'date',
     label: null,
@@ -135,41 +83,6 @@ export const egressForm = (translate: any, def: any, colors: any = {}) => [
     placeholder: translate('date'),
     validations: {
       required: true,
-    },
-  },
-]
-
-export const categoryForm = (translate: any, def: any, colors: any = {}) => [
-  {
-    element: 'input',
-    name: 'concept',
-    label: translate('concept'),
-    labelStyle: {backgroundColor: colors?.background100},
-    type: 'text',
-    defaultValue: def?.concept?.value || '',
-    placeholder: translate('concept'),
-    returnKeyType: 'next',
-    keyboardType: 'default',
-    validations: {
-      required: true,
-      minLength: 0,
-      maxLength: 72,
-    },
-  },
-  {
-    element: 'input',
-    name: 'comment',
-    label: translate('comments'),
-    labelStyle: {backgroundColor: colors?.background100},
-    type: 'text',
-    defaultValue: def?.comment?.value || '',
-    placeholder: translate('comments'),
-    returnKeyType: 'next',
-    keyboardType: 'default',
-    validations: {
-      required: false,
-      minLength: 0,
-      maxLength: 72,
     },
   },
 ]

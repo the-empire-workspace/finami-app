@@ -2,19 +2,21 @@ import {BackHandler, DynamicForm} from 'components'
 import React, {FC, useEffect, useMemo, useState} from 'react'
 import {translate} from 'utils'
 import {egressForm, accountForm, receiverForm, categoryForm} from './form'
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
+import {ScrollView, Text, View} from 'react-native'
 import {styles} from './styles'
 import {useTheme} from 'providers'
 import {useDispatch, useSelector} from 'react-redux'
 import {Button} from 'theme'
 import {useNavigation, useRoute} from '@react-navigation/native'
 import {
-  createFixedIncomes,
-  createIncomeCategory,
   getAccounts,
+  getFixedIncome,
+  getCategoryIncome,
+  updateFixedIncome,
+  updateCategoryIncome,
 } from 'store/actions'
 
-const NewFixedIncome: FC = () => {
+const EditFixedIncome: FC = () => {
   const {colors} = useTheme()
   const {accounts} = useSelector((state: any) => state.account)
   const [categoryCreation, setCategoryCreation] = useState(false)
@@ -22,34 +24,46 @@ const NewFixedIncome: FC = () => {
     account: {value: String(accounts[0]?.id)},
   })
   const [error, setError] = useState<any>('')
-  const router = useRoute()
+  const router: any = useRoute()
   const navigation: any = useNavigation()
+  const params = router.params
   const dispatch = useDispatch()
-  const {params}: any = router
+  const {item} = useSelector((state: any) => state.incoming)
+
   useEffect(() => {
-    if (categoryCreation) setValues({})
-    else
-      setValues((prev: any) => ({
-        ...prev,
-        account: {value: String(accounts[0]?.id)},
-      }))
-  }, [categoryCreation])
+    if (params?.id)
+      if (params?.type === 'category') dispatch(getCategoryIncome(params?.id))
+      else dispatch(getFixedIncome(params?.id))
+  }, [params?.id])
+
+  useEffect(() => {
+    const newValues: any = {}
+    Object.keys(item).map(key => {
+      newValues[key] =
+        key === 'date'
+          ? {value: new Date(item[key])}
+          : {value: String(item[key]) || ''}
+      if (key === 'payment_concept')
+        newValues.concept = {value: String(item[key]) || ''}
+      if (key === 'name') newValues.concept = {value: String(item[key]) || ''}
+    })
+
+    setValues(newValues)
+    setCategoryCreation(!!item?.name)
+  }, [item])
 
   const accForm = useMemo(
     () => accountForm(translate, values, accounts, colors),
-    [accounts, categoryCreation],
+    [accounts, item],
   )
   const eForm = useMemo(
     () =>
       categoryCreation
         ? categoryForm(translate, values, colors)
         : egressForm(translate, values, colors),
-    [categoryCreation],
+    [categoryCreation, item],
   )
-  const rForm = useMemo(
-    () => receiverForm(translate, values, colors),
-    [categoryCreation],
-  )
+  const rForm = useMemo(() => receiverForm(translate, values, colors), [item])
 
   useEffect(() => {
     dispatch(getAccounts())
@@ -63,15 +77,13 @@ const NewFixedIncome: FC = () => {
     }, {})
     if (!Object.keys(sendValues).length) return
     if (categoryCreation) {
-      dispatch(
-        createIncomeCategory({...sendValues, category_id: params?.id || null}),
-      )
+      dispatch(updateCategoryIncome({...sendValues, id: params?.id}))
       navigation.goBack()
       return
     }
 
-    const actualMonth = new Date().getMonth()
-    const actualYear = new Date().getFullYear()
+    const actualMonth = new Date(item?.date).getMonth()
+    const actualYear = new Date(item?.date).getFullYear()
 
     const dateMonth = (sendValues?.date || new Date()).getMonth()
     const dateYear = (sendValues?.date || new Date()).getFullYear()
@@ -84,37 +96,14 @@ const NewFixedIncome: FC = () => {
       return
     }
     console.log(error)
-    dispatch(
-      createFixedIncomes({...sendValues, category_id: params?.id || null}),
-    )
+    dispatch(updateFixedIncome({...sendValues, id: params?.id}))
     navigation.goBack()
   }
 
   return (
     <View style={[styles.root, {backgroundColor: colors.background100}]}>
-      <BackHandler title={translate('new_fixed_income')} />
+      <BackHandler title={translate('update_fixed_income')} />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        {params?.type !== 'category' && (
-          <View style={[styles.categoryContainer]}>
-            <TouchableOpacity
-              style={[styles.selectBox, {borderColor: colors.typography}]}
-              onPress={() => setCategoryCreation(!categoryCreation)}>
-              <View
-                style={
-                  categoryCreation
-                    ? [
-                        styles.selectBoxInner,
-                        {backgroundColor: colors.typography},
-                      ]
-                    : {}
-                }
-              />
-            </TouchableOpacity>
-            <Text style={[styles.body, {color: colors.typography}]}>
-              {translate('enable_category_creation')}
-            </Text>
-          </View>
-        )}
         {!categoryCreation && (
           <View
             style={[
@@ -144,7 +133,7 @@ const NewFixedIncome: FC = () => {
           <Text style={[styles.h3, {color: colors.typography}]}>
             {categoryCreation
               ? translate('category')
-              : translate('fixed_income')}
+              : translate('basic_expenses')}
           </Text>
           <DynamicForm
             formData={eForm}
@@ -209,4 +198,4 @@ const NewFixedIncome: FC = () => {
   )
 }
 
-export default NewFixedIncome
+export default EditFixedIncome

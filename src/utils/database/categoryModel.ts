@@ -62,6 +62,17 @@ export const getOutcomeCategoriesQuery = async () => {
   }
 }
 
+export const getIncomeCategoriesQuery = async () => {
+  try {
+    const categories: any = await selectQuery(
+      'SELECT * FROM categories WHERE type = "income"',
+    )
+    return categories.raw()
+  } catch (error) {
+    console.log('error category selection', error)
+  }
+}
+
 export const getCategoryQuery = async (id: any) => {
   try {
     const query =
@@ -94,7 +105,7 @@ export const getCategoryQuery = async (id: any) => {
     const queryCategory = category.raw()[0]
 
     const entriesCategory: any = await selectQuery(
-      `${query} WHERE category_id = ? AND entries.payment_type = "basic_expenses"`,
+      `${query} WHERE category_id = ?`,
       [queryCategory?.id],
     )
     queryCategory.entries = entriesCategory.raw()

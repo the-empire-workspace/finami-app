@@ -65,6 +65,25 @@ export const localStyles = StyleSheet.create({
     left: 40,
     marginVertical: 'auto',
   },
+  transactionsBox: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    paddingTop: 10,
+    paddingHorizontal: 20,
+  },
+  transactionItem: {
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderRadius: 5,
+    marginVertical: 2.5,
+  },
+  concept: {
+    marginBottom: 5,
+  },
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}

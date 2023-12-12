@@ -9,53 +9,42 @@ export const localStyles = StyleSheet.create({
   },
   scrollContainer: {
     paddingHorizontal: 20,
-    paddingTop: 10,
-  },
-  header: {
-    width: '100%',
-    minHeight: 100,
-    paddingTop: 34,
-    paddingHorizontal: 20,
-    paddingBottom: 25,
-  },
-  container: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 25,
-    paddingHorizontal: 20,
-    paddingBottom: 10,
-    paddingTop: 10,
-  },
-  buttonLocal: {
-    textTransform: 'uppercase',
-  },
-  formContainer: {
-    marginTop: 25,
   },
   buttonContainer: {
-    width: '47%',
-  },
-  headerTop: {
-    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 15,
+    paddingBottom: 15,
     flexDirection: 'row',
     width: '100%',
-    minHeight: 60,
-    paddingBottom: 25,
-  },
-  headerButton: {
-    flex: 1,
-    justifyContent: 'center',
+    gap: 20,
     alignItems: 'center',
-    width: '100%',
-    borderRadius: 5,
-    paddingHorizontal: 20,
-    paddingVertical: 17,
+    justifyContent: 'center',
   },
-  input: {
-    width: '100%',
+  buttonContent: {
+    width: '47%',
+  },
+  formContainer: {
+    paddingTop: 15,
+    borderBottomWidth: 1,
+    gap: 20,
+  },
+  categoryContainer: {
+    flexDirection: 'row',
+    gap: 10,
+    paddingTop: 20,
+  },
+  selectBox: {
+    width: 24,
+    height: 24,
+    borderRadius: 30,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  selectBoxInner: {
+    width: 12,
+    height: 12,
+    borderRadius: 30,
   },
 })
 

@@ -85,7 +85,7 @@ export const egressForm = (translate: any, def: any, colors: any = {}) => [
         name: 'frecuency_time',
         label: null,
         type: 'number',
-        defaultValue: def ? def.amount_frequency?.value : '',
+        defaultValue: def ? def.frecuency_time?.value : '',
         style: {
           borderRightWidth: 1,
           borderRadius: 0,
@@ -102,7 +102,7 @@ export const egressForm = (translate: any, def: any, colors: any = {}) => [
         element: 'select',
         name: 'frecuency_type',
         type: 'select',
-        defaultValue: def ? def.frequency?.value : '',
+        defaultValue: def ? def.frecuency_type?.value : '',
         placeholder: translate('frequency'),
         elementStyle: {
           width: '65%',
@@ -131,7 +131,7 @@ export const egressForm = (translate: any, def: any, colors: any = {}) => [
     element: 'date',
     name: 'date',
     label: null,
-    defaultValue: def ? def.date : '',
+    date: def.date?.value || new Date(),
     placeholder: translate('date'),
     validations: {
       required: true,

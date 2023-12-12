@@ -8,19 +8,11 @@ import {
   Currencies,
   Accounts,
   NewOutcome,
+  NewIncome,
 } from '@screens'
 import {useDispatch} from 'react-redux'
 import {getCurrencyPrice} from 'store/actions'
 import {ProfileDelete} from 'screens/Profile/elements'
-import {FixedIncome, PendingIncome} from 'screens/Incoming/elements'
-import {
-  NewFixedIncome,
-  DetailsFixedIncome,
-} from 'screens/Incoming/elements/FixedIncome/elements'
-import {
-  DetailsPendingIncome,
-  NewPendingIncome,
-} from 'screens/Incoming/elements/PendingIncome/elements/'
 import DynamicCalculator from 'screens/DynamicCalculator'
 import FinancialCalculator from 'screens/FinancialCalculator'
 import Languages from 'screens/Language'
@@ -53,15 +45,6 @@ export const PrivateStack = () => {
         component={ProfileDelete}
         options={{presentation: 'transparentModal'}}
       />
-      <Stack.Screen
-        name="detailsPendingIncome"
-        component={DetailsPendingIncome}
-      />
-      <Stack.Screen name="detailsFixedIncome" component={DetailsFixedIncome} />
-      <Stack.Screen name="fixedIncoming" component={FixedIncome} />
-      <Stack.Screen name="newFixedIncome" component={NewFixedIncome} />
-      <Stack.Screen name="pendingIncoming" component={PendingIncome} />
-      <Stack.Screen name="newPendingIncoming" component={NewPendingIncome} />
       <Stack.Screen name="concurrentPayment" component={ConcurrentPayment} />
       <Stack.Screen name="profile" component={Profile} />
       <Stack.Screen name="currencies" component={Currencies} />
@@ -73,6 +56,7 @@ export const PrivateStack = () => {
       />
       <Stack.Screen name="language" component={Languages} />
       <Stack.Screen name="newOutcome" component={NewOutcome} />
+      <Stack.Screen name="newIncome" component={NewIncome} />
     </Stack.Navigator>
   )
 }
