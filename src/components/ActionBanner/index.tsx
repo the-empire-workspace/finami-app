@@ -18,6 +18,9 @@ const ActionBanner: FC<any> = ({payment, expense}) => {
             disabled={false}
             style={{backgroundColor: colors.progress.ingress}}
             styleText={{color: colors.typography2}}
+            onPress={() => {
+              navigation.navigate('newIncome')
+            }}
           />
         </View>
       )}

@@ -37,8 +37,20 @@ const ItemElement: FC<Props> = ({item, type}) => {
             type: 'category',
           })
         break
+      case 'fixed_incomes':
+        if (item?.payment_concept)
+          router.navigate('detailFixesIncome', {id: item?.id, type: 'income'})
+        if (item?.name)
+          router.navigate('detailFixesIncome', {
+            id: item?.id,
+            type: 'category',
+          })
+        break
       case 'debts':
         router.navigate('detailPendingOutcome', {id: item?.id, type: 'outcome'})
+        break
+      case 'receivable_accounts':
+        router.navigate('detailPendingIncome', {id: item?.id, type: 'income'})
         break
       default:
         dispatch(getItem(item?.id))
@@ -54,26 +66,36 @@ const ItemElement: FC<Props> = ({item, type}) => {
         styles.transactionItem,
         {
           backgroundColor:
-            item?.payment_type === 'debt'
+            item?.payment_type === 'debt' ||
+            item?.payment_type === 'receivable_account'
               ? transparent
-              : item?.entry_type === 'income'
+              : item?.entry_type === 'income' || item?.type === 'income'
               ? colors.progress.ingress
               : colors.progress.egress,
           borderColor:
             item?.payment_type === 'debt'
               ? colors.progress.egress
+              : item?.payment_type === 'receivable_account'
+              ? colors.progress.ingress
               : transparent,
-          ...(item?.payment_type === 'debt' ? styles.noPadding : {}),
+          ...(item?.payment_type === 'debt' ||
+          item?.payment_type === 'receivable_account'
+            ? styles.noPadding
+            : {}),
         },
       ]}
       onPress={checkAction}>
-      {item?.payment_type === 'debt' ? (
+      {item?.payment_type === 'debt' ||
+      item?.payment_type === 'receivable_account' ? (
         <>
           <View
             style={[
               styles.backgroundContainer,
               {
-                backgroundColor: colors.progress.egress,
+                backgroundColor:
+                  item?.payment_type === 'debt'
+                    ? colors.progress.egress
+                    : colors.progress.ingress,
                 width: `${(item?.total_amount / item?.amount) * 100}%`,
               },
             ]}
@@ -124,13 +146,15 @@ const ItemElement: FC<Props> = ({item, type}) => {
             </Text>
           </View>
           <View>
-            <Text style={[styles.strongBody, {color: colors.typography2}]}>
-              {' '}
-              {currency?.symbol || ''}{' '}
-              {item?.amount?.toLocaleString('en-US', {
-                maximumFractionDigits: currency?.decimal,
-              })}
-            </Text>
+            {!!item?.amount && (
+              <Text style={[styles.strongBody, {color: colors.typography2}]}>
+                {' '}
+                {currency?.symbol || ''}{' '}
+                {item?.amount?.toLocaleString('en-US', {
+                  maximumFractionDigits: currency?.decimal,
+                })}
+              </Text>
+            )}
           </View>
         </>
       )}

@@ -217,7 +217,7 @@ function* updateBasicExpenseAsync({payload}: any): any {
     const mix = [...outcomes, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
 
-    const item = yield call(getBasicExpenseQuery, payload)
+    const item = yield call(getBasicExpenseQuery, payload?.id)
 
     yield put(
       actionObject(UPDATE_BASIC_EXPENSE_ASYNC, {

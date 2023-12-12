@@ -11,15 +11,15 @@ import {
   ActionBanner,
   ItemList,
 } from '@components'
-import {getDashboardValues, getOutcomes} from 'store/actions'
+import {getDashboardValues, getIncomes} from 'store/actions'
 
-const MainOutcoming: FC = () => {
+const MainIncoming: FC = () => {
   const {colors} = useTheme()
   const dispatch = useDispatch()
 
   const {defaultPrices} = useSelector((state: any) => state.currency)
   const {dashboardValues} = useSelector((state: any) => state.account)
-  const {items} = useSelector((state: any) => state.outcoming)
+  const {items} = useSelector((state: any) => state.incoming)
 
   useEffect(() => {
     if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
@@ -29,17 +29,17 @@ const MainOutcoming: FC = () => {
     return {
       month1: {
         value: dashboardValues?.monthIncome,
-        label: 'month_outcome',
-        color: colors.progress.egress,
+        label: 'month_income',
+        color: colors.progress.ingress,
       },
       month2: {
         value: dashboardValues?.monthExpenses,
-        label: 'basic_expenses',
+        label: 'fixed_income',
         color: colors.typography,
       },
       month3: {
         value: dashboardValues?.monthProjected,
-        label: 'debts',
+        label: 'pending',
         color: colors.progress.needs,
       },
     }
@@ -47,19 +47,19 @@ const MainOutcoming: FC = () => {
 
   const DropDownInfo = [
     {
-      label: translate('basic_expenses'),
-      router: 'fixedOutcome',
+      label: translate('fixed_incomes'),
+      router: 'fixedIncome',
     },
     {
-      label: translate('debts'),
-      router: 'pendingOutcome',
+      label: translate('receivable_accounts'),
+      router: 'pendingIncome',
     },
     {
-      title: translate('made_outcomes'),
+      title: translate('made_incomes'),
     },
   ]
   useEffect(() => {
-    dispatch(getOutcomes())
+    dispatch(getIncomes())
   }, [])
 
   return (
@@ -78,9 +78,9 @@ const MainOutcoming: FC = () => {
           </Text>
         </View>
       )}
-      <ActionBanner payment={false} expense={true} />
+      <ActionBanner payment={true} expense={false} />
     </View>
   )
 }
 
-export default MainOutcoming
+export default MainIncoming

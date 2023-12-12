@@ -7,20 +7,47 @@ import {styles} from './styles'
 import {useTheme} from 'providers'
 import {useDispatch, useSelector} from 'react-redux'
 import {Button} from 'theme'
-import {useNavigation} from '@react-navigation/native'
-import {createReceivableAccount, getAccounts} from 'store/actions'
+import {useNavigation, useRoute} from '@react-navigation/native'
+import {
+  getAccounts,
+  getReceivableAccount,
+  updateReceivableAccount,
+} from 'store/actions'
 
-const NewPendingIncome: FC = () => {
+const EditPendingIncome: FC = () => {
   const {colors} = useTheme()
   const {accounts} = useSelector((state: any) => state.account)
   const [values, setValues] = useState<any>({
     account: {value: String(accounts[0]?.id)},
   })
+  const router: any = useRoute()
   const navigation: any = useNavigation()
+  const params = router.params
   const dispatch = useDispatch()
+  const {item} = useSelector((state: any) => state.incoming)
 
-  const eForm = useMemo(() => egressForm(translate, values, colors), [])
-  const rForm = useMemo(() => receiverForm(translate, values, colors), [])
+  useEffect(() => {
+    if (params?.id) dispatch(getReceivableAccount(params?.id))
+  }, [params?.id])
+
+  useEffect(() => {
+    const newValues: any = {}
+    Object.keys(item).map(key => {
+      newValues[key] =
+        key === 'date' || key === 'limit_date'
+          ? {value: new Date(item[key])}
+          : {value: String(item[key]) || ''}
+      if (key === 'payment_concept')
+        newValues.concept = {value: String(item[key]) || ''}
+      if (key === 'emissor')
+        newValues.receiver_name = {value: String(item[key]) || ''}
+      if (key === 'name') newValues.concept = {value: String(item[key]) || ''}
+    })
+    setValues(newValues)
+  }, [item])
+
+  const eForm = useMemo(() => egressForm(translate, values, colors), [item])
+  const rForm = useMemo(() => receiverForm(translate, values, colors), [item])
 
   useEffect(() => {
     dispatch(getAccounts())
@@ -33,13 +60,13 @@ const NewPendingIncome: FC = () => {
     }, {})
     if (!Object.keys(sendValues).length) return
 
-    dispatch(createReceivableAccount({...sendValues}))
+    dispatch(updateReceivableAccount({...sendValues, id: params?.id}))
     navigation.goBack()
   }
 
   return (
     <View style={[styles.root, {backgroundColor: colors.background100}]}>
-      <BackHandler title={translate('new_receivable_account')} />
+      <BackHandler title={translate('update_receivable_account')} />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View
           style={[
@@ -47,7 +74,7 @@ const NewPendingIncome: FC = () => {
             {borderBottomColor: colors.background25},
           ]}>
           <Text style={[styles.h3, {color: colors.typography}]}>
-            {translate('receivable_accounts')}
+            {translate('receivable_account')}
           </Text>
           <DynamicForm
             formData={eForm}
@@ -110,4 +137,4 @@ const NewPendingIncome: FC = () => {
   )
 }
 
-export default NewPendingIncome
+export default EditPendingIncome

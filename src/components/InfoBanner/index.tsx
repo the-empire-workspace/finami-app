@@ -30,7 +30,7 @@ const InfoBanner: FC<any> = ({values}) => {
       </View>
       <View style={[styles.infoBox]}>
         <Text style={[styles.strongBody, {color: values?.month2?.color}]}>
-          - {currency?.symbol || ''}{' '}
+          {currency?.symbol || ''}{' '}
           {values?.month2?.value?.toLocaleString('en-US', {
             maximumFractionDigits: currency?.decimal,
           })}

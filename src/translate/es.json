@@ -203,5 +203,15 @@
   "next_payment_date": "Fecha del próximo pago",
   "limit_payment_date": "Fecha límite de pago",
   "debt": "Deuda",
-  "update_debt": "Actualizar Deuda"
+  "update_debt": "Actualizar Deuda",
+  "ingress_register": "Registro del ingreso",
+  "made_incomes": "Ingresos realizados",
+  "fixed_incomes": "Ingresos fijos",
+  "receivable_accounts": "Cuentas por cobrar",
+  "new_fixed_income": "Nuevo Ingreso Fijo",
+  "update_fixed_income": "Actualizar Ingreso Fijo",
+  "update_basic_expense": "Actualizar Gasto Básico",
+  "new_receivable_account": "Nueva Cuenta por Cobrar",
+  "receivable_account": "Cuenta por Cobrar",
+  "update_receivable_account": "Actualizar Cuenta por Cobrar"
 }

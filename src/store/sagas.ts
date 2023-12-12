@@ -38,6 +38,25 @@ import {
   watchUpdateCategoryOutcome,
   watchUpdateDebt,
 } from './outcoming/saga'
+import {
+  watchCreateFixedIncomes,
+  watchCreateIncome,
+  watchCreateIncomeCategory,
+  watchCreateReceivableAccount,
+  watchCreateReceivableAccountEntry,
+  watchDeleteCategoryIncome,
+  watchDeleteIncome,
+  watchDeleteReceivableAccount,
+  watchGetCategoryIncome,
+  watchGetFixedIncome,
+  watchGetFixedIncomes,
+  watchGetIncomes,
+  watchGetReceivableAccount,
+  watchGetReceivableAccounts,
+  watchUpdateCategoryIncome,
+  watchUpdateFixedIncome,
+  watchUpdateReceivableAccount,
+} from './incoming/saga'
 
 //import {watchGetIncoming, watchSetIncoming} from './incoming/saga'
 
@@ -79,5 +98,23 @@ export default function* rootSaga() {
     fork(watchUpdateDebt),
     fork(watchDeleteDebt),
     fork(watchCreateDebtEntry),
+
+    fork(watchCreateIncome),
+    fork(watchGetIncomes),
+    fork(watchCreateIncomeCategory),
+    fork(watchCreateFixedIncomes),
+    fork(watchGetFixedIncomes),
+    fork(watchGetFixedIncome),
+    fork(watchUpdateFixedIncome),
+    fork(watchDeleteIncome),
+    fork(watchGetCategoryIncome),
+    fork(watchUpdateCategoryIncome),
+    fork(watchDeleteCategoryIncome),
+    fork(watchGetReceivableAccounts),
+    fork(watchGetReceivableAccount),
+    fork(watchCreateReceivableAccount),
+    fork(watchUpdateReceivableAccount),
+    fork(watchDeleteReceivableAccount),
+    fork(watchCreateReceivableAccountEntry),
   ])
 }

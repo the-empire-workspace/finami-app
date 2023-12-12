@@ -1,86 +1,22 @@
-import React, {FC, useEffect, useMemo} from 'react'
-import {Text, View} from 'react-native'
-import {styles} from './styles'
-import {useTheme} from 'providers'
-import {translate} from 'utils'
-import {useDispatch, useSelector} from 'react-redux'
-import {
-  Header,
-  InfoBanner,
-  DropDownButtons,
-  ActionBanner,
-  ItemList,
-} from '@components'
-import {getDashboardValues} from 'store/actions'
+import React, {FC} from 'react'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {FixedIncome, MainIncoming, PendingIncome} from './elements'
+
+const Stack = createNativeStackNavigator()
 
 const Incoming: FC = () => {
-  const {colors} = useTheme()
-  const dispatch = useDispatch()
-
-  const {defaultPrices} = useSelector((state: any) => state.currency)
-  const {dashboardValues} = useSelector((state: any) => state.account)
-  const {items} = useSelector((state: any) => state.incoming)
-
-  useEffect(() => {
-    if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
-    /*ciclo_infinito*/
-    //if(items?.length)dispatch(getIncoming())
-  }, [defaultPrices])
-  const infoValues = useMemo(() => {
-    return {
-      month1: {
-        value: dashboardValues?.monthIncome,
-        label: 'month_income',
-        color: colors.progress.ingress,
-      },
-      month2: {
-        value: dashboardValues?.monthExpenses,
-        label: 'month_expenses',
-        color: colors.progress.egress,
-      },
-      month3: {
-        value: dashboardValues?.monthProjected,
-        label: 'month_projected',
-        color: colors.progress.needs,
-      },
-    }
-  }, [dashboardValues, colors])
-  const DropDownInfo = [
-    {
-      label: translate('fixed_incoming'),
-      router: 'fixedIncoming',
-    },
-    {
-      label: translate('pending_incoming'),
-      router: 'pendingIncoming',
-    },
-    {
-      title: translate('last_payments'),
-    },
-  ]
   return (
-    <View style={[styles.root, {backgroundColor: colors.background100}]}>
-      <View style={[{backgroundColor: colors.background50}]}>
-        <Header />
-        <InfoBanner values={infoValues} />
-        <DropDownButtons DropDownInfo={DropDownInfo} />
-      </View>
-      {items?.length ? (
-        <ItemList
-          items={[...items]?.reduce((prev: any, next: any) => {
-            return next.entry_type === 'income' ? [...prev, next] : prev
-          }, [])}
-          type="dashboard"
-        />
-      ) : (
-        <View style={styles.noItemBox}>
-          <Text style={[styles.noItemText, {color: colors.typography}]}>
-            {translate('no_items')}
-          </Text>
-        </View>
-      )}
-      <ActionBanner payment={true} expense={false} />
-    </View>
+    <Stack.Navigator
+      screenOptions={{
+        animationTypeForReplace: 'pop',
+        animation: 'slide_from_bottom',
+        headerShown: false,
+      }}
+      initialRouteName="incomingMain">
+      <Stack.Screen name="incomingMain" component={MainIncoming} />
+      <Stack.Screen name="fixedIncome" component={FixedIncome} />
+      <Stack.Screen name="pendingIncome" component={PendingIncome} />
+    </Stack.Navigator>
   )
 }
 

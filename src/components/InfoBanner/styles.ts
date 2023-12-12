@@ -15,6 +15,8 @@ const localStyles = StyleSheet.create({
     textAlign: 'center',
     alignItems: 'center',
     width: '33.33%',
+    gap: 5,
+    justifyContent: 'center',
   },
 })
 
