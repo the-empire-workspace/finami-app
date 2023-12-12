@@ -11,15 +11,10 @@ const localStyles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 8,
     paddingTop: 10,
+    gap: 20,
   },
   buttonContainer: {
     width: '47%',
-  },
-  marginLeft: {
-    marginLeft: 10,
-  },
-  marginRight: {
-    marginRight: 10,
   },
 })
 

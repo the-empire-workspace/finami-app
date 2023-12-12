@@ -17,7 +17,9 @@ function* completeOnboardingAsync({payload}: any): any {
       picture: image || null,
       currency: data?.principal_currency,
     })
+
     const account = yield call(createAccountQuery, {...data, user: user?.id})
+
     if (Number(payload?.available_balance))
       yield call(createEntryQuery, {
         account: account?.id,
@@ -29,6 +31,7 @@ function* completeOnboardingAsync({payload}: any): any {
         emissor: '',
         email: '',
         phone: '',
+        status: 'paid',
         date: new Date()?.getTime(),
       })
     yield put(signin())

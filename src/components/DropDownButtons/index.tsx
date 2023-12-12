@@ -18,7 +18,7 @@ const DropDownButtons: FC<DropDownInfoProps> = ({DropDownInfo}: any) => {
         <View style={[styles.hidden, {backgroundColor: colors.background50}]}>
           <TouchableOpacity
             style={[styles.buttonItems, {backgroundColor: colors.background25}]}
-            onPress={() => router.navigate('fixedIncoming')}>
+            onPress={() => router.navigate(DropDownInfo[0].router)}>
             <Text
               style={[
                 styles.subtitle,
@@ -29,7 +29,7 @@ const DropDownButtons: FC<DropDownInfoProps> = ({DropDownInfo}: any) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.buttonItems, {backgroundColor: colors.background25}]}
-            onPress={() => router.navigate('pendingIncoming')}>
+            onPress={() => router.navigate(DropDownInfo[1].router)}>
             <Text
               style={[
                 styles.subtitle,

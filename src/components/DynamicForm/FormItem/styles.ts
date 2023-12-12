@@ -22,9 +22,18 @@ export const styles: any = StyleSheet.create({
     marginBottom: 16,
   },
   multipleBox: {
+    width: '100%',
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 15,
+  },
+  notOverflow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 5,
+    overflow: 'hidden',
   },
   error: {
     color: 'red',

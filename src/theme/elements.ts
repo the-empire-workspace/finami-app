@@ -16,6 +16,16 @@ const elements = StyleSheet.create({
     borderTopRightRadius: 8,
     overflow: 'hidden',
   },
+  line: {
+    height: 1,
+  },
+  input: {
+    borderRadius: 5,
+    borderWidth: 1,
+    paddingHorizontal: 10,
+    paddingVertical: 10,
+    width: '100%',
+  },
 })
 
 export default elements

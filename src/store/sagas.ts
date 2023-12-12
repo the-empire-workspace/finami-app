@@ -19,6 +19,25 @@ import {
   watchUpdateLanguage,
   watchUpdateSingleAccount,
 } from './account/saga'
+import {
+  watchCreateBasicExpenses,
+  watchCreateDebt,
+  watchCreateDebtEntry,
+  watchCreateOutcome,
+  watchCreateOutcomeCategory,
+  watchDeleteCategoryOutcome,
+  watchDeleteDebt,
+  watchDeleteOutcome,
+  watchGetBasicExpense,
+  watchGetBasicExpenses,
+  watchGetCategoryOutcome,
+  watchGetDebt,
+  watchGetDebts,
+  watchGetOutcomes,
+  watchUpdateBasicExpense,
+  watchUpdateCategoryOutcome,
+  watchUpdateDebt,
+} from './outcoming/saga'
 
 //import {watchGetIncoming, watchSetIncoming} from './incoming/saga'
 
@@ -43,5 +62,22 @@ export default function* rootSaga() {
     fork(watchDeleteSingleAccount),
     fork(watchUpdateSingleAccount),
     fork(watchUpdateLanguage),
+    fork(watchCreateOutcome),
+    fork(watchGetOutcomes),
+    fork(watchCreateOutcomeCategory),
+    fork(watchCreateBasicExpenses),
+    fork(watchGetBasicExpenses),
+    fork(watchGetBasicExpense),
+    fork(watchUpdateBasicExpense),
+    fork(watchDeleteOutcome),
+    fork(watchGetCategoryOutcome),
+    fork(watchUpdateCategoryOutcome),
+    fork(watchDeleteCategoryOutcome),
+    fork(watchGetDebts),
+    fork(watchGetDebt),
+    fork(watchCreateDebt),
+    fork(watchUpdateDebt),
+    fork(watchDeleteDebt),
+    fork(watchCreateDebtEntry),
   ])
 }

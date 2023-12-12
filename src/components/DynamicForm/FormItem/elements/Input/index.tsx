@@ -26,8 +26,10 @@ const Input: FC<InputProps> = ({
       onChange(values?.defaultValue || values?.values[0]?.value)
       return
     }
-    if (values?.defaultValue) onChange(values?.defaultValue || value)
-    if (values?.defaultValue) setValue(values?.defaultValue)
+    if (values?.defaultValue) {
+      setValue(values?.defaultValue)
+      onChange(values?.defaultValue)
+    }
   }
 
   useEffect(() => {
@@ -38,7 +40,7 @@ const Input: FC<InputProps> = ({
         mainRender,
         {
           ...values,
-          style: {...values.style, ...(styles.select || {})},
+          style: {...(styles.select || {}), ...values.style},
           selectedValue: value,
           onValueChange: onChangeSelect,
         },

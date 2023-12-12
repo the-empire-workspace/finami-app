@@ -35,11 +35,13 @@ const DatePicker2: FC<Props> = ({
 
   useEffect(() => {
     if (onChange) onChange({nativeEvent: {text: date}})
-  }, [])
+    confirmDate(defaultDate)
+  }, [defaultDate])
+
   return (
     <>
       <TouchableOpacity
-        style={{...style, ...styles.main}}
+        style={{...styles.main, ...style}}
         onPress={() => {
           setOpen(true)
         }}>

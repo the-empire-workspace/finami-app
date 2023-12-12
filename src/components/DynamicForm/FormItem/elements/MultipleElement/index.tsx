@@ -1,9 +1,8 @@
 import React, {useState, FC} from 'react'
 import {returnForm} from '../../functions'
-import {View, Text} from 'react-native'
+import {View} from 'react-native'
 import {styles} from './styles'
 import Input from '../Input'
-import {useTheme} from '@react-navigation/native'
 import {Props} from './interface'
 
 const MultipleElement: FC<Props> = ({
@@ -15,9 +14,7 @@ const MultipleElement: FC<Props> = ({
   length,
 }) => {
   const [validateMultiple, setValidateMultiple] = useState(false)
-  const {element: elementMulti, label, render} = item
-
-  const {colors} = useTheme()
+  const {element: elementMulti, render} = item
 
   const styleInput = elementMulti === 'select' ? styles.select : styles.input
   item.style = item.style ? {...styleInput, ...item.style} : styles.input
@@ -33,9 +30,9 @@ const MultipleElement: FC<Props> = ({
     <View
       style={[
         styles.rootMultiple,
-        {borderBottomColor: colors.primary, width: `${100 / length}%`},
+        {width: `${100 / length}%`},
+        item?.elementStyle || {},
       ]}>
-      {label ? <Text>{label}</Text> : null}
       <Input
         element={elementMulti}
         mainRender={render}

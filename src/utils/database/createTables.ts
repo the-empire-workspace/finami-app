@@ -72,11 +72,28 @@ const createAccountTable = async () => {
   }
 }
 
+const createCategoryTable = async () => {
+  try {
+    await database.executeSql(`CREATE TABLE IF NOT EXISTS categories (\
+      id INTEGER PRIMARY KEY AUTOINCREMENT,\
+      name VARCHAR,\
+      comment VARCHAR,\
+      type VARCHAR, \
+      date DATETIME\
+      )`)
+    console.log('category table created')
+  } catch (error) {
+    console.log('error creating category table', error)
+  }
+}
+
 const createEntriesTable = async () => {
   try {
     await database.executeSql(`CREATE TABLE IF NOT EXISTS entries (\
       id INTEGER PRIMARY KEY AUTOINCREMENT,\
+      entry_id  INTEGER,\
       account_id INTEGER,\
+      category_id INTEGER,\
       payment_type VARCHAR,\
       amount REAL,\
       entry_type VARCHAR, \
@@ -88,9 +105,14 @@ const createEntriesTable = async () => {
       status VARCHAR,\
       frecuency_type VARCHAR,\
       frecuency_time VARCHAR,\
+      status_level VARCHAR,\
       date DATETIME,\
+      limit_date DATETIME,\
       FOREIGN KEY(account_id) REFERENCES accounts(id)
+      FOREIGN KEY(entry_id) REFERENCES entries(id)
+      FOREIGN KEY(category_id) REFERENCES categories(id)
       )`)
+
     console.log('entries table created')
   } catch (error) {
     console.log('error creating entries table', error)
@@ -101,6 +123,7 @@ const createTables = async () => {
   await createCurrencyTable()
   await createUserTable()
   await createAccountTable()
+  await createCategoryTable()
   await createEntriesTable()
 }
 

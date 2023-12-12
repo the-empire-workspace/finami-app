@@ -41,6 +41,9 @@ const Structure: any = {
       console.log(val.target.value)
     },
   },
+  multiple: {
+    style: {},
+  },
 }
 
 export default Structure

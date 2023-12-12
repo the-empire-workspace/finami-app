@@ -26,13 +26,15 @@ const Validation = (validations: any, value: any, formData: any) => {
 
         break
       case 'required':
-        if (value !== undefined || value !== null)
-          if (value?.length !== 0) {
-            validates = true
-            break
-          }
+        if (validations[val]) {
+          if (value !== undefined || value !== null)
+            if (value?.length !== 0) {
+              validates = true
+              break
+            }
 
-        validates = validates && false
+          validates = validates && false
+        }
         break
       case 'equal':
         if (value === formData[validations[val]]) {

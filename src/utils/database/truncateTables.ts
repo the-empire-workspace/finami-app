@@ -23,12 +23,20 @@ const TruncateUsersTable = async () => {
     console.log(error)
   }
 }
+const TruncateCategoriesTable = async () => {
+  try {
+    await database.executeSql('DELETE FROM categories')
+  } catch (error) {
+    console.log(error)
+  }
+}
 
 const TruncateTables = async () => {
   try {
     await TruncateEntriesTable()
     await TruncateAccountsTable()
     await TruncateUsersTable()
+    await TruncateCategoriesTable()
   } catch (error) {
     console.log(error)
   }

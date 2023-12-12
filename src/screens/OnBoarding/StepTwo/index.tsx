@@ -15,18 +15,21 @@ const StepTwo: FC = () => {
   const {colors} = useTheme()
   const router: any = useNavigation()
   const dispatch = useDispatch()
-  const {username, image, currency} = useSelector(
+  const {username, image, principal_currency} = useSelector(
     (state: any) => state?.onboarding,
   )
   const [data, setData] = useState<any>({
     username: username || '',
     image: image || '',
-    currency: currency || [],
+    principal_currency: principal_currency || [],
   })
+
   useEffect(() => {
     dispatch(getCurrencies())
   }, [])
+
   const {currencies} = useSelector((state: any) => state.currency)
+
   const currenciesFormatValues = useMemo(
     () =>
       [...currencies]?.map((currencyData: any) => ({
@@ -42,7 +45,7 @@ const StepTwo: FC = () => {
       translate,
       {
         username: username || '',
-        currency: currency || '',
+        principal_currency: principal_currency || '',
       },
       colors.background100,
       currenciesFormatValues,
@@ -50,9 +53,9 @@ const StepTwo: FC = () => {
   }, [colors, translate, username, currenciesFormatValues])
 
   const submitStep = () => {
-    if (data?.username && data?.currency) {
+    if (data?.username && data?.principal_currency) {
       const sendValues = Object.keys(data).reduce((prev: any, next: any) => {
-        prev[next] = data[next]?.value
+        prev[next] = data[next]?.value || data[next]
         return prev
       }, {})
       dispatch(setStep(sendValues))

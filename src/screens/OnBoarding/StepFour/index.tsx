@@ -54,7 +54,7 @@ const StepTwo: FC = () => {
         prev && (values[next]?.validation === false || true),
       true,
     )
-    console.log({valid, values})
+
     if (valid) {
       dispatch(setStep({...sendValues, username, image, currency}))
       router.navigate('StepFive')
