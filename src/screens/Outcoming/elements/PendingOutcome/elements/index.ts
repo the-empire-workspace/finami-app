@@ -1,0 +1,5 @@
+export {default as NewPendingOutcome} from './NewPendingOutcome'
+export {default as MainPendingOutcome} from './MainPendingOutcome'
+export {default as DetailPendingOutcome} from './DetailPendingOutcome'
+export {default as EditPendingOutcome} from './EditPendingOutcome'
+export {default as deleteOutcome} from './DeleteOutcome'

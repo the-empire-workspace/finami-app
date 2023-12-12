@@ -6,14 +6,15 @@ import Arrow from '@assets/img/ArrowLeft.svg'
 import {useNavigation} from '@react-navigation/core'
 import {useTheme} from 'providers'
 
-const BackHandler: FC<Props> = ({title}) => {
+const BackHandler: FC<Props> = ({title, navigation}) => {
   const router = useNavigation()
 
   const {colors} = useTheme()
 
   return (
     <View style={[styles.root, {backgroundColor: colors.background50}]}>
-      <TouchableOpacity onPress={() => router.goBack()}>
+      <TouchableOpacity
+        onPress={() => (navigation ? navigation() : router.goBack())}>
         <Arrow width={32} height={32} />
       </TouchableOpacity>
       {!!title && (

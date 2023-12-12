@@ -1,0 +1,5 @@
+export {default as NewFixedOutcome} from './NewFixedOutcome'
+export {default as MainFixesOutcome} from './MainFixesOutcome'
+export {default as DetailFixesOutcome} from './DetailFixesOutcome'
+export {default as EditFixedOutcome} from './EditFixedOutcome'
+export {default as deleteOutcome} from './DeleteOutcome'

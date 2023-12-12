@@ -4,10 +4,10 @@ import {MainTab} from '../../Tabs'
 import {
   Entry,
   ConcurrentPayment,
-  Category,
   Profile,
   Currencies,
   Accounts,
+  NewOutcome,
 } from '@screens'
 import {useDispatch} from 'react-redux'
 import {getCurrencyPrice} from 'store/actions'
@@ -63,7 +63,6 @@ export const PrivateStack = () => {
       <Stack.Screen name="pendingIncoming" component={PendingIncome} />
       <Stack.Screen name="newPendingIncoming" component={NewPendingIncome} />
       <Stack.Screen name="concurrentPayment" component={ConcurrentPayment} />
-      <Stack.Screen name="category" component={Category} />
       <Stack.Screen name="profile" component={Profile} />
       <Stack.Screen name="currencies" component={Currencies} />
       <Stack.Screen name="accounts" component={Accounts} />
@@ -73,6 +72,7 @@ export const PrivateStack = () => {
         component={FinancialCalculator}
       />
       <Stack.Screen name="language" component={Languages} />
+      <Stack.Screen name="newOutcome" component={NewOutcome} />
     </Stack.Navigator>
   )
 }

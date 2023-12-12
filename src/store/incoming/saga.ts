@@ -30,7 +30,6 @@ export function* setIncomingAsync({payload}: any): any {
           date: Date.now(),
         })
       : null
-    console.log({entry, payload})
     if (entry !== null) yield put(actionObject(SET_INCOMING_ASYNC, entry))
   } catch (error) {
     console.log(error)

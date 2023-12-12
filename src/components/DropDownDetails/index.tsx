@@ -13,7 +13,7 @@ import {Divider} from 'components'
 import {Button} from 'theme'
 //import {useNavigation} from '@react-navigation/native'
 
-const DropDownDetails: FC = ({DropDownInfo}: any) => {
+const DropDownDetails: FC<any> = ({DropDownInfo}: any) => {
   const {
     item: {
       payment_concept,

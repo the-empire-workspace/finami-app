@@ -46,14 +46,6 @@ export const updateAccountQuery = async ({
   organization,
   account_comments,
 }: any) => {
-  console.log(
-    account_currency,
-    account_name,
-    account_number,
-    account_type,
-    organization,
-    account_comments,
-  )
   try {
     await insertQuery(
       'UPDATE accounts SET currency_id = ?, account_name = ?, account_number = ?, account_type = ?, organization = ?, account_comments = ? WHERE id = ?',

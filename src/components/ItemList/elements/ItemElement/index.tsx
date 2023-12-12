@@ -7,10 +7,10 @@ import {useNavigation} from '@react-navigation/native'
 import {useSelector, useDispatch} from 'react-redux'
 import {getItem} from 'store/actions'
 
-const ItemElement: FC<Props> = ({item}) => {
+const ItemElement: FC<Props> = ({item, type}) => {
   const {colors} = useTheme()
 
-  const {item: entry} = useSelector((state: any) => state.account)
+  const {item: entry, user} = useSelector((state: any) => state.account)
   const {currencies} = useSelector((state: any) => state.currency)
   const dispatch = useDispatch()
 
@@ -21,8 +21,32 @@ const ItemElement: FC<Props> = ({item}) => {
   }, [entry])
 
   const currency = useMemo(() => {
-    return currencies.find((c: any) => c.id === item?.currency_id)
+    return currencies.find(
+      (c: any) => c.id === (item?.currency_id || user?.currency_id),
+    )
   }, [currencies?.length, item?.currency_id])
+
+  const checkAction = () => {
+    switch (type) {
+      case 'basic_expenses':
+        if (item?.payment_concept)
+          router.navigate('detailFixesOutcome', {id: item?.id, type: 'outcome'})
+        if (item?.name)
+          router.navigate('detailFixesOutcome', {
+            id: item?.id,
+            type: 'category',
+          })
+        break
+      case 'debts':
+        router.navigate('detailPendingOutcome', {id: item?.id, type: 'outcome'})
+        break
+      default:
+        dispatch(getItem(item?.id))
+        break
+    }
+  }
+
+  const transparent = 'transparent'
 
   return (
     <TouchableOpacity
@@ -30,38 +54,86 @@ const ItemElement: FC<Props> = ({item}) => {
         styles.transactionItem,
         {
           backgroundColor:
-            item?.entry_type === 'income'
+            item?.payment_type === 'debt'
+              ? transparent
+              : item?.entry_type === 'income'
               ? colors.progress.ingress
               : colors.progress.egress,
+          borderColor:
+            item?.payment_type === 'debt'
+              ? colors.progress.egress
+              : transparent,
+          ...(item?.payment_type === 'debt' ? styles.noPadding : {}),
         },
       ]}
-      onPress={() => dispatch(getItem(item?.id))}>
-      <View>
-        <Text
-          style={[
-            styles.strongBody,
-            styles.concept,
-            {color: colors.typography2},
-          ]}>
-          {item?.payment_concept}
-        </Text>
-        <Text style={[styles.smallBody, {color: colors.typography2}]}>
-          {new Date(item?.date).toLocaleDateString('en-US', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-          })}
-        </Text>
-      </View>
-      <View>
-        <Text style={[styles.strongBody, {color: colors.typography2}]}>
-          {' '}
-          {currency?.symbol || ''}{' '}
-          {item?.amount?.toLocaleString('en-US', {
-            maximumFractionDigits: currency?.decimal,
-          })}
-        </Text>
-      </View>
+      onPress={checkAction}>
+      {item?.payment_type === 'debt' ? (
+        <>
+          <View
+            style={[
+              styles.backgroundContainer,
+              {
+                backgroundColor: colors.progress.egress,
+                width: `${(item?.total_amount / item?.amount) * 100}%`,
+              },
+            ]}
+          />
+          <View style={[styles.contentContainer]}>
+            <Text
+              numberOfLines={1}
+              style={[styles.strongBody, {color: colors.typography}]}>
+              {item?.payment_concept}
+            </Text>
+            <View style={[styles.textContainer]}>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
+                {currency?.symbol || ''}{' '}
+                {item?.total_amount?.toLocaleString('en-US', {
+                  maximumFractionDigits: currency?.decimal,
+                })}
+              </Text>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
+                /
+              </Text>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
+                {' '}
+                {currency?.symbol || ''}{' '}
+                {item?.amount?.toLocaleString('en-US', {
+                  maximumFractionDigits: currency?.decimal,
+                })}
+              </Text>
+            </View>
+          </View>
+        </>
+      ) : (
+        <>
+          <View>
+            <Text
+              style={[
+                styles.strongBody,
+                styles.concept,
+                {color: colors.typography2},
+              ]}>
+              {item?.payment_concept || item?.name}
+            </Text>
+            <Text style={[styles.smallBody, {color: colors.typography2}]}>
+              {new Date(item?.date).toLocaleDateString('en-US', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })}
+            </Text>
+          </View>
+          <View>
+            <Text style={[styles.strongBody, {color: colors.typography2}]}>
+              {' '}
+              {currency?.symbol || ''}{' '}
+              {item?.amount?.toLocaleString('en-US', {
+                maximumFractionDigits: currency?.decimal,
+              })}
+            </Text>
+          </View>
+        </>
+      )}
     </TouchableOpacity>
   )
 }

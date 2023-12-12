@@ -39,21 +39,25 @@ const FormItem: FC<ItemProps> = ({
       {mainLabel}
     </Text>
   ) : null
+
   return (
     <>
       {element === 'multiple' ? (
         <View style={styles.multipleBox}>
-          {element_array?.map((item: any, index: any) => (
-            <MultipleElement
-              item={item}
-              key={index}
-              returnData={returnData}
-              form={form}
-              data={data}
-              setData={setData}
-              length={element_array?.length}
-            />
-          ))}
+          {Label}
+          <View style={styles.notOverflow}>
+            {element_array?.map((item: any, index: any) => (
+              <MultipleElement
+                item={item}
+                key={index}
+                returnData={returnData}
+                form={form}
+                data={data}
+                setData={setData}
+                length={element_array?.length}
+              />
+            ))}
+          </View>
         </View>
       ) : (
         <View style={styles.inputContainer}>

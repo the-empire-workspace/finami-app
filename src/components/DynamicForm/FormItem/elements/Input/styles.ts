@@ -18,7 +18,7 @@ export const styles: any = StyleSheet.create({
     borderColor: 'white',
     borderRadius: 5,
     paddingHorizontal: 10,
-    paddingVertical: 20,
+    paddingVertical: 15,
     fontFamily: 'Poppins',
     letterSpacing: 0.14,
     marginBottom: 16,
