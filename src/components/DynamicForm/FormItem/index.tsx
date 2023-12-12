@@ -28,29 +28,41 @@ const FormItem: FC<ItemProps> = ({
     ? {...styles.input, ...values.style}
     : styles.input
 
-  values.style.color = !validate ? colors.error : colors.text
-  const Label = mainLabel ? <Text>{mainLabel}</Text> : null
+  values.style.color = !validate ? colors.negative : colors.typography
+  const Label = mainLabel ? (
+    <Text
+      style={
+        values.labelStyle
+          ? {...styles.label, ...values.labelStyle}
+          : styles.label
+      }>
+      {mainLabel}
+    </Text>
+  ) : null
 
   return (
     <>
       {element === 'multiple' ? (
         <View style={styles.multipleBox}>
-          {element_array?.map((item: any, index: any) => (
-            <MultipleElement
-              item={item}
-              key={index}
-              returnData={returnData}
-              form={form}
-              data={data}
-              setData={setData}
-              length={element_array.length}
-            />
-          ))}
+          {Label}
+          <View style={styles.notOverflow}>
+            {element_array?.map((item: any, index: any) => (
+              <MultipleElement
+                item={item}
+                key={index}
+                returnData={returnData}
+                form={form}
+                data={data}
+                setData={setData}
+                length={element_array?.length}
+              />
+            ))}
+          </View>
         </View>
       ) : (
-        <View>
+        <View style={styles.inputContainer}>
           {Label}
-          <View style={[styles.root, {borderBottomColor: colors.primary}]}>
+          <View style={styles[element]}>
             <Input
               element={element}
               mainRender={mainRender}

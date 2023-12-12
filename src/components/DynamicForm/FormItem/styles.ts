@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native'
 
-export const styles = StyleSheet.create({
+export const styles: any = StyleSheet.create({
   root: {
     borderBottomWidth: 1,
     flexDirection: 'row',
@@ -9,24 +9,45 @@ export const styles = StyleSheet.create({
   rootMultiple: {
     borderBottomWidth: 1,
   },
-  input: {
-    zIndex: 2,
-    fontSize: 16,
-    color: 'white',
-    width: '100%',
-  },
   select: {
     zIndex: 2,
-    fontSize: 16,
+    fontSize: 14,
     color: 'white',
     width: '100%',
+    borderWidth: 1,
+    borderColor: 'white',
+    borderRadius: 5,
+    fontFamily: 'Poppins',
+    letterSpacing: 0.14,
+    marginBottom: 16,
   },
   multipleBox: {
+    width: '100%',
+    borderColor: 'white',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 15,
+  },
+  notOverflow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 5,
+    overflow: 'hidden',
   },
   error: {
     color: 'red',
+  },
+  label: {
+    position: 'absolute',
+    color: 'white',
+    top: -15,
+    left: -5,
+    opacity: 1,
+    padding: 5,
+    zIndex: 3,
+  },
+  inputContainer: {
+    marginBottom: 15,
   },
 })

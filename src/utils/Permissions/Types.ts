@@ -1,4 +1,4 @@
-import { PermissionsAndroid, /* Alert */ } from 'react-native'
+import {PermissionsAndroid /* Alert */} from 'react-native'
 /* import {translate} from 'utils/translate'
  */
 

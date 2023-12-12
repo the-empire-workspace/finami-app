@@ -1,5 +1,10 @@
 import {actionObject} from '@utils'
-import {GET_CURRENCY_PRICE, SET_CURRENCY} from './action-types'
+import {
+  GET_CURRENCY_PRICE,
+  GET_CURRENCIES,
+  GET_CRYPTO_CURRENCIES,
+} from './action-types'
 
-export const setCurrency = (payload: any) => actionObject(SET_CURRENCY, payload)
+export const getCurrencies = () => actionObject(GET_CURRENCIES)
 export const getCurrencyPrice = () => actionObject(GET_CURRENCY_PRICE)
+export const getCryptoCurrencies = () => actionObject(GET_CRYPTO_CURRENCIES)

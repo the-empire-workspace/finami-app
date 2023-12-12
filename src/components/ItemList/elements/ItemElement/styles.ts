@@ -1,60 +1,50 @@
 import {StyleSheet} from 'react-native'
+import {Typos, Elements} from '@theme'
 
-export const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   transactionItem: {
-    width: '100%',
-    maxWidth: '100%',
-    height: 120,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 10,
+    justifyContent: 'space-between',
+    borderRadius: 5,
     marginVertical: 2.5,
-    justifyContent: 'space-evenly',
+    position: 'relative',
+    borderWidth: 1,
+    minHeight: 65,
+    overflow: 'hidden',
   },
-  imageContainer: {
-    width: 50,
-    height: 50,
+  concept: {
+    marginBottom: 5,
+  },
+  backgroundContainer: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    zIndex: 1,
+    opacity: 0.5,
+  },
+  contentContainer: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    zIndex: 2,
+    padding: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    overflow: 'hidden',
-    marginRight: 10,
-  },
-  image: {
-    width: 50,
-    height: 50,
-    borderRadius: 50,
-  },
-  transactionData: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  transactionTitle: {
-    fontSize: 20,
-  },
-  transactionCategory: {
-    fontSize: 15,
-  },
-  transactionAmount: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    textAlign: 'right',
-  },
-  transactionDate: {
-    fontSize: 15,
-    textAlign: 'right',
-  },
-  transactionItemBox: {
-    flex: 1.5,
-  },
-  transactionItemInfo: {
-    flex: 1,
-  },
-  actionContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
     width: '100%',
-    paddingVertical: 5,
   },
-  deleteAction: {alignSelf: 'flex-end'},
+  textContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    gap: 10,
+  },
+  noPadding: {paddingHorizontal: 0, paddingVertical: 0},
 })
+
+export const styles = {...localStyles, ...Typos, ...Elements}

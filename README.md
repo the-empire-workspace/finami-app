@@ -1,7 +1,40 @@
-# FinamiApp
+# Finami-App
 
-![Test App](https://github.com/decode9/FinamiApp/actions/workflows/main.yml/badge.svg?branch=master)  [![Build status](https://build.appcenter.ms/v0.1/apps/e1414162-cbe4-4b35-9fb2-9ae90b8b7248/branches/master/badge)](https://appcenter.ms)
+Esta es una aplicación desarrollada en React Native.
 
-App in construcction.
 
-Coming Soon!
+## Instrucciones de ejecución
+
+1. Abre la terminal de comandos.
+
+2. Asegúrate de tener [Node.js](https://nodejs.org/) instalado en tu máquina.
+
+3. Instala [Yarn](https://yarnpkg.com/) si aún no lo tienes instalado ejecutando el siguiente comando:
+
+   ```shell
+   npm install -g yarn
+   ```
+
+4. Navega hasta la carpeta raíz de la aplicación.
+
+5. Instala las dependencias mediante el siguiente comando:
+
+   ```shell
+   yarn install
+   ```
+
+6. Inicia el servidor de React Native con el siguiente comando:
+
+   ```shell
+   yarn start
+   ```
+
+7. Abre otra terminal o una nueva pestaña.
+
+8. Ejecuta la aplicación en el emulador o dispositivo en modo de desarrollo con el siguiente comando:
+
+   ```shell
+   yarn android:dev
+   ```
+
+¡Ahora deberías ver la aplicación Finami-App ejecutándose en tu emulador o dispositivo en modo de desarrollo!

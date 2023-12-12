@@ -1,4 +1,4 @@
-import { numberOfWeeks } from './date'
+import {numberOfWeeks} from './date'
 
 const _getDeep = (data: any, deep: any) => {
   if (typeof deep === 'string') data = data[deep]
@@ -72,8 +72,8 @@ export const verifyId = (params: any, newFormData: any, IncomingItems: any) => {
       IncomingItems?.splice(index, 1, newFormData)
       return IncomingItems
     }
-    newFormData.id = IncomingItems.length
-      ? IncomingItems[IncomingItems.length - 1].id + 1
+    newFormData.id = IncomingItems?.length
+      ? IncomingItems[IncomingItems?.length - 1].id + 1
       : 0
     IncomingItems?.push(newFormData)
   }
@@ -83,7 +83,7 @@ export const verifyId = (params: any, newFormData: any, IncomingItems: any) => {
 export const getDeep = (categoryIds: any, IncomingItems: any) => {
   const deep = []
 
-  for (let i = 0; i < categoryIds.length; i++) {
+  for (let i = 0; i < categoryIds?.length; i++) {
     if (i === 0) {
       const it = IncomingItems?.find((item: any) => item.id === categoryIds[i])
       deep.push(it)
@@ -99,7 +99,7 @@ export const getDeep = (categoryIds: any, IncomingItems: any) => {
 
 export const getDeepItem = (categoryIds: any, IncomingItems: any, id: any) => {
   const deep = getDeep(categoryIds, IncomingItems)
-  return deep[deep.length - 1]?.entries?.find((entry: any) => entry.id === id)
+  return deep[deep?.length - 1]?.entries?.find((entry: any) => entry.id === id)
 }
 
 export const processCategoryDeep = (
@@ -111,7 +111,7 @@ export const processCategoryDeep = (
 ) => {
   const deep = getDeep(categoryIds, IncomingItems)
 
-  const deepModify = deep[deep.length - 1]
+  const deepModify = deep[deep?.length - 1]
   if (del) {
     const index = deepModify?.entries?.findIndex(
       (income: any) => income.id === newFormData.id,
@@ -119,7 +119,7 @@ export const processCategoryDeep = (
     deepModify?.entries?.splice(index, 1)
   } else deepModify.entries = verifyId(params, newFormData, deepModify?.entries)
 
-  deep[deep.length - 1] = deepModify
+  deep[deep?.length - 1] = deepModify
 
   const merge = deep.reverse().reduce((prev, next, index) => {
     if (index !== 0) next.entries = verifyId(params, prev, next?.entries)
@@ -161,7 +161,7 @@ export const processEntries = (
           prev.monthly += amount
       }
 
-      if (next?.paymentType === 'concurrent' && (prev && next)) {
+      if (next?.paymentType === 'concurrent' && prev && next) {
         if (next?.frequency === 'months')
           prev.monthly += amount / Number(next?.amount_frequency)
         if (next?.frequency === 'weeks') {
@@ -181,10 +181,10 @@ export const processEntries = (
 
       return prev
     },
-    { monthly: 0, total: 0, pending: 0 },
+    {monthly: 0, total: 0, pending: 0},
   )
 
-  return reduceArray.length ? totals : prevCurrent
+  return reduceArray?.length ? totals : prevCurrent
 }
 
 export const filterEntries = (
@@ -194,7 +194,7 @@ export const filterEntries = (
   prevCurrent: any = null,
 ) => {
   const reduceArray = array
-  const totals = reduceArray.reduce((prev: any, next: any, index: any) => {
+  const totals = reduceArray?.reduce((prev: any, next: any, index: any) => {
     if (prevCurrent && index === 0) prev = prevCurrent
     const date = next?.payment_date || next?.date
 
@@ -226,15 +226,18 @@ export const filterByCurrency = (
   const reduceFunc = (prev: any, next: any) => {
     if (next.currency === currency?.id) prev.push(next)
     if (next.category)
-      for (const entry of next.entries) {
+      for (const entry of next.entries)
         if (entry.currency === currency?.id) prev.push(entry)
-      }
 
     return prev
   }
 
-  const incomingsReduce = itemsIncomings ? itemsIncomings.reduce(reduceFunc, []) : []
-  const outcomingReduce = itemsOutcomings ? itemsOutcomings.reduce(reduceFunc, []) : []
+  const incomingsReduce = itemsIncomings
+    ? itemsIncomings.reduce(reduceFunc, [])
+    : []
+  const outcomingReduce = itemsOutcomings
+    ? itemsOutcomings.reduce(reduceFunc, [])
+    : []
 
   const fullItems = [...incomingsReduce, ...outcomingReduce]
 
@@ -295,4 +298,15 @@ export const processNotification = (
       )
   }
   return notifications
+}
+
+export const operateChange = (op: string, value: number, amount: number) => {
+  switch (op) {
+    case 'divide':
+      return amount / value
+    case 'multiply':
+      return amount * value
+    case 'none':
+      return amount
+  }
 }

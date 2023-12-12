@@ -1,6 +1,7 @@
 import {StyleSheet} from 'react-native'
+import {Typos, Elements} from '@theme'
 
-export const styles = StyleSheet.create({
+const localStyles = StyleSheet.create({
   nav: {
     height: 60,
     width: '100%',
@@ -14,3 +15,5 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 })
+
+export const styles = {...localStyles, ...Typos, ...Elements}

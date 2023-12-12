@@ -8,11 +8,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  content: {
-    height: '50%',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   logo: {
     width: 150,
     height: 265,

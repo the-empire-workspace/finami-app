@@ -1,52 +1,71 @@
-import React, { useEffect } from 'react'
-import { ErrorBoundary } from '@components'
-import { store, persistor } from '@store'
-import { Provider } from 'react-redux'
-import { PersistGate } from 'redux-persist/integration/react'
-import { Main } from '@screens'
-import { NavigationContainer } from '@react-navigation/native'
-import { ThemeProvider } from '@providers'
-import { SafeAreaProvider } from 'react-native-safe-area-context'
+import React, {useEffect} from 'react'
+import {ErrorBoundary} from '@components'
+import {store} from '@store'
+import {Provider} from 'react-redux'
+import {Main} from '@screens'
+import {NavigationContainer} from '@react-navigation/native'
+import {ThemeProvider} from '@providers'
+import {SafeAreaProvider} from 'react-native-safe-area-context'
 import './src/utils/hideLogs'
-import notifee, { EventType } from '@notifee/react-native';
-import { emitter } from 'utils/eventEmitter'
-import RNLocalize from 'react-native-localize'
-import { setI18nConfig } from '@utils'
+/* import notifee, {EventType} from '@notifee/react-native' */
+import {setI18nConfig} from '@utils'
+import SQLite from 'react-native-sqlite-storage'
+import {
+  createWeb3Modal,
+  defaultWagmiConfig,
+  Web3Modal,
+} from '@web3modal/wagmi-react-native'
+import {WagmiConfig} from 'wagmi'
+import {mainnet, polygon, bsc} from 'wagmi/chains'
 
-notifee.onBackgroundEvent(async ({ type, detail }) => {
-  const { notification } = detail;
+/* notifee.onBackgroundEvent(async ({type, detail}) => {
+  const {notification} = detail
 
-  if (type === EventType.PRESS) emitter.emit('check_notification', notification?.id)
+  if (type === EventType.PRESS)
+    emitter.emit('check_notification', notification?.id)
+}) */
 
-});
+SQLite.DEBUG(false)
+
+const projectId = '46af7327d6cb0b9caba903b3514bd6be'
+
+// 2. Create config
+const metadata = {
+  name: 'Finami App',
+  description: 'Finami App Web4 Modal',
+  url: 'https://finami.com',
+  icons: ['https://finami.com/favicon.ico'],
+}
+
+const chains = [mainnet, polygon, bsc]
+
+const wagmiConfig = defaultWagmiConfig({chains, projectId, metadata})
+
+createWeb3Modal({
+  projectId,
+  chains,
+  wagmiConfig,
+})
 
 const App = () => {
-
-  const handleLocalizationChange = () => {
-    setI18nConfig()
-  }
   useEffect(() => {
     setI18nConfig()
-    RNLocalize.addEventListener('change', handleLocalizationChange)
-    return () => {
-      RNLocalize.removeEventListener('change', handleLocalizationChange)
-    }
   }, [])
-
 
   return (
     <SafeAreaProvider>
-      <ThemeProvider>
-        <NavigationContainer>
-          <Provider store={store}>
-            <PersistGate persistor={persistor} loading={null}>
+      <WagmiConfig config={wagmiConfig}>
+        <ThemeProvider>
+          <NavigationContainer>
+            <Provider store={store}>
               <ErrorBoundary>
                 <Main />
               </ErrorBoundary>
-            </PersistGate>
-          </Provider>
-        </NavigationContainer>
-      </ThemeProvider>
+            </Provider>
+          </NavigationContainer>
+        </ThemeProvider>
+        <Web3Modal />
+      </WagmiConfig>
     </SafeAreaProvider>
   )
 }

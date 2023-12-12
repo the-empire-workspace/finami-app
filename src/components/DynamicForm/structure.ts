@@ -10,6 +10,7 @@ const Structure: any = {
     defaultValue: '',
     placeholder: '',
     disabled: false,
+    style: {},
     onChange: (val: any) => {
       // console.log('target value')
       console.log(val.target.value)
@@ -21,6 +22,7 @@ const Structure: any = {
     date: new Date(),
     placeholder: '',
     mode: 'date',
+    style: {},
     disabled: false,
     onChange: (val: any) => {
       // console.log('target value')
@@ -32,11 +34,15 @@ const Structure: any = {
     name: '',
     defaultValue: '',
     placeholder: '',
+    style: {},
     disabled: false,
     onChange: (val: any) => {
       // console.log('target value')
       console.log(val.target.value)
     },
+  },
+  multiple: {
+    style: {},
   },
 }
 

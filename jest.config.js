@@ -1,5 +1,6 @@
+/** @type {import('jest').Config} */
 module.exports = {
-  testEnvironment: 'jsdom',
+  testEnvironment: 'node',
   preset: 'react-native',
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   transformIgnorePatterns: [
@@ -18,4 +19,7 @@ module.exports = {
       '|@notifee' +
       ')/)',
   ],
+  fakeTimers: {
+    enableGlobally: true,
+  },
 }

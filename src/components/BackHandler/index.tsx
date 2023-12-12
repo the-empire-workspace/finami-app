@@ -1,22 +1,27 @@
 import React, {FC} from 'react'
-import {View, Image, TouchableOpacity} from 'react-native'
+import {View, TouchableOpacity, Text} from 'react-native'
 import {styles} from './styles'
 import {Props} from './interface'
-import Arrow from '@assets/img/arrow.png'
-import Question from '@assets/img/question.png'
+import Arrow from '@assets/img/ArrowLeft.svg'
 import {useNavigation} from '@react-navigation/core'
+import {useTheme} from 'providers'
 
-const BackHandler: FC<Props> = () => {
+const BackHandler: FC<Props> = ({title, navigation}) => {
   const router = useNavigation()
 
+  const {colors} = useTheme()
+
   return (
-    <View style={styles.root}>
-      <TouchableOpacity onPress={() => router.goBack()}>
-        <Image style={styles.arrow} source={Arrow} />
+    <View style={[styles.root, {backgroundColor: colors.background50}]}>
+      <TouchableOpacity
+        onPress={() => (navigation ? navigation() : router.goBack())}>
+        <Arrow width={32} height={32} />
       </TouchableOpacity>
-      <TouchableOpacity>
-        <Image style={styles.question} source={Question} />
-      </TouchableOpacity>
+      {!!title && (
+        <Text style={[styles.h3, styles.text, {color: colors.typography}]}>
+          {title}
+        </Text>
+      )}
     </View>
   )
 }

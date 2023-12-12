@@ -1,146 +1,163 @@
-import React, { FC } from 'react'
-import { TouchableOpacity, Text, View, Image, Alert } from 'react-native'
-import { useTheme } from '@providers'
-import { styles } from './styles'
-import { Props } from './interface'
-import { getUTCFullTime, processCategoryDeep, translate, verifyId } from 'utils'
-import { useNavigation } from '@react-navigation/native'
-import { useDispatch, useSelector } from 'react-redux'
-import { setIncoming, setOutcoming } from 'store/actions'
-import LogoI from '@assets/img/logoI.png'
+import React, {FC, useEffect, useMemo} from 'react'
+import {TouchableOpacity, Text, View} from 'react-native'
+import {useTheme} from '@providers'
+import {styles} from './styles'
+import {Props} from './interface'
+import {useNavigation} from '@react-navigation/native'
+import {useSelector, useDispatch} from 'react-redux'
+import {getItem} from 'store/actions'
 
-const ItemElement: FC<Props> = ({ item, type, categoryId }) => {
-  const { colors } = useTheme()
+const ItemElement: FC<Props> = ({item, type}) => {
+  const {colors} = useTheme()
+
+  const {item: entry, user} = useSelector((state: any) => state.account)
+  const {currencies} = useSelector((state: any) => state.currency)
   const dispatch = useDispatch()
-  const navigation: any = useNavigation()
-  const {
-    incoming: { items: incomingsItems },
-    outcoming: { items: outcomingItems },
-    currency: { items: currencies },
-  } = useSelector((state: any) => state)
 
-  const onPress = () => {
-    const params: any = { type: item?.type, id: item.id }
+  const router: any = useNavigation()
 
-    if (categoryId?.length) params.categoryId = categoryId
+  useEffect(() => {
+    if (entry?.id === item?.id) router.navigate('entry')
+  }, [entry])
 
-    if (item.paymentType === 'unique')
-      return navigation.navigate('entry', { type: item?.type, item })
-    if (item.paymentType === 'concurrent')
-      return navigation.navigate('concurrentPayment', params)
-    if (item?.category) return navigation.navigate('category', params)
-  }
-
-  const modifyDeletion = (items: any, categories: any) => {
-    if (categories?.length) {
-      const newFormData: any = processCategoryDeep(
-        categories || [],
-        items,
-        null,
-        item,
-        true,
-      )
-      return verifyId(null, newFormData, items)
-    }
-    const incomingId = items?.findIndex((itm: any) => itm?.id === item.id)
-    const newIncome = [...items]
-    newIncome.splice(incomingId, 1)
-    return newIncome
-  }
-
-  const deleteItem = () => {
-    if (item?.type === 'incomings') {
-      const newIncome = modifyDeletion(incomingsItems, categoryId)
-      dispatch(setIncoming(newIncome))
-    }
-    
-    if (item?.type === 'outcomings') {
-      const newOutcome = modifyDeletion(outcomingItems, categoryId)
-      dispatch(setOutcoming(newOutcome))
-    }
-  }
-
-  const alertDelete = () => {
-    Alert.alert(
-      translate('delete_title'),
-      `${translate('delete_text')} ${item?.name}`,
-      [{ text: 'Delete', onPress: deleteItem }, { text: translate('back') }],
+  const currency = useMemo(() => {
+    return currencies.find(
+      (c: any) => c.id === (item?.currency_id || user?.currency_id),
     )
+  }, [currencies?.length, item?.currency_id])
+
+  const checkAction = () => {
+    switch (type) {
+      case 'basic_expenses':
+        if (item?.payment_concept)
+          router.navigate('detailFixesOutcome', {id: item?.id, type: 'outcome'})
+        if (item?.name)
+          router.navigate('detailFixesOutcome', {
+            id: item?.id,
+            type: 'category',
+          })
+        break
+      case 'fixed_incomes':
+        if (item?.payment_concept)
+          router.navigate('detailFixesIncome', {id: item?.id, type: 'income'})
+        if (item?.name)
+          router.navigate('detailFixesIncome', {
+            id: item?.id,
+            type: 'category',
+          })
+        break
+      case 'debts':
+        router.navigate('detailPendingOutcome', {id: item?.id, type: 'outcome'})
+        break
+      case 'receivable_accounts':
+        router.navigate('detailPendingIncome', {id: item?.id, type: 'income'})
+        break
+      default:
+        dispatch(getItem(item?.id))
+        break
+    }
   }
 
-  const currency = currencies.find(
-    (current: any) => current.id === item.currency,
-  )
-
-  const paidColor =
-    item.type === 'incomings' ? colors.success : colors.unsuccess
-
-  const itemEntries = item?.entries
-    ? item?.entries[item.entries?.length - 1]
-    : {}
+  const transparent = 'transparent'
 
   return (
     <TouchableOpacity
-      style={[styles.transactionItem, { backgroundColor: colors.background }]}>
-      <View style={[styles.transactionData]}>
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={item?.image ? { uri: item.image } : LogoI} />
-        </View>
-        <View style={styles.transactionItemBox}>
-          <Text style={[styles.transactionTitle, { color: colors.text }]}>
-            {item.name}
-          </Text>
-          {type !== 'entry' && (
-            <Text style={[styles.transactionCategory, { color: colors.text }]}>
-              {item.description}
-            </Text>
-          )}
-        </View>
-        <View style={styles.transactionItemInfo}>
-          <Text
+      style={[
+        styles.transactionItem,
+        {
+          backgroundColor:
+            item?.payment_type === 'debt' ||
+            item?.payment_type === 'receivable_account'
+              ? transparent
+              : item?.entry_type === 'income' || item?.type === 'income'
+              ? colors.progress.ingress
+              : colors.progress.egress,
+          borderColor:
+            item?.payment_type === 'debt'
+              ? colors.progress.egress
+              : item?.payment_type === 'receivable_account'
+              ? colors.progress.ingress
+              : transparent,
+          ...(item?.payment_type === 'debt' ||
+          item?.payment_type === 'receivable_account'
+            ? styles.noPadding
+            : {}),
+        },
+      ]}
+      onPress={checkAction}>
+      {item?.payment_type === 'debt' ||
+      item?.payment_type === 'receivable_account' ? (
+        <>
+          <View
             style={[
-              styles.transactionAmount,
+              styles.backgroundContainer,
               {
-                color:
-                  item.status === 'paid' || itemEntries?.status === 'paid'
-                    ? paidColor
-                    : colors.pending,
+                backgroundColor:
+                  item?.payment_type === 'debt'
+                    ? colors.progress.egress
+                    : colors.progress.ingress,
+                width: `${(item?.total_amount / item?.amount) * 100}%`,
               },
-            ]}>
-            {currency?.symbol}{' '}
-            {!!item.amount && item.amount.toFixed(currency?.decimal || 2)}
-          </Text>
-          <Text style={[styles.transactionAmount, { color: colors.text }]}>
-            {itemEntries?.status
-              ? translate(itemEntries?.status)
-              : !!item.status && translate(item?.status)}
-          </Text>
-          <Text style={[styles.transactionDate, { color: colors.text }]}>
-            {getUTCFullTime(
-              type === 'entry' || item.category ? item.date : item?.paymentType === 'concurrent' && item.entries ? item?.entries[item?.entries?.length - 1].date : item.payment_date,
-              '/',
-            )}
-          </Text>
-        </View>
-      </View>
-      <View style={styles.actionContainer}>
-        <TouchableOpacity onPress={onPress}>
-          <Text style={[styles.transactionDate, { color: colors.text }]}>
-            {item?.paymentType === 'unique' || type === 'entry'
-              ? translate('modify')
-              : item?.category
-                ? translate('view_category')
-                : translate('view_history')}
-          </Text>
-        </TouchableOpacity>
-        {type !== 'entry' && (
-          <TouchableOpacity onPress={alertDelete} style={styles.deleteAction}>
-            <Text style={[styles.transactionDate, { color: colors.text }]}>
-              {translate('delete')}
+            ]}
+          />
+          <View style={[styles.contentContainer]}>
+            <Text
+              numberOfLines={1}
+              style={[styles.strongBody, {color: colors.typography}]}>
+              {item?.payment_concept}
             </Text>
-          </TouchableOpacity>
-        )}
-      </View>
+            <View style={[styles.textContainer]}>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
+                {currency?.symbol || ''}{' '}
+                {item?.total_amount?.toLocaleString('en-US', {
+                  maximumFractionDigits: currency?.decimal,
+                })}
+              </Text>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
+                /
+              </Text>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
+                {' '}
+                {currency?.symbol || ''}{' '}
+                {item?.amount?.toLocaleString('en-US', {
+                  maximumFractionDigits: currency?.decimal,
+                })}
+              </Text>
+            </View>
+          </View>
+        </>
+      ) : (
+        <>
+          <View>
+            <Text
+              style={[
+                styles.strongBody,
+                styles.concept,
+                {color: colors.typography2},
+              ]}>
+              {item?.payment_concept || item?.name}
+            </Text>
+            <Text style={[styles.smallBody, {color: colors.typography2}]}>
+              {new Date(item?.date).toLocaleDateString('en-US', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })}
+            </Text>
+          </View>
+          <View>
+            {!!item?.amount && (
+              <Text style={[styles.strongBody, {color: colors.typography2}]}>
+                {' '}
+                {currency?.symbol || ''}{' '}
+                {item?.amount?.toLocaleString('en-US', {
+                  maximumFractionDigits: currency?.decimal,
+                })}
+              </Text>
+            )}
+          </View>
+        </>
+      )}
     </TouchableOpacity>
   )
 }

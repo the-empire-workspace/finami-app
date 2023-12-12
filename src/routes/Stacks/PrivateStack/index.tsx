@@ -1,9 +1,21 @@
 import React, {useEffect} from 'react'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import {MainTab} from '../../Tabs'
-import {Entry, ConcurrentPayment, Category, Register} from '@screens'
+import {
+  Entry,
+  ConcurrentPayment,
+  Profile,
+  Currencies,
+  Accounts,
+  NewOutcome,
+  NewIncome,
+} from '@screens'
 import {useDispatch} from 'react-redux'
 import {getCurrencyPrice} from 'store/actions'
+import {ProfileDelete} from 'screens/Profile/elements'
+import DynamicCalculator from 'screens/DynamicCalculator'
+import FinancialCalculator from 'screens/FinancialCalculator'
+import Languages from 'screens/Language'
 
 const Stack = createNativeStackNavigator()
 
@@ -23,10 +35,28 @@ export const PrivateStack = () => {
       }}
       initialRouteName="main">
       <Stack.Screen name="main" component={MainTab} />
-      <Stack.Screen name="entry" component={Entry} />
+      <Stack.Screen
+        name="entry"
+        component={Entry}
+        options={{presentation: 'transparentModal'}}
+      />
+      <Stack.Screen
+        name="deleteProfile"
+        component={ProfileDelete}
+        options={{presentation: 'transparentModal'}}
+      />
       <Stack.Screen name="concurrentPayment" component={ConcurrentPayment} />
-      <Stack.Screen name="category" component={Category} />
-      <Stack.Screen name="editUser" component={Register} />
+      <Stack.Screen name="profile" component={Profile} />
+      <Stack.Screen name="currencies" component={Currencies} />
+      <Stack.Screen name="accounts" component={Accounts} />
+      <Stack.Screen name="dynamicCalculator" component={DynamicCalculator} />
+      <Stack.Screen
+        name="financialCalculator"
+        component={FinancialCalculator}
+      />
+      <Stack.Screen name="language" component={Languages} />
+      <Stack.Screen name="newOutcome" component={NewOutcome} />
+      <Stack.Screen name="newIncome" component={NewIncome} />
     </Stack.Navigator>
   )
 }

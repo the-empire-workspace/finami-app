@@ -1,7 +1,6 @@
-import notifee, { TimestampTrigger, TriggerType } from '@notifee/react-native'
+/* import notifee, {TimestampTrigger, TriggerType} from '@notifee/react-native'
 
 export const displayNotification = async () => {
-
   // Create a channel
   const channelId = await notifee.createChannel({
     id: 'default',
@@ -24,7 +23,6 @@ export const scheduleNofitication = async (
   body: any,
   id: any,
 ) => {
-
   const now = new Date().getTime()
 
   if (date < now) date = now + 5000
@@ -55,3 +53,6 @@ export const scheduleNofitication = async (
     trigger,
   )
 }
+ */
+
+export {}

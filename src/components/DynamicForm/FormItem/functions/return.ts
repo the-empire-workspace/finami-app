@@ -42,7 +42,7 @@ const returnForm = (
   const reduceValid = (prev: any, current: any) => prev && current[1].validation
 
   let validation =
-    Object.keys(data).length < 2
+    Object.keys(data)?.length < 2
       ? data[name].validation
       : Object.entries(data).reduce(reduceValid, true)
 

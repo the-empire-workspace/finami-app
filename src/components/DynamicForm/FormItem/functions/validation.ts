@@ -3,7 +3,7 @@ const Validation = (validations: any, value: any, formData: any) => {
   for (var val in validations)
     switch (val) {
       case 'regex':
-        if (validations[val].test(value)) {
+        if (validations[val]?.test(value)) {
           validates = validates && true
           break
         }
@@ -11,14 +11,14 @@ const Validation = (validations: any, value: any, formData: any) => {
         validates = validates && false
         break
       case 'minLength':
-        if (validations[val] <= value.length) {
+        if (validations[val] <= value?.length) {
           validates = validates && true
           break
         }
         validates = validates && false
         break
       case 'maxLength':
-        if (validations[val] >= value.length) {
+        if (validations[val] >= value?.length) {
           validates = validates && true
           break
         }
@@ -26,13 +26,15 @@ const Validation = (validations: any, value: any, formData: any) => {
 
         break
       case 'required':
-        if (value !== undefined || value !== null)
-          if (value.length !== 0) {
-            validates = true
-            break
-          }
+        if (validations[val]) {
+          if (value !== undefined || value !== null)
+            if (value?.length !== 0) {
+              validates = true
+              break
+            }
 
-        validates = validates && false
+          validates = validates && false
+        }
         break
       case 'equal':
         if (value === formData[validations[val]]) {

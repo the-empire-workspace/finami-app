@@ -1,0 +1,5 @@
+export {default as NewPendingIncome} from './NewPendingIncome'
+export {default as MainPendingIncome} from './MainPendingIncome'
+export {default as DetailPendingIncome} from './DetailPendingIncome'
+export {default as EditPendingIncome} from './EditPendingIncome'
+export {default as deleteIncome} from './DeleteIncome'

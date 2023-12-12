@@ -1,60 +1,72 @@
 import React, {FC} from 'react'
-import {Image, TouchableOpacity, View} from 'react-native'
+import {Text, TouchableOpacity, View} from 'react-native'
 import {styles} from './styles'
-import LogoI from '@assets/img/logoI.png'
-import Dashboard from '@assets/img/dashboard.png'
-import Incoming from '@assets/img/incoming.png'
-import Outcoming from '@assets/img/outcoming.png'
+import Dashboard from '@assets/img/Dashboard.svg'
+import Incoming from '@assets/img/income.svg'
+import Outcoming from '@assets/img/expense.svg'
+import Calculator from '@assets/img/Calculator.svg'
 import {useTheme} from 'providers'
+import {translate} from 'utils'
 
 const Nav = [
   {
     key: 'Dashboard',
     label: 'Dashboard',
-    icon: Dashboard,
+    Icon: Dashboard,
     route: 'Dashboard',
+    width: 30,
+    height: 30,
+    text: translate('home'),
   },
   {
     key: 'Incoming',
     label: 'Incoming',
-    icon: Incoming,
+    Icon: Incoming,
     route: 'Incoming',
+    width: 32,
+    height: 32,
+    text: translate('incomes'),
   },
   {
     key: 'Outcoming',
     label: 'Outcoming',
-    icon: Outcoming,
+    Icon: Outcoming,
     route: 'Outcoming',
+    width: 32,
+    height: 32,
+    text: translate('outcomes'),
   },
   {
     key: 'Profile',
     label: 'Profile',
-    icon: LogoI,
+    Icon: Calculator,
     route: 'Profile',
+    width: 30,
+    height: 30,
+    text: translate('projections'),
   },
 ]
 
 const MainTabComponent: FC<any> = ({navigation, state}) => {
   const {colors} = useTheme()
   return (
-    <View style={[styles.nav, {backgroundColor: colors?.background}]}>
+    <View style={[styles.nav, {backgroundColor: colors?.background50}]}>
       {Nav.map((data: any, index: any) => {
-        const {width, height} = Image.resolveAssetSource(data?.icon)
-
+        const Icon = data?.Icon
         return (
           <TouchableOpacity
             style={[
               styles.navItem,
-              state?.index === index ? {backgroundColor: colors.secondary} : {},
+              state?.index === index
+                ? {backgroundColor: colors.background25}
+                : {},
             ]}
             key={index}
             onPress={() => navigation.navigate(data.route)}>
-            <Image
-              style={{width: width / 18, height: height / 18}}
-              source={data.icon}
-              width={width / 18}
-              height={height / 18}
-            />
+            <Icon width={data?.width} height={data?.height} />
+            <Text style={[styles.extraSmallBody, {color: colors.typography}]}>
+              {data?.text}
+            </Text>
           </TouchableOpacity>
         )
       })}

@@ -1,8 +1,8 @@
-import React, { useState, FC, useEffect } from 'react'
-import { Text, TouchableOpacity } from 'react-native'
+import React, {useState, FC, useEffect} from 'react'
+import {Text, TouchableOpacity} from 'react-native'
 import DatePicker from 'react-native-date-picker'
-import { Props } from './interface'
-import { styles } from './styles'
+import {Props} from './interface'
+import {styles} from './styles'
 
 const DatePicker2: FC<Props> = ({
   style,
@@ -15,8 +15,9 @@ const DatePicker2: FC<Props> = ({
 }) => {
   const [value, setValue] = useState<string | null>(
     defaultDate
-      ? `${defaultDate.getDate()}-${defaultDate.getMonth() + 1
-      }-${defaultDate.getFullYear()}`
+      ? `${defaultDate.getDate()}-${
+          defaultDate.getMonth() + 1
+        }-${defaultDate.getFullYear()}`
       : null,
   )
   const [date, setDate] = useState<Date>(defaultDate)
@@ -25,19 +26,22 @@ const DatePicker2: FC<Props> = ({
   const confirmDate = (newDate: Date) => {
     setOpen(false)
     setDate(newDate)
-    const formatDate = `${newDate.getDate()}-${newDate.getMonth() + 1
-      }-${newDate.getFullYear()}`
+    const formatDate = `${newDate.getDate()}-${
+      newDate.getMonth() + 1
+    }-${newDate.getFullYear()}`
     setValue(formatDate)
-    if (onChange) onChange({ nativeEvent: { text: newDate } })
+    if (onChange) onChange({nativeEvent: {text: newDate}})
   }
 
   useEffect(() => {
-    if (onChange)  onChange({ nativeEvent: { text: date } })
-  }, [])
+    if (onChange) onChange({nativeEvent: {text: date}})
+    confirmDate(defaultDate)
+  }, [defaultDate])
+
   return (
     <>
       <TouchableOpacity
-        style={{ ...style, ...styles.main }}
+        style={{...styles.main, ...style}}
         onPress={() => {
           setOpen(true)
         }}>

@@ -1,0 +1,5 @@
+export {default as AccountMain} from './AccountMain'
+export {default as CreateAccount} from './CreateAccount'
+export {default as AccountDetail} from './AccountDetail'
+export {default as AccountDelete} from './AccountDelete'
+export {default as EditAccount} from './EditAccount'
