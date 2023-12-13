@@ -10,6 +10,7 @@ import {
   createDebtEntry,
   getAccounts,
   getDebt,
+  getTotalBalance,
   removeExpenseItem,
 } from 'store/actions'
 import FileArrowUp from '@assets/img/FileArrowUp.svg'
@@ -78,6 +79,7 @@ const DetailPendingOutcome: FC = () => {
           entry_id: item?.id,
         }),
       )
+    dispatch(getTotalBalance())
     setNewModal(false)
   }
 

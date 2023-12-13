@@ -199,7 +199,7 @@ const DetailFixesIncome: FC = () => {
               <View style={styles.accountData}>
                 <Text
                   style={[styles.smallStrongBody, {color: colors.typography}]}>
-                  {translate('receiver')}:
+                  {translate('receiver_name')}:
                 </Text>
                 <Text style={[styles.smallBody, {color: colors.typography}]}>
                   {item?.emissor}
