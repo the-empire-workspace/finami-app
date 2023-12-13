@@ -51,7 +51,7 @@ import {
   updateCategoryQuery,
   updateEntryQuery,
 } from 'utils'
-import {getDashboardValues} from 'store/actions'
+import {getDashboardValues, getTotalBalance} from 'store/actions'
 import {selectAccount, selectCurrency} from 'store/selector'
 import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
@@ -353,6 +353,7 @@ function* createDebtAsync({payload}: any): any {
     )
 
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -404,6 +405,7 @@ function* createDebtEntryAsync({payload}: any): any {
     )
 
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -491,6 +493,7 @@ function* updateDebtAsync({payload}: any): any {
         items: entriesOutcomes,
       }),
     )
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }

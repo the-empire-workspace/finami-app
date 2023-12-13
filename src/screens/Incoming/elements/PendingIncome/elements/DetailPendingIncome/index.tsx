@@ -10,7 +10,6 @@ import {
   createReceivableAccountEntry,
   getAccounts,
   getReceivableAccount,
-  getTotalBalance,
   removeIncomeItem,
 } from 'store/actions'
 import FileArrowUp from '@assets/img/FileArrowUp.svg'
@@ -68,7 +67,7 @@ const DetailPendingIncome: FC = () => {
   }, [currencies?.length, user?.currency_id])
 
   const createEntry = () => {
-    if (createValues?.account && createValues?.amount) {
+    if (createValues?.account && createValues?.amount)
       dispatch(
         createReceivableAccountEntry({
           ...item,
@@ -77,8 +76,6 @@ const DetailPendingIncome: FC = () => {
           entry_id: item?.id,
         }),
       )
-      dispatch(getTotalBalance())
-    }
     setNewModal(false)
   }
 
