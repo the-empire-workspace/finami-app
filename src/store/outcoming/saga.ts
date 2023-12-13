@@ -74,6 +74,7 @@ function* createOutcomeAsync({payload}: any): any {
     yield put(actionObject(CREATE_OUTCOME_ASYNC, outcomes))
 
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -133,6 +134,7 @@ function* createBasicExpensesAsync({payload}: any): any {
     )
 
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -159,6 +161,7 @@ function* createOutcomeCategoryAsync({payload}: any): any {
         itemsBasics: orderMix,
       }),
     )
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -226,6 +229,8 @@ function* updateBasicExpenseAsync({payload}: any): any {
         items: entriesOutcomes,
       }),
     )
+    yield put(getTotalBalance())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -256,6 +261,7 @@ function* updateCategoryOutcomeAsync({payload}: any): any {
         item: category,
       }),
     )
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
