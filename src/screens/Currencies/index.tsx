@@ -7,8 +7,6 @@ import {translate} from 'utils'
 import {useDispatch} from 'react-redux'
 import {getCurrencies} from 'store/actions'
 import {useSelector} from 'react-redux'
-import FileArrowUp from '@assets/img/FileArrowUp.svg'
-import Trash from '@assets/img/Trash.svg'
 const Currencies: FC = () => {
   const {colors} = useTheme()
   const dispatch = useDispatch()
@@ -47,21 +45,8 @@ const Currencies: FC = () => {
             <Text style={[styles.strongBody, {color: colors.typography}]}>
               {item?.name} {`(${item?.symbol})`}
             </Text>
-            <View style={[styles.actionContainer]}>
-              <TouchableOpacity style={[styles.action]}>
-                <FileArrowUp width={24} height={24} />
-              </TouchableOpacity>
-              {!item?.has_account && (
-                <TouchableOpacity style={[styles.action]}>
-                  <Trash width={24} height={24} />
-                </TouchableOpacity>
-              )}
-            </View>
           </TouchableOpacity>
         ))}
-        <TouchableOpacity style={[styles.currencyItem, styles.currencyAdd]}>
-          <Text style={[styles.h1, {color: colors.typography}]}>+</Text>
-        </TouchableOpacity>
       </ScrollView>
     </View>
   )
