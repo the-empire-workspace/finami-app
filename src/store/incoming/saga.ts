@@ -51,7 +51,7 @@ import {
   updateCategoryQuery,
   updateEntryQuery,
 } from 'utils'
-import {getDashboardValues} from 'store/actions'
+import {getDashboardValues, getTotalBalance} from 'store/actions'
 import {selectAccount, selectCurrency} from 'store/selector'
 import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
@@ -74,6 +74,7 @@ function* createIncomeAsync({payload}: any): any {
     yield put(actionObject(CREATE_INCOME_ASYNC, outcomes))
 
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -133,6 +134,7 @@ function* createFixedIncomesAsync({payload}: any): any {
     )
 
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -159,6 +161,7 @@ function* createIncomeCategoryAsync({payload}: any): any {
         itemsFixed: orderMix,
       }),
     )
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -226,6 +229,7 @@ function* updateFixedIncomeAsync({payload}: any): any {
         items: entriesIncomes,
       }),
     )
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -256,6 +260,7 @@ function* updateCategoryIncomeAsync({payload}: any): any {
         item: category,
       }),
     )
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -357,6 +362,7 @@ function* createReceivableAccountAsync({payload}: any): any {
     )
 
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -412,6 +418,7 @@ function* createReceivableAccountEntryAsync({payload}: any): any {
     )
 
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -507,6 +514,7 @@ function* updateReceivableAccountAsync({payload}: any): any {
         items: entriesIncomes,
       }),
     )
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
