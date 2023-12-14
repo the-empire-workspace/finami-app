@@ -225,5 +225,6 @@
   "desire_detail": "Desire Details",
   "compromise_detail": "Compromise Details",
   "update_desire": "Update Desire",
-  "update_compromise": "Update Compromise"
+  "update_compromise": "Update Compromise",
+  "debt_detail": "Debt Details"
 }

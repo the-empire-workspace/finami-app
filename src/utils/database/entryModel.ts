@@ -118,8 +118,10 @@ export const getEntriesExpensesQuery = async () => {
       entries.payment_type,\
       entries.phone,\
       entries.entry_id,\
+      entry.type_entry,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
-      WHERE entries.entry_type = "expense" AND entries.payment_type = "general"',
+      LEFT JOIN (SELECT id, payment_type as type_entry FROM entries) as entry ON entries.entry_id = entry.id\
+      WHERE entries.entry_type = "expense"',
     )
     return entries.raw()
   } catch (error) {
@@ -634,8 +636,10 @@ export const getEntriesIncomesQuery = async () => {
       entries.payment_type,\
       entries.phone,\
       entries.entry_id,\
+      entry.type_entry,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
-      WHERE entries.entry_type = "income" AND entries.payment_type = "general"',
+      LEFT JOIN (SELECT id, payment_type as type_entry FROM entries) as entry ON entries.entry_id = entry.id\
+      WHERE entries.entry_type = "income"',
     )
     return entries.raw()
   } catch (error) {

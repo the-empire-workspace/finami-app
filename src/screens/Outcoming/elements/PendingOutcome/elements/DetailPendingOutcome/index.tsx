@@ -97,7 +97,7 @@ const DetailPendingOutcome: FC = () => {
         title={
           params?.type === 'category'
             ? translate('category_detail')
-            : translate('basic_expense_detail')
+            : translate('debt_detail')
         }
       />
       <View style={[styles.mainInfo, {backgroundColor: colors.background50}]}>
@@ -276,7 +276,7 @@ const DetailPendingOutcome: FC = () => {
           </View>
           <View>
             <Button
-              text={translate('new_payment')}
+              text={translate('new_outcome')}
               style={[{backgroundColor: colors.negative}]}
               styleText={{color: colors.typography2}}
               onPress={() => {

@@ -76,8 +76,8 @@ const ItemElement: FC<Props> = ({item, type}) => {
 
   const borderColor = useMemo(() => {
     const color: any = {
-      debt: colors.progress.ingress,
-      receivable_account: colors.progress.egress,
+      debt: colors.progress.egress,
+      receivable_account: colors.progress.ingress,
       compromise: colors.progress.needs,
       desire: colors.progress.wish,
     }

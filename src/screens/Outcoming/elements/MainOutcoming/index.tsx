@@ -1,9 +1,9 @@
-import React, {FC, useEffect, useMemo} from 'react'
-import {Text, View} from 'react-native'
-import {styles} from './styles'
-import {useTheme} from 'providers'
-import {translate} from 'utils'
-import {useDispatch, useSelector} from 'react-redux'
+import React, { FC, useEffect, useMemo } from 'react'
+import { Text, View } from 'react-native'
+import { styles } from './styles'
+import { useTheme } from 'providers'
+import { translate } from 'utils'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Header,
   InfoBanner,
@@ -11,15 +11,14 @@ import {
   ActionBanner,
   ItemList,
 } from '@components'
-import {getDashboardValues, getOutcomes} from 'store/actions'
+import { getDashboardValues, getOutcomes } from 'store/actions'
 
 const MainOutcoming: FC = () => {
-  const {colors} = useTheme()
+  const { colors } = useTheme()
   const dispatch = useDispatch()
 
-  const {defaultPrices} = useSelector((state: any) => state.currency)
-  const {dashboardValues} = useSelector((state: any) => state.account)
-  const {items} = useSelector((state: any) => state.outcoming)
+  const { defaultPrices } = useSelector((state: any) => state.currency)
+  const { items } = useSelector((state: any) => state.outcoming)
 
   useEffect(() => {
     if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
@@ -28,22 +27,22 @@ const MainOutcoming: FC = () => {
   const infoValues = useMemo(() => {
     return {
       month1: {
-        value: dashboardValues?.monthIncome,
+        value: items?.monthExpense,
         label: 'month_outcome',
         color: colors.progress.egress,
       },
       month2: {
-        value: dashboardValues?.monthExpenses,
+        value: items?.basicExpense,
         label: 'basic_expenses',
         color: colors.typography,
       },
       month3: {
-        value: dashboardValues?.monthProjected,
+        value: items?.debts,
         label: 'debts',
         color: colors.progress.needs,
       },
     }
-  }, [dashboardValues, colors])
+  }, [items, colors])
 
   const DropDownInfo = [
     {
@@ -63,17 +62,17 @@ const MainOutcoming: FC = () => {
   }, [])
 
   return (
-    <View style={[styles.root, {backgroundColor: colors.background100}]}>
-      <View style={[{backgroundColor: colors.background50}]}>
+    <View style={[styles.root, { backgroundColor: colors.background100 }]}>
+      <View style={[{ backgroundColor: colors.background50 }]}>
         <Header />
         <InfoBanner values={infoValues} />
         <DropDownButtons DropDownInfo={DropDownInfo} />
       </View>
-      {items?.length ? (
-        <ItemList items={items} type="dashboard" />
+      {items?.entries?.length ? (
+        <ItemList items={items?.entries || []} type="dashboard" />
       ) : (
         <View style={styles.noItemBox}>
-          <Text style={[styles.noItemText, {color: colors.typography}]}>
+          <Text style={[styles.noItemText, { color: colors.typography }]}>
             {translate('no_items')}
           </Text>
         </View>
