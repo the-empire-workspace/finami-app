@@ -39,6 +39,7 @@ const DeleteIncome: FC = () => {
       <View style={[styles.containerActions]}>
         <Button
           style={{...styles.buttonStyle, ...{backgroundColor: colors.negative}}}
+          styleText={{color: colors.typography2}}
           text={translate('cancel')}
           onPress={() => router.goBack()}
           disabled={false}

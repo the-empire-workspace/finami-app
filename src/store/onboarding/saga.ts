@@ -25,7 +25,7 @@ function* completeOnboardingAsync({payload}: any): any {
         account: account?.id,
         payment_type: 'general',
         amount: Number(payload?.available_balance),
-        payment_concept: 'initial',
+        payment_concept: payload?.concept,
         entry_type: 'income',
         comment: '',
         emissor: '',

@@ -38,11 +38,11 @@ const createCurrencyTable = async () => {
     if (!currencies || currencies?.length === 0) {
       await database.executeSql(
         'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
-        ['$', 'USD', 'FIAT', 2, USD],
+        ['€', 'EUR', 'FIAT', 2, EUR],
       )
       await database.executeSql(
         'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
-        ['€', 'EUR', 'FIAT', 2, EUR],
+        ['$', 'USD', 'FIAT', 2, USD],
       )
       console.log('currencies data created')
     }

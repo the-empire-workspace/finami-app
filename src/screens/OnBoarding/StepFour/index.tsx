@@ -9,7 +9,7 @@ import {DynamicForm} from 'components'
 import {useDispatch} from 'react-redux'
 import {setStep} from 'store/actions'
 import {useSelector} from 'react-redux'
-import {bankForm, cashForm, mainForm} from './form'
+import {bankForm, cashForm} from './form'
 import {useWeb3Modal} from '@web3modal/wagmi-react-native'
 
 const StepTwo: FC = () => {
@@ -25,23 +25,14 @@ const StepTwo: FC = () => {
   const {currencies} = useSelector((state: any) => state.currency)
   const form = useMemo(() => {
     const formsTypes: any = {
-      cash: [
-        ...mainForm(translate, values, colors),
-        ...cashForm(translate, values, currencies, colors),
-      ],
-      bank_account: [
-        ...mainForm(translate, values, colors),
-        ...bankForm(translate, values, currencies, colors),
-      ],
+      cash: cashForm(translate, values, currencies, colors),
+      bank_account: bankForm(translate, values, currencies, colors),
     }
     setValues((prev: any) => ({
       account_type: prev.account_type,
-      account_currency: {value: String(currencies[0]?.id)},
+      account_currency: {value: currencies[0]?.id},
     }))
-    return (
-      formsTypes[values?.account_type?.value] ||
-      mainForm(translate, values, colors)
-    )
+    return formsTypes[values?.account_type?.value]
   }, [values?.account_type?.value])
 
   const submitStep = () => {
@@ -54,6 +45,9 @@ const StepTwo: FC = () => {
         prev && (values[next]?.validation === false || true),
       true,
     )
+
+    if (!sendValues?.account_currency)
+      sendValues.account_currency = currencies[0]?.id
 
     if (valid) {
       dispatch(setStep({...sendValues, username, image, currency}))

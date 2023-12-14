@@ -1,4 +1,6 @@
+import {getExchangeValues} from 'utils/exchangeData'
 import {insertQuery, selectQuery} from './helpers'
+import {operateChange} from 'utils/dataTransform'
 
 export const createCategoryQuery = async (data: any) => {
   try {
@@ -73,7 +75,22 @@ export const getIncomeCategoriesQuery = async () => {
   }
 }
 
-export const getCategoryQuery = async (id: any) => {
+export const getGoalsCategoriesQuery = async (type: any) => {
+  try {
+    const categories: any = await selectQuery(
+      `SELECT * FROM categories WHERE type = "${type}"`,
+    )
+    return categories.raw()
+  } catch (error) {
+    console.log('error category selection', error)
+  }
+}
+
+export const getCategoryQuery = async (
+  id: any,
+  currencies: any = null,
+  currency_id: any = null,
+) => {
   try {
     const query =
       'SELECT entries.amount,\
@@ -108,7 +125,28 @@ export const getCategoryQuery = async (id: any) => {
       `${query} WHERE category_id = ?`,
       [queryCategory?.id],
     )
-    queryCategory.entries = entriesCategory.raw()
+    const queryEntries = entriesCategory.raw()
+    if (currencies && currency_id)
+      for (const entry of queryEntries) {
+        const entriesEntry: any = await selectQuery(
+          `${query} WHERE entries.entry_id = ?`,
+          [entry?.id],
+        )
+        const queryEntriesEntry = entriesEntry.raw()
+        const defaultPrices = await getExchangeValues(currencies, currency_id)
+
+        const amount =
+          queryEntriesEntry?.reduce((prev: any, next: any) => {
+            const change = defaultPrices[String(next?.currency_id)]
+            const newAmount = change
+              ? operateChange(change?.op, change?.value, next.amount)
+              : next.amount
+            return prev + newAmount
+          }, 0) || 0
+        entry.total_amount = amount
+      }
+
+    queryCategory.entries = queryEntries
     return queryCategory
   } catch (error) {
     console.log('error category selection', error)

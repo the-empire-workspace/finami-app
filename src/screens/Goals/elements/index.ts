@@ -1,0 +1,5 @@
+export {default as MainGoals} from './MainGoals'
+export {default as NewGoals} from './NewGoals'
+export {default as DetailGoals} from './DetailGoals'
+export {default as EditGoals} from './EditGoals'
+export {default as DeleteGoals} from './DeleteGoals'

@@ -76,7 +76,7 @@ const FinancialCalculator: FC = () => {
             {translate('total')}:
           </Text>
           <Text style={[styles.h3, {color: colors.typography}]}>
-            {user?.currency_symbol} {result?.amount}
+            {user?.currency_symbol} {result?.amount.toFixed(user?.decimal || 8)}
           </Text>
         </View>
       </ScrollView>

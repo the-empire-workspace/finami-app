@@ -7,7 +7,7 @@ import {styles} from './styles'
 import {useDispatch, useSelector} from 'react-redux'
 import {useNavigation, useRoute} from '@react-navigation/native'
 import {getAccount} from 'store/actions'
-import FileArrowUp from '@assets/img/FileArrowUp.svg'
+/* import FileArrowUp from '@assets/img/FileArrowUp.svg' */
 import Trash from '@assets/img/Trash.svg'
 import Pencil from '@assets/img/Pencil.svg'
 import CaretDown from '@assets/img/CaretDoubleDown.svg'
@@ -109,9 +109,9 @@ const AccountDetail: FC = () => {
           </Text>
         </View>
         <View style={[styles.actionContainer]}>
-          <TouchableOpacity style={[styles.action]}>
+          {/* <TouchableOpacity style={[styles.action]}>
             <FileArrowUp width={24} height={24} />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             style={[styles.action]}
             onPress={() =>
@@ -137,7 +137,11 @@ const AccountDetail: FC = () => {
           <TouchableOpacity
             onPress={() => setShortInfo(!shortInfo)}
             style={[styles.action, !shortInfo ? styles.actionUp : null]}>
-            <CaretDown width={24} height={24} />
+            {(!!account?.organization ||
+              !!account?.account_number ||
+              account?.account_comments) && (
+              <CaretDown width={24} height={24} />
+            )}
           </TouchableOpacity>
         </View>
       </View>

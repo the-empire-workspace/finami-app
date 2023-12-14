@@ -12,7 +12,7 @@ import {
   getReceivableAccount,
   removeIncomeItem,
 } from 'store/actions'
-import FileArrowUp from '@assets/img/FileArrowUp.svg'
+/* import FileArrowUp from '@assets/img/FileArrowUp.svg' */
 import Trash from '@assets/img/Trash.svg'
 import Pencil from '@assets/img/Pencil.svg'
 import CaretDown from '@assets/img/CaretDoubleDown.svg'
@@ -130,8 +130,19 @@ const DetailPendingIncome: FC = () => {
                   backgroundColor: colors.progress.ingress,
                   width: `${(item?.total_amount / item?.amount) * 100}%`,
                 },
+                item?.total_amount >= item?.amount ? styles.fullOpacity : {},
               ]}
             />
+            {item?.total_amount >= item?.amount && (
+              <Text
+                style={[
+                  styles.overText,
+                  styles.h3,
+                  {color: colors.typography2},
+                ]}>
+                * {translate('completed')} *
+              </Text>
+            )}
           </View>
         </View>
         <View style={styles.accountData}>
@@ -235,32 +246,36 @@ const DetailPendingIncome: FC = () => {
               }>
               <Pencil width={24} height={24} />
             </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.action]}
-              onPress={() =>
-                navigation.navigate('deleteIncome', {
-                  id: item?.id,
-                  type: params?.type,
-                })
-              }>
-              <Trash width={24} height={24} />
-            </TouchableOpacity>
+            {item?.total_amount < item?.amount && !item?.entries?.length && (
+              <TouchableOpacity
+                style={[styles.action]}
+                onPress={() =>
+                  navigation.navigate('deleteIncome', {
+                    id: item?.id,
+                    type: params?.type,
+                  })
+                }>
+                <Trash width={24} height={24} />
+              </TouchableOpacity>
+            )}
           </View>
           <View>
-            <Button
-              text={translate('new_payment')}
-              style={[{backgroundColor: colors.positive}]}
-              styleText={{color: colors.typography2}}
-              onPress={() => {
-                setNewModal(!newModal)
-              }}
-              disabled={false}
-            />
+            {item?.total_amount < item?.amount && (
+              <Button
+                text={translate('new_payment')}
+                style={[{backgroundColor: colors.positive}]}
+                styleText={{color: colors.typography2}}
+                onPress={() => {
+                  setNewModal(!newModal)
+                }}
+                disabled={false}
+              />
+            )}
           </View>
         </View>
         <View style={[styles.actionContent]}>
           <TouchableOpacity style={[styles.action]} onPress={() => {}}>
-            <FileArrowUp width={24} height={24} />
+            {/*  <FileArrowUp width={24} height={24} /> */}
           </TouchableOpacity>
           <Text>{translate('made_incomes')}</Text>
           <TouchableOpacity

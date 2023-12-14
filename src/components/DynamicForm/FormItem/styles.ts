@@ -26,7 +26,7 @@ export const styles: any = StyleSheet.create({
     borderColor: 'white',
     borderWidth: 1,
     borderRadius: 5,
-    marginBottom: 15,
+    marginBottom: 30,
   },
   notOverflow: {
     flexDirection: 'row',

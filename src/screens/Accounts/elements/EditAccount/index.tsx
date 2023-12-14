@@ -64,14 +64,31 @@ const EditAccount: FC = () => {
           }}
         />
       </ScrollView>
-      <View style={[styles.scrollContainer]}>
+      <View style={[styles.buttonContainer]}>
         <Button
-          text={translate('edit_account')}
-          onPress={editAccount}
+          style={[styles.buttonContent, {backgroundColor: colors.negative}]}
+          styleText={{color: colors.typography2}}
+          text={translate('cancel')}
+          onPress={() => {
+            navigation.goBack()
+          }}
           disabled={Object.keys(values)?.reduce((prev: any, next: any) => {
             return prev || values?.[next]?.validation !== undefined
               ? !values[next]?.validation
               : false
+          }, false)}
+        />
+        <Button
+          text={translate('update')}
+          style={[styles.buttonContent, {backgroundColor: colors.positive}]}
+          styleText={{color: colors.typography2}}
+          onPress={editAccount}
+          disabled={Object.keys(values)?.reduce((prev: any, next: any) => {
+            const valid =
+              values?.[next]?.validation !== undefined
+                ? !values[next]?.validation
+                : false
+            return prev || valid
           }, false)}
         />
       </View>

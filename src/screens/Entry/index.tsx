@@ -4,18 +4,22 @@ import {useTheme} from '@providers'
 import {styles} from './styles'
 import {translate} from 'utils'
 import SvgX from '@assets/img/X.svg'
-import {useNavigation} from '@react-navigation/native'
+import {useNavigation, useRoute} from '@react-navigation/native'
 import {useDispatch, useSelector} from 'react-redux'
-import {removeItem} from 'store/actions'
-
+import {getItem, removeItem} from 'store/actions'
+import Trash from '@assets/img/Trash.svg'
+import Pencil from '@assets/img/Pencil.svg'
 const Entry: FC = () => {
   const {colors} = useTheme()
   const dispatch = useDispatch()
   const {item} = useSelector((state: any) => state.account)
 
-  const router = useNavigation()
+  const router: any = useNavigation()
+  const route = useRoute()
+  const {params}: any = route
 
   useEffect(() => {
+    dispatch(getItem(params?.id))
     return () => {
       dispatch(removeItem())
     }
@@ -25,16 +29,24 @@ const Entry: FC = () => {
     const titleSelection: any = {
       income: translate('income_detail'),
       expense: translate('expense_detail'),
-      needs: translate('needs_detail'),
+      compromise: translate('compromise_detail'),
+      desire: translate('desire_detail'),
     }
     const colorSelection: any = {
       income: colors.progress.ingress,
       expense: colors.progress.egress,
-      needs: colors.progress.needs,
+      compromise: colors.progress.needs,
+      desire: colors.progress.wish,
     }
     return {
-      title: titleSelection[item?.entry_type],
-      color: colorSelection[item?.entry_type],
+      title:
+        titleSelection[item?.type || item?.entry_type] ||
+        titleSelection[item?.entry_type] ||
+        translate('detail'),
+      color:
+        colorSelection[item?.type || item?.entry_type] ||
+        colorSelection[item?.entry_type] ||
+        colors.progress.ingress,
     }
   }, [item])
 
@@ -69,19 +81,21 @@ const Entry: FC = () => {
               {item?.payment_concept || translate('unavailable')}
             </Text>
           </View>
-          <View style={[styles.textContent]}>
-            <Text
-              style={[
-                styles.smallStrongBody,
-                styles.textSeparator,
-                {color: colors.typography},
-              ]}>
-              {translate('comments')}:
-            </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
-              {item?.comment || translate('unavailable')}
-            </Text>
-          </View>
+          {!!item?.comment && (
+            <View style={[styles.textContent]}>
+              <Text
+                style={[
+                  styles.smallStrongBody,
+                  styles.textSeparator,
+                  {color: colors.typography},
+                ]}>
+                {translate('comments')}:
+              </Text>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
+                {item?.comment || translate('unavailable')}
+              </Text>
+            </View>
+          )}
           <View style={[styles.textContent]}>
             <Text
               style={[
@@ -115,59 +129,81 @@ const Entry: FC = () => {
               })}
             </Text>
           </View>
-          <View style={[styles.textContent]}>
-            <Text
-              style={[
-                styles.smallStrongBody,
-                styles.textSeparator,
-                {color: colors.typography},
-              ]}>
-              {translate('emissor')}:
-            </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
-              {item?.emissor || translate('unavailable')}
-            </Text>
-          </View>
-          <View style={[styles.textContent]}>
-            <Text
-              style={[
-                styles.smallStrongBody,
-                styles.textSeparator,
-                {color: colors.typography},
-              ]}>
-              {translate('phone')}:
-            </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
-              {item?.phone || translate('unavailable')}
-            </Text>
-          </View>
-          <View style={[styles.textContent]}>
-            <Text
-              style={[
-                styles.smallStrongBody,
-                styles.textSeparator,
-                {color: colors.typography},
-              ]}>
-              {translate('email')}:
-            </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
-              {item?.email || translate('unavailable')}
-            </Text>
-          </View>
-          <View style={[styles.textContent]}>
-            <Text
-              style={[
-                styles.smallStrongBody,
-                styles.textSeparator,
-                {color: colors.typography},
-              ]}>
-              {translate('account')}:
-            </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>{`${
-              item?.account_name
-            } - *${item?.account_number?.slice(-4) || ''}`}</Text>
-          </View>
+          {!!item?.emissor && (
+            <View style={[styles.textContent]}>
+              <Text
+                style={[
+                  styles.smallStrongBody,
+                  styles.textSeparator,
+                  {color: colors.typography},
+                ]}>
+                {translate('emissor')}:
+              </Text>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
+                {item?.emissor || translate('unavailable')}
+              </Text>
+            </View>
+          )}
+          {!!item?.phone && (
+            <View style={[styles.textContent]}>
+              <Text
+                style={[
+                  styles.smallStrongBody,
+                  styles.textSeparator,
+                  {color: colors.typography},
+                ]}>
+                {translate('phone')}:
+              </Text>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
+                {item?.phone || translate('unavailable')}
+              </Text>
+            </View>
+          )}
+          {!!item?.email && (
+            <View style={[styles.textContent]}>
+              <Text
+                style={[
+                  styles.smallStrongBody,
+                  styles.textSeparator,
+                  {color: colors.typography},
+                ]}>
+                {translate('email')}:
+              </Text>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
+                {item?.email || translate('unavailable')}
+              </Text>
+            </View>
+          )}
+          {!!item?.account_name && (
+            <View style={[styles.textContent]}>
+              <Text
+                style={[
+                  styles.smallStrongBody,
+                  styles.textSeparator,
+                  {color: colors.typography},
+                ]}>
+                {translate('account')}:
+              </Text>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>{`${
+                item?.account_name
+              } - *${item?.account_number?.slice(-4) || ''}`}</Text>
+            </View>
+          )}
         </ScrollView>
+        <View style={[styles.modalFooter]}>
+          <TouchableOpacity
+            onPress={() => {
+              router.navigate('editEntry', {id: item?.id})
+            }}>
+            <Pencil width={24} height={24} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              router.navigate('deleteEntry', {id: item?.id})
+            }}>
+            <Trash width={24} height={24} />
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   )

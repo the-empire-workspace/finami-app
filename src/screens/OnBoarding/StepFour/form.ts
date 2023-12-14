@@ -34,6 +34,32 @@ export const cashForm = (
   colors: any,
 ) => [
   {
+    element: 'select',
+    name: 'account_type',
+    label: translate('account_type'),
+    labelStyle: {backgroundColor: colors.background100},
+    type: 'text',
+    defaultValue: def?.account_type?.value || '',
+    keyboardType: 'default',
+    placeholder: translate('account_type_optional'),
+    returnKeyType: 'go',
+    values: [
+      {
+        label: translate('cash'),
+        value: 'cash',
+      },
+      {
+        label: translate('bank_account'),
+        value: 'bank_account',
+      },
+    ],
+    validations: {
+      required: true,
+      minLength: 0,
+      maxLength: 72,
+    },
+  },
+  {
     element: 'input',
     name: 'account_name',
     label: translate('account_name'),
@@ -109,6 +135,32 @@ export const bankForm = (
   currencies: any = [],
   colors: any,
 ) => [
+  {
+    element: 'select',
+    name: 'account_type',
+    label: translate('account_type'),
+    labelStyle: {backgroundColor: colors.background100},
+    type: 'text',
+    defaultValue: def?.account_type?.value || '',
+    keyboardType: 'default',
+    placeholder: translate('account_type_optional'),
+    returnKeyType: 'go',
+    values: [
+      {
+        label: translate('cash'),
+        value: 'cash',
+      },
+      {
+        label: translate('bank_account'),
+        value: 'bank_account',
+      },
+    ],
+    validations: {
+      required: true,
+      minLength: 0,
+      maxLength: 72,
+    },
+  },
   {
     element: 'input',
     name: 'account_name',
