@@ -1,17 +1,15 @@
-import React, { FC } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
-import { styles } from './styles'
+import React, {FC} from 'react'
+import {Text, TouchableOpacity, View} from 'react-native'
+import {styles} from './styles'
 import Dashboard from '@assets/img/Dashboard.svg'
 import Incoming from '@assets/img/income.svg'
 import Outcoming from '@assets/img/expense.svg'
 import Calculator from '@assets/img/Calculator.svg'
-import { useTheme } from 'providers'
-import { translate } from 'utils'
+import {useTheme} from 'providers'
+import {translate} from 'utils'
 
-
-
-const MainTabComponent: FC<any> = ({ navigation, state }) => {
-  const { colors } = useTheme()
+const MainTabComponent: FC<any> = ({navigation, state}) => {
+  const {colors} = useTheme()
 
   const Nav = [
     {
@@ -53,7 +51,7 @@ const MainTabComponent: FC<any> = ({ navigation, state }) => {
   ]
 
   return (
-    <View style={[styles.nav, { backgroundColor: colors?.background50 }]}>
+    <View style={[styles.nav, {backgroundColor: colors?.background50}]}>
       {Nav.map((data: any, index: any) => {
         const Icon = data?.Icon
         return (
@@ -61,13 +59,13 @@ const MainTabComponent: FC<any> = ({ navigation, state }) => {
             style={[
               styles.navItem,
               state?.index === index
-                ? { backgroundColor: colors.background25 }
+                ? {backgroundColor: colors.background25}
                 : {},
             ]}
             key={index}
             onPress={() => navigation.navigate(data.route)}>
             <Icon width={data?.width} height={data?.height} />
-            <Text style={[styles.extraSmallBody, { color: colors.typography }]}>
+            <Text style={[styles.extraSmallBody, {color: colors.typography}]}>
               {data?.text}
             </Text>
           </TouchableOpacity>

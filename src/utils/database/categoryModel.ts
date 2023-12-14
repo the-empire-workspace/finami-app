@@ -1,10 +1,10 @@
-import { getExchangeValues } from 'utils/exchangeData'
-import { insertQuery, selectQuery } from './helpers'
-import { operateChange } from 'utils/dataTransform'
+import {getExchangeValues} from 'utils/exchangeData'
+import {insertQuery, selectQuery} from './helpers'
+import {operateChange} from 'utils/dataTransform'
 
 export const createCategoryQuery = async (data: any) => {
   try {
-    const { name, comment, type, date } = data
+    const {name, comment, type, date} = data
 
     const query = `INSERT INTO categories \
     (name,\
@@ -32,7 +32,7 @@ export const createCategoryQuery = async (data: any) => {
 
 export const updateCategoryQuery = async (data: any, id: any) => {
   try {
-    const { name, comment } = data
+    const {name, comment} = data
 
     const query = 'UPDATE categories SET name = ?, comment = ? WHERE id = ?'
 
@@ -77,14 +77,20 @@ export const getIncomeCategoriesQuery = async () => {
 
 export const getGoalsCategoriesQuery = async (type: any) => {
   try {
-    const categories: any = await selectQuery(`SELECT * FROM categories WHERE type = "${type}"`)
+    const categories: any = await selectQuery(
+      `SELECT * FROM categories WHERE type = "${type}"`,
+    )
     return categories.raw()
   } catch (error) {
     console.log('error category selection', error)
   }
 }
 
-export const getCategoryQuery = async (id: any, currencies: any = null, currency_id: any = null) => {
+export const getCategoryQuery = async (
+  id: any,
+  currencies: any = null,
+  currency_id: any = null,
+) => {
   try {
     const query =
       'SELECT entries.amount,\
@@ -120,7 +126,7 @@ export const getCategoryQuery = async (id: any, currencies: any = null, currency
       [queryCategory?.id],
     )
     const queryEntries = entriesCategory.raw()
-    if (currencies && currency_id) {
+    if (currencies && currency_id)
       for (const entry of queryEntries) {
         const entriesEntry: any = await selectQuery(
           `${query} WHERE entries.entry_id = ?`,
@@ -139,7 +145,7 @@ export const getCategoryQuery = async (id: any, currencies: any = null, currency
           }, 0) || 0
         entry.total_amount = amount
       }
-    }
+
     queryCategory.entries = queryEntries
     return queryCategory
   } catch (error) {

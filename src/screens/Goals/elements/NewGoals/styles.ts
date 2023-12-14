@@ -44,7 +44,7 @@ export const localStyles = StyleSheet.create({
     width: 12,
     height: 12,
     borderRadius: 30,
-  }
+  },
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}

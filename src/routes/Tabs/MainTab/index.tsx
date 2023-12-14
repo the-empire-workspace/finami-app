@@ -1,7 +1,7 @@
-import React, { FC } from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import React, {FC} from 'react'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import MainTabComponent from './MainTabComponent'
-import { Dashboard, Goals, Incoming, Outcoming } from '@screens'
+import {Dashboard, Goals, Incoming, Outcoming} from '@screens'
 
 const Tab = createBottomTabNavigator()
 

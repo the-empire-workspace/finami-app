@@ -1,6 +1,6 @@
-import { getExchangeValues } from 'utils/exchangeData'
-import { insertQuery, selectQuery } from './helpers'
-import { operateChange } from 'utils/dataTransform'
+import {getExchangeValues} from 'utils/exchangeData'
+import {insertQuery, selectQuery} from './helpers'
+import {operateChange} from 'utils/dataTransform'
 
 export const createEntryQuery = async (data: any) => {
   try {
@@ -155,7 +155,8 @@ export const getBasicsExpensesQuery = async () => {
 
 export const getEntry = async (id: any) => {
   try {
-    const query = 'SELECT entries.amount,\
+    const query =
+      'SELECT entries.amount,\
     entries.comment,\
     entries.date,\
     entries.email,\
@@ -182,10 +183,7 @@ export const getEntry = async (id: any) => {
     LEFT JOIN currencies ON currencies.id = accounts.currency_id\
     LEFT JOIN (SELECT id, payment_type as type FROM entries) as entry ON entries.entry_id = entry.id'
 
-    const entry: any = await selectQuery(
-      `${query} WHERE entries.id = ?`,
-      [id],
-    )
+    const entry: any = await selectQuery(`${query} WHERE entries.id = ?`, [id])
     return entry.raw()[0]
   } catch (error) {
     console.log('error getting entry', error)
@@ -645,7 +643,11 @@ export const getEntriesIncomesQuery = async () => {
   }
 }
 
-export const getEntriesGoalsQuery = async (type: any, currencies: any, currency_id: any) => {
+export const getEntriesGoalsQuery = async (
+  type: any,
+  currencies: any,
+  currency_id: any,
+) => {
   try {
     const query = `SELECT entries.amount,\
     entries.comment,\
@@ -669,7 +671,9 @@ export const getEntriesGoalsQuery = async (type: any, currencies: any, currency_
       entries.limit_date\
       FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
 
-    const entries: any = await selectQuery(`${query} WHERE entries.payment_type = "${type}" AND entries.category_id IS NULL`)
+    const entries: any = await selectQuery(
+      `${query} WHERE entries.payment_type = "${type}" AND entries.category_id IS NULL`,
+    )
     const queryEntries = entries.raw()
 
     for (const entry of queryEntries) {
@@ -697,7 +701,11 @@ export const getEntriesGoalsQuery = async (type: any, currencies: any, currency_
   }
 }
 
-export const getGoalQuery = async (id: any, currencies: any, currency_id: any) => {
+export const getGoalQuery = async (
+  id: any,
+  currencies: any,
+  currency_id: any,
+) => {
   try {
     const query =
       'SELECT entries.amount,\

@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects'
+import {call, put, select, takeLatest} from 'redux-saga/effects'
 import {
   CREATE_CATEGORY_GOALS,
   CREATE_CATEGORY_GOALS_ASYNC,
@@ -22,23 +22,39 @@ import {
   UPDATE_GOAL_ASYNC,
 } from './action-types'
 import {
-  actionObject, createCategoryQuery, createEntryQuery, deleteCategoryQuery, deleteEntryQuery, getCategoryQuery, getCurrenciesQuery, getEntriesGoalsQuery, getGoalQuery, getGoalsCategoriesQuery, orderBy, updateCategoryQuery, updateEntryQuery,
+  actionObject,
+  createCategoryQuery,
+  createEntryQuery,
+  deleteCategoryQuery,
+  deleteEntryQuery,
+  getCategoryQuery,
+  getCurrenciesQuery,
+  getEntriesGoalsQuery,
+  getGoalQuery,
+  getGoalsCategoriesQuery,
+  orderBy,
+  updateCategoryQuery,
+  updateEntryQuery,
 } from 'utils'
-import { getDashboardValues, getTotalBalance } from 'store/actions'
-import { selectAccount, selectCurrency } from 'store/selector'
-import { GET_CURRENCIES_ASYNC } from 'store/currency/action-types'
+import {getDashboardValues, getTotalBalance} from 'store/actions'
+import {selectAccount, selectCurrency} from 'store/selector'
+import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
-function* getEntriesGoalsAsync({ payload }: any): any {
+function* getEntriesGoalsAsync({payload}: any): any {
   try {
-
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
-    const goals = yield call(getEntriesGoalsQuery, payload, currencies, user?.currency_id)
+    const goals = yield call(
+      getEntriesGoalsQuery,
+      payload,
+      currencies,
+      user?.currency_id,
+    )
     const categories = yield call(getGoalsCategoriesQuery, payload)
     const mix = [...goals, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
@@ -49,9 +65,8 @@ function* getEntriesGoalsAsync({ payload }: any): any {
   }
 }
 
-function* createCategoryGoalsAsync({ payload }: any): any {
+function* createCategoryGoalsAsync({payload}: any): any {
   try {
-
     yield call(createCategoryQuery, {
       name: payload?.concept,
       type: payload?.type,
@@ -59,28 +74,31 @@ function* createCategoryGoalsAsync({ payload }: any): any {
       date: (payload?.date || new Date())?.getTime(),
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const goals = yield call(getEntriesGoalsQuery, payload?.type, currencies, user?.currency_id)
+    const goals = yield call(
+      getEntriesGoalsQuery,
+      payload?.type,
+      currencies,
+      user?.currency_id,
+    )
     const categories = yield call(getGoalsCategoriesQuery, payload?.type)
     const mix = [...goals, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
 
-    yield put(
-      actionObject(CREATE_CATEGORY_GOALS_ASYNC, orderMix),
-    )
+    yield put(actionObject(CREATE_CATEGORY_GOALS_ASYNC, orderMix))
   } catch (error) {
     console.log(error)
   }
 }
 
-function* createGoalsAsync({ payload }: any): any {
+function* createGoalsAsync({payload}: any): any {
   try {
     yield call(createEntryQuery, {
       account: payload?.account,
@@ -95,22 +113,32 @@ function* createGoalsAsync({ payload }: any): any {
       status_level: payload?.status_level || '',
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const goals = yield call(getEntriesGoalsQuery, payload?.type, currencies, user?.currency_id)
+    const goals = yield call(
+      getEntriesGoalsQuery,
+      payload?.type,
+      currencies,
+      user?.currency_id,
+    )
     const categories = yield call(getGoalsCategoriesQuery, payload?.type)
     const mix = [...goals, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
 
     yield put(actionObject(CREATE_GOALS_ASYNC, orderMix))
     if (payload?.category_id) {
-      const category = yield call(getCategoryQuery, payload?.category_id, currencies, user?.currency_id)
+      const category = yield call(
+        getCategoryQuery,
+        payload?.category_id,
+        currencies,
+        user?.currency_id,
+      )
       yield put(actionObject(GET_CATEGORY_GOAL_ASYNC, category))
     }
     yield put(getDashboardValues())
@@ -120,39 +148,48 @@ function* createGoalsAsync({ payload }: any): any {
   }
 }
 
-function* getGoalAsync({ payload }: any): any {
+function* getGoalAsync({payload}: any): any {
   try {
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const goal = yield call(getGoalQuery, payload, currencies, user?.currency_id)
+    const goal = yield call(
+      getGoalQuery,
+      payload,
+      currencies,
+      user?.currency_id,
+    )
     yield put(actionObject(GET_GOAL_ASYNC, goal))
   } catch (error) {
     console.log(error)
   }
 }
 
-function* getCategoryGoalAsync({ payload }: any): any {
+function* getCategoryGoalAsync({payload}: any): any {
   try {
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
-    const category = yield call(getCategoryQuery, payload, currencies, user?.currency_id)
+    const category = yield call(
+      getCategoryQuery,
+      payload,
+      currencies,
+      user?.currency_id,
+    )
     yield put(actionObject(GET_CATEGORY_GOAL_ASYNC, category))
   } catch (error) {
     console.log(error)
   }
 }
 
-
-function* createGoalsEntryAsync({ payload }: any): any {
+function* createGoalsEntryAsync({payload}: any): any {
   try {
     yield call(createEntryQuery, {
       account: payload?.account,
@@ -165,15 +202,20 @@ function* createGoalsEntryAsync({ payload }: any): any {
       entry_id: payload?.entry_id || '',
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const goals = yield call(getEntriesGoalsQuery, payload?.type, currencies, user?.currency_id)
+    const goals = yield call(
+      getEntriesGoalsQuery,
+      payload?.type,
+      currencies,
+      user?.currency_id,
+    )
     const categories = yield call(getGoalsCategoriesQuery, payload?.type)
     const mix = [...goals, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
@@ -199,8 +241,7 @@ function* createGoalsEntryAsync({ payload }: any): any {
   }
 }
 
-
-function* updateGoalsAsync({ payload }: any): any {
+function* updateGoalsAsync({payload}: any): any {
   try {
     yield call(updateEntryQuery, payload?.id, {
       account: payload?.account,
@@ -215,17 +256,24 @@ function* updateGoalsAsync({ payload }: any): any {
       status_level: payload?.status_level || '',
     })
 
-
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const goals = yield call(getEntriesGoalsQuery, payload?.payment_type, currencies, user?.currency_id)
-    const categories = yield call(getGoalsCategoriesQuery, payload?.payment_type)
+    const goals = yield call(
+      getEntriesGoalsQuery,
+      payload?.payment_type,
+      currencies,
+      user?.currency_id,
+    )
+    const categories = yield call(
+      getGoalsCategoriesQuery,
+      payload?.payment_type,
+    )
     const mix = [...goals, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
 
@@ -247,8 +295,7 @@ function* updateGoalsAsync({ payload }: any): any {
   }
 }
 
-
-function* updateCategoryGoalAsync({ payload }: any): any {
+function* updateCategoryGoalAsync({payload}: any): any {
   try {
     yield call(
       updateCategoryQuery,
@@ -259,19 +306,29 @@ function* updateCategoryGoalAsync({ payload }: any): any {
       payload?.id,
     )
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
-    const goals = yield call(getEntriesGoalsQuery, payload?.type, currencies, user?.currency_id)
+    const goals = yield call(
+      getEntriesGoalsQuery,
+      payload?.type,
+      currencies,
+      user?.currency_id,
+    )
     const categories = yield call(getGoalsCategoriesQuery, payload?.type)
     const mix = [...goals, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
 
-    const category = yield call(getCategoryQuery, payload?.id, currencies, user?.currency_id)
+    const category = yield call(
+      getCategoryQuery,
+      payload?.id,
+      currencies,
+      user?.currency_id,
+    )
 
     yield put(
       actionObject(UPDATE_CATEGORY_GOAL_ASYNC, {
@@ -284,20 +341,24 @@ function* updateCategoryGoalAsync({ payload }: any): any {
   }
 }
 
-
-function* deleteCategoryGoalAsync({ payload }: any): any {
+function* deleteCategoryGoalAsync({payload}: any): any {
   try {
     yield call(deleteCategoryQuery, payload?.id)
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const goals = yield call(getEntriesGoalsQuery, payload?.type, currencies, user?.currency_id)
+    const goals = yield call(
+      getEntriesGoalsQuery,
+      payload?.type,
+      currencies,
+      user?.currency_id,
+    )
     const categories = yield call(getGoalsCategoriesQuery, payload?.type)
     const mix = [...goals, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
@@ -305,7 +366,7 @@ function* deleteCategoryGoalAsync({ payload }: any): any {
     yield put(
       actionObject(DELETE_CATEGORY_GOAL_ASYNC, {
         items: orderMix,
-        item: {}
+        item: {},
       }),
     )
   } catch (error) {
@@ -313,19 +374,24 @@ function* deleteCategoryGoalAsync({ payload }: any): any {
   }
 }
 
-function* deleteGoalAsync({ payload }: any): any {
+function* deleteGoalAsync({payload}: any): any {
   try {
     yield call(deleteEntryQuery, payload?.id)
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const goals = yield call(getEntriesGoalsQuery, payload?.type, currencies, user?.currency_id)
+    const goals = yield call(
+      getEntriesGoalsQuery,
+      payload?.type,
+      currencies,
+      user?.currency_id,
+    )
     const categories = yield call(getGoalsCategoriesQuery, payload?.type)
     const mix = [...goals, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
@@ -333,7 +399,7 @@ function* deleteGoalAsync({ payload }: any): any {
     yield put(
       actionObject(DELETE_GOAL_ASYNC, {
         items: orderMix,
-        item: {}
+        item: {},
       }),
     )
   } catch (error) {

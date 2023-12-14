@@ -1,30 +1,26 @@
-import { BackHandler, DynamicForm } from 'components'
-import React, { FC, useEffect, useMemo, useState } from 'react'
-import { translate } from 'utils'
-import { egressForm, categoryForm } from './form'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { styles } from './styles'
-import { useTheme } from 'providers'
-import { useDispatch, useSelector } from 'react-redux'
-import { Button } from 'theme'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import {
-  createCategoryGoals,
-  createGoals,
-} from 'store/actions'
+import {BackHandler, DynamicForm} from 'components'
+import React, {FC, useEffect, useMemo, useState} from 'react'
+import {translate} from 'utils'
+import {egressForm, categoryForm} from './form'
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
+import {styles} from './styles'
+import {useTheme} from 'providers'
+import {useDispatch} from 'react-redux'
+import {Button} from 'theme'
+import {useNavigation, useRoute} from '@react-navigation/native'
+import {createCategoryGoals, createGoals} from 'store/actions'
 
 const NewGoals: FC = () => {
-  const { colors } = useTheme()
+  const {colors} = useTheme()
   const [categoryCreation, setCategoryCreation] = useState(false)
   const [values, setValues] = useState<any>({})
   const router = useRoute()
   const navigation: any = useNavigation()
   const dispatch = useDispatch()
-  const { params }: any = router
+  const {params}: any = router
   useEffect(() => {
     if (categoryCreation) setValues({})
-    else
-      setValues((prev: any) => ({}))
+    else setValues({})
   }, [categoryCreation])
 
   const eForm = useMemo(
@@ -43,37 +39,49 @@ const NewGoals: FC = () => {
     if (!Object.keys(sendValues).length) return
     if (categoryCreation) {
       dispatch(
-        createCategoryGoals({ ...sendValues, category_id: params?.id || null, type: params?.entry_type || params?.type }),
+        createCategoryGoals({
+          ...sendValues,
+          category_id: params?.id || null,
+          type: params?.entry_type || params?.type,
+        }),
       )
       navigation.goBack()
       return
     }
 
-    dispatch(createGoals({ ...sendValues, category_id: params?.id || null, type: params?.entry_type || params?.type }))
+    dispatch(
+      createGoals({
+        ...sendValues,
+        category_id: params?.id || null,
+        type: params?.entry_type || params?.type,
+      }),
+    )
     navigation.goBack()
   }
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background100 }]}>
-      <BackHandler title={translate(`new_${params?.entry_type || params?.type}`)} />
+    <View style={[styles.root, {backgroundColor: colors.background100}]}>
+      <BackHandler
+        title={translate(`new_${params?.entry_type || params?.type}`)}
+      />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         {params?.type !== 'category' && (
           <View style={[styles.categoryContainer]}>
             <TouchableOpacity
-              style={[styles.selectBox, { borderColor: colors.typography }]}
+              style={[styles.selectBox, {borderColor: colors.typography}]}
               onPress={() => setCategoryCreation(!categoryCreation)}>
               <View
                 style={
                   categoryCreation
                     ? [
-                      styles.selectBoxInner,
-                      { backgroundColor: colors.typography },
-                    ]
+                        styles.selectBoxInner,
+                        {backgroundColor: colors.typography},
+                      ]
                     : {}
                 }
               />
             </TouchableOpacity>
-            <Text style={[styles.body, { color: colors.typography }]}>
+            <Text style={[styles.body, {color: colors.typography}]}>
               {translate('enable_category_creation')}
             </Text>
           </View>
@@ -81,9 +89,9 @@ const NewGoals: FC = () => {
         <View
           style={[
             styles.formContainer,
-            { borderBottomColor: colors.background25 },
+            {borderBottomColor: colors.background25},
           ]}>
-          <Text style={[styles.h3, { color: colors.typography }]}>
+          <Text style={[styles.h3, {color: colors.typography}]}>
             {categoryCreation
               ? translate('category')
               : translate(params?.entry_type || params?.type)}
@@ -99,12 +107,11 @@ const NewGoals: FC = () => {
             }}
           />
         </View>
-
       </ScrollView>
       <View style={[styles.buttonContainer]}>
         <Button
-          style={[styles.buttonContent, { backgroundColor: colors.negative }]}
-          styleText={{ color: colors.typography2 }}
+          style={[styles.buttonContent, {backgroundColor: colors.negative}]}
+          styleText={{color: colors.typography2}}
           text={translate('cancel')}
           onPress={() => {
             navigation.goBack()
@@ -117,8 +124,8 @@ const NewGoals: FC = () => {
         />
         <Button
           text={translate('register')}
-          style={[styles.buttonContent, { backgroundColor: colors.positive }]}
-          styleText={{ color: colors.typography2 }}
+          style={[styles.buttonContent, {backgroundColor: colors.positive}]}
+          styleText={{color: colors.typography2}}
           onPress={createData}
           disabled={Object.keys(values)?.reduce((prev: any, next: any) => {
             return prev || values?.[next]?.validation !== undefined

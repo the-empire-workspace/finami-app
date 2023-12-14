@@ -1,6 +1,12 @@
-import React, { FC } from 'react'
-import { createNativeStackNavigator } from '@react-navigation/native-stack'
-import { DeleteGoals, DetailGoals, EditGoals, MainGoals, NewGoals } from './elements'
+import React, {FC} from 'react'
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import {
+  DeleteGoals,
+  DetailGoals,
+  EditGoals,
+  MainGoals,
+  NewGoals,
+} from './elements'
 
 const Stack = createNativeStackNavigator()
 
