@@ -17,11 +17,11 @@ export const mainForm = (translate: any, def: any, colors: any = {}) => [
       {
         label: translate('bank_account'),
         value: 'bank_account',
-      },
+      } /* ,
       {
         label: translate('wallet'),
         value: 'wallet',
-      },
+      }, */,
     ],
     validations: {
       required: true,

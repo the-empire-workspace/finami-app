@@ -26,15 +26,14 @@ const Input: FC<InputProps> = ({
       onChange(values?.defaultValue || values?.values[0]?.value)
       return
     }
-    if (values?.defaultValue) {
-      setValue(values?.defaultValue)
-      onChange(values?.defaultValue)
-    }
+    setValue(values?.defaultValue)
+    onChange(values?.defaultValue)
   }
 
   useEffect(() => {
     setVal()
   }, [element, values?.defaultValue])
+
   return element === 'select'
     ? React.createElement(
         mainRender,

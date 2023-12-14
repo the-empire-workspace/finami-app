@@ -7,7 +7,6 @@ import {
   CREATE_RECEIVABLE_ACCOUNT_ENTRY,
   CREATE_RECEIVABLE_ACCOUNT_ENTRY_ASYNC,
   CREATE_INCOME,
-  CREATE_INCOME_ASYNC,
   CREATE_INCOME_CATEGORY,
   CREATE_INCOME_CATEGORY_ASYNC,
   DELETE_CATEGORY_INCOME,
@@ -50,8 +49,9 @@ import {
   orderBy,
   updateCategoryQuery,
   updateEntryQuery,
+  operateChange,
 } from 'utils'
-import {getDashboardValues} from 'store/actions'
+import {getDashboardValues, getIncomes, getTotalBalance} from 'store/actions'
 import {selectAccount, selectCurrency} from 'store/selector'
 import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
@@ -70,10 +70,9 @@ function* createIncomeAsync({payload}: any): any {
       date: (payload?.date || new Date())?.getTime(),
     })
 
-    const outcomes = yield call(getEntriesIncomesQuery)
-    yield put(actionObject(CREATE_INCOME_ASYNC, outcomes))
-
+    yield put(getIncomes())
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -118,7 +117,6 @@ function* createFixedIncomesAsync({payload}: any): any {
 
     const outcomes = yield call(getFixedIncomesQuery)
     const categories = yield call(getIncomeCategoriesQuery)
-    const entriesIncomes = yield call(getEntriesIncomesQuery)
     const mix = [...outcomes, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
     if (payload?.category_id) {
@@ -127,12 +125,13 @@ function* createFixedIncomesAsync({payload}: any): any {
     }
     yield put(
       actionObject(CREATE_FIXED_INCOMES_ASYNC, {
-        items: entriesIncomes,
         itemsFixed: orderMix,
       }),
     )
 
+    yield put(getIncomes())
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -149,16 +148,17 @@ function* createIncomeCategoryAsync({payload}: any): any {
 
     const outcomes = yield call(getFixedIncomesQuery)
     const categories = yield call(getIncomeCategoriesQuery)
-    const entriesIncomes = yield call(getEntriesIncomesQuery)
     const mix = [...outcomes, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
 
     yield put(
       actionObject(CREATE_INCOME_CATEGORY_ASYNC, {
-        items: entriesIncomes,
         itemsFixed: orderMix,
       }),
     )
+    yield put(getIncomes())
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -166,8 +166,37 @@ function* createIncomeCategoryAsync({payload}: any): any {
 
 function* getIncomesAsync(): any {
   try {
-    const outcomes = yield call(getEntriesIncomesQuery)
-    yield put(actionObject(GET_INCOMES_ASYNC, outcomes))
+    const {defaultPrices} = yield select(selectCurrency)
+    const incomes = yield call(getEntriesIncomesQuery)
+    const dashboardValues = incomes?.reduce(
+      (values: any, entry: any) => {
+        const change = defaultPrices[String(entry?.currency_id)]
+        const amount = change
+          ? operateChange(change?.op, change?.value, entry.amount)
+          : entry.amount
+        if (entry?.payment_type === 'general') values.entries.push(entry)
+        const date = new Date(entry?.date)
+        const actualDate = new Date()
+        if (date.getMonth() === actualDate.getMonth())
+          values.monthIncome += amount
+
+        if (entry.payment_type === 'fixed_incomes') {
+          values.fixedIncome += amount
+          return values
+        }
+        if (entry?.payment_type === 'receivable_account') {
+          values.receivableAccount += amount
+          return values
+        }
+        if (entry?.type_entry === 'receivable_account') {
+          values.receivableAccount -= amount
+          return values
+        }
+        return values
+      },
+      {monthIncome: 0, fixedIncome: 0, receivableAccount: 0, entries: []},
+    )
+    yield put(actionObject(GET_INCOMES_ASYNC, dashboardValues))
   } catch (error) {
     console.log(error)
   }
@@ -213,7 +242,6 @@ function* updateFixedIncomeAsync({payload}: any): any {
 
     const outcomes = yield call(getFixedIncomesQuery)
     const categories = yield call(getIncomeCategoriesQuery)
-    const entriesIncomes = yield call(getEntriesIncomesQuery)
     const mix = [...outcomes, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
 
@@ -223,9 +251,11 @@ function* updateFixedIncomeAsync({payload}: any): any {
       actionObject(UPDATE_FIXED_INCOME_ASYNC, {
         itemsFixed: orderMix,
         item: item,
-        items: entriesIncomes,
       }),
     )
+    yield put(getIncomes())
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -244,18 +274,19 @@ function* updateCategoryIncomeAsync({payload}: any): any {
 
     const outcomes = yield call(getFixedIncomesQuery)
     const categories = yield call(getIncomeCategoriesQuery)
-    const entriesIncomes = yield call(getEntriesIncomesQuery)
     const mix = [...outcomes, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
     const category = yield call(getCategoryQuery, payload?.id)
 
     yield put(
       actionObject(CREATE_INCOME_CATEGORY_ASYNC, {
-        items: entriesIncomes,
         itemsFixed: orderMix,
         item: category,
       }),
     )
+    yield put(getIncomes())
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -267,7 +298,6 @@ function* deleteCategoryIncomeAsync({payload}: any): any {
 
     const outcomes = yield call(getFixedIncomesQuery)
     const categories = yield call(getIncomeCategoriesQuery)
-    const entriesIncomes = yield call(getEntriesIncomesQuery)
     const mix = [...outcomes, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
 
@@ -275,9 +305,12 @@ function* deleteCategoryIncomeAsync({payload}: any): any {
       actionObject(DELETE_INCOME_ASYNC, {
         itemsFixed: orderMix,
         item: {},
-        items: entriesIncomes,
       }),
     )
+
+    yield put(getIncomes())
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -289,7 +322,6 @@ function* deleteIncomeAsync({payload}: any): any {
 
     const outcomes = yield call(getFixedIncomesQuery)
     const categories = yield call(getIncomeCategoriesQuery)
-    const entriesIncomes = yield call(getEntriesIncomesQuery)
     const mix = [...outcomes, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
 
@@ -297,9 +329,12 @@ function* deleteIncomeAsync({payload}: any): any {
       actionObject(DELETE_INCOME_ASYNC, {
         itemsFixed: orderMix,
         item: {},
-        items: entriesIncomes,
       }),
     )
+
+    yield put(getIncomes())
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -347,16 +382,16 @@ function* createReceivableAccountAsync({payload}: any): any {
       currencies,
       user?.currency_id,
     )
-    const entriesIncomes = yield call(getEntriesIncomesQuery)
 
     yield put(
       actionObject(CREATE_RECEIVABLE_ACCOUNT_ASYNC, {
-        items: entriesIncomes,
         itemsReceivableAccounts: outcomes,
       }),
     )
 
+    yield put(getIncomes())
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -394,7 +429,6 @@ function* createReceivableAccountEntryAsync({payload}: any): any {
       currencies,
       user?.currency_id,
     )
-    const entriesIncomes = yield call(getEntriesIncomesQuery)
 
     const item = yield call(
       getReceivableAccountQuery,
@@ -407,11 +441,12 @@ function* createReceivableAccountEntryAsync({payload}: any): any {
       actionObject(CREATE_RECEIVABLE_ACCOUNT_ENTRY_ASYNC, {
         itemsReceivableAccounts: outcomes,
         item: item,
-        items: entriesIncomes,
       }),
     )
 
+    yield put(getIncomes())
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -491,8 +526,6 @@ function* updateReceivableAccountAsync({payload}: any): any {
       user?.currency_id,
     )
 
-    const entriesIncomes = yield call(getEntriesIncomesQuery)
-
     const item = yield call(
       getReceivableAccountQuery,
       payload?.id,
@@ -504,9 +537,11 @@ function* updateReceivableAccountAsync({payload}: any): any {
       actionObject(UPDATE_RECEIVABLE_ACCOUNT_ASYNC, {
         itemsReceivableAccounts: outcomes,
         item: item,
-        items: entriesIncomes,
       }),
     )
+    yield put(getIncomes())
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -529,15 +564,17 @@ function* deleteReceivableAccountAsync({payload}: any): any {
       currencies,
       user?.currency_id,
     )
-    const entriesIncomes = yield call(getEntriesIncomesQuery)
 
     yield put(
       actionObject(DELETE_RECEIVABLE_ACCOUNT_ASYNC, {
         itemsReceivableAccounts: outcomes,
         item: {},
-        items: entriesIncomes,
       }),
     )
+
+    yield put(getIncomes())
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }

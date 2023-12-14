@@ -44,7 +44,15 @@ const localStyles = StyleSheet.create({
     width: '100%',
     gap: 10,
   },
+  fullOpacity: {
+    opacity: 1,
+  },
   noPadding: {paddingHorizontal: 0, paddingVertical: 0},
+  noPaddingAlt: {
+    paddingHorizontal: 0,
+    paddingVertical: 0,
+    minHeight: 80,
+  },
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}

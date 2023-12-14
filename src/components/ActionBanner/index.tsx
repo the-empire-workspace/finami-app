@@ -6,7 +6,7 @@ import {useTheme} from 'providers'
 import {Button} from 'theme'
 import {useNavigation} from '@react-navigation/native'
 
-const ActionBanner: FC<any> = ({payment, expense}) => {
+const ActionBanner: FC<any> = ({payment, expense, goals, type}) => {
   const {colors} = useTheme()
   const navigation: any = useNavigation()
   return (
@@ -14,7 +14,7 @@ const ActionBanner: FC<any> = ({payment, expense}) => {
       {!!payment && (
         <View style={[styles.buttonContainer]}>
           <Button
-            text={translate('new_payment')}
+            text={translate('new_income')}
             disabled={false}
             style={{backgroundColor: colors.progress.ingress}}
             styleText={{color: colors.typography2}}
@@ -33,6 +33,24 @@ const ActionBanner: FC<any> = ({payment, expense}) => {
             styleText={{color: colors.typography2}}
             onPress={() => {
               navigation.navigate('newOutcome')
+            }}
+          />
+        </View>
+      )}
+      {!!goals && (
+        <View>
+          <Button
+            text={translate(`new_${type}`)}
+            disabled={false}
+            style={{
+              backgroundColor:
+                type === 'compromise'
+                  ? colors.progress.needs
+                  : colors.progress.wish,
+            }}
+            styleText={{color: colors.typography2}}
+            onPress={() => {
+              navigation.navigate('newGoals', {type: type})
             }}
           />
         </View>

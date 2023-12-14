@@ -2,7 +2,7 @@ import React, {FC, useEffect, useMemo} from 'react'
 import {View, TouchableOpacity, Text} from 'react-native'
 import {styles} from './styles'
 import {Props} from './interface'
-import SvgNotification from '@assets/img/Notifications.svg'
+/* import SvgNotification from '@assets/img/Notifications.svg' */
 import {useNavigation} from '@react-navigation/core'
 import {useDispatch} from 'react-redux'
 import {getCurrencyPrice, getTotalBalance} from 'store/actions'
@@ -56,7 +56,7 @@ const Header: FC<Props> = () => {
         </Text>
       </View>
       <TouchableOpacity style={styles.notification} onPress={() => {}}>
-        <SvgNotification width={30} height={30} />
+        {/* <SvgNotification width={30} height={30} /> */}
       </TouchableOpacity>
     </View>
   )

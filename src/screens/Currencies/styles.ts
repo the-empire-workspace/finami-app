@@ -8,10 +8,9 @@ export const localStyles = StyleSheet.create({
     height: '100%',
   },
   currencyItem: {
-    paddingTop: 20,
-    paddingBottom: 12,
+    paddingVertical: 20,
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     width: 150,
     borderColor: '#F0F0F2',
     borderWidth: 2,

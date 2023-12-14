@@ -18,7 +18,6 @@ const MainOutcoming: FC = () => {
   const dispatch = useDispatch()
 
   const {defaultPrices} = useSelector((state: any) => state.currency)
-  const {dashboardValues} = useSelector((state: any) => state.account)
   const {items} = useSelector((state: any) => state.outcoming)
 
   useEffect(() => {
@@ -28,28 +27,20 @@ const MainOutcoming: FC = () => {
   const infoValues = useMemo(() => {
     return {
       month1: {
-        value: dashboardValues?.monthIncome,
+        value: items?.monthExpense,
         label: 'month_outcome',
         color: colors.progress.egress,
       },
-      month2: {
-        value: dashboardValues?.monthExpenses,
-        label: 'basic_expenses',
-        color: colors.typography,
-      },
       month3: {
-        value: dashboardValues?.monthProjected,
+        value: items?.debts,
         label: 'debts',
         color: colors.progress.needs,
       },
     }
-  }, [dashboardValues, colors])
+  }, [items, colors])
 
   const DropDownInfo = [
-    {
-      label: translate('basic_expenses'),
-      router: 'fixedOutcome',
-    },
+    {},
     {
       label: translate('debts'),
       router: 'pendingOutcome',
@@ -69,8 +60,8 @@ const MainOutcoming: FC = () => {
         <InfoBanner values={infoValues} />
         <DropDownButtons DropDownInfo={DropDownInfo} />
       </View>
-      {items?.length ? (
-        <ItemList items={items} type="dashboard" />
+      {items?.entries?.length ? (
+        <ItemList items={items?.entries || []} type="dashboard" />
       ) : (
         <View style={styles.noItemBox}>
           <Text style={[styles.noItemText, {color: colors.typography}]}>

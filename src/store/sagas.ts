@@ -9,7 +9,9 @@ import {
   watchCreateCryptoAccount,
   watchCreateCurrencyAccount,
   watchDeleteAccount,
+  watchDeleteEntry,
   watchDeleteSingleAccount,
+  watchEditEntry,
   watchGetAccount,
   watchGetAccounts,
   watchGetDashboardValues,
@@ -18,6 +20,7 @@ import {
   watchSignIn,
   watchUpdateLanguage,
   watchUpdateSingleAccount,
+  watchUpdateUser,
 } from './account/saga'
 import {
   watchCreateBasicExpenses,
@@ -57,6 +60,18 @@ import {
   watchUpdateFixedIncome,
   watchUpdateReceivableAccount,
 } from './incoming/saga'
+import {
+  watchCreateCategoryGoals,
+  watchCreateGoals,
+  watchCreateGoalsEntry,
+  watchDeleteCategoryGoal,
+  watchDeleteGoal,
+  watchGetCategoryGoal,
+  watchGetEntriesGoals,
+  watchGetGoal,
+  watchUpdateCategoryGoal,
+  watchUpdateGoals,
+} from './goals/saga'
 
 //import {watchGetIncoming, watchSetIncoming} from './incoming/saga'
 
@@ -116,5 +131,20 @@ export default function* rootSaga() {
     fork(watchUpdateReceivableAccount),
     fork(watchDeleteReceivableAccount),
     fork(watchCreateReceivableAccountEntry),
+
+    fork(watchGetEntriesGoals),
+    fork(watchCreateCategoryGoals),
+    fork(watchCreateGoals),
+    fork(watchGetGoal),
+    fork(watchGetCategoryGoal),
+    fork(watchCreateGoalsEntry),
+    fork(watchUpdateGoals),
+    fork(watchUpdateCategoryGoal),
+    fork(watchDeleteGoal),
+    fork(watchDeleteCategoryGoal),
+
+    fork(watchDeleteEntry),
+    fork(watchEditEntry),
+    fork(watchUpdateUser),
   ])
 }

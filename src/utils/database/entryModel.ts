@@ -89,7 +89,10 @@ export const getEntriesQuery = async () => {
       entries.payment_concept,\
       entries.payment_type,\
       entries.phone,\
-      accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id \
+      entry.type FROM entries\
+      LEFT JOIN accounts ON accounts.id = entries.account_id\
+      LEFT JOIN currencies ON currencies.id = accounts.currency_id\
+      LEFT JOIN (SELECT id, payment_type as type FROM entries) as entry ON entries.entry_id = entry.id\
       WHERE entries.payment_type = "general"',
     )
     return entries.raw()
@@ -115,8 +118,10 @@ export const getEntriesExpensesQuery = async () => {
       entries.payment_type,\
       entries.phone,\
       entries.entry_id,\
+      entry.type_entry,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
-      WHERE entries.entry_type = "expense" AND entries.payment_type = "general"',
+      LEFT JOIN (SELECT id, payment_type as type_entry FROM entries) as entry ON entries.entry_id = entry.id\
+      WHERE entries.entry_type = "expense"',
     )
     return entries.raw()
   } catch (error) {
@@ -152,10 +157,35 @@ export const getBasicsExpensesQuery = async () => {
 
 export const getEntry = async (id: any) => {
   try {
-    const entry: any = await selectQuery(
-      'SELECT entries.amount, entries.comment, entries.date, entries.email, entries.emissor,entries.limit_date,entries.status_level, entries.status, entries.frecuency_time,entries.frecuency_type, entries.entry_type, entries.id, entries.payment_concept, entries.payment_type, entries.phone, accounts.account_name, accounts.account_number, accounts.organization, accounts.currency_id, currencies.symbol AS currency_symbol, currencies.decimal FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id LEFT JOIN currencies ON currencies.id = accounts.currency_id WHERE entries.id = ?',
-      [id],
-    )
+    const query =
+      'SELECT entries.amount,\
+    entries.comment,\
+    entries.date,\
+    entries.email,\
+    entries.emissor,\
+    entries.status,\
+    entries.frecuency_time,\
+    entries.frecuency_type,\
+    entries.entry_type,\
+    entries.id,\
+    entries.payment_concept,\
+    entries.payment_type,\
+    entries.phone,\
+    accounts.account_name,\
+    accounts.account_number,\
+    accounts.organization,\
+    accounts.currency_id,\
+    entries.category_id,\
+    entries.status_level,\
+    entries.limit_date,\
+    currencies.symbol AS currency_symbol,\
+    currencies.decimal,\
+    entry.type FROM entries\
+    LEFT JOIN accounts ON accounts.id = entries.account_id\
+    LEFT JOIN currencies ON currencies.id = accounts.currency_id\
+    LEFT JOIN (SELECT id, payment_type as type FROM entries) as entry ON entries.entry_id = entry.id'
+
+    const entry: any = await selectQuery(`${query} WHERE entries.id = ?`, [id])
     return entry.raw()[0]
   } catch (error) {
     console.log('error getting entry', error)
@@ -217,8 +247,8 @@ export const updateEntryQuery = async (id: any, entry: any) => {
       phone,
       date,
       status,
-      frecuency_type,
-      frecuency_time,
+      frecuency_type = null,
+      frecuency_time = null,
       entry_id = null,
       status_level = null,
       limit_date = null,
@@ -294,7 +324,9 @@ export const deleteAccountEntryQuery = async (id: any) => {
 
 export const deleteEntryQuery = async (id: any) => {
   try {
-    return await selectQuery('DELETE FROM entries WHERE id = ?', [id])
+    await selectQuery('DELETE FROM entries WHERE id = ?', [id])
+    await selectQuery('DELETE FROM entries WHERE entry_id = ?', [id])
+    return
   } catch (error) {
     console.log('error deleting entry', error)
     return null
@@ -604,11 +636,130 @@ export const getEntriesIncomesQuery = async () => {
       entries.payment_type,\
       entries.phone,\
       entries.entry_id,\
+      entry.type_entry,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
-      WHERE entries.entry_type = "income" AND entries.payment_type = "general"',
+      LEFT JOIN (SELECT id, payment_type as type_entry FROM entries) as entry ON entries.entry_id = entry.id\
+      WHERE entries.entry_type = "income"',
     )
     return entries.raw()
   } catch (error) {
     console.log('error getting entries', error)
+  }
+}
+
+export const getEntriesGoalsQuery = async (
+  type: any,
+  currencies: any,
+  currency_id: any,
+) => {
+  try {
+    const query = `SELECT entries.amount,\
+    entries.comment,\
+      entries.date,\
+      entries.email,\
+      entries.emissor,\
+      entries.status,\
+      entries.frecuency_time,\
+      entries.frecuency_type,\
+      entries.entry_type,\
+      entries.id,\
+      entries.payment_concept,\
+      entries.payment_type,\
+      entries.phone,\
+      accounts.account_name,\
+      accounts.account_number,\
+      accounts.organization,\
+      accounts.currency_id,\
+      entries.category_id,\
+      entries.status_level,\
+      entries.limit_date\
+      FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
+
+    const entries: any = await selectQuery(
+      `${query} WHERE entries.payment_type = "${type}" AND entries.category_id IS NULL`,
+    )
+    const queryEntries = entries.raw()
+
+    for (const entry of queryEntries) {
+      const entriesEntry: any = await selectQuery(
+        `${query} WHERE entries.entry_id = ?`,
+        [entry?.id],
+      )
+      const queryEntriesEntry = entriesEntry.raw()
+      const defaultPrices = await getExchangeValues(currencies, currency_id)
+
+      const amount =
+        queryEntriesEntry?.reduce((prev: any, next: any) => {
+          const change = defaultPrices[String(next?.currency_id)]
+          const newAmount = change
+            ? operateChange(change?.op, change?.value, next.amount)
+            : next.amount
+          return prev + newAmount
+        }, 0) || 0
+      entry.total_amount = amount
+    }
+
+    return queryEntries
+  } catch (error) {
+    console.log('error getting entries', error)
+  }
+}
+
+export const getGoalQuery = async (
+  id: any,
+  currencies: any,
+  currency_id: any,
+) => {
+  try {
+    const query =
+      'SELECT entries.amount,\
+      entries.comment,\
+      entries.date,\
+      entries.email,\
+      entries.emissor,\
+      entries.status,\
+      entries.frecuency_time,\
+      entries.frecuency_type,\
+      entries.entry_type,\
+      entries.id,\
+      entries.payment_concept,\
+      entries.payment_type,\
+      entries.phone,\
+      accounts.account_name,\
+      accounts.account_number,\
+      accounts.organization,\
+      accounts.currency_id,\
+      entries.category_id,\
+      entries.status_level,\
+      entries.limit_date,\
+      currencies.symbol AS currency_symbol,\
+      currencies.decimal,\
+      entry.type FROM entries\
+      LEFT JOIN accounts ON accounts.id = entries.account_id\
+      LEFT JOIN currencies ON currencies.id = accounts.currency_id\
+      LEFT JOIN (SELECT id, payment_type as type FROM entries) as entry ON entries.entry_id = entry.id'
+
+    const entry: any = await selectQuery(`${query} WHERE entries.id = ?`, [id])
+
+    const queryEntry = entry.raw()[0]
+    const entries: any = await selectQuery(
+      `${query} WHERE entries.entry_id = ? ORDER BY date asc`,
+      [id],
+    )
+    queryEntry.entries = entries.raw()
+    const defaultPrices = await getExchangeValues(currencies, currency_id)
+    const amount =
+      queryEntry.entries?.reduce((prev: any, next: any) => {
+        const change = defaultPrices[String(next?.currency_id)]
+        const newAmount = change
+          ? operateChange(change?.op, change?.value, next.amount)
+          : next.amount
+        return prev + newAmount
+      }, 0) || 0
+
+    queryEntry.total_amount = amount
+    return queryEntry
+  } catch (error) {
+    console.log('error getting entry', error)
   }
 }

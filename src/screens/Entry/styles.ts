@@ -39,6 +39,13 @@ const localStyles = StyleSheet.create({
   textSeparator: {
     marginRight: 3,
   },
+  modalFooter: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 22,
+    gap: 30,
+  },
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}

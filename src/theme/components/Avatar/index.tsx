@@ -43,7 +43,6 @@ const Avatar: FC<Props> = ({
           'JPEG',
           80,
         )
-        setDimensions({width: 150, height: 150})
         setImage({uri, isStatic: true})
         actionAvatar(uri)
       } catch (error) {

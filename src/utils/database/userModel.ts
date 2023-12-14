@@ -41,7 +41,7 @@ export const updateUserQuery = async ({
 export const getUserQuery = async () => {
   try {
     const users: any = await selectQuery(
-      'SELECT users.id, picture, username, language, currency_id, symbol as currency_symbol, name as currency_name FROM users LEFT JOIN currencies ON currencies.id = users.currency_id',
+      'SELECT users.id, picture, username, language, currency_id, symbol as currency_symbol, name as currency_name, decimal FROM users LEFT JOIN currencies ON currencies.id = users.currency_id',
     )
     return users.raw()[0]
   } catch (error) {

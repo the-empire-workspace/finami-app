@@ -38,7 +38,9 @@ const StepFive = () => {
             disabled={false}
             text={translate('next')}
             onPress={() => {
-              dispatch(completeOnboarding({...oB}))
+              dispatch(
+                completeOnboarding({...oB, concept: translate('initial')}),
+              )
             }}
             loading={isLoading}
           />
