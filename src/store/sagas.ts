@@ -1,10 +1,10 @@
-import {all, fork} from 'redux-saga/effects'
-import {watchGetCurrencies, watchGetDefaultPrice} from './currency/saga'
+import { all, fork } from 'redux-saga/effects'
+import { watchGetCurrencies, watchGetDefaultPrice } from './currency/saga'
 import {
   watchPushNotification,
   watchScheduleNotification,
 } from './notification/saga'
-import {watchCompleteOnboarding} from './onboarding/saga'
+import { watchCompleteOnboarding } from './onboarding/saga'
 import {
   watchCreateCryptoAccount,
   watchCreateCurrencyAccount,
@@ -57,6 +57,7 @@ import {
   watchUpdateFixedIncome,
   watchUpdateReceivableAccount,
 } from './incoming/saga'
+import { watchCreateCategoryGoals, watchCreateGoals, watchCreateGoalsEntry, watchDeleteCategoryGoal, watchDeleteGoal, watchGetCategoryGoal, watchGetEntriesGoals, watchGetGoal, watchUpdateCategoryGoal, watchUpdateGoals } from './goals/saga'
 
 //import {watchGetIncoming, watchSetIncoming} from './incoming/saga'
 
@@ -116,5 +117,16 @@ export default function* rootSaga() {
     fork(watchUpdateReceivableAccount),
     fork(watchDeleteReceivableAccount),
     fork(watchCreateReceivableAccountEntry),
+
+    fork(watchGetEntriesGoals),
+    fork(watchCreateCategoryGoals),
+    fork(watchCreateGoals),
+    fork(watchGetGoal),
+    fork(watchGetCategoryGoal),
+    fork(watchCreateGoalsEntry),
+    fork(watchUpdateGoals),
+    fork(watchUpdateCategoryGoal),
+    fork(watchDeleteGoal),
+    fork(watchDeleteCategoryGoal)
   ])
 }
