@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native'
-import {Typos, Elements} from '@theme'
+import { StyleSheet } from 'react-native'
+import { Typos, Elements } from '@theme'
 
 export const localStyles = StyleSheet.create({
   root: {
@@ -47,7 +47,7 @@ export const localStyles = StyleSheet.create({
   },
   action: {},
   actionUp: {
-    transform: [{rotate: '180deg'}],
+    transform: [{ rotate: '180deg' }],
   },
   rootModal: {
     height: '100%',
@@ -114,6 +114,21 @@ export const localStyles = StyleSheet.create({
     zIndex: 1,
     opacity: 0.5,
   },
+  fullOpacity: {
+    opacity: 1,
+  },
+  overText: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    right: 0,
+    zIndex: 2,
+    width: '100%',
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   createButton: {
     paddingHorizontal: 16,
     paddingVertical: 6,
@@ -143,4 +158,4 @@ export const localStyles = StyleSheet.create({
   },
 })
 
-export const styles = {...localStyles, ...Typos, ...Elements}
+export const styles = { ...localStyles, ...Typos, ...Elements }

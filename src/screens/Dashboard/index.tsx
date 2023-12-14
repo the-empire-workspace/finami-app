@@ -39,7 +39,7 @@ const Dashboard: FC = () => {
       },
     }
   }, [dashboardValues, colors])
-
+  
   return (
     <View style={[styles.root, {backgroundColor: colors.background100}]}>
       <View style={[{backgroundColor: colors.background50}]}>

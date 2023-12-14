@@ -1,6 +1,6 @@
-import React, {useState, FC, useEffect} from 'react'
-import {InputProps} from './interface'
-import {styles} from './styles'
+import React, { useState, FC, useEffect } from 'react'
+import { InputProps } from './interface'
+import { styles } from './styles'
 const Input: FC<InputProps> = ({
   element,
   mainRender,
@@ -26,37 +26,36 @@ const Input: FC<InputProps> = ({
       onChange(values?.defaultValue || values?.values[0]?.value)
       return
     }
-    if (values?.defaultValue) {
-      setValue(values?.defaultValue)
-      onChange(values?.defaultValue)
-    }
+    setValue(values?.defaultValue)
+    onChange(values?.defaultValue)
   }
 
   useEffect(() => {
     setVal()
   }, [element, values?.defaultValue])
+
   return element === 'select'
     ? React.createElement(
-        mainRender,
-        {
-          ...values,
-          style: {...(styles.select || {}), ...values.style},
-          selectedValue: value,
-          onValueChange: onChangeSelect,
-        },
-        values.values.map((option: any, index: any) =>
-          React.createElement(mainRender?.Item, {
-            ...option,
-            ...{key: index},
-          }),
-        ),
-      )
-    : React.createElement(mainRender, {
+      mainRender,
+      {
         ...values,
-        style: {...(styles[element] || {}), ...values.style},
-        value: value,
-        onChange: onChangeInput,
-      })
+        style: { ...(styles.select || {}), ...values.style },
+        selectedValue: value,
+        onValueChange: onChangeSelect,
+      },
+      values.values.map((option: any, index: any) =>
+        React.createElement(mainRender?.Item, {
+          ...option,
+          ...{ key: index },
+        }),
+      ),
+    )
+    : React.createElement(mainRender, {
+      ...values,
+      style: { ...(styles[element] || {}), ...values.style },
+      value: value,
+      onChange: onChangeInput,
+    })
 }
 
 export default Input

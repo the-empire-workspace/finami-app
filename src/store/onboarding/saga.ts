@@ -1,16 +1,16 @@
-import {call, put, takeLatest} from 'redux-saga/effects'
-import {COMPLETE_ONBOARDING, COMPLETE_ONBOARDING_ASYNC} from './action-types'
+import { call, put, takeLatest } from 'redux-saga/effects'
+import { COMPLETE_ONBOARDING, COMPLETE_ONBOARDING_ASYNC } from './action-types'
 import {
   actionObject,
   createAccountQuery,
   createEntryQuery,
   createUserQuery,
 } from 'utils'
-import {signin} from 'store/actions'
+import { signin } from 'store/actions'
 
-function* completeOnboardingAsync({payload}: any): any {
+function* completeOnboardingAsync({ payload }: any): any {
   try {
-    const {username, image, ...data} = payload
+    const { username, image, ...data } = payload
 
     const user = yield call(createUserQuery, {
       username,
@@ -18,14 +18,14 @@ function* completeOnboardingAsync({payload}: any): any {
       currency: data?.principal_currency,
     })
 
-    const account = yield call(createAccountQuery, {...data, user: user?.id})
+    const account = yield call(createAccountQuery, { ...data, user: user?.id })
 
     if (Number(payload?.available_balance))
       yield call(createEntryQuery, {
         account: account?.id,
         payment_type: 'general',
         amount: Number(payload?.available_balance),
-        payment_concept: 'initial',
+        payment_concept: payload?.concept,
         entry_type: 'income',
         comment: '',
         emissor: '',

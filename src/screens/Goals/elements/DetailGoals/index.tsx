@@ -1,11 +1,11 @@
-import {BackHandler, ItemList} from 'components'
-import {useTheme} from 'providers'
-import React, {FC, useEffect, useMemo, useState} from 'react'
-import {Text, View, TouchableOpacity, Modal, TextInput} from 'react-native'
-import {translate} from 'utils'
-import {styles} from './styles'
-import {useDispatch, useSelector} from 'react-redux'
-import {useNavigation, useRoute} from '@react-navigation/native'
+import { BackHandler, ItemList } from 'components'
+import { useTheme } from 'providers'
+import React, { FC, useEffect, useMemo, useState } from 'react'
+import { Text, View, TouchableOpacity, Modal, TextInput } from 'react-native'
+import { translate } from 'utils'
+import { styles } from './styles'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigation, useRoute } from '@react-navigation/native'
 import {
   createGoalEntry,
   getAccounts,
@@ -17,14 +17,14 @@ import FileArrowUp from '@assets/img/FileArrowUp.svg'
 import Trash from '@assets/img/Trash.svg'
 import Pencil from '@assets/img/Pencil.svg'
 import CaretDown from '@assets/img/CaretDoubleDown.svg'
-import {Button} from 'theme'
-import {Picker} from '@react-native-picker/picker'
-import {DatePicker} from 'components/DynamicForm/components'
+import { Button } from 'theme'
+import { Picker } from '@react-native-picker/picker'
+import { DatePicker } from 'components/DynamicForm/components'
 import X from '@assets/img/WhiteX.svg'
 import CheckFat from '@assets/img/CheckFat.svg'
 
 const DetailGoals: FC = () => {
-  const {colors} = useTheme()
+  const { colors } = useTheme()
 
   const [shortInfo, setShortInfo] = useState(true)
 
@@ -33,11 +33,11 @@ const DetailGoals: FC = () => {
   const router: any = useRoute()
   const navigation: any = useNavigation()
   const params = router.params
-  const {totalBalance, user, accounts} = useSelector(
+  const { totalBalance, user, accounts } = useSelector(
     (state: any) => state.account,
   )
-  const {currencies} = useSelector((state: any) => state.currency)
-  const {item} = useSelector((state: any) => state.goals)
+  const { currencies } = useSelector((state: any) => state.currency)
+  const { item } = useSelector((state: any) => state.goals)
 
   useEffect(() => {
     if (params?.id) {
@@ -76,16 +76,16 @@ const DetailGoals: FC = () => {
   }, [])
 
   return (
-    <View style={[styles.root, {backgroundColor: colors.background100}]}>
+    <View style={[styles.root, { backgroundColor: colors.background100 }]}>
       <BackHandler
         navigation={
           item?.category_id
             ? () => {
-                navigation.navigate('detailGoals', {
-                  id: item?.category_id,
-                  type: 'category',
-                })
-              }
+              navigation.navigate('detailGoals', {
+                id: item?.category_id,
+                type: 'category',
+              })
+            }
             : null
         }
         title={
@@ -94,7 +94,7 @@ const DetailGoals: FC = () => {
             : translate(`${item?.payment_type}_detail`)
         }
       />
-      <View style={[styles.mainInfo, {backgroundColor: colors.background50}]}>
+      <View style={[styles.mainInfo, { backgroundColor: colors.background50 }]}>
         <View
           style={[
             styles.amountIndicator,
@@ -102,7 +102,7 @@ const DetailGoals: FC = () => {
               backgroundColor: colors.background100,
             },
           ]}>
-          <Text style={[styles.strongBody, {color: colors.typography}]}>
+          <Text style={[styles.strongBody, { color: colors.typography }]}>
             {translate('available_balance')}:
           </Text>
           <Text
@@ -124,16 +124,16 @@ const DetailGoals: FC = () => {
         {params?.type !== 'category' && (
           <View style={[styles.progressContainer]}>
             <View style={[styles.textContainer]}>
-              <Text style={[styles.strongBody, {color: colors.typography}]}>
+              <Text style={[styles.strongBody, { color: colors.typography }]}>
                 {currency?.symbol || ''}{' '}
                 {item?.total_amount?.toLocaleString('en-US', {
                   maximumFractionDigits: currency?.decimal,
                 })}
               </Text>
-              <Text style={[styles.strongBody, {color: colors.typography}]}>
+              <Text style={[styles.strongBody, { color: colors.typography }]}>
                 /
               </Text>
-              <Text style={[styles.strongBody, {color: colors.typography}]}>
+              <Text style={[styles.strongBody, { color: colors.typography }]}>
                 {' '}
                 {currency?.symbol || ''}{' '}
                 {item?.amount?.toLocaleString('en-US', {
@@ -162,46 +162,48 @@ const DetailGoals: FC = () => {
                           : colors.progress.wish,
                       width: `${(item?.total_amount / item?.amount) * 100}%`,
                     },
+                    item?.total_amount >= item?.amount ? styles.fullOpacity : {},
                   ]}
                 />
+                {item?.total_amount >= item?.amount && <Text style={[styles.overText, styles.h3, { color: colors.typography2 }]}>* {translate('completed')} *</Text>}
               </View>
             )}
           </View>
         )}
         <View style={styles.accountData}>
-          <Text style={[styles.smallStrongBody, {color: colors.typography}]}>
+          <Text style={[styles.smallStrongBody, { color: colors.typography }]}>
             {translate('concept')}:
           </Text>
-          <Text style={[styles.strongBody, {color: colors.typography}]}>
+          <Text style={[styles.strongBody, { color: colors.typography }]}>
             {item?.payment_concept || item?.name}
           </Text>
         </View>
         {item?.comment && !shortInfo && (
           <View style={styles.accountData}>
-            <Text style={[styles.smallStrongBody, {color: colors.typography}]}>
+            <Text style={[styles.smallStrongBody, { color: colors.typography }]}>
               {translate('comments')}:
             </Text>
-            <Text style={[styles.smallBody, {color: colors.typography}]}>
+            <Text style={[styles.smallBody, { color: colors.typography }]}>
               {item?.comment}
             </Text>
           </View>
         )}
         {item?.limit_date && !shortInfo && (
           <View style={styles.accountData}>
-            <Text style={[styles.smallStrongBody, {color: colors.typography}]}>
+            <Text style={[styles.smallStrongBody, { color: colors.typography }]}>
               {translate('limit_date')}:
             </Text>
-            <Text style={[styles.smallBody, {color: colors.typography}]}>
+            <Text style={[styles.smallBody, { color: colors.typography }]}>
               {new Date(item?.limit_date)?.toLocaleDateString()}
             </Text>
           </View>
         )}
         {item?.status_level && !shortInfo && (
           <View style={styles.accountData}>
-            <Text style={[styles.smallStrongBody, {color: colors.typography}]}>
+            <Text style={[styles.smallStrongBody, { color: colors.typography }]}>
               {translate('urgency_level')}:
             </Text>
-            <Text style={[styles.smallBody, {color: colors.typography}]}>
+            <Text style={[styles.smallBody, { color: colors.typography }]}>
               {translate(item?.status_level)}
             </Text>
           </View>
@@ -218,7 +220,7 @@ const DetailGoals: FC = () => {
               }>
               <Pencil width={24} height={24} />
             </TouchableOpacity>
-            <TouchableOpacity
+            {((item?.total_amount < item?.amount || params?.type === 'category') && !item?.entries?.length) && <TouchableOpacity
               style={[styles.action]}
               onPress={() =>
                 navigation.navigate('deleteGoals', {
@@ -227,10 +229,10 @@ const DetailGoals: FC = () => {
                 })
               }>
               <Trash width={24} height={24} />
-            </TouchableOpacity>
+            </TouchableOpacity>}
           </View>
           <View>
-            <Button
+            {(item?.total_amount < item?.amount || params?.type === 'category') && <Button
               text={translate('new_deposit')}
               style={[
                 {
@@ -240,7 +242,7 @@ const DetailGoals: FC = () => {
                       : colors.progress.wish,
                 },
               ]}
-              styleText={{color: colors.typography2}}
+              styleText={{ color: colors.typography2 }}
               onPress={() => {
                 if (params?.type === 'category')
                   return navigation.navigate('newGoals', {
@@ -251,12 +253,12 @@ const DetailGoals: FC = () => {
                 setNewModal(!newModal)
               }}
               disabled={false}
-            />
+            />}
           </View>
         </View>
         <View style={[styles.actionContent]}>
-          <TouchableOpacity style={[styles.action]} onPress={() => {}}>
-            <FileArrowUp width={24} height={24} />
+          <TouchableOpacity style={[styles.action]} onPress={() => { }}>
+            {/* <FileArrowUp width={24} height={24} /> */}
           </TouchableOpacity>
           <Text>{translate('made_deposits')}</Text>
           <TouchableOpacity
@@ -279,7 +281,7 @@ const DetailGoals: FC = () => {
           setNewModal(!newModal)
         }}>
         <View style={[styles.rootModal]}>
-          <View style={[styles.modal, {backgroundColor: colors.background50}]}>
+          <View style={[styles.modal, { backgroundColor: colors.background50 }]}>
             <View style={styles.modalTitle}>
               <TouchableOpacity onPress={() => setNewModal(!newModal)}>
                 <X width={32} height={32} />
@@ -326,7 +328,7 @@ const DetailGoals: FC = () => {
               <View
                 style={[
                   styles.inputContainer,
-                  {borderColor: colors.typography},
+                  { borderColor: colors.typography },
                 ]}>
                 <Text
                   style={[
@@ -357,7 +359,7 @@ const DetailGoals: FC = () => {
               <View
                 style={[
                   styles.inputContainer,
-                  {borderColor: colors.typography},
+                  { borderColor: colors.typography },
                 ]}>
                 <Text
                   style={[

@@ -1,15 +1,17 @@
-import {all, fork} from 'redux-saga/effects'
-import {watchGetCurrencies, watchGetDefaultPrice} from './currency/saga'
+import { all, fork } from 'redux-saga/effects'
+import { watchGetCurrencies, watchGetDefaultPrice } from './currency/saga'
 import {
   watchPushNotification,
   watchScheduleNotification,
 } from './notification/saga'
-import {watchCompleteOnboarding} from './onboarding/saga'
+import { watchCompleteOnboarding } from './onboarding/saga'
 import {
   watchCreateCryptoAccount,
   watchCreateCurrencyAccount,
   watchDeleteAccount,
+  watchDeleteEntry,
   watchDeleteSingleAccount,
+  watchEditEntry,
   watchGetAccount,
   watchGetAccounts,
   watchGetDashboardValues,
@@ -18,6 +20,7 @@ import {
   watchSignIn,
   watchUpdateLanguage,
   watchUpdateSingleAccount,
+  watchUpdateUser,
 } from './account/saga'
 import {
   watchCreateBasicExpenses,
@@ -139,5 +142,9 @@ export default function* rootSaga() {
     fork(watchUpdateCategoryGoal),
     fork(watchDeleteGoal),
     fork(watchDeleteCategoryGoal),
+
+    fork(watchDeleteEntry),
+    fork(watchEditEntry),
+    fork(watchUpdateUser)
   ])
 }

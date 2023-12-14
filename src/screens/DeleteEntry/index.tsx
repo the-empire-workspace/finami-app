@@ -1,15 +1,15 @@
-import React, {FC} from 'react'
-import {ScrollView, Text, View} from 'react-native'
+import React, { FC } from 'react'
+import { ScrollView, Text, View } from 'react-native'
 import WarningCircle from '@assets/img/WarningCircle.svg'
-import {useTheme} from 'providers'
-import {translate} from 'utils'
-import {Button} from 'theme'
-import {styles} from './styles'
-import {useNavigation, useRoute} from '@react-navigation/native'
-import {useDispatch} from 'react-redux'
-import {deleteDebt} from 'store/actions'
-const DeleteOutcome: FC = () => {
-  const {colors} = useTheme()
+import { useTheme } from 'providers'
+import { translate } from 'utils'
+import { Button } from 'theme'
+import { styles } from './styles'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { useDispatch } from 'react-redux'
+import { deleteEntry } from 'store/actions'
+const DeleteEntry: FC = () => {
+  const { colors } = useTheme()
   const router = useNavigation()
   const dispatch = useDispatch()
 
@@ -19,34 +19,34 @@ const DeleteOutcome: FC = () => {
   const params: any = route.params
 
   const deleteAccount = () => {
-    dispatch(deleteDebt(params?.id || ''))
-    navigation.navigate('detailPendingOutcome')
+    dispatch(deleteEntry(params?.id || ''))
+    navigation.navigate('main')
   }
 
   return (
-    <View style={[styles.root, {backgroundColor: colors.background100}]}>
+    <View style={[styles.root, { backgroundColor: colors.background100 }]}>
       <ScrollView
         style={[styles.modalContainer]}
         contentContainerStyle={[styles.modalLayout]}>
         <WarningCircle width={64} height={64} />
-        <Text style={[styles.h1, {color: colors.typography}]}>
+        <Text style={[styles.h1, { color: colors.typography }]}>
           {translate('confirm_delete_information')}
         </Text>
-        <Text style={[styles.h3, {color: colors.typography}]}>
+        <Text style={[styles.h3, { color: colors.typography }]}>
           {translate('once_eliminated')}
         </Text>
       </ScrollView>
       <View style={[styles.containerActions]}>
         <Button
-          style={{...styles.buttonStyle, ...{backgroundColor: colors.negative}}}
+          style={{ ...styles.buttonStyle, ...{ backgroundColor: colors.negative } }}
           styleText={{ color: colors.typography2 }}
           text={translate('cancel')}
           onPress={() => router.goBack()}
           disabled={false}
         />
         <Button
-          style={{...styles.buttonStyle, ...{backgroundColor: colors.positive}}}
-          styleText={{color: colors.typography2}}
+          style={{ ...styles.buttonStyle, ...{ backgroundColor: colors.positive } }}
+          styleText={{ color: colors.typography2 }}
           text={translate('confirm')}
           onPress={() => deleteAccount()}
           disabled={false}
@@ -56,4 +56,4 @@ const DeleteOutcome: FC = () => {
   )
 }
 
-export default DeleteOutcome
+export default DeleteEntry

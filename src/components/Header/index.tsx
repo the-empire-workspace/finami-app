@@ -56,7 +56,7 @@ const Header: FC<Props> = () => {
         </Text>
       </View>
       <TouchableOpacity style={styles.notification} onPress={() => {}}>
-        <SvgNotification width={30} height={30} />
+        {/* <SvgNotification width={30} height={30} /> */}
       </TouchableOpacity>
     </View>
   )

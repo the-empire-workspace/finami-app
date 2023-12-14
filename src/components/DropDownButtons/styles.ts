@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native'
-import {Typos, Elements} from '@theme'
+import { StyleSheet } from 'react-native'
+import { Typos, Elements } from '@theme'
 
 const localStyles = StyleSheet.create({
   root: {
@@ -10,19 +10,15 @@ const localStyles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   hidden: {
-    backgroundColor: '#fff',
-    flex: 1,
     flexDirection: 'column',
     width: '100%',
     marginVertical: 10,
   },
   show: {
     width: '100%',
-    flex: 1,
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 5,
     paddingHorizontal: 20,
     paddingBottom: 12,
   },
@@ -38,23 +34,16 @@ const localStyles = StyleSheet.create({
     alignItems: 'center',
     width: '33.33%',
   },
-  lastMovementsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingHorizontal: 20,
-    paddingTop: 12,
-    paddingBottom: 8,
-    height: 44,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'relative',
-  },
   svg: {
     position: 'absolute',
     left: 40,
     marginVertical: 'auto',
   },
+  buttonAlone: {
+    width: 24,
+    height: 24
+  }
 })
 
-export const styles = {...localStyles, ...Typos, ...Elements}
-export {Typos}
+export const styles = { ...localStyles, ...Typos, ...Elements }
+export { Typos }
