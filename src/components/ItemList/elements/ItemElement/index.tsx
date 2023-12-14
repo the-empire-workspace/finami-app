@@ -1,17 +1,17 @@
-import React, { FC, useMemo } from 'react'
-import { TouchableOpacity, Text, View } from 'react-native'
-import { useTheme } from '@providers'
-import { styles } from './styles'
-import { Props } from './interface'
-import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
-import { translate } from 'utils'
+import React, {FC, useMemo} from 'react'
+import {TouchableOpacity, Text, View} from 'react-native'
+import {useTheme} from '@providers'
+import {styles} from './styles'
+import {Props} from './interface'
+import {useNavigation} from '@react-navigation/native'
+import {useSelector} from 'react-redux'
+import {translate} from 'utils'
 
-const ItemElement: FC<Props> = ({ item, type }) => {
-  const { colors } = useTheme()
+const ItemElement: FC<Props> = ({item, type}) => {
+  const {colors} = useTheme()
 
-  const { user } = useSelector((state: any) => state.account)
-  const { currencies } = useSelector((state: any) => state.currency)
+  const {user} = useSelector((state: any) => state.account)
+  const {currencies} = useSelector((state: any) => state.currency)
 
   const router: any = useNavigation()
 
@@ -25,7 +25,7 @@ const ItemElement: FC<Props> = ({ item, type }) => {
     switch (type) {
       case 'basic_expenses':
         if (item?.payment_concept)
-          router.navigate('detailFixesOutcome', { id: item?.id, type: 'outcome' })
+          router.navigate('detailFixesOutcome', {id: item?.id, type: 'outcome'})
         if (item?.name)
           router.navigate('detailFixesOutcome', {
             id: item?.id,
@@ -34,7 +34,7 @@ const ItemElement: FC<Props> = ({ item, type }) => {
         break
       case 'fixed_incomes':
         if (item?.payment_concept)
-          router.navigate('detailFixesIncome', { id: item?.id, type: 'income' })
+          router.navigate('detailFixesIncome', {id: item?.id, type: 'income'})
         if (item?.name)
           router.navigate('detailFixesIncome', {
             id: item?.id,
@@ -42,10 +42,10 @@ const ItemElement: FC<Props> = ({ item, type }) => {
           })
         break
       case 'debts':
-        router.navigate('detailPendingOutcome', { id: item?.id, type: 'outcome' })
+        router.navigate('detailPendingOutcome', {id: item?.id, type: 'outcome'})
         break
       case 'receivable_accounts':
-        router.navigate('detailPendingIncome', { id: item?.id, type: 'income' })
+        router.navigate('detailPendingIncome', {id: item?.id, type: 'income'})
         break
       case 'goals':
         if (item?.payment_concept)
@@ -62,7 +62,7 @@ const ItemElement: FC<Props> = ({ item, type }) => {
           })
         break
       default:
-        router?.navigate('entry', { id: item?.id })
+        router?.navigate('entry', {id: item?.id})
         break
     }
   }
@@ -119,7 +119,11 @@ const ItemElement: FC<Props> = ({ item, type }) => {
         {
           backgroundColor: backgroundColor,
           borderColor: borderColor,
-          ...(budget ? item?.total_amount >= item?.amount ? styles.noPaddingAlt : styles.noPadding : {}),
+          ...(budget
+            ? item?.total_amount >= item?.amount
+              ? styles.noPaddingAlt
+              : styles.noPadding
+            : {}),
         },
       ]}
       onPress={checkAction}>
@@ -136,23 +140,71 @@ const ItemElement: FC<Props> = ({ item, type }) => {
             ]}
           />
           <View style={[styles.contentContainer]}>
-            {item?.total_amount >= item?.amount && <Text style={[styles.h3, { color:  item?.total_amount >= item?.amount ? colors.typography2 : colors.typography  }]}>* {translate('completed')} *</Text>}
+            {item?.total_amount >= item?.amount && (
+              <Text
+                style={[
+                  styles.h3,
+                  {
+                    color:
+                      item?.total_amount >= item?.amount
+                        ? colors.typography2
+                        : colors.typography,
+                  },
+                ]}>
+                * {translate('completed')} *
+              </Text>
+            )}
             <Text
               numberOfLines={1}
-              style={[styles.strongBody, { color: item?.total_amount >= item?.amount ? colors.typography2 : colors.typography }]}>
+              style={[
+                styles.strongBody,
+                {
+                  color:
+                    item?.total_amount >= item?.amount
+                      ? colors.typography2
+                      : colors.typography,
+                },
+              ]}>
               {item?.payment_concept}
             </Text>
             <View style={[styles.textContainer]}>
-              <Text style={[styles.strongBody, { color:  item?.total_amount >= item?.amount ? colors.typography2 : colors.typography  }]}>
+              <Text
+                style={[
+                  styles.strongBody,
+                  {
+                    color:
+                      item?.total_amount >= item?.amount
+                        ? colors.typography2
+                        : colors.typography,
+                  },
+                ]}>
                 {currency?.symbol || ''}{' '}
                 {item?.total_amount?.toLocaleString('en-US', {
                   maximumFractionDigits: currency?.decimal,
                 })}
               </Text>
-              <Text style={[styles.strongBody, { color:  item?.total_amount >= item?.amount ? colors.typography2 : colors.typography  }]}>
+              <Text
+                style={[
+                  styles.strongBody,
+                  {
+                    color:
+                      item?.total_amount >= item?.amount
+                        ? colors.typography2
+                        : colors.typography,
+                  },
+                ]}>
                 /
               </Text>
-              <Text style={[styles.strongBody, { color:  item?.total_amount >= item?.amount ? colors.typography2 : colors.typography  }]}>
+              <Text
+                style={[
+                  styles.strongBody,
+                  {
+                    color:
+                      item?.total_amount >= item?.amount
+                        ? colors.typography2
+                        : colors.typography,
+                  },
+                ]}>
                 {' '}
                 {currency?.symbol || ''}{' '}
                 {item?.amount?.toLocaleString('en-US', {
@@ -169,11 +221,11 @@ const ItemElement: FC<Props> = ({ item, type }) => {
               style={[
                 styles.strongBody,
                 styles.concept,
-                { color: colors.typography2 },
+                {color: colors.typography2},
               ]}>
               {item?.payment_concept || item?.name}
             </Text>
-            <Text style={[styles.smallBody, { color: colors.typography2 }]}>
+            <Text style={[styles.smallBody, {color: colors.typography2}]}>
               {new Date(item?.date).toLocaleDateString('en-US', {
                 day: 'numeric',
                 month: 'long',
@@ -183,7 +235,7 @@ const ItemElement: FC<Props> = ({ item, type }) => {
           </View>
           <View>
             {!!item?.amount && (
-              <Text style={[styles.strongBody, { color: colors.typography2 }]}>
+              <Text style={[styles.strongBody, {color: colors.typography2}]}>
                 {' '}
                 {currency?.symbol || ''}{' '}
                 {item?.amount?.toLocaleString('en-US', {

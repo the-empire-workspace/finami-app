@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects'
+import {call, put, select, takeLatest} from 'redux-saga/effects'
 import {
   CREATE_FIXED_INCOMES,
   CREATE_FIXED_INCOMES_ASYNC,
@@ -7,7 +7,6 @@ import {
   CREATE_RECEIVABLE_ACCOUNT_ENTRY,
   CREATE_RECEIVABLE_ACCOUNT_ENTRY_ASYNC,
   CREATE_INCOME,
-  CREATE_INCOME_ASYNC,
   CREATE_INCOME_CATEGORY,
   CREATE_INCOME_CATEGORY_ASYNC,
   DELETE_CATEGORY_INCOME,
@@ -52,11 +51,11 @@ import {
   updateEntryQuery,
   operateChange,
 } from 'utils'
-import { getDashboardValues, getIncomes, getTotalBalance } from 'store/actions'
-import { selectAccount, selectCurrency } from 'store/selector'
-import { GET_CURRENCIES_ASYNC } from 'store/currency/action-types'
+import {getDashboardValues, getIncomes, getTotalBalance} from 'store/actions'
+import {selectAccount, selectCurrency} from 'store/selector'
+import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
-function* createIncomeAsync({ payload }: any): any {
+function* createIncomeAsync({payload}: any): any {
   try {
     yield call(createEntryQuery, {
       account: payload?.account,
@@ -79,7 +78,7 @@ function* createIncomeAsync({ payload }: any): any {
   }
 }
 
-function* createFixedIncomesAsync({ payload }: any): any {
+function* createFixedIncomesAsync({payload}: any): any {
   try {
     const newEntry = yield call(createEntryQuery, {
       account: payload?.account,
@@ -138,7 +137,7 @@ function* createFixedIncomesAsync({ payload }: any): any {
   }
 }
 
-function* createIncomeCategoryAsync({ payload }: any): any {
+function* createIncomeCategoryAsync({payload}: any): any {
   try {
     yield call(createCategoryQuery, {
       name: payload?.concept,
@@ -167,16 +166,19 @@ function* createIncomeCategoryAsync({ payload }: any): any {
 
 function* getIncomesAsync(): any {
   try {
-    const { defaultPrices } = yield select(selectCurrency)
+    const {defaultPrices} = yield select(selectCurrency)
     const incomes = yield call(getEntriesIncomesQuery)
     const dashboardValues = incomes?.reduce(
       (values: any, entry: any) => {
         const change = defaultPrices[String(entry?.currency_id)]
-        const amount = change ? operateChange(change?.op, change?.value, entry.amount) : entry.amount
+        const amount = change
+          ? operateChange(change?.op, change?.value, entry.amount)
+          : entry.amount
         if (entry?.payment_type === 'general') values.entries.push(entry)
         const date = new Date(entry?.date)
         const actualDate = new Date()
-        if (date.getMonth() === actualDate.getMonth()) values.monthIncome += amount
+        if (date.getMonth() === actualDate.getMonth())
+          values.monthIncome += amount
 
         if (entry.payment_type === 'fixed_incomes') {
           values.fixedIncome += amount
@@ -192,7 +194,7 @@ function* getIncomesAsync(): any {
         }
         return values
       },
-      { monthIncome: 0, fixedIncome: 0, receivableAccount: 0, entries: [] },
+      {monthIncome: 0, fixedIncome: 0, receivableAccount: 0, entries: []},
     )
     yield put(actionObject(GET_INCOMES_ASYNC, dashboardValues))
   } catch (error) {
@@ -212,7 +214,7 @@ function* getFixedIncomesAsync(): any {
   }
 }
 
-function* getFixedIncomeAsync({ payload }: any): any {
+function* getFixedIncomeAsync({payload}: any): any {
   try {
     const outcome = yield call(getFixedIncomeQuery, payload)
     yield put(actionObject(GET_FIXED_INCOME_ASYNC, outcome))
@@ -221,7 +223,7 @@ function* getFixedIncomeAsync({ payload }: any): any {
   }
 }
 
-function* updateFixedIncomeAsync({ payload }: any): any {
+function* updateFixedIncomeAsync({payload}: any): any {
   try {
     yield call(updateEntryQuery, payload?.id, {
       account: payload?.account,
@@ -259,7 +261,7 @@ function* updateFixedIncomeAsync({ payload }: any): any {
   }
 }
 
-function* updateCategoryIncomeAsync({ payload }: any): any {
+function* updateCategoryIncomeAsync({payload}: any): any {
   try {
     yield call(
       updateCategoryQuery,
@@ -290,7 +292,7 @@ function* updateCategoryIncomeAsync({ payload }: any): any {
   }
 }
 
-function* deleteCategoryIncomeAsync({ payload }: any): any {
+function* deleteCategoryIncomeAsync({payload}: any): any {
   try {
     yield call(deleteCategoryQuery, payload)
 
@@ -314,13 +316,12 @@ function* deleteCategoryIncomeAsync({ payload }: any): any {
   }
 }
 
-function* deleteIncomeAsync({ payload }: any): any {
+function* deleteIncomeAsync({payload}: any): any {
   try {
     yield call(deleteEntryQuery, payload)
 
     const outcomes = yield call(getFixedIncomesQuery)
     const categories = yield call(getIncomeCategoriesQuery)
-    const entriesIncomes = yield call(getEntriesIncomesQuery)
     const mix = [...outcomes, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
 
@@ -339,7 +340,7 @@ function* deleteIncomeAsync({ payload }: any): any {
   }
 }
 
-function* getCategoryIncomeASync({ payload }: any): any {
+function* getCategoryIncomeASync({payload}: any): any {
   try {
     const category = yield call(getCategoryQuery, payload)
     yield put(actionObject(GET_CATEGORY_INCOME_ASYNC, category))
@@ -348,7 +349,7 @@ function* getCategoryIncomeASync({ payload }: any): any {
   }
 }
 
-function* createReceivableAccountAsync({ payload }: any): any {
+function* createReceivableAccountAsync({payload}: any): any {
   try {
     yield call(createEntryQuery, {
       account: payload?.account,
@@ -368,8 +369,8 @@ function* createReceivableAccountAsync({ payload }: any): any {
       frecuency_time: payload?.frecuency_time || '',
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -384,7 +385,6 @@ function* createReceivableAccountAsync({ payload }: any): any {
 
     yield put(
       actionObject(CREATE_RECEIVABLE_ACCOUNT_ASYNC, {
-
         itemsReceivableAccounts: outcomes,
       }),
     )
@@ -397,7 +397,7 @@ function* createReceivableAccountAsync({ payload }: any): any {
   }
 }
 
-function* createReceivableAccountEntryAsync({ payload }: any): any {
+function* createReceivableAccountEntryAsync({payload}: any): any {
   try {
     yield call(createEntryQuery, {
       account: payload?.account,
@@ -416,8 +416,8 @@ function* createReceivableAccountEntryAsync({ payload }: any): any {
       entry_id: payload?.entry_id || '',
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -429,7 +429,6 @@ function* createReceivableAccountEntryAsync({ payload }: any): any {
       currencies,
       user?.currency_id,
     )
-    const entriesIncomes = yield call(getEntriesIncomesQuery)
 
     const item = yield call(
       getReceivableAccountQuery,
@@ -455,8 +454,8 @@ function* createReceivableAccountEntryAsync({ payload }: any): any {
 
 function* getReceivableAccountsAsync(): any {
   try {
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -473,10 +472,10 @@ function* getReceivableAccountsAsync(): any {
   }
 }
 
-function* getReceivableAccountAsync({ payload }: any): any {
+function* getReceivableAccountAsync({payload}: any): any {
   try {
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -494,7 +493,7 @@ function* getReceivableAccountAsync({ payload }: any): any {
   }
 }
 
-function* updateReceivableAccountAsync({ payload }: any): any {
+function* updateReceivableAccountAsync({payload}: any): any {
   try {
     yield call(updateEntryQuery, payload?.id, {
       account: payload?.account,
@@ -513,8 +512,8 @@ function* updateReceivableAccountAsync({ payload }: any): any {
       frecuency_time: payload?.frecuency_time || '',
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -548,12 +547,12 @@ function* updateReceivableAccountAsync({ payload }: any): any {
   }
 }
 
-function* deleteReceivableAccountAsync({ payload }: any): any {
+function* deleteReceivableAccountAsync({payload}: any): any {
   try {
     yield call(deleteEntryQuery, payload)
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)

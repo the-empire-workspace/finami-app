@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { Typos, Elements } from '@theme'
+import {StyleSheet} from 'react-native'
+import {Typos, Elements} from '@theme'
 
 const localStyles = StyleSheet.create({
   main: {
@@ -44,8 +44,8 @@ const localStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingBottom: 22,
-    gap: 30
-  }
+    gap: 30,
+  },
 })
 
-export const styles = { ...localStyles, ...Typos, ...Elements }
+export const styles = {...localStyles, ...Typos, ...Elements}

@@ -1,9 +1,9 @@
-import { StyleSheet } from 'react-native'
-import { Typos, Elements } from '@theme'
+import {StyleSheet} from 'react-native'
+import {Typos, Elements} from '@theme'
 
 const localStyles = StyleSheet.create({
   scrollRoot: {
-    height: '100%'
+    height: '100%',
   },
   root: {
     flex: 1,
@@ -23,4 +23,4 @@ const localStyles = StyleSheet.create({
   },
 })
 
-export const styles = { ...localStyles, ...Typos, ...Elements }
+export const styles = {...localStyles, ...Typos, ...Elements}

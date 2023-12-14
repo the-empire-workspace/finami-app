@@ -4,7 +4,6 @@ import {useTheme} from '@providers'
 import {styles} from './styles'
 import {Props} from './interface'
 import {ItemElement} from './elements'
-import {random} from 'lodash'
 const ItemList: FC<Props> = ({items, type}) => {
   const {colors} = useTheme()
 

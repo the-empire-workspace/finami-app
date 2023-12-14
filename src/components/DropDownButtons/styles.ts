@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { Typos, Elements } from '@theme'
+import {StyleSheet} from 'react-native'
+import {Typos, Elements} from '@theme'
 
 const localStyles = StyleSheet.create({
   root: {
@@ -41,9 +41,9 @@ const localStyles = StyleSheet.create({
   },
   buttonAlone: {
     width: 24,
-    height: 24
-  }
+    height: 24,
+  },
 })
 
-export const styles = { ...localStyles, ...Typos, ...Elements }
-export { Typos }
+export const styles = {...localStyles, ...Typos, ...Elements}
+export {Typos}

@@ -1,23 +1,21 @@
-import React, { FC, useEffect, useMemo, useState } from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { styles } from './styles'
-import { useTheme } from 'providers'
-import { translate } from '@utils'
-import { Button, Avatar } from '@theme'
-import { useNavigation } from '@react-navigation/native'
-import { DynamicForm } from 'components'
-import { stepTwoForm } from './form'
-import { useDispatch } from 'react-redux'
-import { getCurrencies, setStep, updateUser } from 'store/actions'
-import { useSelector } from 'react-redux'
+import React, {FC, useEffect, useMemo, useState} from 'react'
+import {ScrollView, View} from 'react-native'
+import {styles} from './styles'
+import {useTheme} from 'providers'
+import {translate} from '@utils'
+import {Button, Avatar} from '@theme'
+import {useNavigation} from '@react-navigation/native'
+import {DynamicForm} from 'components'
+import {stepTwoForm} from './form'
+import {useDispatch} from 'react-redux'
+import {getCurrencies, updateUser} from 'store/actions'
+import {useSelector} from 'react-redux'
 
 const EditProfile: FC = () => {
-  const { colors } = useTheme()
+  const {colors} = useTheme()
   const router: any = useNavigation()
   const dispatch = useDispatch()
-  const { user } = useSelector(
-    (state: any) => state?.account,
-  )
+  const {user} = useSelector((state: any) => state?.account)
   const [data, setData] = useState<any>({
     username: user?.username || '',
     picture: user?.picture || '',
@@ -28,7 +26,7 @@ const EditProfile: FC = () => {
     dispatch(getCurrencies())
   }, [])
 
-  const { currencies } = useSelector((state: any) => state.currency)
+  const {currencies} = useSelector((state: any) => state.currency)
 
   const currenciesFormatValues = useMemo(
     () =>
@@ -65,20 +63,20 @@ const EditProfile: FC = () => {
 
   const changeUsername = (change: any) => {
     for (const value in change?.value)
-      setData((prev: any) => ({ ...prev, [value]: change?.value[value] }))
+      setData((prev: any) => ({...prev, [value]: change?.value[value]}))
   }
 
   return (
     <ScrollView
-      style={[{ backgroundColor: colors.background100 }]}
+      style={[{backgroundColor: colors.background100}]}
       contentContainerStyle={styles.scrollRoot}>
       <View style={styles.root}>
         <View style={styles.container}>
           <View style={[styles.container, styles.centerContainer]}>
             <Avatar
-              defaultAvatar={data?.picture ? { uri: data?.picture } : null}
+              defaultAvatar={data?.picture ? {uri: data?.picture} : null}
               actionAvatar={(change: any) => {
-                setData((oldData: any) => ({ ...oldData, picture: change }))
+                setData((oldData: any) => ({...oldData, picture: change}))
               }}
             />
           </View>
@@ -88,8 +86,8 @@ const EditProfile: FC = () => {
         </View>
         <View style={[styles.buttonContainer]}>
           <Button
-            style={[styles.buttonContent, { backgroundColor: colors.negative }]}
-            styleText={{ color: colors.typography2 }}
+            style={[styles.buttonContent, {backgroundColor: colors.negative}]}
+            styleText={{color: colors.typography2}}
             text={translate('cancel')}
             onPress={() => {
               router.goBack()
@@ -98,8 +96,8 @@ const EditProfile: FC = () => {
           />
           <Button
             text={translate('update')}
-            style={[styles.buttonContent, { backgroundColor: colors.positive }]}
-            styleText={{ color: colors.typography2 }}
+            style={[styles.buttonContent, {backgroundColor: colors.positive}]}
+            styleText={{color: colors.typography2}}
             onPress={updateProfile}
             disabled={false}
           />

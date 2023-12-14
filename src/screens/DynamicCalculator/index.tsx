@@ -71,7 +71,8 @@ const DynamicCalculator: FC = () => {
             {translate('total')}:
           </Text>
           <Text style={[styles.h3, {color: colors.typography}]}>
-            {result?.calculateCurrency?.symbol} {result?.amount?.toFixed(result?.calculateCurrency?.decimal)}
+            {result?.calculateCurrency?.symbol}{' '}
+            {result?.amount?.toFixed(result?.calculateCurrency?.decimal)}
           </Text>
         </View>
       </ScrollView>

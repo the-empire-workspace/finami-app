@@ -31,7 +31,7 @@ const ProfileInfo: FC<any> = () => {
         <Text style={[styles.text, styles.h3, {color: colors.typography}]}>
           {user.username}
         </Text>
-        <TouchableOpacity onPress={() => nav.navigate('editProfile')} >
+        <TouchableOpacity onPress={() => nav.navigate('editProfile')}>
           <Pencil width={24} height={24} />
         </TouchableOpacity>
       </View>

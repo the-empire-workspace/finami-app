@@ -1,5 +1,5 @@
-import { StyleSheet } from 'react-native'
-import { Typos, Elements } from '@theme'
+import {StyleSheet} from 'react-native'
+import {Typos, Elements} from '@theme'
 
 const localStyles = StyleSheet.create({
   transactionItem: {
@@ -47,12 +47,12 @@ const localStyles = StyleSheet.create({
   fullOpacity: {
     opacity: 1,
   },
-  noPadding: { paddingHorizontal: 0, paddingVertical: 0 },
+  noPadding: {paddingHorizontal: 0, paddingVertical: 0},
   noPaddingAlt: {
     paddingHorizontal: 0,
     paddingVertical: 0,
-    minHeight: 80
-  }
+    minHeight: 80,
+  },
 })
 
-export const styles = { ...localStyles, ...Typos, ...Elements }
+export const styles = {...localStyles, ...Typos, ...Elements}

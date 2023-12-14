@@ -31,7 +31,7 @@ const MainIncoming: FC = () => {
         label: 'month_income',
         color: colors.progress.ingress,
       },
-     /*  month2: {
+      /*  month2: {
         value: items?.fixedIncome,
         label: 'fixed_income',
         color: colors.typography,
@@ -46,7 +46,7 @@ const MainIncoming: FC = () => {
 
   const DropDownInfo = [
     {
-  /*     label: translate('fixed_incomes'),
+      /*     label: translate('fixed_incomes'),
       router: 'fixedIncome', */
     },
     {

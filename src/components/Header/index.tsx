@@ -2,7 +2,7 @@ import React, {FC, useEffect, useMemo} from 'react'
 import {View, TouchableOpacity, Text} from 'react-native'
 import {styles} from './styles'
 import {Props} from './interface'
-import SvgNotification from '@assets/img/Notifications.svg'
+/* import SvgNotification from '@assets/img/Notifications.svg' */
 import {useNavigation} from '@react-navigation/core'
 import {useDispatch} from 'react-redux'
 import {getCurrencyPrice, getTotalBalance} from 'store/actions'
