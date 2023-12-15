@@ -35,7 +35,10 @@ export const stepTwoForm = (
       ? {...styles.label, backgroundColor: background}
       : {...styles.label},
     type: 'text',
-    defaultValue: def?.principal_currency || [],
+    defaultValue:
+      def?.principal_currency || currenciesFormatValues
+        ? currenciesFormatValues[0]?.value
+        : '',
     keyboardType: 'default',
     placeholder: translate('principal_currency'),
     returnKeyType: 'go',

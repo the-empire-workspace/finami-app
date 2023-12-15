@@ -7,5 +7,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingTop: 10,
     paddingHorizontal: 20,
+    paddingBottom: 10,
   },
 })

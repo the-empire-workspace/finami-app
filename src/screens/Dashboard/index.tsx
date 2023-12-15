@@ -47,7 +47,7 @@ const Dashboard: FC = () => {
         <InfoBanner values={infoValues} />
         <View style={[styles.lastMovementsContainer]}>
           <TouchableOpacity style={styles.svg}>
-           {/*  <SvgFileArrowUp width={24} height={24} /> */}
+            {/*  <SvgFileArrowUp width={24} height={24} /> */}
           </TouchableOpacity>
           <Text style={[styles.strongBody, {color: colors.typography}]}>
             {translate('last_movements')}
