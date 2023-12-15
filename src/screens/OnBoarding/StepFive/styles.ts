@@ -3,7 +3,7 @@ import {Typos, Elements} from '@theme'
 
 const localStyles = StyleSheet.create({
   scrollRoot: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   root: {
     flex: 1,

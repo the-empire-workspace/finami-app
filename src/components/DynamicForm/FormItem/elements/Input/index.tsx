@@ -1,6 +1,6 @@
-import React, { useState, FC, useEffect } from 'react'
-import { InputProps } from './interface'
-import { styles } from './styles'
+import React, {useState, FC, useEffect} from 'react'
+import {InputProps} from './interface'
+import {styles} from './styles'
 const Input: FC<InputProps> = ({
   element,
   mainRender,
@@ -36,26 +36,26 @@ const Input: FC<InputProps> = ({
 
   return element === 'select'
     ? React.createElement(
-      mainRender,
-      {
-        ...values,
-        style: { ...(styles.select || {}), ...values.style },
-        selectedValue: value,
-        onValueChange: onChangeSelect,
-      },
-      values.values.map((option: any, index: any) =>
-        React.createElement(mainRender?.Item, {
-          ...option,
-          ...{ key: index },
-        }),
-      ),
-    )
+        mainRender,
+        {
+          ...values,
+          style: {...(styles.select || {}), ...values.style},
+          selectedValue: value,
+          onValueChange: onChangeSelect,
+        },
+        values.values.map((option: any, index: any) =>
+          React.createElement(mainRender?.Item, {
+            ...option,
+            ...{key: index},
+          }),
+        ),
+      )
     : React.createElement(mainRender, {
-      ...values,
-      style: { ...(styles[element] || {}), ...values.style },
-      value: value,
-      onChange: onChangeInput,
-    })
+        ...values,
+        style: {...(styles[element] || {}), ...values.style},
+        value: value,
+        onChange: onChangeInput,
+      })
 }
 
 export default Input

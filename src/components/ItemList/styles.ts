@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import {StyleSheet} from 'react-native'
 
 export const styles = StyleSheet.create({
   transactionsBox: {
@@ -7,6 +7,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'column',
     paddingTop: 10,
     paddingHorizontal: 20,
-    paddingBottom: 10
+    paddingBottom: 10,
   },
 })
