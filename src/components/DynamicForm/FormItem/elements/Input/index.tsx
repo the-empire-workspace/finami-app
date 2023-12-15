@@ -26,8 +26,8 @@ const Input: FC<InputProps> = ({
       onChange(values?.defaultValue || values?.values[0]?.value)
       return
     }
-    setValue(values?.defaultValue)
-    onChange(values?.defaultValue)
+    setValue(values?.defaultValue || values?.date || null)
+    onChange(values?.defaultValue || values?.date || null)
   }
 
   useEffect(() => {
