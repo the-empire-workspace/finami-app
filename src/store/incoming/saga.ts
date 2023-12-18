@@ -352,7 +352,7 @@ function* getCategoryIncomeASync({payload}: any): any {
 function* createReceivableAccountAsync({payload}: any): any {
   try {
     yield call(createEntryQuery, {
-      account: payload?.account,
+      account: payload?.account || '',
       payment_type: 'receivable_account',
       category_id: payload?.category_id,
       amount: payload?.amount,

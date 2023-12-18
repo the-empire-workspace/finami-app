@@ -11,14 +11,14 @@ const Validation = (validations: any, value: any, formData: any) => {
         validates = validates && false
         break
       case 'minLength':
-        if (validations[val] <= value?.length) {
+        if (validations[val] <= String(value)?.length) {
           validates = validates && true
           break
         }
         validates = validates && false
         break
       case 'maxLength':
-        if (validations[val] >= value?.length) {
+        if (validations[val] >= String(value)?.length) {
           validates = validates && true
           break
         }
@@ -27,12 +27,11 @@ const Validation = (validations: any, value: any, formData: any) => {
         break
       case 'required':
         if (validations[val]) {
-          if (value !== undefined || value !== null)
+          if (value !== undefined && value !== null)
             if (value?.length !== 0) {
-              validates = true
+              validates = validates && true
               break
             }
-
           validates = validates && false
         }
         break
