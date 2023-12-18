@@ -34,7 +34,8 @@ const DynamicCalculator: FC = () => {
     )
     const calculateCurrency = currencies.find(
       (currency: any) =>
-        (currency?.id === Number(values?.calculate_currency?.value)) || currency?.id !== mainCurrency?.id,
+        currency?.id === Number(values?.calculate_currency?.value) ||
+        currency?.id !== mainCurrency?.id,
     )
     if (mainCurrency && calculateCurrency) {
       const prices = await getExchangeValues(currencies, calculateCurrency?.id)

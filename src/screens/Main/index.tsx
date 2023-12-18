@@ -1,9 +1,9 @@
-import React, { FC, useEffect, useState } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { styles } from './styles'
+import React, {FC, useEffect, useState} from 'react'
+import {SafeAreaView} from 'react-native-safe-area-context'
+import {styles} from './styles'
 import AppNavigator from '@routes'
-import { setI18nConfig } from '@utils'
-import { useSelector, useDispatch } from 'react-redux'
+import {setI18nConfig} from '@utils'
+import {useSelector, useDispatch} from 'react-redux'
 import {
   /*
   getCurrencyPrice,
@@ -13,10 +13,10 @@ import {
 } from 'store/actions' /*
 import notifee, {EventType} from '@notifee/react-native'
 import {emitter} from 'utils/eventEmitter' */
-import { ModalStatus } from './elements'
+import {ModalStatus} from './elements'
 
 const Main: FC = () => {
-  const { user, isAuth } = useSelector((state: any) => state.account)
+  const {user, isAuth} = useSelector((state: any) => state.account)
   const dispatch = useDispatch()
 
   const [elementData, setElementData] = useState<any>({
@@ -86,7 +86,7 @@ const Main: FC = () => {
       if (type === 'in') dispatch(setIncoming(items))
       else dispatch(setOutcoming(items)) */
 
-    setElementData({ element: null, ids: [], elements: [], type: null })
+    setElementData({element: null, ids: [], elements: [], type: null})
   }
   /*
   const checkInformation = (data: string) => {
@@ -108,7 +108,7 @@ const Main: FC = () => {
   } */
 
   const close = () => {
-    setElementData({ element: null, ids: [], elements: [], type: null })
+    setElementData({element: null, ids: [], elements: [], type: null})
   }
   /*
     useEffect(() => {

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import {ErrorBoundary} from '@components'
 import {store} from '@store'
 import {Provider} from 'react-redux'
@@ -8,7 +8,6 @@ import {ThemeProvider} from '@providers'
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 import './src/utils/hideLogs'
 /* import notifee, {EventType} from '@notifee/react-native' */
-import {setI18nConfig} from '@utils'
 import SQLite from 'react-native-sqlite-storage'
 import {
   createWeb3Modal,
@@ -48,7 +47,6 @@ createWeb3Modal({
 })
 
 const App = () => {
-
   return (
     <SafeAreaProvider>
       <WagmiConfig config={wagmiConfig}>
