@@ -200,6 +200,7 @@ function* createGoalsEntryAsync({payload}: any): any {
       entry_type: 'goals',
       comment: payload?.comment || '',
       entry_id: payload?.entry_id || '',
+      date: (payload?.date || new Date())?.getTime(),
     })
 
     let {currencies} = yield select(selectCurrency)

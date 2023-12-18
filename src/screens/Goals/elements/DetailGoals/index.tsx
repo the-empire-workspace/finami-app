@@ -268,6 +268,10 @@ const DetailGoals: FC = () => {
                       entry_type: item?.payment_type || item?.type,
                     })
                   setNewModal(!newModal)
+                  setCreateValues((prev: any) => ({
+                    ...prev,
+                    account: accounts[0]?.id,
+                  }))
                 }}
                 disabled={false}
               />

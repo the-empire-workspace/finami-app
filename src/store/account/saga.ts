@@ -53,7 +53,17 @@ import {
 } from 'utils'
 import {selectAccount, selectCurrency} from 'store/selector'
 import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
-import {getDashboardValues} from './action'
+import {getDashboardValues, getTotalBalance} from './action'
+import {
+  getDebt,
+  getDebts,
+  getEntriesGoals,
+  getGoal,
+  getIncomes,
+  getOutcomes,
+  getReceivableAccount,
+  getReceivableAccounts,
+} from 'store/actions'
 
 function* signInAsync(): any {
   try {
@@ -307,9 +317,40 @@ export function* deleteAccountAsync({payload}: any): any {
 
 function* deleteEntryAsync({payload}: any): any {
   try {
+    const entry = yield call(getEntry, payload)
+    const updates: any = {
+      compromise: {
+        all: getEntriesGoals,
+        entry: getGoal,
+      },
+      desire: {
+        all: getEntriesGoals,
+        entry: getGoal,
+      },
+      debt: {
+        all: getDebts,
+        entry: getDebt,
+        type: getOutcomes,
+      },
+      receivable_account: {
+        all: getReceivableAccounts,
+        entry: getReceivableAccount,
+        type: getIncomes,
+      },
+    }
     yield call(deleteEntryQuery, payload)
     yield put(actionObject(DELETE_ENTRY_ASYNC))
+    if (updates[entry?.type]) {
+      yield put(
+        entry?.type === 'compromise' || entry?.type === 'desire'
+          ? updates[entry?.type]?.all(entry?.type)
+          : updates[entry?.type]?.all(),
+      )
+      yield put(updates[entry?.type]?.entry(entry?.entry_id))
+      if (updates[entry?.type]?.type) yield put(updates[entry?.type]?.type())
+    }
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -333,6 +374,7 @@ function* editEntryAsync({payload}: any): any {
     const entry = yield call(getEntry, payload?.id)
     yield put(actionObject(EDIT_ENTRY_ASYNC, entry))
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }

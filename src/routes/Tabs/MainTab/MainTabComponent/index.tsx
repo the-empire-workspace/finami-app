@@ -7,9 +7,12 @@ import Outcoming from '@assets/img/expense.svg'
 import Calculator from '@assets/img/Calculator.svg'
 import {useTheme} from 'providers'
 import {translate} from 'utils'
+import {useSelector} from 'react-redux'
 
 const MainTabComponent: FC<any> = ({navigation, state}) => {
   const {colors} = useTheme()
+
+  const {user} = useSelector((SelectorState: any) => SelectorState.account)
 
   const Nav = [
     {
@@ -20,6 +23,7 @@ const MainTabComponent: FC<any> = ({navigation, state}) => {
       width: 30,
       height: 30,
       text: translate('home'),
+      notUse: user,
     },
     {
       key: 'Incoming',

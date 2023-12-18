@@ -29,26 +29,28 @@ const FinancialCalculator: FC = () => {
         ((Number(values?.interest_percentage?.value) || 0) / 100)
       switch (values?.period?.value) {
         case 'day':
-          setResult({amount: percentageUnit * Number(values?.time?.value)})
+          setResult({
+            amount: percentageUnit * (Number(values?.time?.value) / 30),
+          })
           break
         case 'month':
           setResult({
-            amount: percentageUnit * (Number(values?.time?.value) * 30),
+            amount: percentageUnit * Number(values?.time?.value),
           })
           break
         case 'trimester':
           setResult({
-            amount: percentageUnit * (Number(values?.time?.value) * 90),
+            amount: percentageUnit * (Number(values?.time?.value) * 3),
           })
           break
         case 'semester':
           setResult({
-            amount: percentageUnit * (Number(values?.time?.value) * 180),
+            amount: percentageUnit * (Number(values?.time?.value) * 6),
           })
           break
         case 'years':
           setResult({
-            amount: percentageUnit * (Number(values?.time?.value) * 360),
+            amount: percentageUnit * (Number(values?.time?.value) * 12),
           })
           break
       }

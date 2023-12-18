@@ -125,7 +125,10 @@ const Main: FC = () => {
     }, []) */
 
   useEffect(() => {
-    if (!isAuth) dispatch(signin())
+    if (!isAuth) {
+      dispatch(signin())
+      setI18nConfig()
+    }
     if (isAuth) setI18nConfig(user?.language)
   }, [isAuth, user])
 

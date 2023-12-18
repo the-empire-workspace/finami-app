@@ -50,10 +50,14 @@ export const calculatorForm = (
     keyboardType: 'default',
     placeholder: translate('calculate_currency'),
     returnKeyType: 'go',
-    values: [...(currencies || [])]?.map((currency: any) => ({
-      label: `${currency?.name} (${currency?.symbol})`,
-      value: String(currency?.id),
-    })),
+    values: [...(currencies || [])]
+      ?.filter(
+        (currency: any) => currency?.id !== Number(def?.base_currency?.value),
+      )
+      .map((currency: any) => ({
+        label: `${currency?.name} (${currency?.symbol})`,
+        value: String(currency?.id),
+      })),
     validations: {
       required: true,
       minLength: 0,
