@@ -180,6 +180,7 @@ export const getEntry = async (id: any) => {
     entries.limit_date,\
     currencies.symbol AS currency_symbol,\
     currencies.decimal,\
+    entries.entry_id,\
     entry.type FROM entries\
     LEFT JOIN accounts ON accounts.id = entries.account_id\
     LEFT JOIN currencies ON currencies.id = accounts.currency_id\

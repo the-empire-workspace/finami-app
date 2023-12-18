@@ -100,9 +100,11 @@ const NewPendingOutcome: FC = () => {
           styleText={{color: colors.typography2}}
           onPress={createData}
           disabled={Object.keys(values)?.reduce((prev: any, next: any) => {
-            return prev || values?.[next]?.validation !== undefined
-              ? !values[next]?.validation
-              : false
+            const valid =
+              values?.[next]?.validation !== undefined
+                ? !values[next]?.validation
+                : false
+            return prev || valid
           }, false)}
         />
       </View>

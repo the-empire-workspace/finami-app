@@ -48,9 +48,6 @@ createWeb3Modal({
 })
 
 const App = () => {
-  useEffect(() => {
-    setI18nConfig()
-  }, [])
 
   return (
     <SafeAreaProvider>

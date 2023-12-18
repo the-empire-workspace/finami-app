@@ -1,30 +1,23 @@
-import {BackHandler, DynamicForm} from 'components'
-import React, {FC, useEffect, useMemo, useState} from 'react'
-import {translate} from 'utils'
-import {egressForm, receiverForm} from './form'
-import {ScrollView, Text, View} from 'react-native'
-import {styles} from './styles'
-import {useTheme} from 'providers'
-import {useDispatch, useSelector} from 'react-redux'
-import {Button} from 'theme'
-import {useNavigation} from '@react-navigation/native'
-import {createReceivableAccount, getAccounts} from 'store/actions'
+import { BackHandler, DynamicForm } from 'components'
+import React, { FC, useMemo, useState } from 'react'
+import { translate } from 'utils'
+import { egressForm, receiverForm } from './form'
+import { ScrollView, Text, View } from 'react-native'
+import { styles } from './styles'
+import { useTheme } from 'providers'
+import { useDispatch } from 'react-redux'
+import { Button } from 'theme'
+import { useNavigation } from '@react-navigation/native'
+import { createReceivableAccount } from 'store/actions'
 
 const NewPendingIncome: FC = () => {
-  const {colors} = useTheme()
-  const {accounts} = useSelector((state: any) => state.account)
-  const [values, setValues] = useState<any>({
-    account: {value: String(accounts[0]?.id)},
-  })
+  const { colors } = useTheme()
+  const [values, setValues] = useState<any>({})
   const navigation: any = useNavigation()
   const dispatch = useDispatch()
 
   const eForm = useMemo(() => egressForm(translate, values, colors), [])
   const rForm = useMemo(() => receiverForm(translate, values, colors), [])
-
-  useEffect(() => {
-    dispatch(getAccounts())
-  }, [])
 
   const createData = () => {
     const sendValues = Object.keys(values).reduce((prev: any, next: any) => {
@@ -33,20 +26,20 @@ const NewPendingIncome: FC = () => {
     }, {})
     if (!Object.keys(sendValues).length) return
 
-    dispatch(createReceivableAccount({...sendValues}))
+    dispatch(createReceivableAccount({ ...sendValues }))
     navigation.goBack()
   }
 
   return (
-    <View style={[styles.root, {backgroundColor: colors.background100}]}>
+    <View style={[styles.root, { backgroundColor: colors.background100 }]}>
       <BackHandler title={translate('new_receivable_account')} />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View
           style={[
             styles.formContainer,
-            {borderBottomColor: colors.background25},
+            { borderBottomColor: colors.background25 },
           ]}>
-          <Text style={[styles.h3, {color: colors.typography}]}>
+          <Text style={[styles.h3, { color: colors.typography }]}>
             {translate('receivable_accounts')}
           </Text>
           <DynamicForm
@@ -63,9 +56,9 @@ const NewPendingIncome: FC = () => {
         <View
           style={[
             styles.formContainer,
-            {borderBottomColor: colors.background100},
+            { borderBottomColor: colors.background100 },
           ]}>
-          <Text style={[styles.h3, {color: colors.typography}]}>
+          <Text style={[styles.h3, { color: colors.typography }]}>
             {translate('receiver_data')}
           </Text>
           <DynamicForm
@@ -82,8 +75,8 @@ const NewPendingIncome: FC = () => {
       </ScrollView>
       <View style={[styles.buttonContainer]}>
         <Button
-          style={[styles.buttonContent, {backgroundColor: colors.negative}]}
-          styleText={{color: colors.typography2}}
+          style={[styles.buttonContent, { backgroundColor: colors.negative }]}
+          styleText={{ color: colors.typography2 }}
           text={translate('cancel')}
           onPress={() => {
             navigation.goBack()
@@ -96,13 +89,15 @@ const NewPendingIncome: FC = () => {
         />
         <Button
           text={translate('register')}
-          style={[styles.buttonContent, {backgroundColor: colors.positive}]}
-          styleText={{color: colors.typography2}}
+          style={[styles.buttonContent, { backgroundColor: colors.positive }]}
+          styleText={{ color: colors.typography2 }}
           onPress={createData}
           disabled={Object.keys(values)?.reduce((prev: any, next: any) => {
-            return prev || values?.[next]?.validation !== undefined
-              ? !values[next]?.validation
-              : false
+            const valid =
+              values?.[next]?.validation !== undefined
+                ? !values[next]?.validation
+                : false
+            return prev || valid
           }, false)}
         />
       </View>
