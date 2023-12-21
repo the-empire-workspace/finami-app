@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native'
-import {Typos, Elements} from 'theme'
+import { StyleSheet } from 'react-native'
+import { Typos, Elements } from 'theme'
 
 const localStyles = StyleSheet.create({
   profileContainer: {
@@ -31,6 +31,11 @@ const localStyles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10,
   },
+  centerText: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+  }
 })
 
-export const styles = {...localStyles, ...Typos, ...Elements}
+export const styles = { ...localStyles, ...Typos, ...Elements }

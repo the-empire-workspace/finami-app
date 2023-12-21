@@ -40,3 +40,5 @@ export const EDIT_ENTRY_ASYNC = `${EDIT_ENTRY}_ASYNC`
 
 export const UPDATE_USER = 'UPDATE_USER'
 export const UPDATE_USER_ASYNC = `${UPDATE_USER}_ASYNC`
+
+export const SEND_COMMENTS = 'SEND_COMMENTS'

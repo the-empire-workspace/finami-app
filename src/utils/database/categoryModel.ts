@@ -122,7 +122,7 @@ export const getCategoryQuery = async (
     const queryCategory = category.raw()[0]
 
     const entriesCategory: any = await selectQuery(
-      `${query} WHERE category_id = ?`,
+      `${query} WHERE category_id = ? ORDER BY entries.date DESC`,
       [queryCategory?.id],
     )
     const queryEntries = entriesCategory.raw()

@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react'
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import {MainTab} from '../../Tabs'
+import React, { useEffect } from 'react'
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { MainTab } from '../../Tabs'
 import {
   Entry,
   ConcurrentPayment,
@@ -11,10 +11,11 @@ import {
   NewIncome,
   EditEntry,
   EditProfile,
+  Comments,
 } from '@screens'
-import {useDispatch} from 'react-redux'
-import {getCurrencyPrice} from 'store/actions'
-import {ProfileDelete} from 'screens/Profile/elements'
+import { useDispatch } from 'react-redux'
+import { getCurrencyPrice } from 'store/actions'
+import { ProfileDelete } from 'screens/Profile/elements'
 import DynamicCalculator from 'screens/DynamicCalculator'
 import FinancialCalculator from 'screens/FinancialCalculator'
 import Languages from 'screens/Language'
@@ -41,12 +42,12 @@ export const PrivateStack = () => {
       <Stack.Screen
         name="entry"
         component={Entry}
-        options={{presentation: 'transparentModal'}}
+        options={{ presentation: 'transparentModal' }}
       />
       <Stack.Screen
         name="deleteProfile"
         component={ProfileDelete}
-        options={{presentation: 'transparentModal'}}
+        options={{ presentation: 'transparentModal' }}
       />
       <Stack.Screen name="concurrentPayment" component={ConcurrentPayment} />
       <Stack.Screen name="profile" component={Profile} />
@@ -63,6 +64,7 @@ export const PrivateStack = () => {
       <Stack.Screen name="deleteEntry" component={DeleteEntry} />
       <Stack.Screen name="editEntry" component={EditEntry} />
       <Stack.Screen name="editProfile" component={EditProfile} />
+      <Stack.Screen name="comments" component={Comments} />
     </Stack.Navigator>
   )
 }
