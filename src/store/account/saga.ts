@@ -21,6 +21,7 @@ import {
   GET_ITEM_ASYNC,
   GET_TOTAL_BALANCE,
   GET_TOTAL_BALANCE_ASYNC,
+  SEND_COMMENTS,
   SIGNIN,
   SIGNIN_ASYNC,
   UPDATE_LANGUAGE,
@@ -31,6 +32,7 @@ import {
   UPDATE_USER_ASYNC,
 } from './action-types'
 import {
+  FetchService,
   TruncateTables,
   actionObject,
   createAccountQuery,
@@ -379,6 +381,19 @@ function* editEntryAsync({payload}: any): any {
     console.log(error)
   }
 }
+
+function* sendCommentsAsync({payload}: any): any {
+  try {
+    yield call(
+      FetchService,
+      'https://api.finami.app/api/comments',
+      'POST',
+      payload,
+    )
+  } catch (error) {
+    console.log(error)
+  }
+}
 export function* watchSignIn() {
   yield takeLatest(SIGNIN, signInAsync)
 }
@@ -436,4 +451,8 @@ export function* watchEditEntry() {
 
 export function* watchUpdateUser() {
   yield takeLatest(UPDATE_USER, updateUserAsync)
+}
+
+export function* watchSendComments() {
+  yield takeLatest(SEND_COMMENTS, sendCommentsAsync)
 }

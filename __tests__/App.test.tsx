@@ -87,3 +87,9 @@ jest.mock('react-native-localize', () => {
     findBestLanguageTag: () => {},
   }
 })
+
+jest.mock('react-native-fs', () => {
+  return {
+    readFile: () => {},
+  }
+})

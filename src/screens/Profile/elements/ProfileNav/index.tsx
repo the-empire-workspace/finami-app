@@ -1,16 +1,20 @@
 import React, {FC, useMemo} from 'react'
-import {Image, Text, TouchableOpacity, View} from 'react-native'
+import {Image, Linking, Text, TouchableOpacity, View} from 'react-native'
 import {styles} from './styles'
 import {useTheme} from 'providers'
 import CaretRight from '../../../../../assets/img/CaretRight.svg'
-import {translate} from 'utils'
+import {getLanguage, translate} from 'utils'
 import {useNavigation} from '@react-navigation/native'
 import EmpireLogo from '../../../../../assets/img/empire-logo.png'
+import {useSelector} from 'react-redux'
 
 const ProfileNav: FC<any> = () => {
   const {colors} = useTheme()
 
   const navigation: any = useNavigation()
+
+  const {user} = useSelector((SelectorState: any) => SelectorState.account)
+  const language = getLanguage()
 
   const nav = useMemo(() => {
     return [
@@ -38,6 +42,10 @@ const ProfileNav: FC<any> = () => {
         name: translate('language'),
         redirect: 'language',
       },
+      {
+        name: translate('leave_your_comments'),
+        redirect: 'comments',
+      },
     ]
   }, [])
 
@@ -61,24 +69,24 @@ const ProfileNav: FC<any> = () => {
         </TouchableOpacity>
       ))}
       <TouchableOpacity
-        style={[styles.selectionList]}
-        onPress={() => {
-          navigation.navigate('/terms-conditions')
+        style={[styles.selectionList, styles.centerText]}
+        onPress={async () => {
+          await Linking.openURL(
+            `https://finami.app/${user?.language || language}/terms-conditions`,
+          )
         }}>
         <Text style={[styles.body, {color: colors.typography}]}>
           {translate('terms-conditions')}
         </Text>
-        <CaretRight width={24} height={24} />
       </TouchableOpacity>
       <TouchableOpacity
-        style={[styles.selectionList, styles.downSelection]}
+        style={[styles.selectionList, styles.downSelection, styles.centerText]}
         onPress={() => {
           navigation.navigate('deleteProfile')
         }}>
         <Text style={[styles.body, {color: colors.typography}]}>
           {translate('delete-account')}
         </Text>
-        <CaretRight width={24} height={24} />
       </TouchableOpacity>
       <View style={styles.poweredByContainer}>
         <Text style={[styles.extraSmallBody, {color: colors.typography}]}>

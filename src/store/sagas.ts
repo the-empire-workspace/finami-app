@@ -17,6 +17,7 @@ import {
   watchGetDashboardValues,
   watchGetItem,
   watchGetTotalBalance,
+  watchSendComments,
   watchSignIn,
   watchUpdateLanguage,
   watchUpdateSingleAccount,
@@ -146,5 +147,6 @@ export default function* rootSaga() {
     fork(watchDeleteEntry),
     fork(watchEditEntry),
     fork(watchUpdateUser),
+    fork(watchSendComments),
   ])
 }

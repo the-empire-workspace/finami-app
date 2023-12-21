@@ -11,6 +11,7 @@ import {
   NewIncome,
   EditEntry,
   EditProfile,
+  Comments,
 } from '@screens'
 import {useDispatch} from 'react-redux'
 import {getCurrencyPrice} from 'store/actions'
@@ -63,6 +64,7 @@ export const PrivateStack = () => {
       <Stack.Screen name="deleteEntry" component={DeleteEntry} />
       <Stack.Screen name="editEntry" component={EditEntry} />
       <Stack.Screen name="editProfile" component={EditProfile} />
+      <Stack.Screen name="comments" component={Comments} />
     </Stack.Navigator>
   )
 }

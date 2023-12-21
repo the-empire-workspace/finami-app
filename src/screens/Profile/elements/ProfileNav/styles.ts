@@ -31,6 +31,11 @@ const localStyles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10,
   },
+  centerText: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    textAlign: 'center',
+  },
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}
