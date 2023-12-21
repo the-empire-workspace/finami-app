@@ -93,7 +93,7 @@ export const getEntriesQuery = async () => {
       LEFT JOIN accounts ON accounts.id = entries.account_id\
       LEFT JOIN currencies ON currencies.id = accounts.currency_id\
       LEFT JOIN (SELECT id, payment_type as type FROM entries) as entry ON entries.entry_id = entry.id\
-      WHERE entries.payment_type = "general"',
+      WHERE entries.payment_type = "general" ORDER BY entries.date DESC',
     )
     return entries.raw()
   } catch (error) {
@@ -121,7 +121,7 @@ export const getEntriesExpensesQuery = async () => {
       entry.type_entry,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
       LEFT JOIN (SELECT id, payment_type as type_entry FROM entries) as entry ON entries.entry_id = entry.id\
-      WHERE entries.entry_type = "expense"',
+      WHERE entries.entry_type = "expense" ORDER BY entries.date DESC',
     )
     return entries.raw()
   } catch (error) {
@@ -147,7 +147,7 @@ export const getBasicsExpensesQuery = async () => {
       entries.phone,\
       entries.entry_id,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
-      WHERE entries.entry_type = "expense" AND entries.payment_type = "basic_expenses" AND category_id IS NULL',
+      WHERE entries.entry_type = "expense" AND entries.payment_type = "basic_expenses" AND category_id IS NULL ORDER BY entries.date DESC',
     )
     return entries.raw()
   } catch (error) {
@@ -355,7 +355,7 @@ export const getDebtsQuery = async (currencies: any, currency_id: any) => {
     accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
 
     const entries: any = await selectQuery(
-      `${query} WHERE entries.entry_type = "expense" AND entries.payment_type = "debt" AND category_id IS NULL`,
+      `${query} WHERE entries.entry_type = "expense" AND entries.payment_type = "debt" AND category_id IS NULL ORDER BY entries.date DESC`,
     )
     const queryEntries = entries.raw()
 
@@ -420,7 +420,7 @@ export const getDebtQuery = async (
 
     const queryEntry = entry.raw()[0]
     const entries: any = await selectQuery(
-      `${query} WHERE entries.entry_id = ? ORDER BY date asc`,
+      `${query} WHERE entries.entry_id = ? ORDER BY entries.date DESC`,
       [id],
     )
     queryEntry.entries = entries.raw()
@@ -460,7 +460,7 @@ export const getFixedIncomesQuery = async () => {
       entries.phone,\
       entries.entry_id,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
-      WHERE entries.entry_type = "income" AND entries.payment_type = "fixed_incomes" AND category_id IS NULL',
+      WHERE entries.entry_type = "income" AND entries.payment_type = "fixed_incomes" AND category_id IS NULL  ORDER BY entries.date DESC',
     )
     return entries.raw()
   } catch (error) {
@@ -498,7 +498,7 @@ export const getFixedIncomeQuery = async (id: any) => {
 
     const queryEntry = entry.raw()[0]
     const entries: any = await selectQuery(
-      `${query} WHERE entries.entry_id = ? ORDER BY date asc`,
+      `${query} WHERE entries.entry_id = ? ORDER BY entries.date DESC`,
       [id],
     )
     queryEntry.entries = entries.raw()
@@ -533,7 +533,7 @@ export const getReceivableAccountsQuery = async (
     accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
 
     const entries: any = await selectQuery(
-      `${query} WHERE entries.entry_type = "income" AND entries.payment_type = "receivable_account" AND category_id IS NULL`,
+      `${query} WHERE entries.entry_type = "income" AND entries.payment_type = "receivable_account" AND category_id IS NULL ORDER BY entries.date DESC`,
     )
     const queryEntries = entries.raw()
 
@@ -640,7 +640,7 @@ export const getEntriesIncomesQuery = async () => {
       entry.type_entry,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
       LEFT JOIN (SELECT id, payment_type as type_entry FROM entries) as entry ON entries.entry_id = entry.id\
-      WHERE entries.entry_type = "income"',
+      WHERE entries.entry_type = "income" ORDER BY entries.date DESC',
     )
     return entries.raw()
   } catch (error) {
@@ -677,7 +677,7 @@ export const getEntriesGoalsQuery = async (
       FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
 
     const entries: any = await selectQuery(
-      `${query} WHERE entries.payment_type = "${type}" AND entries.category_id IS NULL`,
+      `${query} WHERE entries.payment_type = "${type}" AND entries.category_id IS NULL ORDER BY entries.date DESC`,
     )
     const queryEntries = entries.raw()
 
