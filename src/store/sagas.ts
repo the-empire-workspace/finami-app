@@ -147,6 +147,6 @@ export default function* rootSaga() {
     fork(watchDeleteEntry),
     fork(watchEditEntry),
     fork(watchUpdateUser),
-    fork(watchSendComments)
+    fork(watchSendComments),
   ])
 }

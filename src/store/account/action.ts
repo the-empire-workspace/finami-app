@@ -1,4 +1,4 @@
-import { actionObject } from '@utils'
+import {actionObject} from '@utils'
 import {
   CREATE_CRYPTO_ACCOUNT,
   CREATE_CURRENCY_ACCOUNT,
@@ -51,4 +51,5 @@ export const deleteEntry = (id: any) => actionObject(DELETE_ENTRY, id)
 export const editEntry = (payload: any) => actionObject(EDIT_ENTRY, payload)
 
 export const updateUser = (payload: any) => actionObject(UPDATE_USER, payload)
-export const sendComments = (payload: any) => actionObject(SEND_COMMENTS, payload)
+export const sendComments = (payload: any) =>
+  actionObject(SEND_COMMENTS, payload)

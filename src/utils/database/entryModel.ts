@@ -1,6 +1,6 @@
-import { getExchangeValues } from 'utils/exchangeData'
-import { insertQuery, selectQuery } from './helpers'
-import { operateChange } from 'utils/dataTransform'
+import {getExchangeValues} from 'utils/exchangeData'
+import {insertQuery, selectQuery} from './helpers'
+import {operateChange} from 'utils/dataTransform'
 
 export const createEntryQuery = async (data: any) => {
   try {
