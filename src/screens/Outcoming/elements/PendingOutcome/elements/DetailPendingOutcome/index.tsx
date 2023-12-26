@@ -1,11 +1,11 @@
-import { BackHandler, ItemList } from 'components'
-import { useTheme } from 'providers'
-import React, { FC, useEffect, useMemo, useState } from 'react'
-import { Text, View, TouchableOpacity, Modal, TextInput } from 'react-native'
-import { getLanguage, translate } from 'utils'
-import { styles } from './styles'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigation, useRoute } from '@react-navigation/native'
+import {BackHandler, ItemList} from 'components'
+import {useTheme} from 'providers'
+import React, {FC, useEffect, useMemo, useState} from 'react'
+import {Text, View, TouchableOpacity, Modal, TextInput} from 'react-native'
+import {getLanguage, translate} from 'utils'
+import {styles} from './styles'
+import {useDispatch, useSelector} from 'react-redux'
+import {useNavigation, useRoute} from '@react-navigation/native'
 import {
   createDebtEntry,
   getAccounts,
@@ -16,13 +16,13 @@ import FileArrowUp from '@assets/img/FileArrowUp.svg' */
 import Trash from '@assets/img/Trash.svg'
 import Pencil from '@assets/img/Pencil.svg'
 import CaretDown from '@assets/img/CaretDoubleDown.svg'
-import { Button } from 'theme'
+import {Button} from 'theme'
 import X from '@assets/img/WhiteX.svg'
 import CheckFat from '@assets/img/CheckFat.svg'
-import { Picker } from '@react-native-picker/picker'
-import { DatePicker } from 'components/DynamicForm/components'
+import {Picker} from '@react-native-picker/picker'
+import {DatePicker} from 'components/DynamicForm/components'
 const DetailPendingOutcome: FC = () => {
-  const { colors } = useTheme()
+  const {colors} = useTheme()
 
   const [shortInfo, setShortInfo] = useState(true)
   const [newModal, setNewModal] = useState(false)
@@ -30,11 +30,11 @@ const DetailPendingOutcome: FC = () => {
   const router: any = useRoute()
   const navigation: any = useNavigation()
   const params = router.params
-  const { totalBalance, user, accounts } = useSelector(
+  const {totalBalance, user, accounts} = useSelector(
     (state: any) => state.account,
   )
-  const { currencies } = useSelector((state: any) => state.currency)
-  const { item } = useSelector((state: any) => state.outcoming)
+  const {currencies} = useSelector((state: any) => state.currency)
+  const {item} = useSelector((state: any) => state.outcoming)
   const language = getLanguage()
 
   const [createValues, setCreateValues] = useState<any>({
@@ -83,16 +83,16 @@ const DetailPendingOutcome: FC = () => {
   }
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background100 }]}>
+    <View style={[styles.root, {backgroundColor: colors.background100}]}>
       <BackHandler
         navigation={
           item?.category_id
             ? () => {
-              navigation.navigate('detailPendingOutcome', {
-                id: item?.category_id,
-                type: 'category',
-              })
-            }
+                navigation.navigate('detailPendingOutcome', {
+                  id: item?.category_id,
+                  type: 'category',
+                })
+              }
             : null
         }
         title={
@@ -101,19 +101,19 @@ const DetailPendingOutcome: FC = () => {
             : translate('debt_detail')
         }
       />
-      <View style={[styles.mainInfo, { backgroundColor: colors.background50 }]}>
+      <View style={[styles.mainInfo, {backgroundColor: colors.background50}]}>
         <View style={[styles.progressContainer]}>
           <View style={[styles.textContainer]}>
-            <Text style={[styles.strongBody, { color: colors.typography }]}>
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
               {currency?.symbol || ''}{' '}
               {item?.total_amount?.toLocaleString('en-US', {
                 maximumFractionDigits: currency?.decimal,
               })}
             </Text>
-            <Text style={[styles.strongBody, { color: colors.typography }]}>
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
               /
             </Text>
-            <Text style={[styles.strongBody, { color: colors.typography }]}>
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
               {' '}
               {currency?.symbol || ''}{' '}
               {item?.amount?.toLocaleString('en-US', {
@@ -124,7 +124,7 @@ const DetailPendingOutcome: FC = () => {
           <View
             style={[
               styles.progressContent,
-              { borderColor: colors.progress.egress },
+              {borderColor: colors.progress.egress},
             ]}>
             <View
               style={[
@@ -141,7 +141,7 @@ const DetailPendingOutcome: FC = () => {
                 style={[
                   styles.overText,
                   styles.h3,
-                  { color: colors.typography2 },
+                  {color: colors.typography2},
                 ]}>
                 * {translate('completed')} *
               </Text>
@@ -155,7 +155,7 @@ const DetailPendingOutcome: FC = () => {
               backgroundColor: colors.background100,
             },
           ]}>
-          <Text style={[styles.strongBody, { color: colors.typography }]}>
+          <Text style={[styles.strongBody, {color: colors.typography}]}>
             {translate('available_balance')}:
           </Text>
           <Text
@@ -175,65 +175,69 @@ const DetailPendingOutcome: FC = () => {
           </Text>
         </View>
         <View style={styles.accountData}>
-          <Text style={[styles.smallStrongBody, { color: colors.typography }]}>
+          <Text style={[styles.smallStrongBody, {color: colors.typography}]}>
             {translate('concept')}:
           </Text>
-          <Text style={[styles.strongBody, { color: colors.typography }]}>
+          <Text style={[styles.strongBody, {color: colors.typography}]}>
             {item?.payment_concept || item?.name}
           </Text>
         </View>
         {item?.comment && !shortInfo && (
           <View style={styles.accountData}>
-            <Text style={[styles.smallStrongBody, { color: colors.typography }]}>
+            <Text style={[styles.smallStrongBody, {color: colors.typography}]}>
               {translate('comments')}:
             </Text>
-            <Text style={[styles.smallBody, { color: colors.typography }]}>
+            <Text style={[styles.smallBody, {color: colors.typography}]}>
               {item?.comment}
             </Text>
           </View>
         )}
         {item?.date && !shortInfo && (
           <View style={styles.accountData}>
-            <Text style={[styles.smallStrongBody, { color: colors.typography }]}>
+            <Text style={[styles.smallStrongBody, {color: colors.typography}]}>
               {translate('next_payment')}:
             </Text>
-            <Text style={[styles.smallBody, { color: colors.typography }]}>
-              {new Date(item?.date)?.toLocaleDateString((language === 'es') ? 'es-VE' : 'en-US')}
+            <Text style={[styles.smallBody, {color: colors.typography}]}>
+              {new Date(item?.date)?.toLocaleDateString(
+                language === 'es' ? 'es-VE' : 'en-US',
+              )}
             </Text>
           </View>
         )}
         {item?.status_level && !shortInfo && (
           <View style={styles.accountData}>
-            <Text style={[styles.smallStrongBody, { color: colors.typography }]}>
+            <Text style={[styles.smallStrongBody, {color: colors.typography}]}>
               {translate('urgency_level')}:
             </Text>
-            <Text style={[styles.smallBody, { color: colors.typography }]}>
+            <Text style={[styles.smallBody, {color: colors.typography}]}>
               {translate(item?.status_level)}
             </Text>
           </View>
         )}
         {item?.limit_date && !shortInfo && (
           <View style={styles.accountData}>
-            <Text style={[styles.smallStrongBody, { color: colors.typography }]}>
+            <Text style={[styles.smallStrongBody, {color: colors.typography}]}>
               {translate('limit_payment_date')}:
             </Text>
-            <Text style={[styles.smallBody, { color: colors.typography }]}>
-              {new Date(item?.limit_date).toLocaleDateString((language === 'es') ? 'es-VE' : 'en-US')}
+            <Text style={[styles.smallBody, {color: colors.typography}]}>
+              {new Date(item?.limit_date).toLocaleDateString(
+                language === 'es' ? 'es-VE' : 'en-US',
+              )}
             </Text>
           </View>
         )}
         {(item?.emissor || item?.email || item?.phone) && !shortInfo && (
           <>
             <View
-              style={[styles.line, { backgroundColor: colors.background25 }]}
+              style={[styles.line, {backgroundColor: colors.background25}]}
             />
             {item?.emissor && (
               <View style={styles.accountData}>
                 <Text
-                  style={[styles.smallStrongBody, { color: colors.typography }]}>
+                  style={[styles.smallStrongBody, {color: colors.typography}]}>
                   {translate('receiver_name')}:
                 </Text>
-                <Text style={[styles.smallBody, { color: colors.typography }]}>
+                <Text style={[styles.smallBody, {color: colors.typography}]}>
                   {item?.emissor}
                 </Text>
               </View>
@@ -241,10 +245,10 @@ const DetailPendingOutcome: FC = () => {
             {item?.email && (
               <View style={styles.accountData}>
                 <Text
-                  style={[styles.smallStrongBody, { color: colors.typography }]}>
+                  style={[styles.smallStrongBody, {color: colors.typography}]}>
                   {translate('email')}:
                 </Text>
-                <Text style={[styles.smallBody, { color: colors.typography }]}>
+                <Text style={[styles.smallBody, {color: colors.typography}]}>
                   {item?.email}
                 </Text>
               </View>
@@ -252,10 +256,10 @@ const DetailPendingOutcome: FC = () => {
             {item?.phone && (
               <View style={styles.accountData}>
                 <Text
-                  style={[styles.smallStrongBody, { color: colors.typography }]}>
+                  style={[styles.smallStrongBody, {color: colors.typography}]}>
                   {translate('phonenumber')}:
                 </Text>
-                <Text style={[styles.smallBody, { color: colors.typography }]}>
+                <Text style={[styles.smallBody, {color: colors.typography}]}>
                   {item?.phone}
                 </Text>
               </View>
@@ -292,8 +296,8 @@ const DetailPendingOutcome: FC = () => {
             {item?.total_amount < item?.amount && (
               <Button
                 text={translate('new_outcome')}
-                style={[{ backgroundColor: colors.negative }]}
-                styleText={{ color: colors.typography2 }}
+                style={[{backgroundColor: colors.negative}]}
+                styleText={{color: colors.typography2}}
                 onPress={() => {
                   setNewModal(!newModal)
                 }}
@@ -303,7 +307,7 @@ const DetailPendingOutcome: FC = () => {
           </View>
         </View>
         <View style={[styles.actionContent]}>
-          <TouchableOpacity style={[styles.action]} onPress={() => { }}>
+          <TouchableOpacity style={[styles.action]} onPress={() => {}}>
             {/* <FileArrowUp width={24} height={24} /> */}
           </TouchableOpacity>
           <Text>{translate('made_outcomes')}</Text>
@@ -326,7 +330,7 @@ const DetailPendingOutcome: FC = () => {
           setNewModal(!newModal)
         }}>
         <View style={[styles.rootModal]}>
-          <View style={[styles.modal, { backgroundColor: colors.background50 }]}>
+          <View style={[styles.modal, {backgroundColor: colors.background50}]}>
             <View style={styles.modalTitle}>
               <TouchableOpacity onPress={() => setNewModal(!newModal)}>
                 <X width={32} height={32} />
@@ -355,7 +359,7 @@ const DetailPendingOutcome: FC = () => {
               <TouchableOpacity
                 style={[
                   styles.createButton,
-                  { backgroundColor: colors.progress.egress },
+                  {backgroundColor: colors.progress.egress},
                 ]}
                 disabled={!createValues?.amount}
                 onPress={() => {
@@ -368,7 +372,7 @@ const DetailPendingOutcome: FC = () => {
               <View
                 style={[
                   styles.inputContainer,
-                  { borderColor: colors.typography },
+                  {borderColor: colors.typography},
                 ]}>
                 <Text
                   style={[
@@ -399,7 +403,7 @@ const DetailPendingOutcome: FC = () => {
               <View
                 style={[
                   styles.inputContainer,
-                  { borderColor: colors.typography },
+                  {borderColor: colors.typography},
                 ]}>
                 <Text
                   style={[

@@ -1,22 +1,22 @@
-import React, { FC, useEffect, useMemo } from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
-import { useTheme } from '@providers'
-import { styles } from './styles'
-import { getLanguage, translate } from 'utils'
+import React, {FC, useEffect, useMemo} from 'react'
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
+import {useTheme} from '@providers'
+import {styles} from './styles'
+import {getLanguage, translate} from 'utils'
 import SvgX from '@assets/img/X.svg'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { useDispatch, useSelector } from 'react-redux'
-import { getItem, removeItem } from 'store/actions'
+import {useNavigation, useRoute} from '@react-navigation/native'
+import {useDispatch, useSelector} from 'react-redux'
+import {getItem, removeItem} from 'store/actions'
 import Trash from '@assets/img/Trash.svg'
 import Pencil from '@assets/img/Pencil.svg'
 const Entry: FC = () => {
-  const { colors } = useTheme()
+  const {colors} = useTheme()
   const dispatch = useDispatch()
-  const { item } = useSelector((state: any) => state.account)
+  const {item} = useSelector((state: any) => state.account)
 
   const router: any = useNavigation()
   const route = useRoute()
-  const { params }: any = route
+  const {params}: any = route
   const language = getLanguage()
 
   useEffect(() => {
@@ -53,10 +53,10 @@ const Entry: FC = () => {
 
   return (
     <View style={[styles.root]}>
-      <View style={[styles.modal, { backgroundColor: colors.background100 }]}>
+      <View style={[styles.modal, {backgroundColor: colors.background100}]}>
         <View
-          style={[styles.modalHeader, { backgroundColor: itemValues?.color }]}>
-          <Text style={[styles.h3, { color: colors.typography2 }]}>
+          style={[styles.modalHeader, {backgroundColor: itemValues?.color}]}>
+          <Text style={[styles.h3, {color: colors.typography2}]}>
             {itemValues?.title}
           </Text>
           <TouchableOpacity
@@ -74,11 +74,11 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                { color: colors.typography },
+                {color: colors.typography},
               ]}>
               {translate('concept')}:
             </Text>
-            <Text style={[styles.strongBody, { color: colors.typography }]}>
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
               {item?.payment_concept || translate('unavailable')}
             </Text>
           </View>
@@ -88,11 +88,11 @@ const Entry: FC = () => {
                 style={[
                   styles.smallStrongBody,
                   styles.textSeparator,
-                  { color: colors.typography },
+                  {color: colors.typography},
                 ]}>
                 {translate('comments')}:
               </Text>
-              <Text style={[styles.strongBody, { color: colors.typography }]}>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
                 {item?.comment || translate('unavailable')}
               </Text>
             </View>
@@ -102,11 +102,11 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                { color: colors.typography },
+                {color: colors.typography},
               ]}>
               {translate('amount')}:
             </Text>
-            <Text style={[styles.strongBody, { color: colors.typography }]}>
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
               {item?.currency_symbol}{' '}
               {item?.amount?.toLocaleString('en-US', {
                 maximumFractionDigits: item?.decimal,
@@ -118,16 +118,19 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                { color: colors.typography },
+                {color: colors.typography},
               ]}>
               {translate('date')}:
             </Text>
-            <Text style={[styles.strongBody, { color: colors.typography }]}>
-              {new Date(item?.date).toLocaleDateString((language === 'es') ? 'es-VE' : 'en-US', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
+            <Text style={[styles.strongBody, {color: colors.typography}]}>
+              {new Date(item?.date).toLocaleDateString(
+                language === 'es' ? 'es-VE' : 'en-US',
+                {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                },
+              )}
             </Text>
           </View>
           {!!item?.emissor && (
@@ -136,11 +139,14 @@ const Entry: FC = () => {
                 style={[
                   styles.smallStrongBody,
                   styles.textSeparator,
-                  { color: colors.typography },
+                  {color: colors.typography},
                 ]}>
-                {item?.type === 'expense' ? translate('receiver') : translate('emissor')}:
+                {item?.type === 'expense'
+                  ? translate('receiver')
+                  : translate('emissor')}
+                :
               </Text>
-              <Text style={[styles.strongBody, { color: colors.typography }]}>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
                 {item?.emissor || translate('unavailable')}
               </Text>
             </View>
@@ -151,11 +157,11 @@ const Entry: FC = () => {
                 style={[
                   styles.smallStrongBody,
                   styles.textSeparator,
-                  { color: colors.typography },
+                  {color: colors.typography},
                 ]}>
                 {translate('phone')}:
               </Text>
-              <Text style={[styles.strongBody, { color: colors.typography }]}>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
                 {item?.phone || translate('unavailable')}
               </Text>
             </View>
@@ -166,11 +172,11 @@ const Entry: FC = () => {
                 style={[
                   styles.smallStrongBody,
                   styles.textSeparator,
-                  { color: colors.typography },
+                  {color: colors.typography},
                 ]}>
                 {translate('email')}:
               </Text>
-              <Text style={[styles.strongBody, { color: colors.typography }]}>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>
                 {item?.email || translate('unavailable')}
               </Text>
             </View>
@@ -181,25 +187,26 @@ const Entry: FC = () => {
                 style={[
                   styles.smallStrongBody,
                   styles.textSeparator,
-                  { color: colors.typography },
+                  {color: colors.typography},
                 ]}>
                 {translate('account')}:
               </Text>
-              <Text style={[styles.strongBody, { color: colors.typography }]}>{`${item?.account_name
-                } - *${item?.account_number?.slice(-4) || ''}`}</Text>
+              <Text style={[styles.strongBody, {color: colors.typography}]}>{`${
+                item?.account_name
+              } - *${item?.account_number?.slice(-4) || ''}`}</Text>
             </View>
           )}
         </ScrollView>
         <View style={[styles.modalFooter]}>
           <TouchableOpacity
             onPress={() => {
-              router.navigate('editEntry', { id: item?.id })
+              router.navigate('editEntry', {id: item?.id})
             }}>
             <Pencil width={24} height={24} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              router.navigate('deleteEntry', { id: item?.id })
+              router.navigate('deleteEntry', {id: item?.id})
             }}>
             <Trash width={24} height={24} />
           </TouchableOpacity>

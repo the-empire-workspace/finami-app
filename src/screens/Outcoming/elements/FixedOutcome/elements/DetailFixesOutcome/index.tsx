@@ -166,7 +166,9 @@ const DetailFixesOutcome: FC = () => {
               {translate('next_payment')}:
             </Text>
             <Text style={[styles.smallBody, {color: colors.typography}]}>
-              {nextPayment?.toLocaleDateString((language === 'es') ? 'es-VE' : 'en-US')}
+              {nextPayment?.toLocaleDateString(
+                language === 'es' ? 'es-VE' : 'en-US',
+              )}
             </Text>
           </View>
         )}

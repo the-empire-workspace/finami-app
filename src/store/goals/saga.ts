@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects'
+import {call, put, select, takeLatest} from 'redux-saga/effects'
 import {
   CREATE_CATEGORY_GOALS,
   CREATE_CATEGORY_GOALS_ASYNC,
@@ -36,14 +36,14 @@ import {
   updateCategoryQuery,
   updateEntryQuery,
 } from 'utils'
-import { getDashboardValues, getTotalBalance } from 'store/actions'
-import { selectAccount, selectCurrency } from 'store/selector'
-import { GET_CURRENCIES_ASYNC } from 'store/currency/action-types'
+import {getDashboardValues, getTotalBalance} from 'store/actions'
+import {selectAccount, selectCurrency} from 'store/selector'
+import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
-function* getEntriesGoalsAsync({ payload }: any): any {
+function* getEntriesGoalsAsync({payload}: any): any {
   try {
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -65,7 +65,7 @@ function* getEntriesGoalsAsync({ payload }: any): any {
   }
 }
 
-function* createCategoryGoalsAsync({ payload }: any): any {
+function* createCategoryGoalsAsync({payload}: any): any {
   try {
     const newDate = new Date()
     if (payload?.date) {
@@ -80,8 +80,8 @@ function* createCategoryGoalsAsync({ payload }: any): any {
       date: newDate.getTime(),
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -104,7 +104,7 @@ function* createCategoryGoalsAsync({ payload }: any): any {
   }
 }
 
-function* createGoalsAsync({ payload }: any): any {
+function* createGoalsAsync({payload}: any): any {
   try {
     const newDate = new Date()
     if (payload?.date) {
@@ -125,8 +125,8 @@ function* createGoalsAsync({ payload }: any): any {
       status_level: payload?.status_level || '',
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -160,10 +160,10 @@ function* createGoalsAsync({ payload }: any): any {
   }
 }
 
-function* getGoalAsync({ payload }: any): any {
+function* getGoalAsync({payload}: any): any {
   try {
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
@@ -181,10 +181,10 @@ function* getGoalAsync({ payload }: any): any {
   }
 }
 
-function* getCategoryGoalAsync({ payload }: any): any {
+function* getCategoryGoalAsync({payload}: any): any {
   try {
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
@@ -201,7 +201,7 @@ function* getCategoryGoalAsync({ payload }: any): any {
   }
 }
 
-function* createGoalsEntryAsync({ payload }: any): any {
+function* createGoalsEntryAsync({payload}: any): any {
   try {
     const newDate = new Date()
     if (payload?.date) {
@@ -221,8 +221,8 @@ function* createGoalsEntryAsync({ payload }: any): any {
       date: newDate.getTime(),
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -260,7 +260,7 @@ function* createGoalsEntryAsync({ payload }: any): any {
   }
 }
 
-function* updateGoalsAsync({ payload }: any): any {
+function* updateGoalsAsync({payload}: any): any {
   try {
     yield call(updateEntryQuery, payload?.id, {
       account: payload?.account,
@@ -275,8 +275,8 @@ function* updateGoalsAsync({ payload }: any): any {
       status_level: payload?.status_level || '',
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -314,7 +314,7 @@ function* updateGoalsAsync({ payload }: any): any {
   }
 }
 
-function* updateCategoryGoalAsync({ payload }: any): any {
+function* updateCategoryGoalAsync({payload}: any): any {
   try {
     yield call(
       updateCategoryQuery,
@@ -325,8 +325,8 @@ function* updateCategoryGoalAsync({ payload }: any): any {
       payload?.id,
     )
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -360,12 +360,12 @@ function* updateCategoryGoalAsync({ payload }: any): any {
   }
 }
 
-function* deleteCategoryGoalAsync({ payload }: any): any {
+function* deleteCategoryGoalAsync({payload}: any): any {
   try {
     yield call(deleteCategoryQuery, payload?.id)
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -393,12 +393,12 @@ function* deleteCategoryGoalAsync({ payload }: any): any {
   }
 }
 
-function* deleteGoalAsync({ payload }: any): any {
+function* deleteGoalAsync({payload}: any): any {
   try {
     yield call(deleteEntryQuery, payload?.id)
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)

@@ -1,4 +1,4 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects'
+import {call, put, select, takeLatest} from 'redux-saga/effects'
 import {
   CREATE_BASIC_EXPENSES,
   CREATE_BASIC_EXPENSES_ASYNC,
@@ -52,11 +52,11 @@ import {
   updateCategoryQuery,
   updateEntryQuery,
 } from 'utils'
-import { getDashboardValues, getOutcomes, getTotalBalance } from 'store/actions'
-import { selectAccount, selectCurrency } from 'store/selector'
-import { GET_CURRENCIES_ASYNC } from 'store/currency/action-types'
+import {getDashboardValues, getOutcomes, getTotalBalance} from 'store/actions'
+import {selectAccount, selectCurrency} from 'store/selector'
+import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
-function* createOutcomeAsync({ payload }: any): any {
+function* createOutcomeAsync({payload}: any): any {
   try {
     const newDate = new Date()
     if (payload?.date) {
@@ -88,7 +88,7 @@ function* createOutcomeAsync({ payload }: any): any {
   }
 }
 
-function* createBasicExpensesAsync({ payload }: any): any {
+function* createBasicExpensesAsync({payload}: any): any {
   try {
     const newDate = new Date()
     if (payload?.date) {
@@ -153,7 +153,7 @@ function* createBasicExpensesAsync({ payload }: any): any {
   }
 }
 
-function* createOutcomeCategoryAsync({ payload }: any): any {
+function* createOutcomeCategoryAsync({payload}: any): any {
   try {
     const newDate = new Date()
     if (payload?.date) {
@@ -188,7 +188,7 @@ function* createOutcomeCategoryAsync({ payload }: any): any {
 
 function* getOutcomesAsync(): any {
   try {
-    const { defaultPrices } = yield select(selectCurrency)
+    const {defaultPrices} = yield select(selectCurrency)
     const outcomes = yield call(getEntriesExpensesQuery)
     const dashboardValues = outcomes?.reduce(
       (values: any, entry: any) => {
@@ -199,7 +199,11 @@ function* getOutcomesAsync(): any {
         if (entry?.payment_type === 'general') values.entries.push(entry)
         const date = new Date(entry?.date)
         const actualDate = new Date()
-        if (date.getMonth() === actualDate.getMonth() && (entry?.payment_type !== 'basic_expenses' && entry?.payment_type !== 'debt'))
+        if (
+          date.getMonth() === actualDate.getMonth() &&
+          entry?.payment_type !== 'basic_expenses' &&
+          entry?.payment_type !== 'debt'
+        )
           values.monthExpense += amount
 
         if (entry.payment_type === 'basic_expenses') {
@@ -216,7 +220,7 @@ function* getOutcomesAsync(): any {
         }
         return values
       },
-      { monthExpense: 0, basicExpense: 0, debts: 0, entries: [] },
+      {monthExpense: 0, basicExpense: 0, debts: 0, entries: []},
     )
     yield put(actionObject(GET_OUTCOMES_ASYNC, dashboardValues))
   } catch (error) {
@@ -236,7 +240,7 @@ function* getBasicExpensesAsync(): any {
   }
 }
 
-function* getBasicExpenseAsync({ payload }: any): any {
+function* getBasicExpenseAsync({payload}: any): any {
   try {
     const outcome = yield call(getBasicExpenseQuery, payload)
     yield put(actionObject(GET_BASIC_EXPENSE_ASYNC, outcome))
@@ -245,7 +249,7 @@ function* getBasicExpenseAsync({ payload }: any): any {
   }
 }
 
-function* updateBasicExpenseAsync({ payload }: any): any {
+function* updateBasicExpenseAsync({payload}: any): any {
   try {
     yield call(updateEntryQuery, payload?.id, {
       account: payload?.account,
@@ -283,7 +287,7 @@ function* updateBasicExpenseAsync({ payload }: any): any {
   }
 }
 
-function* updateCategoryOutcomeAsync({ payload }: any): any {
+function* updateCategoryOutcomeAsync({payload}: any): any {
   try {
     yield call(
       updateCategoryQuery,
@@ -314,7 +318,7 @@ function* updateCategoryOutcomeAsync({ payload }: any): any {
   }
 }
 
-function* deleteCategoryOutcomeAsync({ payload }: any): any {
+function* deleteCategoryOutcomeAsync({payload}: any): any {
   try {
     yield call(deleteCategoryQuery, payload)
 
@@ -338,7 +342,7 @@ function* deleteCategoryOutcomeAsync({ payload }: any): any {
   }
 }
 
-function* deleteOutcomeAsync({ payload }: any): any {
+function* deleteOutcomeAsync({payload}: any): any {
   try {
     yield call(deleteEntryQuery, payload)
 
@@ -362,7 +366,7 @@ function* deleteOutcomeAsync({ payload }: any): any {
   }
 }
 
-function* getCategoryOutcomeASync({ payload }: any): any {
+function* getCategoryOutcomeASync({payload}: any): any {
   try {
     const category = yield call(getCategoryQuery, payload)
     yield put(actionObject(GET_CATEGORY_OUTCOME_ASYNC, category))
@@ -371,7 +375,7 @@ function* getCategoryOutcomeASync({ payload }: any): any {
   }
 }
 
-function* createDebtAsync({ payload }: any): any {
+function* createDebtAsync({payload}: any): any {
   try {
     const newDate = new Date()
     if (payload?.date) {
@@ -397,8 +401,8 @@ function* createDebtAsync({ payload }: any): any {
       frecuency_time: payload?.frecuency_time || '',
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -423,7 +427,7 @@ function* createDebtAsync({ payload }: any): any {
   }
 }
 
-function* createDebtEntryAsync({ payload }: any): any {
+function* createDebtEntryAsync({payload}: any): any {
   try {
     const newDate = new Date()
     if (payload?.date) {
@@ -448,8 +452,8 @@ function* createDebtEntryAsync({ payload }: any): any {
       entry_id: payload?.entry_id || '',
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -482,8 +486,8 @@ function* createDebtEntryAsync({ payload }: any): any {
 
 function* getDebtsAsync(): any {
   try {
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -496,10 +500,10 @@ function* getDebtsAsync(): any {
   }
 }
 
-function* getDebtAsync({ payload }: any): any {
+function* getDebtAsync({payload}: any): any {
   try {
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -517,7 +521,7 @@ function* getDebtAsync({ payload }: any): any {
   }
 }
 
-function* updateDebtAsync({ payload }: any): any {
+function* updateDebtAsync({payload}: any): any {
   try {
     yield call(updateEntryQuery, payload?.id, {
       account: payload?.account,
@@ -536,8 +540,8 @@ function* updateDebtAsync({ payload }: any): any {
       frecuency_time: payload?.frecuency_time || '',
     })
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -568,12 +572,12 @@ function* updateDebtAsync({ payload }: any): any {
   }
 }
 
-function* deleteDebtAsync({ payload }: any): any {
+function* deleteDebtAsync({payload}: any): any {
   try {
     yield call(deleteEntryQuery, payload)
 
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)

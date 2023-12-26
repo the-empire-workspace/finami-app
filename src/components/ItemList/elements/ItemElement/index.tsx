@@ -1,17 +1,17 @@
-import React, { FC, useMemo } from 'react'
-import { TouchableOpacity, Text, View } from 'react-native'
-import { useTheme } from '@providers'
-import { styles } from './styles'
-import { Props } from './interface'
-import { useNavigation } from '@react-navigation/native'
-import { useSelector } from 'react-redux'
-import { getLanguage, translate } from 'utils'
+import React, {FC, useMemo} from 'react'
+import {TouchableOpacity, Text, View} from 'react-native'
+import {useTheme} from '@providers'
+import {styles} from './styles'
+import {Props} from './interface'
+import {useNavigation} from '@react-navigation/native'
+import {useSelector} from 'react-redux'
+import {getLanguage, translate} from 'utils'
 
-const ItemElement: FC<Props> = ({ item, type }) => {
-  const { colors } = useTheme()
+const ItemElement: FC<Props> = ({item, type}) => {
+  const {colors} = useTheme()
 
-  const { user } = useSelector((state: any) => state.account)
-  const { currencies } = useSelector((state: any) => state.currency)
+  const {user} = useSelector((state: any) => state.account)
+  const {currencies} = useSelector((state: any) => state.currency)
 
   const router: any = useNavigation()
 
@@ -27,7 +27,7 @@ const ItemElement: FC<Props> = ({ item, type }) => {
     switch (type) {
       case 'basic_expenses':
         if (item?.payment_concept)
-          router.navigate('detailFixesOutcome', { id: item?.id, type: 'outcome' })
+          router.navigate('detailFixesOutcome', {id: item?.id, type: 'outcome'})
         if (item?.name)
           router.navigate('detailFixesOutcome', {
             id: item?.id,
@@ -36,7 +36,7 @@ const ItemElement: FC<Props> = ({ item, type }) => {
         break
       case 'fixed_incomes':
         if (item?.payment_concept)
-          router.navigate('detailFixesIncome', { id: item?.id, type: 'income' })
+          router.navigate('detailFixesIncome', {id: item?.id, type: 'income'})
         if (item?.name)
           router.navigate('detailFixesIncome', {
             id: item?.id,
@@ -44,10 +44,10 @@ const ItemElement: FC<Props> = ({ item, type }) => {
           })
         break
       case 'debts':
-        router.navigate('detailPendingOutcome', { id: item?.id, type: 'outcome' })
+        router.navigate('detailPendingOutcome', {id: item?.id, type: 'outcome'})
         break
       case 'receivable_accounts':
-        router.navigate('detailPendingIncome', { id: item?.id, type: 'income' })
+        router.navigate('detailPendingIncome', {id: item?.id, type: 'income'})
         break
       case 'goals':
         if (item?.payment_concept)
@@ -64,7 +64,7 @@ const ItemElement: FC<Props> = ({ item, type }) => {
           })
         break
       default:
-        router?.navigate('entry', { id: item?.id })
+        router?.navigate('entry', {id: item?.id})
         break
     }
   }
@@ -223,21 +223,24 @@ const ItemElement: FC<Props> = ({ item, type }) => {
               style={[
                 styles.strongBody,
                 styles.concept,
-                { color: colors.typography2 },
+                {color: colors.typography2},
               ]}>
               {item?.payment_concept || item?.name}
             </Text>
-            <Text style={[styles.smallBody, { color: colors.typography2 }]}>
-              {new Date(item?.date).toLocaleDateString((language === 'es') ? 'es-VE' : 'en-US', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
+            <Text style={[styles.smallBody, {color: colors.typography2}]}>
+              {new Date(item?.date).toLocaleDateString(
+                language === 'es' ? 'es-VE' : 'en-US',
+                {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                },
+              )}
             </Text>
           </View>
           <View>
             {!!item?.amount && (
-              <Text style={[styles.strongBody, { color: colors.typography2 }]}>
+              <Text style={[styles.strongBody, {color: colors.typography2}]}>
                 {' '}
                 {currency?.symbol || ''}{' '}
                 {item?.amount?.toLocaleString('en-US', {

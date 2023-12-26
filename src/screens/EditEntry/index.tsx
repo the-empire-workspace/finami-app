@@ -1,27 +1,27 @@
-import { BackHandler, DynamicForm } from 'components'
-import React, { FC, useEffect, useMemo, useState } from 'react'
-import { translate } from 'utils'
-import { egressForm, accountForm, receiverForm } from './form'
-import { ScrollView, Text, View } from 'react-native'
-import { styles } from './styles'
-import { useTheme } from 'providers'
-import { useDispatch, useSelector } from 'react-redux'
-import { Button } from 'theme'
-import { useNavigation, useRoute } from '@react-navigation/native'
-import { editEntry, getAccounts, getCurrencies, getItem } from 'store/actions'
+import {BackHandler, DynamicForm} from 'components'
+import React, {FC, useEffect, useMemo, useState} from 'react'
+import {translate} from 'utils'
+import {egressForm, accountForm, receiverForm} from './form'
+import {ScrollView, Text, View} from 'react-native'
+import {styles} from './styles'
+import {useTheme} from 'providers'
+import {useDispatch, useSelector} from 'react-redux'
+import {Button} from 'theme'
+import {useNavigation, useRoute} from '@react-navigation/native'
+import {editEntry, getAccounts, getCurrencies, getItem} from 'store/actions'
 
 const EditEntry: FC = () => {
-  const { colors } = useTheme()
-  const { accounts } = useSelector((state: any) => state.account)
+  const {colors} = useTheme()
+  const {accounts} = useSelector((state: any) => state.account)
   const [values, setValues] = useState<any>({
-    account: { value: String(accounts[0]?.id) },
+    account: {value: String(accounts[0]?.id)},
   })
   const navigation: any = useNavigation()
   const route = useRoute()
-  const { params }: any = route
+  const {params}: any = route
   const dispatch = useDispatch()
 
-  const { item } = useSelector((state: any) => state.account)
+  const {item} = useSelector((state: any) => state.account)
 
   useEffect(() => {
     dispatch(getItem(params?.id))
@@ -44,15 +44,15 @@ const EditEntry: FC = () => {
     Object.keys(item).map(key => {
       newValues[key] =
         key === 'date'
-          ? { value: new Date(item[key]) }
-          : { value: String(item[key]) || '' }
+          ? {value: new Date(item[key])}
+          : {value: String(item[key]) || ''}
       if (key === 'payment_concept')
-        newValues.concept = { value: String(item[key]) || '' }
-      if (key === 'name') newValues.concept = { value: String(item[key]) || '' }
+        newValues.concept = {value: String(item[key]) || ''}
+      if (key === 'name') newValues.concept = {value: String(item[key]) || ''}
       if (key === 'comment')
-        newValues.comments = { value: String(item[key]) || '' }
+        newValues.comments = {value: String(item[key]) || ''}
       if (key === 'account')
-        newValues.account = { value: String(item[key]) || '' }
+        newValues.account = {value: String(item[key]) || ''}
     })
 
     setValues(newValues)
@@ -63,7 +63,7 @@ const EditEntry: FC = () => {
       prev[next] = values[next]?.value
       return prev
     }, {})
-    dispatch(editEntry({ ...sendValues, id: params?.id }))
+    dispatch(editEntry({...sendValues, id: params?.id}))
     navigation.goBack()
   }
 
@@ -105,15 +105,15 @@ const EditEntry: FC = () => {
   }, [item])
 
   return (
-    <View style={[styles.root, { backgroundColor: colors.background100 }]}>
+    <View style={[styles.root, {backgroundColor: colors.background100}]}>
       <BackHandler title={itemValues?.title} />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View
           style={[
             styles.formContainer,
-            { borderBottomColor: colors.background25 },
+            {borderBottomColor: colors.background25},
           ]}>
-          <Text style={[styles.h3, { color: colors.typography }]}>
+          <Text style={[styles.h3, {color: colors.typography}]}>
             {translate('account_selection')}
           </Text>
           <DynamicForm
@@ -130,9 +130,9 @@ const EditEntry: FC = () => {
         <View
           style={[
             styles.formContainer,
-            { borderBottomColor: colors.background25 },
+            {borderBottomColor: colors.background25},
           ]}>
-          <Text style={[styles.h3, { color: colors.typography }]}>
+          <Text style={[styles.h3, {color: colors.typography}]}>
             {itemValues?.subtitle}
           </Text>
           <DynamicForm
@@ -146,30 +146,34 @@ const EditEntry: FC = () => {
             }}
           />
         </View>
-        {(item?.type !== 'compromise' && item?.type !== 'desire') && <View
-          style={[
-            styles.formContainer,
-            { borderBottomColor: colors.background100 },
-          ]}>
-          <Text style={[styles.h3, { color: colors.typography }]}>
-            {item?.type === 'expense' ? translate('receiver_data') : translate('issuer_data')}
-          </Text>
-          <DynamicForm
-            formData={rForm}
-            returnData={(data: any) => {
-              for (const value in data?.value)
-                setValues((prev: any) => ({
-                  ...prev,
-                  [value]: data?.value[value],
-                }))
-            }}
-          />
-        </View>}
+        {item?.type !== 'compromise' && item?.type !== 'desire' && (
+          <View
+            style={[
+              styles.formContainer,
+              {borderBottomColor: colors.background100},
+            ]}>
+            <Text style={[styles.h3, {color: colors.typography}]}>
+              {item?.type === 'expense'
+                ? translate('receiver_data')
+                : translate('issuer_data')}
+            </Text>
+            <DynamicForm
+              formData={rForm}
+              returnData={(data: any) => {
+                for (const value in data?.value)
+                  setValues((prev: any) => ({
+                    ...prev,
+                    [value]: data?.value[value],
+                  }))
+              }}
+            />
+          </View>
+        )}
       </ScrollView>
       <View style={[styles.buttonContainer]}>
         <Button
-          style={[styles.buttonContent, { backgroundColor: colors.negative }]}
-          styleText={{ color: colors.typography2 }}
+          style={[styles.buttonContent, {backgroundColor: colors.negative}]}
+          styleText={{color: colors.typography2}}
           text={translate('cancel')}
           onPress={() => {
             navigation.goBack()
@@ -178,8 +182,8 @@ const EditEntry: FC = () => {
         />
         <Button
           text={translate('update')}
-          style={[styles.buttonContent, { backgroundColor: colors.positive }]}
-          styleText={{ color: colors.typography2 }}
+          style={[styles.buttonContent, {backgroundColor: colors.positive}]}
+          styleText={{color: colors.typography2}}
           onPress={createData}
           disabled={Object.keys(values)?.reduce((prev: any, next: any) => {
             const valid =
