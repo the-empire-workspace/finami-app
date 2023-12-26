@@ -2,7 +2,7 @@ import {BackHandler, ItemList} from 'components'
 import {useTheme} from 'providers'
 import React, {FC, useEffect, useMemo, useState} from 'react'
 import {Text, View, TouchableOpacity, Modal} from 'react-native'
-import {translate} from 'utils'
+import {getLanguage, translate} from 'utils'
 import {styles} from './styles'
 import {useDispatch, useSelector} from 'react-redux'
 import {useNavigation, useRoute} from '@react-navigation/native'
@@ -29,6 +29,7 @@ const DetailFixesOutcome: FC = () => {
   const {totalBalance, user} = useSelector((state: any) => state.account)
   const {currencies} = useSelector((state: any) => state.currency)
   const {item} = useSelector((state: any) => state.outcoming)
+  const language = getLanguage()
 
   useEffect(() => {
     if (params?.id) {
@@ -165,7 +166,7 @@ const DetailFixesOutcome: FC = () => {
               {translate('next_payment')}:
             </Text>
             <Text style={[styles.smallBody, {color: colors.typography}]}>
-              {nextPayment?.toLocaleDateString()}
+              {nextPayment?.toLocaleDateString((language === 'es') ? 'es-VE' : 'en-US')}
             </Text>
           </View>
         )}

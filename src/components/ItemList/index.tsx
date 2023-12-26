@@ -11,6 +11,7 @@ const ItemList: FC<Props> = ({items, type}) => {
     <FlatList
       style={[styles.transactionsBox, {backgroundColor: colors.background100}]}
       data={items}
+      contentContainerStyle={styles.contentContainer}
       keyExtractor={item => item.id}
       renderItem={({item, index}: any) => (
         <ItemElement item={item} key={index} type={type} />

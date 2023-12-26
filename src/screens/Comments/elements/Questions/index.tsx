@@ -126,7 +126,7 @@ const Questions: FC = () => {
                     })
                   }
                   editable
-                  numberOfLines={4}
+                  maxLength={200}
                   multiline={true}
                   value={responses[item?.value]}
                 />
