@@ -51,6 +51,8 @@ const EditEntry: FC = () => {
       if (key === 'name') newValues.concept = {value: String(item[key]) || ''}
       if (key === 'comment')
         newValues.comments = {value: String(item[key]) || ''}
+      if (key === 'account')
+        newValues.account = {value: String(item[key]) || ''}
     })
 
     setValues(newValues)
@@ -144,25 +146,29 @@ const EditEntry: FC = () => {
             }}
           />
         </View>
-        <View
-          style={[
-            styles.formContainer,
-            {borderBottomColor: colors.background100},
-          ]}>
-          <Text style={[styles.h3, {color: colors.typography}]}>
-            {translate('receiver_data')}
-          </Text>
-          <DynamicForm
-            formData={rForm}
-            returnData={(data: any) => {
-              for (const value in data?.value)
-                setValues((prev: any) => ({
-                  ...prev,
-                  [value]: data?.value[value],
-                }))
-            }}
-          />
-        </View>
+        {item?.type !== 'compromise' && item?.type !== 'desire' && (
+          <View
+            style={[
+              styles.formContainer,
+              {borderBottomColor: colors.background100},
+            ]}>
+            <Text style={[styles.h3, {color: colors.typography}]}>
+              {item?.type === 'expense'
+                ? translate('receiver_data')
+                : translate('issuer_data')}
+            </Text>
+            <DynamicForm
+              formData={rForm}
+              returnData={(data: any) => {
+                for (const value in data?.value)
+                  setValues((prev: any) => ({
+                    ...prev,
+                    [value]: data?.value[value],
+                  }))
+              }}
+            />
+          </View>
+        )}
       </ScrollView>
       <View style={[styles.buttonContainer]}>
         <Button

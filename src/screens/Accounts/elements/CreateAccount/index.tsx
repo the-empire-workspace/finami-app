@@ -85,7 +85,9 @@ const CreateAccount: FC = () => {
       navigation.goBack()
       return
     }
-    dispatch(createCurrencyAccount(sendValues))
+    dispatch(
+      createCurrencyAccount({...sendValues, concept: translate('initial')}),
+    )
     navigation.goBack()
   }
 

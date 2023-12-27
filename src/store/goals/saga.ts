@@ -67,11 +67,17 @@ function* getEntriesGoalsAsync({payload}: any): any {
 
 function* createCategoryGoalsAsync({payload}: any): any {
   try {
+    const newDate = new Date()
+    if (payload?.date) {
+      newDate.setDate(payload?.date?.getDate())
+      newDate.setMonth(payload?.date?.getMonth())
+      newDate.setFullYear(payload?.date?.getFullYear())
+    }
     yield call(createCategoryQuery, {
       name: payload?.concept,
       type: payload?.type,
       comment: payload?.comment || '',
-      date: (payload?.date || new Date())?.getTime(),
+      date: newDate.getTime(),
     })
 
     let {currencies} = yield select(selectCurrency)
@@ -100,6 +106,12 @@ function* createCategoryGoalsAsync({payload}: any): any {
 
 function* createGoalsAsync({payload}: any): any {
   try {
+    const newDate = new Date()
+    if (payload?.date) {
+      newDate.setDate(payload?.date?.getDate())
+      newDate.setMonth(payload?.date?.getMonth())
+      newDate.setFullYear(payload?.date?.getFullYear())
+    }
     yield call(createEntryQuery, {
       account: payload?.account,
       payment_type: payload?.type,
@@ -108,7 +120,7 @@ function* createGoalsAsync({payload}: any): any {
       payment_concept: payload?.concept,
       entry_type: 'goals',
       comment: payload?.comment || '',
-      date: (payload?.date || new Date())?.getTime(),
+      date: newDate.getTime(),
       limit_date: (payload?.limit_date || new Date())?.getTime(),
       status_level: payload?.status_level || '',
     })
@@ -191,6 +203,12 @@ function* getCategoryGoalAsync({payload}: any): any {
 
 function* createGoalsEntryAsync({payload}: any): any {
   try {
+    const newDate = new Date()
+    if (payload?.date) {
+      newDate.setDate(payload?.date?.getDate())
+      newDate.setMonth(payload?.date?.getMonth())
+      newDate.setFullYear(payload?.date?.getFullYear())
+    }
     yield call(createEntryQuery, {
       account: payload?.account,
       payment_type: 'general',
@@ -200,7 +218,7 @@ function* createGoalsEntryAsync({payload}: any): any {
       entry_type: 'goals',
       comment: payload?.comment || '',
       entry_id: payload?.entry_id || '',
-      date: (payload?.date || new Date())?.getTime(),
+      date: newDate.getTime(),
     })
 
     let {currencies} = yield select(selectCurrency)

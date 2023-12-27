@@ -84,6 +84,7 @@ export const getEntriesQuery = async () => {
       entries.status,\
       entries.frecuency_time,\
       entries.frecuency_type,\
+      accounts.currency_id,\
       entries.entry_type,\
       entries.id,\
       entries.payment_concept,\
@@ -173,6 +174,7 @@ export const getEntry = async (id: any) => {
     entries.phone,\
     accounts.account_name,\
     accounts.account_number,\
+    accounts.id as account,\
     accounts.organization,\
     accounts.currency_id,\
     entries.category_id,\
@@ -223,7 +225,7 @@ export const getBasicExpenseQuery = async (id: any) => {
 
     const queryEntry = entry.raw()[0]
     const entries: any = await selectQuery(
-      `${query} WHERE entries.entry_id = ? ORDER BY date asc`,
+      `${query} WHERE entries.entry_id = ? ORDER BY date desc`,
       [id],
     )
     queryEntry.entries = entries.raw()
@@ -598,7 +600,7 @@ export const getReceivableAccountQuery = async (
 
     const queryEntry = entry.raw()[0]
     const entries: any = await selectQuery(
-      `${query} WHERE entries.entry_id = ? ORDER BY date asc`,
+      `${query} WHERE entries.entry_id = ? ORDER BY date desc`,
       [id],
     )
     queryEntry.entries = entries.raw()
@@ -744,7 +746,7 @@ export const getGoalQuery = async (
 
     const queryEntry = entry.raw()[0]
     const entries: any = await selectQuery(
-      `${query} WHERE entries.entry_id = ? ORDER BY date asc`,
+      `${query} WHERE entries.entry_id = ? ORDER BY date desc`,
       [id],
     )
     queryEntry.entries = entries.raw()

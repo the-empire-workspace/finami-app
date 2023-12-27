@@ -57,6 +57,12 @@ import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
 function* createIncomeAsync({payload}: any): any {
   try {
+    const newDate = new Date()
+    if (payload?.date) {
+      newDate.setDate(payload?.date?.getDate())
+      newDate.setMonth(payload?.date?.getMonth())
+      newDate.setFullYear(payload?.date?.getFullYear())
+    }
     yield call(createEntryQuery, {
       account: payload?.account,
       payment_type: 'general',
@@ -67,7 +73,7 @@ function* createIncomeAsync({payload}: any): any {
       emissor: payload?.receiver_name || '',
       email: payload?.email || '',
       phone: payload?.phonenumber || '',
-      date: (payload?.date || new Date())?.getTime(),
+      date: newDate.getTime(),
     })
 
     yield put(getIncomes())
@@ -80,6 +86,12 @@ function* createIncomeAsync({payload}: any): any {
 
 function* createFixedIncomesAsync({payload}: any): any {
   try {
+    const newDate = new Date()
+    if (payload?.date) {
+      newDate.setDate(payload?.date?.getDate())
+      newDate.setMonth(payload?.date?.getMonth())
+      newDate.setFullYear(payload?.date?.getFullYear())
+    }
     const newEntry = yield call(createEntryQuery, {
       account: payload?.account,
       payment_type: 'fixed_incomes',
@@ -91,7 +103,7 @@ function* createFixedIncomesAsync({payload}: any): any {
       emissor: payload?.receiver_name || '',
       email: payload?.email || '',
       phone: payload?.phonenumber || '',
-      date: (payload?.date || new Date())?.getTime(),
+      date: newDate.getTime(),
       frecuency_type: payload?.frecuency_type || '',
       frecuency_time: payload?.frecuency_time || '',
     })
@@ -112,7 +124,7 @@ function* createFixedIncomesAsync({payload}: any): any {
         status: 'paid',
         email: payload?.email || '',
         phone: payload?.phonenumber || '',
-        date: (payload?.date || new Date())?.getTime(),
+        date: newDate.getTime(),
       })
 
     const outcomes = yield call(getFixedIncomesQuery)
@@ -139,11 +151,17 @@ function* createFixedIncomesAsync({payload}: any): any {
 
 function* createIncomeCategoryAsync({payload}: any): any {
   try {
+    const newDate = new Date()
+    if (payload?.date) {
+      newDate.setDate(payload?.date?.getDate())
+      newDate.setMonth(payload?.date?.getMonth())
+      newDate.setFullYear(payload?.date?.getFullYear())
+    }
     yield call(createCategoryQuery, {
       name: payload?.concept,
       type: 'income',
       comment: payload?.comment || '',
-      date: (payload?.date || new Date())?.getTime(),
+      date: newDate.getTime(),
     })
 
     const outcomes = yield call(getFixedIncomesQuery)
@@ -177,7 +195,11 @@ function* getIncomesAsync(): any {
         if (entry?.payment_type === 'general') values.entries.push(entry)
         const date = new Date(entry?.date)
         const actualDate = new Date()
-        if (date.getMonth() === actualDate.getMonth())
+        if (
+          date.getMonth() === actualDate.getMonth() &&
+          entry.payment_type !== 'fixed_incomes' &&
+          entry.payment_type !== 'receivable_account'
+        )
           values.monthIncome += amount
 
         if (entry.payment_type === 'fixed_incomes') {
@@ -351,6 +373,12 @@ function* getCategoryIncomeASync({payload}: any): any {
 
 function* createReceivableAccountAsync({payload}: any): any {
   try {
+    const newDate = new Date()
+    if (payload?.date) {
+      newDate.setDate(payload?.date?.getDate())
+      newDate.setMonth(payload?.date?.getMonth())
+      newDate.setFullYear(payload?.date?.getFullYear())
+    }
     yield call(createEntryQuery, {
       account: payload?.account || '',
       payment_type: 'receivable_account',
@@ -362,7 +390,7 @@ function* createReceivableAccountAsync({payload}: any): any {
       emissor: payload?.receiver_name || '',
       email: payload?.email || '',
       phone: payload?.phonenumber || '',
-      date: (payload?.date || new Date())?.getTime(),
+      date: newDate.getTime(),
       limit_date: (payload?.limit_date || new Date())?.getTime(),
       status_level: payload?.status_level || '',
       frecuency_type: payload?.frecuency_type || '',
@@ -399,6 +427,12 @@ function* createReceivableAccountAsync({payload}: any): any {
 
 function* createReceivableAccountEntryAsync({payload}: any): any {
   try {
+    const newDate = new Date()
+    if (payload?.date) {
+      newDate.setDate(payload?.date?.getDate())
+      newDate.setMonth(payload?.date?.getMonth())
+      newDate.setFullYear(payload?.date?.getFullYear())
+    }
     yield call(createEntryQuery, {
       account: payload?.account,
       payment_type: 'general',
@@ -410,7 +444,7 @@ function* createReceivableAccountEntryAsync({payload}: any): any {
       emissor: payload?.receiver_name || payload?.emissor || '',
       email: payload?.email || '',
       phone: payload?.phonenumber || '',
-      date: (payload?.date || new Date())?.getTime(),
+      date: newDate.getTime(),
       frecuency_type: payload?.frecuency_type || '',
       frecuency_time: payload?.frecuency_time || '',
       entry_id: payload?.entry_id || '',

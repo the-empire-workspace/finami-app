@@ -34,6 +34,7 @@
   "comments": "Comments",
   "date": "Date",
   "emissor": "Issuer",
+  "receiver": "Receiver",
   "accounts": "Accounts",
   "currencies": "Currencies",
   "dynamic-calculator": "Dynamic Calculator",
@@ -253,6 +254,10 @@
   "upload_image": "Upload image",
   "thanks": "Thank you!",
   "greetings_1": "We want to express our deepest gratitude for sharing your feedback with us.",
-  "greetings_2": " Your contribution is invaluable for the evolution of the application. Thank you for considering us!",
-  "send": "Send"
+  "greetings_2": "Your contribution is invaluable for the evolution of the application. Thank you for considering us!",
+  "send": "Send",
+  "pending_income_detail": "Pending Income Details",
+  "issuer_data": "Issuer Data",
+  "issuer_name": "Issuer Name",
+  "issuer_name_optional": "Issuer Name (optional)"
 }

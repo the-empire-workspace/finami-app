@@ -49,9 +49,8 @@ export const localStyles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    gap: 20,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
   },
   buttonSelection: {
     paddingHorizontal: 19,

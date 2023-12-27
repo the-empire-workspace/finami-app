@@ -2,7 +2,7 @@ import {BackHandler, ItemList} from 'components'
 import {useTheme} from 'providers'
 import React, {FC, useEffect, useMemo, useState} from 'react'
 import {Text, View, TouchableOpacity, Modal, TextInput} from 'react-native'
-import {translate} from 'utils'
+import {getLanguage, translate} from 'utils'
 import {styles} from './styles'
 import {useDispatch, useSelector} from 'react-redux'
 import {useNavigation, useRoute} from '@react-navigation/native'
@@ -38,6 +38,7 @@ const DetailGoals: FC = () => {
   )
   const {currencies} = useSelector((state: any) => state.currency)
   const {item} = useSelector((state: any) => state.goals)
+  const language = getLanguage()
 
   useEffect(() => {
     if (params?.id) {
@@ -66,6 +67,7 @@ const DetailGoals: FC = () => {
           ...createValues,
           concept: item?.payment_concept,
           entry_id: item?.id,
+          type: item?.payment_type,
         }),
       )
     setNewModal(false)
@@ -205,7 +207,9 @@ const DetailGoals: FC = () => {
               {translate('limit_date')}:
             </Text>
             <Text style={[styles.smallBody, {color: colors.typography}]}>
-              {new Date(item?.limit_date)?.toLocaleDateString()}
+              {new Date(item?.limit_date)?.toLocaleDateString(
+                language === 'es' ? 'es-VE' : 'en-US',
+              )}
             </Text>
           </View>
         )}
@@ -250,7 +254,15 @@ const DetailGoals: FC = () => {
             {(item?.total_amount < item?.amount ||
               params?.type === 'category') && (
               <Button
-                text={translate('new_deposit')}
+                text={
+                  params?.type === 'category'
+                    ? translate(
+                        params?.itemType === 'compromise'
+                          ? 'new_compromise'
+                          : 'new_desire',
+                      )
+                    : translate('new_deposit')
+                }
                 style={[
                   {
                     backgroundColor:

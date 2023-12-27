@@ -2,7 +2,7 @@ import {BackHandler, ItemList} from 'components'
 import {useTheme} from 'providers'
 import React, {FC, useEffect, useMemo, useState} from 'react'
 import {Text, View, TouchableOpacity, Modal, TextInput} from 'react-native'
-import {translate} from 'utils'
+import {getLanguage, translate} from 'utils'
 import {styles} from './styles'
 import {useDispatch, useSelector} from 'react-redux'
 import {useNavigation, useRoute} from '@react-navigation/native'
@@ -35,6 +35,7 @@ const DetailPendingOutcome: FC = () => {
   )
   const {currencies} = useSelector((state: any) => state.currency)
   const {item} = useSelector((state: any) => state.outcoming)
+  const language = getLanguage()
 
   const [createValues, setCreateValues] = useState<any>({
     amount: null,
@@ -197,7 +198,9 @@ const DetailPendingOutcome: FC = () => {
               {translate('next_payment')}:
             </Text>
             <Text style={[styles.smallBody, {color: colors.typography}]}>
-              {new Date(item?.date)?.toLocaleDateString()}
+              {new Date(item?.date)?.toLocaleDateString(
+                language === 'es' ? 'es-VE' : 'en-US',
+              )}
             </Text>
           </View>
         )}
@@ -217,7 +220,9 @@ const DetailPendingOutcome: FC = () => {
               {translate('limit_payment_date')}:
             </Text>
             <Text style={[styles.smallBody, {color: colors.typography}]}>
-              {new Date(item?.limit_date).toLocaleDateString()}
+              {new Date(item?.limit_date).toLocaleDateString(
+                language === 'es' ? 'es-VE' : 'en-US',
+              )}
             </Text>
           </View>
         )}

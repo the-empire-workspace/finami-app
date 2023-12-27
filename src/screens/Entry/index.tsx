@@ -2,7 +2,7 @@ import React, {FC, useEffect, useMemo} from 'react'
 import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
 import {useTheme} from '@providers'
 import {styles} from './styles'
-import {translate} from 'utils'
+import {getLanguage, translate} from 'utils'
 import SvgX from '@assets/img/X.svg'
 import {useNavigation, useRoute} from '@react-navigation/native'
 import {useDispatch, useSelector} from 'react-redux'
@@ -17,6 +17,7 @@ const Entry: FC = () => {
   const router: any = useNavigation()
   const route = useRoute()
   const {params}: any = route
+  const language = getLanguage()
 
   useEffect(() => {
     dispatch(getItem(params?.id))
@@ -122,11 +123,14 @@ const Entry: FC = () => {
               {translate('date')}:
             </Text>
             <Text style={[styles.strongBody, {color: colors.typography}]}>
-              {new Date(item?.date).toLocaleDateString('en-US', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
+              {new Date(item?.date).toLocaleDateString(
+                language === 'es' ? 'es-VE' : 'en-US',
+                {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                },
+              )}
             </Text>
           </View>
           {!!item?.emissor && (
@@ -137,7 +141,10 @@ const Entry: FC = () => {
                   styles.textSeparator,
                   {color: colors.typography},
                 ]}>
-                {translate('emissor')}:
+                {item?.type === 'expense'
+                  ? translate('receiver')
+                  : translate('emissor')}
+                :
               </Text>
               <Text style={[styles.strongBody, {color: colors.typography}]}>
                 {item?.emissor || translate('unavailable')}
