@@ -89,9 +89,22 @@ function* updateLanguageAsync({payload}: any): any {
 function* updateUserAsync({payload}: any): any {
   try {
     const {user} = yield select(selectAccount)
-    yield call(updateUserQuery, {...user, ...payload})
+    yield call(updateUserQuery, {
+      ...user,
+      currency_id: payload.principal_currency,
+      ...payload,
+    })
     const updateUser = yield call(getUserQuery)
     yield put(actionObject(UPDATE_USER_ASYNC, updateUser))
+
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
+    yield put(getIncomes())
+    yield put(getOutcomes())
+    yield put(getDebts())
+    yield put(getReceivableAccounts())
+    yield put(getEntriesGoals('desire'))
+    yield put(getEntriesGoals('compromise'))
   } catch (error) {
     console.log(error)
   }
@@ -225,6 +238,7 @@ export function* createCryptoAccountAsync({payload}: any): any {
 
         yield put(actionObject(CREATE_CURRENCY_ACCOUNT, newAddress))
         yield put(getDashboardValues())
+        yield put(getTotalBalance())
       }
   } catch (error) {
     console.log(error)
@@ -247,7 +261,7 @@ export function* createCurrencyAccountAsync({payload}: any): any {
         account: account?.id,
         payment_type: 'general',
         amount: payload?.available_balance,
-        payment_concept: 'initial',
+        payment_concept: `${payload?.concept} - ${payload?.account_name}`,
         entry_type: 'income',
         comment: '',
         emissor: '',
@@ -258,6 +272,7 @@ export function* createCurrencyAccountAsync({payload}: any): any {
     const accounts = yield call(getAccountsQuery, currencies)
     yield put(actionObject(CREATE_CURRENCY_ACCOUNT_ASYNC, accounts))
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -297,6 +312,7 @@ export function* deleteSingleAccountAsync({payload}: any): any {
     const accounts = yield call(getAccountsQuery, currencies)
     yield put(actionObject(DELETE_SINGLE_ACCOUNT_ASYNC, accounts))
     yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
     console.log(error)
   }
@@ -339,17 +355,24 @@ function* deleteEntryAsync({payload}: any): any {
         entry: getReceivableAccount,
         type: getIncomes,
       },
+      income: {
+        all: getIncomes,
+      },
+      expense: {
+        all: getOutcomes,
+      },
     }
     yield call(deleteEntryQuery, payload)
     yield put(actionObject(DELETE_ENTRY_ASYNC))
-    if (updates[entry?.type]) {
+    const toUpdate = updates[entry?.type || entry?.entry_type]
+    if (toUpdate) {
       yield put(
         entry?.type === 'compromise' || entry?.type === 'desire'
-          ? updates[entry?.type]?.all(entry?.type)
-          : updates[entry?.type]?.all(),
+          ? toUpdate?.all(entry?.type)
+          : toUpdate?.all(),
       )
-      yield put(updates[entry?.type]?.entry(entry?.entry_id))
-      if (updates[entry?.type]?.type) yield put(updates[entry?.type]?.type())
+      if (entry?.entry_id) yield put(toUpdate?.entry(entry?.entry_id))
+      if (toUpdate?.type) yield put(toUpdate?.type())
     }
     yield put(getDashboardValues())
     yield put(getTotalBalance())
@@ -370,11 +393,48 @@ function* editEntryAsync({payload}: any): any {
       emissor: payload?.receiver_name || '',
       email: payload?.email || '',
       phone: payload?.phonenumber || '',
+      entry_id: payload?.entry_id || null,
       date: (payload?.date || new Date())?.getTime(),
     })
-
+    const updates: any = {
+      compromise: {
+        all: getEntriesGoals,
+        entry: getGoal,
+      },
+      desire: {
+        all: getEntriesGoals,
+        entry: getGoal,
+      },
+      debt: {
+        all: getDebts,
+        entry: getDebt,
+        type: getOutcomes,
+      },
+      receivable_account: {
+        all: getReceivableAccounts,
+        entry: getReceivableAccount,
+        type: getIncomes,
+      },
+      income: {
+        all: getIncomes,
+      },
+      expense: {
+        all: getOutcomes,
+      },
+    }
     const entry = yield call(getEntry, payload?.id)
     yield put(actionObject(EDIT_ENTRY_ASYNC, entry))
+
+    const toUpdate = updates[entry?.type || entry?.entry_type]
+    if (toUpdate) {
+      yield put(
+        entry?.type === 'compromise' || entry?.type === 'desire'
+          ? toUpdate?.all(entry?.type)
+          : toUpdate?.all(),
+      )
+      if (entry?.entry_id) yield put(toUpdate?.entry(entry?.entry_id))
+      if (toUpdate?.type) yield put(toUpdate?.type())
+    }
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {

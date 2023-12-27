@@ -28,6 +28,7 @@
   "new_entry": "Nuevo Ingreso",
   "comment": "Comentario (opcional)",
   "emissor": "Nombre de Emisor",
+  "receiver": "Nombre de Receptor",
   "fixed_incoming": "Ingresos Fijos",
   "pending_incoming": "Ingresos Pendientes",
   "new_pending_entry": "Nuevo Ingresos Pendientes",
@@ -256,5 +257,9 @@
   "thanks": "¡Gracias!",
   "greetings_1": "Queremos expresarte nuestro más sincero agradecimiento por habernos participado tus comentarios.",
   "greetings_2": " Tu contribución es invaluable para la evolución de la aplicación. ¡Gracias por considerarnos!",
-  "send": "Enviar" 
+  "send": "Enviar",
+  "pending_income_detail": "Detalles de cuenta por cobrar",
+  "issuer_data": "Datos del emisor",
+  "issuer_name": "Nombre del emisor",
+  "issuer_name_optional": "Nombre del emisor (opcional)"
 }

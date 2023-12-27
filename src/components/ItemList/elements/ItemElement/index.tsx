@@ -5,7 +5,7 @@ import {styles} from './styles'
 import {Props} from './interface'
 import {useNavigation} from '@react-navigation/native'
 import {useSelector} from 'react-redux'
-import {translate} from 'utils'
+import {getLanguage, translate} from 'utils'
 
 const ItemElement: FC<Props> = ({item, type}) => {
   const {colors} = useTheme()
@@ -14,6 +14,8 @@ const ItemElement: FC<Props> = ({item, type}) => {
   const {currencies} = useSelector((state: any) => state.currency)
 
   const router: any = useNavigation()
+
+  const language = getLanguage()
 
   const currency = useMemo(() => {
     return currencies.find(
@@ -226,11 +228,14 @@ const ItemElement: FC<Props> = ({item, type}) => {
               {item?.payment_concept || item?.name}
             </Text>
             <Text style={[styles.smallBody, {color: colors.typography2}]}>
-              {new Date(item?.date).toLocaleDateString('en-US', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
+              {new Date(item?.date).toLocaleDateString(
+                language === 'es' ? 'es-VE' : 'en-US',
+                {
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                },
+              )}
             </Text>
           </View>
           <View>

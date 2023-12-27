@@ -14,13 +14,13 @@ const AccountDelete: FC = () => {
   const dispatch = useDispatch()
 
   const route = useRoute()
-  const navigation = useNavigation()
+  const navigation: any = useNavigation()
 
   const params: any = route.params
 
   const deleteAccount = () => {
     dispatch(deleteSingleAccount(params?.id || ''))
-    navigation.goBack()
+    navigation.navigate('accountMain')
   }
 
   return (

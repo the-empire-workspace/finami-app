@@ -2,7 +2,7 @@ import {BackHandler, ItemList} from 'components'
 import {useTheme} from 'providers'
 import React, {FC, useEffect, useMemo, useState} from 'react'
 import {Text, View, TouchableOpacity, Modal, TextInput} from 'react-native'
-import {translate} from 'utils'
+import {getLanguage, translate} from 'utils'
 import {styles} from './styles'
 import {useDispatch, useSelector} from 'react-redux'
 import {useNavigation, useRoute} from '@react-navigation/native'
@@ -33,6 +33,7 @@ const DetailPendingIncome: FC = () => {
   const {user, accounts} = useSelector((state: any) => state.account)
   const {currencies} = useSelector((state: any) => state.currency)
   const {item} = useSelector((state: any) => state.incoming)
+  const language = getLanguage()
 
   const [createValues, setCreateValues] = useState<any>({
     amount: null,
@@ -95,7 +96,7 @@ const DetailPendingIncome: FC = () => {
         title={
           params?.type === 'category'
             ? translate('category_detail')
-            : translate('basic_expense_detail')
+            : translate('pending_income_detail')
         }
       />
       <View style={[styles.mainInfo, {backgroundColor: colors.background50}]}>
@@ -169,7 +170,9 @@ const DetailPendingIncome: FC = () => {
               {translate('next_payment')}:
             </Text>
             <Text style={[styles.smallBody, {color: colors.typography}]}>
-              {new Date(item?.date)?.toLocaleDateString()}
+              {new Date(item?.date)?.toLocaleDateString(
+                language === 'es' ? 'es-VE' : 'en-US',
+              )}
             </Text>
           </View>
         )}
@@ -189,7 +192,9 @@ const DetailPendingIncome: FC = () => {
               {translate('limit_payment_date')}:
             </Text>
             <Text style={[styles.smallBody, {color: colors.typography}]}>
-              {new Date(item?.limit_date).toLocaleDateString()}
+              {new Date(item?.limit_date).toLocaleDateString(
+                language === 'es' ? 'es-VE' : 'en-US',
+              )}
             </Text>
           </View>
         )}
@@ -202,7 +207,7 @@ const DetailPendingIncome: FC = () => {
               <View style={styles.accountData}>
                 <Text
                   style={[styles.smallStrongBody, {color: colors.typography}]}>
-                  {translate('receiver_name')}:
+                  {translate('issuer_name')}:
                 </Text>
                 <Text style={[styles.smallBody, {color: colors.typography}]}>
                   {item?.emissor}

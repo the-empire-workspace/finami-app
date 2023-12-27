@@ -91,11 +91,17 @@ export const receiverForm = (translate: any, def: any, colors: any = {}) => [
   {
     element: 'input',
     name: 'receiver_name',
-    label: translate('receiver_name_optional'),
+    label:
+      def?.type === 'expense'
+        ? translate('receiver_name_optional')
+        : translate('issuer_name_optional'),
     labelStyle: {backgroundColor: colors?.background100},
     type: 'text',
     defaultValue: def?.receiver_name?.value || '',
-    placeholder: translate('receiver_name'),
+    placeholder:
+      def?.type === 'expense'
+        ? translate('receiver_name')
+        : translate('issuer_name'),
     returnKeyType: 'next',
     keyboardType: 'default',
     validations: {

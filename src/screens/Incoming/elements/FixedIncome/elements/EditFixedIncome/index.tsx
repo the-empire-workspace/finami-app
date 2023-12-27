@@ -153,7 +153,7 @@ const EditFixedIncome: FC = () => {
               {borderBottomColor: colors.background100},
             ]}>
             <Text style={[styles.h3, {color: colors.typography}]}>
-              {translate('receiver_data')}
+              {translate('issuer_data')}
             </Text>
             <DynamicForm
               formData={rForm}
