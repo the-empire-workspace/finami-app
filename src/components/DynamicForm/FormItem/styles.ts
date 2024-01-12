@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import {StyleSheet} from 'react-native'
 
 export const styles: any = StyleSheet.create({
   root: {
@@ -51,6 +51,6 @@ export const styles: any = StyleSheet.create({
     marginBottom: 15,
   },
   noMargin: {
-    marginBottom: 0
-  }
+    marginBottom: 0,
+  },
 })

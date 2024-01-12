@@ -1,8 +1,8 @@
-import { operateChange } from 'utils/dataTransform'
-import { getAccountEntriesQuery } from './entryModel'
-import { insertQuery, selectQuery } from './helpers'
-import { getNetworkCurrency } from 'utils/moralis'
-import { getExchangeValues } from 'utils/exchangeData'
+import {operateChange} from 'utils/dataTransform'
+import {getAccountEntriesQuery} from './entryModel'
+import {insertQuery, selectQuery} from './helpers'
+import {getNetworkCurrency} from 'utils/moralis'
+import {getExchangeValues} from 'utils/exchangeData'
 
 export const createAccountQuery = async ({
   user,

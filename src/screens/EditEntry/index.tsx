@@ -53,8 +53,10 @@ const EditEntry: FC = () => {
         newValues.comments = {value: String(item[key]) || ''}
       if (key === 'account')
         newValues.account = {value: String(item[key]) || ''}
-      if (key === 'emissor') newValues.receiver_name = {value: String(item[key]) || ''}
-      if (key === 'phone') newValues.phonenumber = {value: String(item[key]) || ''}
+      if (key === 'emissor')
+        newValues.receiver_name = {value: String(item[key]) || ''}
+      if (key === 'phone')
+        newValues.phonenumber = {value: String(item[key]) || ''}
     })
 
     setValues(newValues)

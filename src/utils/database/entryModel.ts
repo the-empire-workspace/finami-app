@@ -1,6 +1,6 @@
-import { getExchangeValues } from 'utils/exchangeData'
-import { insertQuery, selectQuery } from './helpers'
-import { operateChange } from 'utils/dataTransform'
+import {getExchangeValues} from 'utils/exchangeData'
+import {insertQuery, selectQuery} from './helpers'
+import {operateChange} from 'utils/dataTransform'
 
 export const createEntryQuery = async (data: any) => {
   try {
@@ -307,7 +307,8 @@ export const updateEntryQuery = async (id: any, entry: any) => {
 
 export const getAccountEntriesQuery = async (account: any) => {
   try {
-    const query = 'SELECT entries.amount,\
+    const query =
+      'SELECT entries.amount,\
     entries.comment,\
     entries.date,\
     entries.email,\
@@ -327,10 +328,7 @@ export const getAccountEntriesQuery = async (account: any) => {
     LEFT JOIN (SELECT id, payment_type as type FROM entries) as entry ON entries.entry_id = entry.id\
     WHERE entries.payment_type = "general" AND accounts.account_name = ? ORDER BY entries.date DESC'
 
-    const entries: any = await selectQuery(
-      `${query} `,
-      [account],
-    )
+    const entries: any = await selectQuery(`${query} `, [account])
     return entries.raw()
   } catch (error) {
     console.log('error getting entries', error)

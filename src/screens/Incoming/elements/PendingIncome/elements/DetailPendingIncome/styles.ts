@@ -128,7 +128,7 @@ export const localStyles = StyleSheet.create({
     textAlign: 'center',
     justifyContent: 'center',
     alignItems: 'center',
-    display: 'flex'
+    display: 'flex',
   },
   createButton: {
     paddingHorizontal: 16,
