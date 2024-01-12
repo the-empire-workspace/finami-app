@@ -4,6 +4,8 @@ export interface ItemProps {
   returnData: any
   setData: any
   form: any
+  index: any
+  length: any
 }
 export interface InputProps {
   element: any

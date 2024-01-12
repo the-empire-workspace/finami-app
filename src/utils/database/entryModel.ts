@@ -1,6 +1,6 @@
-import {getExchangeValues} from 'utils/exchangeData'
-import {insertQuery, selectQuery} from './helpers'
-import {operateChange} from 'utils/dataTransform'
+import { getExchangeValues } from 'utils/exchangeData'
+import { insertQuery, selectQuery } from './helpers'
+import { operateChange } from 'utils/dataTransform'
 
 export const createEntryQuery = async (data: any) => {
   try {
@@ -307,8 +307,28 @@ export const updateEntryQuery = async (id: any, entry: any) => {
 
 export const getAccountEntriesQuery = async (account: any) => {
   try {
+    const query = 'SELECT entries.amount,\
+    entries.comment,\
+    entries.date,\
+    entries.email,\
+    entries.emissor,\
+    entries.status,\
+    entries.frecuency_time,\
+    entries.frecuency_type,\
+    accounts.currency_id,\
+    entries.entry_type,\
+    entries.id,\
+    entries.payment_concept,\
+    entries.payment_type,\
+    entries.phone,\
+    entry.type FROM entries\
+    LEFT JOIN accounts ON accounts.id = entries.account_id\
+    LEFT JOIN currencies ON currencies.id = accounts.currency_id\
+    LEFT JOIN (SELECT id, payment_type as type FROM entries) as entry ON entries.entry_id = entry.id\
+    WHERE entries.payment_type = "general" AND accounts.account_name = ? ORDER BY entries.date DESC'
+
     const entries: any = await selectQuery(
-      'SELECT entries.amount, entries.comment, entries.date, entries.email, entries.emissor, entries.status, entries.frecuency_time,entries.frecuency_type, entries.entry_type, entries.id, entries.payment_concept, entries.payment_type, entries.phone, accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id WHERE accounts.account_name = ?',
+      `${query} `,
       [account],
     )
     return entries.raw()
@@ -359,6 +379,7 @@ export const getDebtsQuery = async (currencies: any, currency_id: any) => {
     const entries: any = await selectQuery(
       `${query} WHERE entries.entry_type = "expense" AND entries.payment_type = "debt" AND category_id IS NULL ORDER BY entries.date DESC`,
     )
+
     const queryEntries = entries.raw()
 
     for (const entry of queryEntries) {

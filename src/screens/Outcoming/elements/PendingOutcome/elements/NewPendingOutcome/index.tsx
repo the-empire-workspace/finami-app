@@ -12,10 +12,7 @@ import {createDebt, getAccounts} from 'store/actions'
 
 const NewPendingOutcome: FC = () => {
   const {colors} = useTheme()
-  const {accounts} = useSelector((state: any) => state.account)
-  const [values, setValues] = useState<any>({
-    account: {value: String(accounts[0]?.id)},
-  })
+  const [values, setValues] = useState<any>({})
   const navigation: any = useNavigation()
   const dispatch = useDispatch()
 

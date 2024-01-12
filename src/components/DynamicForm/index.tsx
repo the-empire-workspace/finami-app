@@ -69,6 +69,8 @@ const DynamicForm: FC<Props> = ({formData, returnData}) => {
           returnData={returnData}
           setData={setData}
           key={index}
+          index={index}
+          length={form.length}
         />
       ))}
     </View>

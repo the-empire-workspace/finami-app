@@ -31,7 +31,6 @@ export const localStyles = StyleSheet.create({
     borderRadius: 5,
     marginTop: 5,
   },
-
   actionContainer: {
     flexDirection: 'row',
     alignItems: 'center',
