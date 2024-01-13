@@ -50,4 +50,7 @@ export const styles: any = StyleSheet.create({
   inputContainer: {
     marginBottom: 15,
   },
+  noMargin: {
+    marginBottom: 0,
+  },
 })

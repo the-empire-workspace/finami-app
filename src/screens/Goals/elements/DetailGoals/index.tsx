@@ -76,7 +76,6 @@ const DetailGoals: FC = () => {
   useEffect(() => {
     dispatch(getAccounts())
   }, [])
-
   return (
     <View style={[styles.root, {backgroundColor: colors.background100}]}>
       <BackHandler
@@ -86,6 +85,7 @@ const DetailGoals: FC = () => {
                 navigation.navigate('detailGoals', {
                   id: item?.category_id,
                   type: 'category',
+                  itemType: item?.type || item.payment_type,
                 })
               }
             : null
@@ -143,44 +143,37 @@ const DetailGoals: FC = () => {
                 })}
               </Text>
             </View>
-            {!shortInfo && (
+            <View
+              style={[
+                styles.progressContent,
+                {
+                  borderColor:
+                    params?.itemType === 'compromise'
+                      ? colors.progress.needs
+                      : colors.progress.wish,
+                },
+              ]}>
               <View
                 style={[
-                  styles.progressContent,
+                  styles.progress,
                   {
-                    borderColor:
+                    backgroundColor:
                       params?.itemType === 'compromise'
                         ? colors.progress.needs
                         : colors.progress.wish,
+                    width: `${(item?.total_amount / item?.amount) * 100}%`,
                   },
-                ]}>
-                <View
-                  style={[
-                    styles.progress,
-                    {
-                      backgroundColor:
-                        params?.itemType === 'compromise'
-                          ? colors.progress.needs
-                          : colors.progress.wish,
-                      width: `${(item?.total_amount / item?.amount) * 100}%`,
-                    },
-                    item?.total_amount >= item?.amount
-                      ? styles.fullOpacity
-                      : {},
-                  ]}
-                />
-                {item?.total_amount >= item?.amount && (
-                  <Text
-                    style={[
-                      styles.overText,
-                      styles.h3,
-                      {color: colors.typography2},
-                    ]}>
+                  item?.total_amount >= item?.amount ? styles.fullOpacity : {},
+                ]}
+              />
+              {item?.total_amount >= item?.amount && (
+                <View style={styles.overText}>
+                  <Text style={[styles.h3, {color: colors.typography2}]}>
                     * {translate('completed')} *
                   </Text>
-                )}
-              </View>
-            )}
+                </View>
+              )}
+            </View>
           </View>
         )}
         <View style={styles.accountData}>
@@ -243,7 +236,8 @@ const DetailGoals: FC = () => {
                   onPress={() =>
                     navigation.navigate('deleteGoals', {
                       id: item?.id,
-                      type: params?.type,
+                      type: params?.type || params?.itemType,
+                      itemType: params?.itemType,
                     })
                   }>
                   <Trash width={24} height={24} />

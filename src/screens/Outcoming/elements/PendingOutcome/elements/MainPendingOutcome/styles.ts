@@ -9,7 +9,7 @@ export const localStyles = StyleSheet.create({
   },
   header: {
     width: '100%',
-    minHeight: 170,
+    minHeight: 80,
     paddingHorizontal: 20,
     paddingBottom: 20,
   },

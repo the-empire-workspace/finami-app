@@ -22,8 +22,8 @@ const MainPendingIncome: FC = () => {
 
   return (
     <View style={[styles.root, {backgroundColor: colors.background100}]}>
+      <BackHandler title={translate('receivable_accounts')} />
       <View style={[styles.header, {backgroundColor: colors.background50}]}>
-        <BackHandler title={translate('receivable_accounts')} />
         <TouchableOpacity
           style={[styles.headerButton, {backgroundColor: colors.background25}]}
           onPress={() => {

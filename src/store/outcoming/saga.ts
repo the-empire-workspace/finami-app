@@ -70,7 +70,7 @@ function* createOutcomeAsync({payload}: any): any {
       amount: payload?.amount,
       payment_concept: payload?.concept,
       entry_type: 'expense',
-      comment: payload?.comment || '',
+      comment: payload?.comments || '',
       emissor: payload?.receiver_name || '',
       email: payload?.email || '',
       phone: payload?.phonenumber || '',
