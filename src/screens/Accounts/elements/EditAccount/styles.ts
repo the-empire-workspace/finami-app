@@ -10,7 +10,6 @@ export const localStyles = StyleSheet.create({
   scrollContainer: {
     paddingHorizontal: 20,
     paddingTop: 15,
-    paddingBottom: 15,
   },
   buttonContent: {
     width: '47%',

@@ -389,7 +389,7 @@ function* editEntryAsync({payload}: any): any {
       amount: payload?.amount,
       payment_concept: payload?.concept,
       entry_type: payload?.entry_type,
-      comment: payload?.comment || '',
+      comment: payload?.comments || '',
       emissor: payload?.receiver_name || '',
       email: payload?.email || '',
       phone: payload?.phonenumber || '',
@@ -432,7 +432,8 @@ function* editEntryAsync({payload}: any): any {
           ? toUpdate?.all(entry?.type)
           : toUpdate?.all(),
       )
-      if (entry?.entry_id) yield put(toUpdate?.entry(entry?.entry_id))
+      if (entry?.entry_id && toUpdate?.entry)
+        yield put(toUpdate?.entry(entry?.entry_id))
       if (toUpdate?.type) yield put(toUpdate?.type())
     }
     yield put(getDashboardValues())

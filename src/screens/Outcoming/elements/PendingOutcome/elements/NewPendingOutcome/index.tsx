@@ -5,17 +5,14 @@ import {egressForm, receiverForm} from './form'
 import {ScrollView, Text, View} from 'react-native'
 import {styles} from './styles'
 import {useTheme} from 'providers'
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch} from 'react-redux'
 import {Button} from 'theme'
 import {useNavigation} from '@react-navigation/native'
 import {createDebt, getAccounts} from 'store/actions'
 
 const NewPendingOutcome: FC = () => {
   const {colors} = useTheme()
-  const {accounts} = useSelector((state: any) => state.account)
-  const [values, setValues] = useState<any>({
-    account: {value: String(accounts[0]?.id)},
-  })
+  const [values, setValues] = useState<any>({})
   const navigation: any = useNavigation()
   const dispatch = useDispatch()
 

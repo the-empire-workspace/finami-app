@@ -21,8 +21,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
     return currencies.find(
       (c: any) => c.id === (item?.currency_id || user?.currency_id),
     )
-  }, [currencies?.length, item?.currency_id])
-
+  }, [currencies?.length, item?.currency_id, user?.currency_id])
   const checkAction = () => {
     switch (type) {
       case 'basic_expenses':

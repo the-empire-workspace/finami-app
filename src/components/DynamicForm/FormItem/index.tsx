@@ -12,6 +12,8 @@ const FormItem: FC<ItemProps> = ({
   returnData,
   setData,
   form,
+  index: indexItem,
+  length,
 }: any) => {
   const {colors} = useTheme()
   const [validate, setValidate] = useState(!!values.defaultValue)
@@ -60,7 +62,11 @@ const FormItem: FC<ItemProps> = ({
           </View>
         </View>
       ) : (
-        <View style={styles.inputContainer}>
+        <View
+          style={[
+            styles.inputContainer,
+            indexItem === length - 1 && styles.noMargin,
+          ]}>
           {Label}
           <View style={styles[element]}>
             <Input

@@ -21,7 +21,9 @@ const DeleteGoals: FC = () => {
 
   const deleteAccount = () => {
     if (params.type === 'category')
-      dispatch(deleteCategoryGoal({id: params?.id || '', type: params?.type}))
+      dispatch(
+        deleteCategoryGoal({id: params?.id || '', type: params?.itemType}),
+      )
     else dispatch(deleteGoal({id: params?.id || '', type: params?.type}))
     navigation.navigate('detailGoals')
   }

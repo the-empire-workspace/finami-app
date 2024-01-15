@@ -137,14 +137,11 @@ const DetailPendingOutcome: FC = () => {
               ]}
             />
             {item?.total_amount >= item?.amount && (
-              <Text
-                style={[
-                  styles.overText,
-                  styles.h3,
-                  {color: colors.typography2},
-                ]}>
-                * {translate('completed')} *
-              </Text>
+              <View style={styles.overText}>
+                <Text style={[styles.h3, {color: colors.typography2}]}>
+                  * {translate('completed')} *
+                </Text>
+              </View>
             )}
           </View>
         </View>

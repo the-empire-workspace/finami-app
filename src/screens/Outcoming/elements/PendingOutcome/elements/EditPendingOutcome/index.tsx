@@ -12,10 +12,7 @@ import {getAccounts, getDebt, updateDebt} from 'store/actions'
 
 const EditPendingOutcome: FC = () => {
   const {colors} = useTheme()
-  const {accounts} = useSelector((state: any) => state.account)
-  const [values, setValues] = useState<any>({
-    account: {value: String(accounts[0]?.id)},
-  })
+  const [values, setValues] = useState<any>({})
   const router: any = useRoute()
   const navigation: any = useNavigation()
   const params = router.params
