@@ -20,7 +20,9 @@ import {
   watchSendComments,
   watchSignIn,
   watchUpdateLanguage,
+  watchUpdatePostponeEntry,
   watchUpdateSingleAccount,
+  watchUpdateStatusEntry,
   watchUpdateUser,
 } from './account/saga'
 import {
@@ -148,5 +150,7 @@ export default function* rootSaga() {
     fork(watchEditEntry),
     fork(watchUpdateUser),
     fork(watchSendComments),
+    fork(watchUpdatePostponeEntry),
+    fork(watchUpdateStatusEntry),
   ])
 }

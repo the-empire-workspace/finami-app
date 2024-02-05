@@ -97,6 +97,8 @@ const ItemElement: FC<Props> = ({item, type}) => {
       desire: colors.progress.wish,
       receivable_account: colors.progress.ingress,
       debt: colors.progress.egress,
+      fixed_incomes: colors.progress.ingress,
+      fixed_outcomes: colors.progress.egress,
     }
 
     const paymentColor: any = {
@@ -118,8 +120,10 @@ const ItemElement: FC<Props> = ({item, type}) => {
       style={[
         styles.transactionItem,
         {
-          backgroundColor: backgroundColor,
-          borderColor: borderColor,
+          backgroundColor:
+            item?.status === 'pending' ? transparent : backgroundColor,
+          borderColor:
+            item?.status === 'pending' ? backgroundColor : borderColor,
           ...(budget
             ? item?.total_amount >= item?.amount
               ? styles.noPaddingAlt
@@ -222,11 +226,25 @@ const ItemElement: FC<Props> = ({item, type}) => {
               style={[
                 styles.strongBody,
                 styles.concept,
-                {color: colors.typography2},
+                {
+                  color:
+                    item?.status === 'pending'
+                      ? colors.typography
+                      : colors.typography2,
+                },
               ]}>
               {item?.payment_concept || item?.name}
             </Text>
-            <Text style={[styles.smallBody, {color: colors.typography2}]}>
+            <Text
+              style={[
+                styles.smallBody,
+                {
+                  color:
+                    item?.status === 'pending'
+                      ? colors.typography
+                      : colors.typography2,
+                },
+              ]}>
               {new Date(item?.date).toLocaleDateString(
                 language === 'es' ? 'es-VE' : 'en-US',
                 {
@@ -237,15 +255,35 @@ const ItemElement: FC<Props> = ({item, type}) => {
               )}
             </Text>
           </View>
-          <View>
+          <View style={[styles.textContentAmount]}>
             {!!item?.amount && (
-              <Text style={[styles.strongBody, {color: colors.typography2}]}>
-                {' '}
-                {currency?.symbol || ''}{' '}
-                {item?.amount?.toLocaleString('en-US', {
-                  maximumFractionDigits: currency?.decimal,
-                })}
-              </Text>
+              <>
+                <Text
+                  style={[
+                    styles.strongBody,
+                    {
+                      color:
+                        item?.status === 'pending'
+                          ? colors.typography
+                          : colors.typography2,
+                    },
+                  ]}>
+                  {' '}
+                  {currency?.symbol || ''}{' '}
+                  {item?.amount?.toLocaleString('en-US', {
+                    maximumFractionDigits: currency?.decimal,
+                  })}
+                </Text>
+                {item?.status === 'pending' && (
+                  <Text
+                    style={[
+                      styles.smallStrongBody,
+                      {color: colors.states.caution},
+                    ]}>
+                    {translate('pending')}
+                  </Text>
+                )}
+              </>
             )}
           </View>
         </>

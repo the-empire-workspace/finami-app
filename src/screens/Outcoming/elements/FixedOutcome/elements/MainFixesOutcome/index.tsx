@@ -20,8 +20,8 @@ const MainFixesOutcome: FC = () => {
 
   return (
     <View style={[styles.root, {backgroundColor: colors.background100}]}>
+      <BackHandler title={translate('basic_expenses')} />
       <View style={[styles.header, {backgroundColor: colors.background50}]}>
-        <BackHandler title={translate('basic_expenses')} />
         <TouchableOpacity
           style={[styles.headerButton, {backgroundColor: colors.background25}]}
           onPress={() => {

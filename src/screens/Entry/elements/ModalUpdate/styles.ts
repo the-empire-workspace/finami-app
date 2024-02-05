@@ -49,13 +49,14 @@ const localStyles = StyleSheet.create({
     paddingVertical: 15,
     borderBottomWidth: 2,
     borderBottomColor: 'transparent',
+    backgroundColor: 'transparent',
   },
   root: {
     height: '100%',
     width: '100%',
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: 'transparent',
+    backgroundColor: '#000000BF',
   },
   textSeparator: {
     marginRight: 3,
@@ -82,11 +83,44 @@ const localStyles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingVertical: 0,
   },
-  modalMain: {
-    height: '100%',
+  modInput: {
+    width: '100%',
+    textAlign: 'left',
+    borderWidth: 0,
+    borderRadius: 5,
+  },
+  inputContainer: {
+    borderRadius: 5,
+    position: 'relative',
+    borderWidth: 1,
     width: '100%',
     flex: 1,
-    backgroundColor: 'transparent',
+  },
+  floatLabel: {
+    position: 'absolute',
+    left: -5,
+    top: -15,
+    zIndex: 1,
+    padding: 5,
+  },
+  modDate: {
+    borderWidth: 0,
+    marginBottom: 0,
+  },
+  mainInputContainer: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 10,
+    flex: 1,
+  },
+  modButton: {
+    width: 65,
+    height: 44,
+    padding: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 })
 

@@ -15,7 +15,9 @@ import {
   SIGNIN_ASYNC,
   UPDATE_LANGUAGE_ASYNC,
   UPDATE_NOTIFICATION_TOKEN_ASYNC,
+  UPDATE_POSTPONE_ENTRY_ASYNC,
   UPDATE_SINGLE_ACCOUNT_ASYNC,
+  UPDATE_STATUS_ENTRY_ASYNC,
   UPDATE_USER_ASYNC,
 } from './action-types'
 
@@ -79,9 +81,12 @@ const AccountReducer = (
       return {...state, item: payload}
     case UPDATE_USER_ASYNC:
       return {...state, user: payload}
+    case UPDATE_POSTPONE_ENTRY_ASYNC:
+      return {...state, item: payload}
+    case UPDATE_STATUS_ENTRY_ASYNC:
+      return {...state, item: payload}
     case DELETE_ACCOUNT_ASYNC:
       return initialState
-
     default:
       return state
   }

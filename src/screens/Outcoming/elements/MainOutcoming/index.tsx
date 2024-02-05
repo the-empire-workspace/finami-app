@@ -31,6 +31,11 @@ const MainOutcoming: FC = () => {
         label: 'month_outcome',
         color: colors.progress.egress,
       },
+      month2: {
+        value: items?.basicExpense,
+        label: 'basic_expenses',
+        color: colors.typography,
+      },
       month3: {
         value: items?.debts,
         label: 'debts',
@@ -40,7 +45,10 @@ const MainOutcoming: FC = () => {
   }, [items, colors])
 
   const DropDownInfo = [
-    {},
+    {
+      label: translate('basic_expenses'),
+      router: 'fixedOutcome',
+    },
     {
       label: translate('debts'),
       router: 'pendingOutcome',

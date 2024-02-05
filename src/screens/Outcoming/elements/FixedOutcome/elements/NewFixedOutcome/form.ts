@@ -96,7 +96,11 @@ export const egressForm = (translate: any, def: any, colors: any = {}) => [
         keyboardType: 'numeric',
         placeholder: translate('quantity'),
         returnKeyType: 'go',
-        validations: {},
+        validations: {
+          required: true,
+          minLength: 1,
+          maxLength: 72,
+        },
       },
       {
         element: 'select',
