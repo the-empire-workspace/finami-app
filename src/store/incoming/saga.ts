@@ -58,6 +58,7 @@ import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 function* createIncomeAsync({payload}: any): any {
   try {
     const newDate = new Date()
+    const today = new Date()
     if (payload?.date) {
       newDate.setDate(payload?.date?.getDate())
       newDate.setMonth(payload?.date?.getMonth())
@@ -74,6 +75,7 @@ function* createIncomeAsync({payload}: any): any {
       email: payload?.email || '',
       phone: payload?.phonenumber || '',
       date: newDate.getTime(),
+      status: today < newDate ? 'pending' : 'paid',
     })
 
     yield put(getIncomes())
@@ -109,23 +111,25 @@ function* createFixedIncomesAsync({payload}: any): any {
     })
     const entryDate = (payload?.date || new Date())?.getTime()
     const date = new Date().getTime()
+    const entryData: any = {
+      entry_id: newEntry?.id,
+      category_id: payload?.category_id,
+      account: payload?.account,
+      payment_type: 'general',
+      amount: payload?.amount,
+      payment_concept: payload?.concept,
+      entry_type: 'income',
+      comment: payload?.comment || '',
+      emissor: payload?.receiver_name || '',
+      status: 'pending',
+      email: payload?.email || '',
+      phone: payload?.phonenumber || '',
+      date: newDate.getTime(),
+    }
 
-    if (entryDate < date)
-      yield call(createEntryQuery, {
-        entry_id: newEntry?.id,
-        category_id: payload?.category_id,
-        account: payload?.account,
-        payment_type: 'general',
-        amount: payload?.amount,
-        payment_concept: payload?.concept,
-        entry_type: 'income',
-        comment: payload?.comment || '',
-        emissor: payload?.receiver_name || '',
-        status: 'paid',
-        email: payload?.email || '',
-        phone: payload?.phonenumber || '',
-        date: newDate.getTime(),
-      })
+    if (entryDate < date) entryData.status = 'paid'
+
+    yield call(createEntryQuery, entryData)
 
     const outcomes = yield call(getFixedIncomesQuery)
     const categories = yield call(getIncomeCategoriesQuery)
@@ -198,7 +202,8 @@ function* getIncomesAsync(): any {
         if (
           date.getMonth() === actualDate.getMonth() &&
           entry.payment_type !== 'fixed_incomes' &&
-          entry.payment_type !== 'receivable_account'
+          entry.payment_type !== 'receivable_account' &&
+          entry?.status !== 'pending'
         )
           values.monthIncome += amount
 

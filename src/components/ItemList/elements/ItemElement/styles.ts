@@ -53,6 +53,10 @@ const localStyles = StyleSheet.create({
     paddingVertical: 0,
     minHeight: 80,
   },
+  textContentAmount: {
+    alignItems: 'flex-end',
+    gap: 5,
+  },
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}

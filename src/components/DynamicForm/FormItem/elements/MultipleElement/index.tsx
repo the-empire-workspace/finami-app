@@ -13,7 +13,7 @@ const MultipleElement: FC<Props> = ({
   setData,
   length,
 }) => {
-  const [validateMultiple, setValidateMultiple] = useState(false)
+  const [validateMultiple, setValidateMultiple] = useState(!!item.defaultValue)
   const {element: elementMulti, render} = item
 
   const styleInput = elementMulti === 'select' ? styles.select : styles.input

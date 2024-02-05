@@ -305,6 +305,42 @@ export const updateEntryQuery = async (id: any, entry: any) => {
   }
 }
 
+export const updatePostponeEntryQuery = async (id: any, entry: any) => {
+  try {
+    const {date} = entry
+
+    const newEntry: any = await insertQuery(
+      'UPDATE entries SET date = ? WHERE id = ?',
+      [date, id],
+    )
+    const updateEntry: any = await selectQuery(
+      'SELECT * FROM entries WHERE id = ?',
+      [newEntry?.insertId],
+    )
+    return updateEntry.raw()[0]
+  } catch (error) {
+    console.log('error updating entry', error)
+  }
+}
+
+export const updateStatusEntryQuery = async (id: any, entry: any) => {
+  try {
+    const {date, amount, account} = entry
+
+    const newEntry: any = await insertQuery(
+      'UPDATE entries SET account_id = ?, date = ?,amount = ?, status = "paid" WHERE id = ?',
+      [account, date, amount, id],
+    )
+    const updateEntry: any = await selectQuery(
+      'SELECT * FROM entries WHERE id = ?',
+      [newEntry?.insertId],
+    )
+    return updateEntry.raw()[0]
+  } catch (error) {
+    console.log('error updating entry', error)
+  }
+}
+
 export const getAccountEntriesQuery = async (account: any) => {
   try {
     const query =
@@ -351,6 +387,57 @@ export const deleteEntryQuery = async (id: any) => {
   } catch (error) {
     console.log('error deleting entry', error)
     return null
+  }
+}
+
+export const getAllDebtsQuery = async (currencies: any, currency_id: any) => {
+  try {
+    const query = `SELECT entries.amount,\
+    entries.comment,\
+    entries.date,\
+    entries.email,\
+    entries.emissor,\
+    entries.status,\
+    entries.frecuency_time,\
+    entries.frecuency_type,\
+    entries.entry_type,\
+    entries.id,\
+    entries.payment_concept,\
+    entries.payment_type,\
+    entries.phone,\
+    entries.entry_id,\
+    entries.status_level,\
+    entries.limit_date,\
+    accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
+
+    const entries: any = await selectQuery(
+      `${query} WHERE entries.entry_type = "expense" AND entries.payment_type = "debt" ORDER BY entries.date DESC`,
+    )
+
+    const queryEntries = entries.raw()
+
+    for (const entry of queryEntries) {
+      const entriesEntry: any = await selectQuery(
+        `${query} WHERE entries.entry_id = ?`,
+        [entry?.id],
+      )
+      const queryEntriesEntry = entriesEntry.raw()
+      const defaultPrices = await getExchangeValues(currencies, currency_id)
+
+      const amount =
+        queryEntriesEntry?.reduce((prev: any, next: any) => {
+          const change = defaultPrices[String(next?.currency_id)]
+          const newAmount = change
+            ? operateChange(change?.op, change?.value, next.amount)
+            : next.amount
+          return prev + newAmount
+        }, 0) || 0
+      entry.total_amount = amount
+    }
+
+    return queryEntries
+  } catch (error) {
+    console.log('error getting debts', error)
   }
 }
 
@@ -481,8 +568,37 @@ export const getFixedIncomesQuery = async () => {
       entries.phone,\
       entries.entry_id,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
-      WHERE entries.entry_type = "income" AND entries.payment_type = "fixed_incomes" AND category_id IS NULL  ORDER BY entries.date DESC',
+      WHERE entries.entry_type = "income" AND entries.payment_type = "fixed_incomes" AND category_id IS NULL ORDER BY entries.date DESC',
     )
+    const query =
+      'SELECT entries.amount,\
+  entries.comment,\
+  entries.date,\
+  entries.email,\
+  entries.emissor,\
+  entries.status,\
+  entries.frecuency_time,\
+  entries.frecuency_type,\
+  accounts.currency_id,\
+  entries.entry_type,\
+  entries.id,\
+  entries.payment_concept,\
+  entries.payment_type,\
+  entries.phone,\
+  entry.type FROM entries\
+  LEFT JOIN accounts ON accounts.id = entries.account_id\
+  LEFT JOIN currencies ON currencies.id = accounts.currency_id\
+  LEFT JOIN (SELECT id, payment_type as type FROM entries) as entry ON entries.entry_id = entry.id\
+  WHERE entries.payment_type = "general"'
+
+    const fixedIncomes = entries.raw()
+    for (const income of fixedIncomes) {
+      const entriesIncome: any = await selectQuery(
+        `${query} AND entries.entry_id = ? ORDER BY entries.date DESC`,
+        [income?.id],
+      )
+      income.entries = entriesIncome.raw()
+    }
     return entries.raw()
   } catch (error) {
     console.log('error getting basics expenses', error)
@@ -527,6 +643,59 @@ export const getFixedIncomeQuery = async (id: any) => {
     return queryEntry
   } catch (error) {
     console.log('error getting entry', error)
+  }
+}
+
+export const getAllReceivableAccountsQuery = async (
+  currencies: any,
+  currency_id: any,
+) => {
+  try {
+    const query = `SELECT entries.amount,\
+    entries.comment,\
+    entries.date,\
+    entries.email,\
+    entries.emissor,\
+    entries.status,\
+    entries.frecuency_time,\
+    entries.frecuency_type,\
+    entries.entry_type,\
+    entries.id,\
+    entries.payment_concept,\
+    entries.payment_type,\
+    entries.phone,\
+    entries.entry_id,\
+    entries.status_level,\
+    entries.limit_date,\
+    accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
+
+    const entries: any = await selectQuery(
+      `${query} WHERE entries.entry_type = "income" AND entries.payment_type = "receivable_account" ORDER BY entries.date DESC`,
+    )
+    const queryEntries = entries.raw()
+
+    for (const entry of queryEntries) {
+      const entriesEntry: any = await selectQuery(
+        `${query} WHERE entries.entry_id = ?`,
+        [entry?.id],
+      )
+      const queryEntriesEntry = entriesEntry.raw()
+      const defaultPrices = await getExchangeValues(currencies, currency_id)
+
+      const amount =
+        queryEntriesEntry?.reduce((prev: any, next: any) => {
+          const change = defaultPrices[String(next?.currency_id)]
+          const newAmount = change
+            ? operateChange(change?.op, change?.value, next.amount)
+            : next.amount
+          return prev + newAmount
+        }, 0) || 0
+      entry.total_amount = amount
+    }
+
+    return queryEntries
+  } catch (error) {
+    console.log('error getting debts', error)
   }
 }
 
@@ -663,6 +832,7 @@ export const getEntriesIncomesQuery = async () => {
       LEFT JOIN (SELECT id, payment_type as type_entry FROM entries) as entry ON entries.entry_id = entry.id\
       WHERE entries.entry_type = "income" ORDER BY entries.date DESC',
     )
+
     return entries.raw()
   } catch (error) {
     console.log('error getting entries', error)

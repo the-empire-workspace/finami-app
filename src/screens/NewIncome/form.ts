@@ -78,7 +78,8 @@ export const egressForm = (translate: any, def: any, colors: any = {}) => [
   {
     element: 'date',
     name: 'date',
-    label: null,
+    label: translate('date'),
+    labelStyle: {backgroundColor: colors?.background100},
     defaultValue: def ? def.date : '',
     placeholder: translate('date'),
     validations: {

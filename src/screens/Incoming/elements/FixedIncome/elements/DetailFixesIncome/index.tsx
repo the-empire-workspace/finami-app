@@ -261,7 +261,7 @@ const DetailFixesIncome: FC = () => {
             {params?.type === 'category' && (
               <Button
                 text={translate('new_payment')}
-                style={[{backgroundColor: colors.negative}]}
+                style={[{backgroundColor: colors.positive}]}
                 styleText={{color: colors.typography2}}
                 onPress={() => {
                   navigation.navigate('newFixedIncome', {

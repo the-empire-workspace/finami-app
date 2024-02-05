@@ -20,8 +20,8 @@ const MainFixesIncome: FC = () => {
 
   return (
     <View style={[styles.root, {backgroundColor: colors.background100}]}>
+      <BackHandler title={translate('fixed_incomes')} />
       <View style={[styles.header, {backgroundColor: colors.background50}]}>
-        <BackHandler title={translate('fixed_incomes')} />
         <TouchableOpacity
           style={[styles.headerButton, {backgroundColor: colors.background25}]}
           onPress={() => {
