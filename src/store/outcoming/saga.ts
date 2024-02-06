@@ -59,6 +59,7 @@ import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 function* createOutcomeAsync({payload}: any): any {
   try {
     const newDate = new Date()
+    const today = new Date()
     if (payload?.date) {
       newDate.setDate(payload?.date?.getDate())
       newDate.setMonth(payload?.date?.getMonth())
@@ -75,6 +76,7 @@ function* createOutcomeAsync({payload}: any): any {
       email: payload?.email || '',
       phone: payload?.phonenumber || '',
       date: newDate.getTime(),
+      status: today < newDate ? 'pending' : 'paid',
     })
 
     const outcomes = yield call(getEntriesExpensesQuery)
@@ -202,7 +204,8 @@ function* getOutcomesAsync(): any {
         if (
           date.getMonth() === actualDate.getMonth() &&
           entry?.payment_type !== 'basic_expenses' &&
-          entry?.payment_type !== 'debt'
+          entry?.payment_type !== 'debt' &&
+          entry?.status !== 'pending'
         )
           values.monthExpense += amount
 

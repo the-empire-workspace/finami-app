@@ -26,8 +26,12 @@ import {
   SIGNIN_ASYNC,
   UPDATE_LANGUAGE,
   UPDATE_LANGUAGE_ASYNC,
+  UPDATE_POSTPONE_ENTRY,
+  UPDATE_POSTPONE_ENTRY_ASYNC,
   UPDATE_SINGLE_ACCOUNT,
   UPDATE_SINGLE_ACCOUNT_ASYNC,
+  UPDATE_STATUS_ENTRY,
+  UPDATE_STATUS_ENTRY_ASYNC,
   UPDATE_USER,
   UPDATE_USER_ASYNC,
 } from './action-types'
@@ -51,6 +55,8 @@ import {
   operateChange,
   updateAccountQuery,
   updateEntryQuery,
+  updatePostponeEntryQuery,
+  updateStatusEntryQuery,
   updateUserQuery,
 } from 'utils'
 import {selectAccount, selectCurrency} from 'store/selector'
@@ -119,11 +125,12 @@ function* getTotalBalanceAsync(): any {
       const amount = change
         ? operateChange(change?.op, change?.value, entry.amount)
         : entry.amount
-      if (entry.entry_type === 'income') {
+      if (entry.entry_type === 'income' && entry?.status !== 'pending') {
         total += amount
         return total
       }
-      total -= amount
+      if (entry?.status !== 'pending') total -= amount
+
       return total
     }, 0)
     yield put(actionObject(GET_TOTAL_BALANCE_ASYNC, totalBalance))
@@ -136,6 +143,7 @@ function* getDashboardValuesAsync(): any {
   try {
     const {defaultPrices} = yield select(selectCurrency)
     const entries = yield call(getEntriesQuery)
+    const now = new Date()
     const dashboardValues = entries?.reduce(
       (values: any, entry: any) => {
         const change = defaultPrices[String(entry?.currency_id)]
@@ -143,11 +151,20 @@ function* getDashboardValuesAsync(): any {
           ? operateChange(change?.op, change?.value, entry.amount)
           : entry.amount
         values.entries.push(entry)
-        if (entry.entry_type === 'income') {
+        const actualDate = new Date(entry?.date)
+        if (
+          entry.entry_type === 'income' &&
+          actualDate?.getMonth() === now?.getMonth() &&
+          entry?.status !== 'pending'
+        ) {
           values.monthIncome += amount
           return values
         }
-        if (entry.entry_type === 'expense') {
+        if (
+          entry.entry_type === 'expense' &&
+          actualDate?.getMonth() === now?.getMonth() &&
+          entry?.status !== 'pending'
+        ) {
           values.monthExpenses += amount
           return values
         }
@@ -443,6 +460,112 @@ function* editEntryAsync({payload}: any): any {
   }
 }
 
+function* updatePostponeEntryAsync({payload}: any): any {
+  try {
+    yield call(updatePostponeEntryQuery, payload?.id, {
+      date: (payload?.date || new Date())?.getTime(),
+    })
+    const updates: any = {
+      compromise: {
+        all: getEntriesGoals,
+        entry: getGoal,
+      },
+      desire: {
+        all: getEntriesGoals,
+        entry: getGoal,
+      },
+      debt: {
+        all: getDebts,
+        entry: getDebt,
+        type: getOutcomes,
+      },
+      receivable_account: {
+        all: getReceivableAccounts,
+        entry: getReceivableAccount,
+        type: getIncomes,
+      },
+      income: {
+        all: getIncomes,
+      },
+      expense: {
+        all: getOutcomes,
+      },
+    }
+    const entry = yield call(getEntry, payload?.id)
+    yield put(actionObject(UPDATE_POSTPONE_ENTRY_ASYNC, entry))
+
+    const toUpdate = updates[entry?.type || entry?.entry_type]
+    if (toUpdate) {
+      yield put(
+        entry?.type === 'compromise' || entry?.type === 'desire'
+          ? toUpdate?.all(entry?.type)
+          : toUpdate?.all(),
+      )
+      if (entry?.entry_id && toUpdate?.entry)
+        yield put(toUpdate?.entry(entry?.entry_id))
+      if (toUpdate?.type) yield put(toUpdate?.type())
+    }
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+function* updateStatusEntryAsync({payload}: any): any {
+  try {
+    yield call(updateStatusEntryQuery, payload?.id, {
+      account: payload?.account,
+      amount: payload?.amount,
+      date: (payload?.date || new Date())?.getTime(),
+    })
+    const updates: any = {
+      compromise: {
+        all: getEntriesGoals,
+        entry: getGoal,
+      },
+      desire: {
+        all: getEntriesGoals,
+        entry: getGoal,
+      },
+      debt: {
+        all: getDebts,
+        entry: getDebt,
+        type: getOutcomes,
+      },
+      receivable_account: {
+        all: getReceivableAccounts,
+        entry: getReceivableAccount,
+        type: getIncomes,
+      },
+      income: {
+        all: getIncomes,
+      },
+      expense: {
+        all: getOutcomes,
+      },
+    }
+    const entry = yield call(getEntry, payload?.id)
+    yield put(actionObject(UPDATE_STATUS_ENTRY_ASYNC, entry))
+
+    const toUpdate = updates[entry?.type || entry?.entry_type]
+    if (toUpdate) {
+      yield put(
+        entry?.type === 'compromise' || entry?.type === 'desire'
+          ? toUpdate?.all(entry?.type)
+          : toUpdate?.all(),
+      )
+      if (entry?.entry_id && toUpdate?.entry)
+        yield put(toUpdate?.entry(entry?.entry_id))
+      if (toUpdate?.type) yield put(toUpdate?.type())
+    }
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 function* sendCommentsAsync({payload}: any): any {
   try {
     yield call(
@@ -516,4 +639,11 @@ export function* watchUpdateUser() {
 
 export function* watchSendComments() {
   yield takeLatest(SEND_COMMENTS, sendCommentsAsync)
+}
+export function* watchUpdatePostponeEntry() {
+  yield takeLatest(UPDATE_POSTPONE_ENTRY, updatePostponeEntryAsync)
+}
+
+export function* watchUpdateStatusEntry() {
+  yield takeLatest(UPDATE_STATUS_ENTRY, updateStatusEntryAsync)
 }

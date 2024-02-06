@@ -1,128 +1,63 @@
-import React, {FC, useEffect, useState} from 'react'
+import React, {FC, useCallback, useEffect} from 'react'
 import {SafeAreaView} from 'react-native-safe-area-context'
 import {styles} from './styles'
 import AppNavigator from '@routes'
 import {setI18nConfig} from '@utils'
 import {useSelector, useDispatch} from 'react-redux'
-import {
-  /*
-  getCurrencyPrice,
-  scheduleNotification,
-  setIncoming,*/
-  signin,
-} from 'store/actions' /*
+import {scheduleNotification, signin} from 'store/actions'
 import notifee, {EventType} from '@notifee/react-native'
-import {emitter} from 'utils/eventEmitter' */
-import {ModalStatus} from './elements'
+import {emitter} from 'utils/eventEmitter'
+import {useNavigation} from '@react-navigation/native'
 
 const Main: FC = () => {
-  const {user, isAuth} = useSelector((state: any) => state.account)
+  const {user, isAuth, dashboardValues} = useSelector(
+    (state: any) => state.account,
+  )
   const dispatch = useDispatch()
+  const router: any = useNavigation()
 
-  const [elementData, setElementData] = useState<any>({
-    element: null,
-    ids: [],
-    elements: [],
-    type: null,
-  })
-
-  const changeStatus = () => {
-    /*     const {ids, element, elements} = elementData */
-
-    /*   let items = []
-      if (element.paymentType === 'concurrent') {
-        const oldElement = element?.entries[element?.entries?.length - 1]
-        const elementDate = new Date(oldElement.date)
-        switch (element?.frequency) {
-          case 'weeks':
-            const weeks = element?.amount_frequency * 604800000
-            const time = elementDate.getTime() + weeks
-            elementDate.setTime(time)
-            break
-          case 'months':
-            elementDate.setMonth(
-              elementDate.getMonth() + element?.amount_frequency,
-            )
-            break
-          case 'days':
-            const days = element?.amount_frequency * 86400000
-            const timeDays = elementDate.getTime() + days
-            elementDate.setTime(timeDays)
-            break
-          default:
-            break
-        }
-        element.entries[element?.entries?.length - 1] = {
-          ...oldElement,
-          status: 'paid',
-        }
-        element?.entries?.push({
-          ...oldElement,
-          date: elementDate.getTime(),
-          status: 'pending',
-        })
-
-        if (ids?.length > 1) {
-          ids.pop()
-          items = processCategoryDeep(
-            ids,
-            elements,
-            {item: element},
-            {...element},
-          )
-        } else items = verifyId({item: element}, {...element}, elements)
-      } else if (ids?.length > 1) {
-        ids.pop()
-        items = processCategoryDeep(
-          ids,
-          elements,
-          {item: element},
-          {...element, status: 'paid'},
-        )
-      } else
-        items = verifyId({item: element}, {...element, status: 'paid'}, elements) */
-
-    /*     if (items?.length)
-      if (type === 'in') dispatch(setIncoming(items))
-      else dispatch(setOutcoming(items)) */
-
-    setElementData({element: null, ids: [], elements: [], type: null})
-  }
-  /*
-  const checkInformation = (data: string) => {
-    const dataArray = data.split('-')
-    const type = dataArray.shift()
-    const elements = type === 'in' ? incomings : outcomings
-    let element = null
-
-    for (let i = 0; i < dataArray?.length; i++) {
-      const id = Number(dataArray[i])
-      if (i === 0) {
-        element = elements?.find((el: any) => el.id === id)
-        continue
+  const checkInformation = useCallback(
+    (data: string) => {
+      const dataArray = data.split('-')
+      if (dataArray[2]) {
+        if (dataArray[2] === 'receivable_account')
+          router?.navigate('Incoming', {
+            screen: 'pendingIncome',
+            params: {
+              screen: 'detailPendingIncome',
+              params: {id: dataArray[1], type: 'income'},
+            },
+          })
+        if (dataArray[2] === 'debt')
+          router.navigate('Outcoming', {
+            screen: 'pendingOutcome',
+            params: {
+              screen: 'detailPendingOutcome',
+              params: {id: dataArray[1], type: 'outcome'},
+            },
+          })
+        return
       }
-      element = element?.entries?.find((el: any) => el.id === id)
-    }
+      if (dataArray[1]) router?.navigate('entry', {id: dataArray[1]})
+    },
+    [dashboardValues],
+  )
 
-    setElementData({element, ids: dataArray, elements, type})
-  } */
+  useEffect(() => {
+    dispatch(scheduleNotification())
+  }, [])
 
-  const close = () => {
-    setElementData({element: null, ids: [], elements: [], type: null})
-  }
-  /*
-    useEffect(() => {
-      dispatch(scheduleNotification())
-      emitter.addListener('check_notification', checkInformation)
+  useEffect(() => {
+    emitter.addListener('check_notification', checkInformation)
 
-      notifee.onForegroundEvent(({ type, detail }) => {
-        switch (type) {
-          case EventType.PRESS:
-            checkInformation(detail?.notification?.id || '')
-            break
-        }
-      })
-    }, []) */
+    notifee.onForegroundEvent(({type, detail}) => {
+      switch (type) {
+        case EventType.PRESS:
+          checkInformation(detail?.notification?.id || '')
+          break
+      }
+    })
+  }, [dashboardValues])
 
   useEffect(() => {
     if (!isAuth) {
@@ -135,11 +70,6 @@ const Main: FC = () => {
   return (
     <SafeAreaView style={[styles.root]}>
       <AppNavigator />
-      <ModalStatus
-        elementData={elementData}
-        onAccept={changeStatus}
-        onClose={close}
-      />
     </SafeAreaView>
   )
 }

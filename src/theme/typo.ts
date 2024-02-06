@@ -44,7 +44,7 @@ const typos = StyleSheet.create({
   },
   smallStrongBody: {
     fontSize: 12,
-    fontWeight: '600',
+    fontWeight: '700',
     lineHeight: 16.8,
     letterSpacing: 0.12,
     fontFamily: 'Poppins',

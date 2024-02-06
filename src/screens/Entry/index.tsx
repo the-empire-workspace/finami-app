@@ -1,14 +1,17 @@
-import React, {FC, useEffect, useMemo} from 'react'
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native'
+import React, {FC, useEffect, useMemo, useState} from 'react'
+import {Modal, ScrollView, Text, TouchableOpacity, View} from 'react-native'
 import {useTheme} from '@providers'
 import {styles} from './styles'
 import {getLanguage, translate} from 'utils'
 import SvgX from '@assets/img/X.svg'
+import WhiteX from '@assets/img/WhiteX.svg'
 import {useNavigation, useRoute} from '@react-navigation/native'
 import {useDispatch, useSelector} from 'react-redux'
 import {getItem, removeItem} from 'store/actions'
 import Trash from '@assets/img/Trash.svg'
 import Pencil from '@assets/img/Pencil.svg'
+import {Button} from 'theme'
+import {ModalUpdate} from './elements'
 const Entry: FC = () => {
   const {colors} = useTheme()
   const dispatch = useDispatch()
@@ -18,6 +21,8 @@ const Entry: FC = () => {
   const route = useRoute()
   const {params}: any = route
   const language = getLanguage()
+  const [updateModal, setUpdateModal] = useState<any>(false)
+  const [updateType, setUpdateType] = useState<any>('')
 
   useEffect(() => {
     dispatch(getItem(params?.id))
@@ -55,15 +60,43 @@ const Entry: FC = () => {
     <View style={[styles.root]}>
       <View style={[styles.modal, {backgroundColor: colors.background100}]}>
         <View
-          style={[styles.modalHeader, {backgroundColor: itemValues?.color}]}>
-          <Text style={[styles.h3, {color: colors.typography2}]}>
-            {itemValues?.title}
-          </Text>
+          style={[
+            styles.modalHeader,
+            {
+              backgroundColor:
+                item?.status === 'pending' ? 'transparent' : itemValues?.color,
+              borderColor:
+                item?.status === 'pending' ? itemValues?.color : 'transparent',
+            },
+          ]}>
+          <View>
+            <Text
+              style={[
+                styles.h3,
+                {
+                  color:
+                    item?.status === 'pending'
+                      ? colors.typography
+                      : colors.typography2,
+                },
+              ]}>
+              {itemValues?.title}
+            </Text>
+            {item?.status === 'pending' && (
+              <Text style={[styles.strongBody, {color: colors.states.caution}]}>
+                {translate('pending')}
+              </Text>
+            )}
+          </View>
           <TouchableOpacity
             onPress={() => {
               router.goBack()
             }}>
-            <SvgX width={32} height={32} />
+            {item?.status === 'pending' ? (
+              <WhiteX width={32} height={32} />
+            ) : (
+              <SvgX width={32} height={32} />
+            )}
           </TouchableOpacity>
         </View>
         <ScrollView
@@ -78,7 +111,7 @@ const Entry: FC = () => {
               ]}>
               {translate('concept')}:
             </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
+            <Text style={[styles.smallBody, {color: colors.typography}]}>
               {item?.payment_concept || translate('unavailable')}
             </Text>
           </View>
@@ -92,7 +125,7 @@ const Entry: FC = () => {
                 ]}>
                 {translate('comments')}:
               </Text>
-              <Text style={[styles.strongBody, {color: colors.typography}]}>
+              <Text style={[styles.smallBody, {color: colors.typography}]}>
                 {item?.comment || translate('unavailable')}
               </Text>
             </View>
@@ -106,7 +139,7 @@ const Entry: FC = () => {
               ]}>
               {translate('amount')}:
             </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
+            <Text style={[styles.smallBody, {color: colors.typography}]}>
               {item?.currency_symbol}{' '}
               {item?.amount?.toLocaleString('en-US', {
                 maximumFractionDigits: item?.decimal,
@@ -122,7 +155,16 @@ const Entry: FC = () => {
               ]}>
               {translate('date')}:
             </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
+            <Text
+              style={[
+                styles.smallBody,
+                {
+                  color:
+                    new Date(item?.date).getTime() < new Date().getTime()
+                      ? colors.states.alert
+                      : colors.typography,
+                },
+              ]}>
               {new Date(item?.date).toLocaleDateString(
                 language === 'es' ? 'es-VE' : 'en-US',
                 {
@@ -133,83 +175,165 @@ const Entry: FC = () => {
               )}
             </Text>
           </View>
-          {!!item?.emissor && (
-            <View style={[styles.textContent]}>
-              <Text
-                style={[
-                  styles.smallStrongBody,
-                  styles.textSeparator,
-                  {color: colors.typography},
-                ]}>
-                {item?.type === 'expense'
-                  ? translate('receiver')
-                  : translate('emissor')}
-                :
-              </Text>
-              <Text style={[styles.strongBody, {color: colors.typography}]}>
-                {item?.emissor || translate('unavailable')}
-              </Text>
-            </View>
-          )}
-          {!!item?.phone && (
-            <View style={[styles.textContent]}>
-              <Text
-                style={[
-                  styles.smallStrongBody,
-                  styles.textSeparator,
-                  {color: colors.typography},
-                ]}>
-                {translate('phone')}:
-              </Text>
-              <Text style={[styles.strongBody, {color: colors.typography}]}>
-                {item?.phone || translate('unavailable')}
-              </Text>
-            </View>
-          )}
-          {!!item?.email && (
-            <View style={[styles.textContent]}>
-              <Text
-                style={[
-                  styles.smallStrongBody,
-                  styles.textSeparator,
-                  {color: colors.typography},
-                ]}>
-                {translate('email')}:
-              </Text>
-              <Text style={[styles.strongBody, {color: colors.typography}]}>
-                {item?.email || translate('unavailable')}
-              </Text>
-            </View>
-          )}
           {!!item?.account_name && (
-            <View style={[styles.textContent]}>
-              <Text
-                style={[
-                  styles.smallStrongBody,
-                  styles.textSeparator,
-                  {color: colors.typography},
-                ]}>
-                {translate('account')}:
-              </Text>
-              <Text style={[styles.strongBody, {color: colors.typography}]}>{`${
-                item?.account_name
-              } - *${item?.account_number?.slice(-4) || ''}`}</Text>
+            <View
+              style={[styles.boxContainer, {borderColor: colors.background25}]}>
+              <View
+                style={[styles.boxHeader, {borderColor: colors.background25}]}>
+                <Text
+                  style={[
+                    styles.smallStrongBody,
+                    styles.textSeparator,
+                    {color: colors.typography},
+                  ]}>
+                  {translate('account')}
+                </Text>
+              </View>
+              <View
+                style={[styles.boxContent, {borderColor: colors.background25}]}>
+                <Text
+                  style={[styles.smallBody, {color: colors.typography}]}>{`${
+                  item?.account_name
+                }${
+                  item?.account_number
+                    ? ` - *${item?.account_number?.slice(-4)}`
+                    : ''
+                }`}</Text>
+              </View>
+            </View>
+          )}
+          {(!!item?.emissor || !!item?.phone || !!item?.email) && (
+            <View
+              style={[styles.boxContainer, {borderColor: colors.background25}]}>
+              <View
+                style={[styles.boxHeader, {borderColor: colors.background25}]}>
+                <Text
+                  style={[
+                    styles.smallStrongBody,
+                    styles.textSeparator,
+                    {color: colors.typography},
+                  ]}>
+                  {translate('contact')}
+                </Text>
+              </View>
+              <View
+                style={[styles.boxContent, {borderColor: colors.background25}]}>
+                {!!item?.emissor && (
+                  <View style={[styles.textContent]}>
+                    <Text
+                      style={[
+                        styles.smallStrongBody,
+                        styles.textSeparator,
+                        {color: colors.typography},
+                      ]}>
+                      {item?.type === 'expense'
+                        ? translate('receiver')
+                        : translate('emissor')}
+                      :
+                    </Text>
+                    <Text
+                      style={[styles.smallBody, {color: colors.typography}]}>
+                      {item?.emissor || translate('unavailable')}
+                    </Text>
+                  </View>
+                )}
+                {!!item?.phone && (
+                  <View style={[styles.textContent]}>
+                    <Text
+                      style={[
+                        styles.smallStrongBody,
+                        styles.textSeparator,
+                        {color: colors.typography},
+                      ]}>
+                      {translate('phone')}:
+                    </Text>
+                    <Text
+                      style={[styles.smallBody, {color: colors.typography}]}>
+                      {item?.phone || translate('unavailable')}
+                    </Text>
+                  </View>
+                )}
+                {!!item?.email && (
+                  <View style={[styles.textContent]}>
+                    <Text
+                      style={[
+                        styles.smallStrongBody,
+                        styles.textSeparator,
+                        {color: colors.typography},
+                      ]}>
+                      {translate('email')}:
+                    </Text>
+                    <Text
+                      style={[styles.smallBody, {color: colors.typography}]}>
+                      {item?.email || translate('unavailable')}
+                    </Text>
+                  </View>
+                )}
+              </View>
             </View>
           )}
         </ScrollView>
         <View style={[styles.modalFooter]}>
-          <TouchableOpacity
-            onPress={() => {
-              router.navigate('editEntry', {id: item?.id})
-            }}>
-            <Pencil width={24} height={24} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {
-              router.navigate('deleteEntry', {id: item?.id})
-            }}>
-            <Trash width={24} height={24} />
-          </TouchableOpacity>
+          {item?.status === 'pending' && (
+            <View style={[styles.buttonContainer]}>
+              <Button
+                onPress={() => {
+                  setUpdateModal(true)
+                  setUpdateType('postpone')
+                }}
+                style={styles.buttonMod}
+                styleText={{
+                  color: colors.states.caution,
+                  textDecorationLine: 'underline',
+                  textDecorationColor: colors.states.caution,
+                }}
+                text={translate('postpone')}
+                disabled={false}
+              />
+            </View>
+          )}
+          <View style={[styles.buttonContainer]}>
+            <TouchableOpacity
+              onPress={() => {
+                router.navigate('editEntry', {id: item?.id})
+              }}>
+              <Pencil width={24} height={24} />
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => {
+                router.navigate('deleteEntry', {id: item?.id})
+              }}>
+              <Trash width={24} height={24} />
+            </TouchableOpacity>
+          </View>
+          {item?.status === 'pending' && (
+            <View style={[styles.buttonContainer]}>
+              <Button
+                onPress={() => {
+                  setUpdateModal(true)
+                  setUpdateType('update')
+                }}
+                style={styles.buttonMod}
+                styleText={{
+                  color: itemValues.color,
+                  textDecorationLine: 'underline',
+                  textDecorationColor: itemValues.color,
+                }}
+                text={translate('update')}
+                disabled={false}
+              />
+            </View>
+          )}
+          <Modal transparent visible={updateModal} style={styles.modalMain}>
+            <ModalUpdate
+              item={item}
+              itemValues={itemValues}
+              updateType={updateType}
+              closeModal={() => {
+                setUpdateModal(false)
+              }}
+            />
+          </Modal>
         </View>
       </View>
     </View>

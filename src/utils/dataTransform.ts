@@ -252,29 +252,21 @@ export const filterByCurrency = (
   return orderItems
 }
 
-export const processNotification = (
-  array: any,
-  type: any,
-  indicator: any,
-  prevNot: any = null,
-) => {
+export const processNotification = (array: any, prevNot: any = null) => {
   let notifications = prevNot || []
 
   const now = new Date()
-
   for (const entry of array) {
-    const itemEntry =
-      entry?.entries && entry?.paymentType === 'concurrent'
-        ? entry?.entries[entry?.entries?.length - 1]
-        : []
-    const status = itemEntry?.status || entry?.status
-    if (status === 'pending' && !entry.notifee) {
-      const date = itemEntry?.date || entry?.payment_date
-
+    const indicator = entry?.entry_type === 'income' ? 'in' : 'out'
+    const type = entry?.entry_type === 'income' ? 'incomings' : 'outcomings'
+    const lastEntry = entry
+    const status = lastEntry?.status
+    if (status === 'pending' && !lastEntry.notifee) {
+      const date = lastEntry?.date
       if (now.getTime() > date)
         notifications.push({
-          name: entry?.name,
-          id: `${indicator}-${entry?.id}`,
+          name: entry?.payment_concept,
+          id: `${indicator}-${lastEntry?.id}`,
           type: type,
           date,
           overdate: true,
@@ -282,20 +274,62 @@ export const processNotification = (
 
       if (now.getTime() < date)
         notifications.push({
-          name: entry?.name,
+          name: entry?.payment_concept,
           id: `${indicator}-${entry?.id}`,
           type: type,
           date,
           overdate: false,
         })
     }
-    if (entry.category)
-      notifications = processNotification(
-        entry?.entries,
-        type,
-        indicator,
-        notifications,
-      )
+  }
+
+  return notifications
+}
+
+export const processNotificationDebts = (array: any, prevNot: any = null) => {
+  let notifications = prevNot || []
+
+  const now = new Date()
+  for (const entry of array) {
+    const indicator = entry?.entry_type === 'income' ? 'in' : 'out'
+    const type = entry?.payment_type
+
+    const date = new Date(entry?.limit_date)
+    if (entry?.amount > entry?.total_amount) {
+      if (now.getMonth() < date.getMonth() && now.getDate() >= date.getDate()) {
+        date.setMonth(now.getMonth())
+        notifications.push({
+          name: entry?.payment_concept,
+          id: `${indicator}-${entry?.id}-${type}`,
+          difference: date.getMonth() - now.getMonth(),
+          type: type,
+          day: false,
+          date: date.getTime(),
+          overdate: false,
+        })
+      }
+
+      if (now.getMonth() === date.getMonth() && now.getDate() < date.getDate())
+        notifications.push({
+          name: entry?.payment_concept,
+          id: `${indicator}-${entry?.id}-${type}`,
+          difference: date.getDate() - now.getDate(),
+          type: type,
+          day: true,
+          date: now.getTime(),
+          overdate: false,
+        })
+
+      if (now.getTime() > date.getTime())
+        notifications.push({
+          name: entry?.payment_concept,
+          id: `${indicator}-${entry?.id}-${type}`,
+          type: type,
+          day: false,
+          date: date.getTime(),
+          overdate: true,
+        })
+    }
   }
   return notifications
 }

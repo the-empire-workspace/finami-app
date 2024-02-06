@@ -16,7 +16,9 @@ import {
   SIGNIN,
   UPDATE_LANGUAGE,
   UPDATE_NOTIFICATION_TOKEN,
+  UPDATE_POSTPONE_ENTRY,
   UPDATE_SINGLE_ACCOUNT,
+  UPDATE_STATUS_ENTRY,
   UPDATE_USER,
 } from './action-types'
 
@@ -53,3 +55,9 @@ export const editEntry = (payload: any) => actionObject(EDIT_ENTRY, payload)
 export const updateUser = (payload: any) => actionObject(UPDATE_USER, payload)
 export const sendComments = (payload: any) =>
   actionObject(SEND_COMMENTS, payload)
+
+export const updatePostponeEntry = (payload: any) =>
+  actionObject(UPDATE_POSTPONE_ENTRY, payload)
+
+export const updateStatusEntry = (payload: any) =>
+  actionObject(UPDATE_STATUS_ENTRY, payload)

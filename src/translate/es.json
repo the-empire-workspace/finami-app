@@ -261,5 +261,11 @@
   "pending_income_detail": "Detalles de cuenta por cobrar",
   "issuer_data": "Datos del emisor",
   "issuer_name": "Nombre del emisor",
-  "issuer_name_optional": "Nombre del emisor (opcional)"
+  "issuer_name_optional": "Nombre del emisor (opcional)",
+  "contact": "Contacto",
+  "postpone": "Posponer",
+  "no_overdate_debt_body": "Tienes una deuda pendiente en",
+  "overdate_debt_body": "Tienes una deuda tardia, recuerda pagar la deuda",
+  "no_overdate_receivable_account_body": "Tienes una cuenta por cobrar pendiente en",
+  "overdate_receivable_account_body": "Tienes una cuenta por cobrar tardia, recuerda cobrar la cuenta"
 }

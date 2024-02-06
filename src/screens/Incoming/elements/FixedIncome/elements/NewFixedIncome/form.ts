@@ -96,13 +96,17 @@ export const egressForm = (translate: any, def: any, colors: any = {}) => [
         keyboardType: 'numeric',
         placeholder: translate('quantity'),
         returnKeyType: 'go',
-        validations: {},
+        validations: {
+          required: true,
+          minLength: 1,
+          maxLength: 72,
+        },
       },
       {
         element: 'select',
         name: 'frecuency_type',
         type: 'select',
-        defaultValue: def ? def.frequency?.value : '',
+        defaultValue: def ? def.frequency?.value : 'days',
         placeholder: translate('frequency'),
         elementStyle: {
           width: '65%',

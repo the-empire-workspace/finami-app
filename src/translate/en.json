@@ -259,5 +259,11 @@
   "pending_income_detail": "Pending Income Details",
   "issuer_data": "Issuer Data",
   "issuer_name": "Issuer Name",
-  "issuer_name_optional": "Issuer Name (optional)"
+  "issuer_name_optional": "Issuer Name (optional)",
+  "contact": "Contact",
+  "postpone": "Postpone",
+  "no_overdate_debt_body": "You have a pending debt in",
+  "overdate_debt_body": "You have a late debt, remember to pay the debt",
+  "no_overdate_receivable_account_body": "You have a pending receivable account in",
+  "overdate_receivable_account_body": "You have a late receivable account, remember to receive the account"
 }
