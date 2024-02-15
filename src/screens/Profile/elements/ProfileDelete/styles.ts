@@ -6,17 +6,17 @@ const localStyles = StyleSheet.create({
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    paddingTop: 68,
+    paddingTop: 20,
     paddingHorizontal: 20,
   },
   modalContainer: {
-    flex: 1,
     width: '100%',
+    flex: 1,
   },
   root: {
     height: '100%',
     width: '100%',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'transparent',
   },
@@ -49,7 +49,7 @@ const localStyles = StyleSheet.create({
     gap: 20,
   },
   buttonStyle: {
-    width: '47%',
+    flex: 1
   },
 })
 

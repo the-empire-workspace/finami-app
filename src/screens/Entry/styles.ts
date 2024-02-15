@@ -20,7 +20,11 @@ const localStyles = StyleSheet.create({
   },
   textContent: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
+    alignItems: 'flex-start',
+    width: '100%',
+  },
+  textWidth: {
+    flex: 1
   },
   boxContainer: {
     width: '100%',
