@@ -267,5 +267,17 @@
   "no_overdate_debt_body": "Tienes una deuda pendiente en",
   "overdate_debt_body": "Tienes una deuda tardia, recuerda pagar la deuda",
   "no_overdate_receivable_account_body": "Tienes una cuenta por cobrar pendiente en",
-  "overdate_receivable_account_body": "Tienes una cuenta por cobrar tardia, recuerda cobrar la cuenta"
+  "overdate_receivable_account_body": "Tienes una cuenta por cobrar tardia, recuerda cobrar la cuenta",
+  "from": "Desde",
+  "to": "Hasta",
+  "generate_report": "Generar Reporte",
+  "type": "Tipo",
+  "currency": "Moneda",
+  "basic_expenses_category": "Categoría de gastos basicos",
+  "debt_category": "Categoría de deuda",
+  "pending_incomes": "Cuentas por Cobrar",
+  "pending_incomes_category": "Categoría de cuentas por Cobrar",
+  "fixed_incomes_category": "Categoría de Ingresos Fijos",
+  "desire_category": "Categoría de Deseo",
+  "compromise_category": "Categoría de Compromiso"
 }

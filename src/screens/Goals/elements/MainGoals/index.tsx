@@ -1,19 +1,19 @@
-import React, {FC, useEffect} from 'react'
-import {Text, View} from 'react-native'
-import {styles} from './styles'
-import {useTheme} from 'providers'
-import {translate} from 'utils'
-import {useDispatch, useSelector} from 'react-redux'
-import {Header, DropDownButtons, ActionBanner, ItemList} from '@components'
-import {getDashboardValues, getEntriesGoals} from 'store/actions'
-import {Button} from 'theme'
+import React, { FC, useEffect } from 'react'
+import { Text, View } from 'react-native'
+import { styles } from './styles'
+import { useTheme } from 'providers'
+import { translate } from 'utils'
+import { useDispatch, useSelector } from 'react-redux'
+import { Header, DropDownButtons, ActionBanner, ItemList } from '@components'
+import { getDashboardValues, getEntriesGoals } from 'store/actions'
+import { Button } from 'theme'
 
 const MainGoals: FC = () => {
-  const {colors} = useTheme()
+  const { colors } = useTheme()
   const dispatch = useDispatch()
 
-  const {defaultPrices} = useSelector((state: any) => state.currency)
-  const {items} = useSelector((state: any) => state.goals)
+  const { defaultPrices } = useSelector((state: any) => state.currency)
+  const { items } = useSelector((state: any) => state.goals)
   const [selectedType, setSelectedType] = React.useState('compromise')
 
   useEffect(() => {
@@ -35,15 +35,15 @@ const MainGoals: FC = () => {
   }, [selectedType])
 
   return (
-    <View style={[styles.root, {backgroundColor: colors.background100}]}>
-      <View style={[{backgroundColor: colors.background50}]}>
+    <View style={[styles.root, { backgroundColor: colors.background100 }]}>
+      <View style={[{ backgroundColor: colors.background50 }]}>
         <Header />
         <View style={[styles.actionBanner]}>
           <Button
             style={{
               ...styles.button,
               ...(selectedType === 'compromise'
-                ? {borderColor: colors.typography}
+                ? { borderColor: colors.typography }
                 : {}),
             }}
             text={translate('compromise')}
@@ -54,7 +54,7 @@ const MainGoals: FC = () => {
             style={{
               ...styles.button,
               ...(selectedType === 'desire'
-                ? {borderColor: colors.typography}
+                ? { borderColor: colors.typography }
                 : {}),
             }}
             text={translate('desire')}
@@ -62,13 +62,13 @@ const MainGoals: FC = () => {
             onPress={() => setSelectedType('desire')}
           />
         </View>
-        <DropDownButtons DropDownInfo={DropDownInfo} />
+        <DropDownButtons DropDownInfo={DropDownInfo} type={selectedType} />
       </View>
       {items?.length ? (
         <ItemList items={items} type="goals" />
       ) : (
         <View style={styles.noItemBox}>
-          <Text style={[styles.noItemText, {color: colors.typography}]}>
+          <Text style={[styles.noItemText, { color: colors.typography }]}>
             {translate('no_items')}
           </Text>
         </View>

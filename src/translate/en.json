@@ -256,7 +256,7 @@
   "greetings_1": "We want to express our deepest gratitude for sharing your feedback with us.",
   "greetings_2": "Your contribution is invaluable for the evolution of the application. Thank you for considering us!",
   "send": "Send",
-  "pending_income_detail": "Pending Income Details",
+  "pending_income_detail": "Receivable Account Details",
   "issuer_data": "Issuer Data",
   "issuer_name": "Issuer Name",
   "issuer_name_optional": "Issuer Name (optional)",
@@ -265,5 +265,17 @@
   "no_overdate_debt_body": "You have a pending debt in",
   "overdate_debt_body": "You have a late debt, remember to pay the debt",
   "no_overdate_receivable_account_body": "You have a pending receivable account in",
-  "overdate_receivable_account_body": "You have a late receivable account, remember to receive the account"
+  "overdate_receivable_account_body": "You have a late receivable account, remember to receive the account",
+  "from": "From",
+  "to": "To",
+  "generate_report": "Generate Report",
+  "type": "Type",
+  "currency": "Currency",
+  "basic_expenses_category": "Basic Expenses category",
+  "debt_category": "Debt category",
+  "pending_incomes": "Receivable Account",
+  "pending_incomes_category": "Receivable Account category",
+  "fixed_incomes_category": "Fixed Income category",
+  "desire_category": "Desire category",
+  "compromise_category": "Compromise category"
 }

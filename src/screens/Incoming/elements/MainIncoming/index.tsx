@@ -66,7 +66,7 @@ const MainIncoming: FC = () => {
       <View style={[{backgroundColor: colors.background50}]}>
         <Header />
         <InfoBanner values={infoValues} />
-        <DropDownButtons DropDownInfo={DropDownInfo} />
+        <DropDownButtons DropDownInfo={DropDownInfo} type="incomes" />
       </View>
       {items?.entries?.length ? (
         <ItemList items={items.entries} type="dashboard" />
