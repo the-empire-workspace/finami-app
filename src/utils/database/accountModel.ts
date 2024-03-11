@@ -1,8 +1,9 @@
-import {operateChange} from 'utils/dataTransform'
-import {getAccountEntriesQuery} from './entryModel'
-import {insertQuery, selectQuery} from './helpers'
-import {getNetworkCurrency} from 'utils/moralis'
-import {getExchangeValues} from 'utils/exchangeData'
+import { operateChange } from 'utils/dataTransform'
+import { getAccountEntriesQuery } from './entryModel'
+import { insertQuery, selectQuery } from './helpers'
+import { getNetworkCurrency } from 'utils/moralis'
+import { getExchangeValues, setPrices } from 'utils/exchangeData'
+import { call } from 'redux-saga/effects'
 
 export const createAccountQuery = async ({
   user,
@@ -69,10 +70,19 @@ export const updateAccountQuery = async ({
   }
 }
 
-export const getAccountsQuery = async (currencies: any) => {
+export function* getAccountsQuery(currencies: any, prices: any): any {
   try {
-    const accounts: any = await selectQuery(
-      "SELECT accounts.id, account_name, account_number, organization, account_type, account_comments, currency_name, currency_symbol, decimal, SUM(CASE WHEN entries.entry_type = 'income' AND entries.payment_type = 'general' THEN entries.amount WHEN entries.entry_type = 'expense' AND entries.payment_type = 'general' THEN -entries.amount WHEN entries.entry_type = 'goals' AND entries.payment_type = 'general' THEN -entries.amount ELSE 0 END) as total_amount FROM accounts LEFT JOIN (SELECT id, name as currency_name, symbol as currency_symbol, decimal FROM currencies) cur ON cur.id = accounts.currency_id LEFT JOIN entries ON entries.account_id = accounts.id GROUP BY account_name",
+    const accounts: any = yield call(selectQuery,
+      "SELECT accounts.id, account_name, account_number,\
+      organization, account_type, account_comments, currency_name,\
+      currency_symbol, decimal, SUM(CASE WHEN entries.entry_type = 'income'\
+      AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL)\
+      THEN entries.amount WHEN entries.entry_type = 'expense' \
+      AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL) \
+      THEN -entries.amount WHEN entries.entry_type = 'goals' \
+      AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL)\
+      THEN -entries.amount ELSE 0 END) as total_amount FROM accounts \
+      LEFT JOIN (SELECT id, name as currency_name, symbol as currency_symbol, decimal FROM currencies) cur ON cur.id = accounts.currency_id LEFT JOIN entries ON entries.account_id = accounts.id GROUP BY account_name",
     )
 
     const rawAccounts = accounts.raw()
@@ -84,9 +94,10 @@ export const getAccountsQuery = async (currencies: any) => {
           (c: any) => c?.symbol === netCurrency?.symbol,
         )
 
-        const defaultPrices = await getExchangeValues(currencies, currency?.id)
-        const entries = await getAccountEntriesQuery(account?.account_name)
-        const currenciesAccount = await entries.reduce(
+        const defaultPrices = yield call(setPrices, prices, currencies, currency?.id)
+        const entries = yield call(getAccountEntriesQuery, account?.account_name)
+
+        const currenciesAccount = entries.reduce(
           (prev: any, next: any) => {
             const change = defaultPrices[String(next?.currency_id)]
             const amount = change
@@ -114,16 +125,22 @@ export const getAccountsQuery = async (currencies: any) => {
   }
 }
 
-export const getAccountQuery = async (currencies: any, id: any) => {
+export function* getAccountQuery(currencies: any, id: any, prices: any):any {
   try {
-    const accounts: any = await selectQuery(
-      "SELECT accounts.id, account_name, account_number, organization, account_type, account_comments, currency_name, currency_symbol, decimal,cur.id as account_currency, SUM(CASE WHEN entries.entry_type = 'income' AND entries.payment_type = 'general' THEN entries.amount WHEN entries.entry_type = 'expense' AND entries.payment_type = 'general' THEN -entries.amount WHEN entries.entry_type = 'goals' AND entries.payment_type = 'general' THEN -entries.amount ELSE 0 END) as total_amount FROM accounts LEFT JOIN (SELECT id, name as currency_name, symbol as currency_symbol, decimal FROM currencies) cur ON cur.id = accounts.currency_id LEFT JOIN entries ON entries.account_id = accounts.id WHERE accounts.id = ? GROUP BY account_name",
+    const accounts: any = yield call(selectQuery,
+      "SELECT accounts.id, account_name, account_number, organization, account_type, account_comments, currency_name, currency_symbol, decimal,cur.id as account_currency, SUM(CASE WHEN entries.entry_type = 'income'\
+      AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL)\
+      THEN entries.amount WHEN entries.entry_type = 'expense' \
+      AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL) \
+      THEN -entries.amount WHEN entries.entry_type = 'goals' \
+      AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL)\
+      THEN -entries.amount ELSE 0 END) as total_amount FROM accounts LEFT JOIN (SELECT id, name as currency_name, symbol as currency_symbol, decimal FROM currencies) cur ON cur.id = accounts.currency_id LEFT JOIN entries ON entries.account_id = accounts.id WHERE accounts.id = ? GROUP BY account_name",
       [id],
     )
 
     const account = accounts.raw()[0]
 
-    const entries = await getAccountEntriesQuery(account?.account_name)
+    const entries = yield call(getAccountEntriesQuery,account?.account_name)
 
     account.entries = entries
     if (account?.account_type === 'wallet') {
@@ -133,8 +150,8 @@ export const getAccountQuery = async (currencies: any, id: any) => {
         (c: any) => c?.symbol === netCurrency?.symbol,
       )
 
-      const defaultPrices = await getExchangeValues(currencies, currency?.id)
-      const currenciesAccount = await entries.reduce((prev: any, next: any) => {
+      const defaultPrices = yield call(setPrices, prices, currencies, currency?.id)
+      const currenciesAccount = entries.reduce((prev: any, next: any) => {
         const change = defaultPrices[String(next?.currency_id)]
         const amount = change
           ? operateChange(change?.op, change?.value, next.amount)

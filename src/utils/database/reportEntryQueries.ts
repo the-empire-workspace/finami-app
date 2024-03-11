@@ -1,7 +1,4 @@
-import { getExchangeValues } from 'utils/exchangeData'
-import { insertQuery, selectQuery } from './helpers'
-import { operateChange } from 'utils/dataTransform'
-
+import { selectQuery } from './helpers'
 
 export const getLastMovementsQuery = async (from: any, to: any) => {
   try {

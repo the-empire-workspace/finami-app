@@ -1,6 +1,9 @@
-import {getExchangeValues} from 'utils/exchangeData'
-import {insertQuery, selectQuery} from './helpers'
-import {operateChange} from 'utils/dataTransform'
+import { getExchangeValues, setPrices } from 'utils/exchangeData'
+import { insertQuery, selectQuery } from './helpers'
+import { operateChange } from 'utils/dataTransform'
+import { call, put } from 'redux-saga/effects'
+import { actionObject } from 'utils/common'
+import { SET_PRICE } from 'store/intermitence/action-types'
 
 export const createEntryQuery = async (data: any) => {
   try {
@@ -307,7 +310,7 @@ export const updateEntryQuery = async (id: any, entry: any) => {
 
 export const updatePostponeEntryQuery = async (id: any, entry: any) => {
   try {
-    const {date} = entry
+    const { date } = entry
 
     const newEntry: any = await insertQuery(
       'UPDATE entries SET date = ? WHERE id = ?',
@@ -325,7 +328,7 @@ export const updatePostponeEntryQuery = async (id: any, entry: any) => {
 
 export const updateStatusEntryQuery = async (id: any, entry: any) => {
   try {
-    const {date, amount, account} = entry
+    const { date, amount, account } = entry
 
     const newEntry: any = await insertQuery(
       'UPDATE entries SET account_id = ?, date = ?,amount = ?, status = "paid" WHERE id = ?',
@@ -390,7 +393,7 @@ export const deleteEntryQuery = async (id: any) => {
   }
 }
 
-export const getAllDebtsQuery = async (currencies: any, currency_id: any) => {
+export function* getDebtsQuery(currencies: any, currency_id: any, prices: any): any {
   try {
     const query = `SELECT entries.amount,\
     entries.comment,\
@@ -410,70 +413,19 @@ export const getAllDebtsQuery = async (currencies: any, currency_id: any) => {
     entries.limit_date,\
     accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
 
-    const entries: any = await selectQuery(
-      `${query} WHERE entries.entry_type = "expense" AND entries.payment_type = "debt" ORDER BY entries.date DESC`,
-    )
-
-    const queryEntries = entries.raw()
-
-    for (const entry of queryEntries) {
-      const entriesEntry: any = await selectQuery(
-        `${query} WHERE entries.entry_id = ?`,
-        [entry?.id],
-      )
-      const queryEntriesEntry = entriesEntry.raw()
-      const defaultPrices = await getExchangeValues(currencies, currency_id)
-
-      const amount =
-        queryEntriesEntry?.reduce((prev: any, next: any) => {
-          const change = defaultPrices[String(next?.currency_id)]
-          const newAmount = change
-            ? operateChange(change?.op, change?.value, next.amount)
-            : next.amount
-          return prev + newAmount
-        }, 0) || 0
-      entry.total_amount = amount
-    }
-
-    return queryEntries
-  } catch (error) {
-    console.log('error getting debts', error)
-  }
-}
-
-export const getDebtsQuery = async (currencies: any, currency_id: any) => {
-  try {
-    const query = `SELECT entries.amount,\
-    entries.comment,\
-    entries.date,\
-    entries.email,\
-    entries.emissor,\
-    entries.status,\
-    entries.frecuency_time,\
-    entries.frecuency_type,\
-    entries.entry_type,\
-    entries.id,\
-    entries.payment_concept,\
-    entries.payment_type,\
-    entries.phone,\
-    entries.entry_id,\
-    entries.status_level,\
-    entries.limit_date,\
-    accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
-
-    const entries: any = await selectQuery(
+    const entries: any = yield call(selectQuery,
       `${query} WHERE entries.entry_type = "expense" AND entries.payment_type = "debt" AND category_id IS NULL ORDER BY entries.date DESC`,
     )
 
     const queryEntries = entries.raw()
 
     for (const entry of queryEntries) {
-      const entriesEntry: any = await selectQuery(
+      const entriesEntry: any = yield call(selectQuery,
         `${query} WHERE entries.entry_id = ?`,
         [entry?.id],
       )
       const queryEntriesEntry = entriesEntry.raw()
-      const defaultPrices = await getExchangeValues(currencies, currency_id)
+      const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
 
       const amount =
         queryEntriesEntry?.reduce((prev: any, next: any) => {
@@ -492,11 +444,12 @@ export const getDebtsQuery = async (currencies: any, currency_id: any) => {
   }
 }
 
-export const getDebtQuery = async (
+export function* getDebtQuery(
   id: any,
   currencies: any,
   currency_id: any,
-) => {
+  prices: any,
+): any {
   try {
     const query =
       'SELECT entries.amount,\
@@ -524,16 +477,16 @@ export const getDebtQuery = async (
     LEFT JOIN accounts ON accounts.id = entries.account_id\
     LEFT JOIN currencies ON currencies.id = accounts.currency_id'
 
-    const entry: any = await selectQuery(`${query} WHERE entries.id = ?`, [id])
+    const entry: any = yield call(selectQuery, `${query} WHERE entries.id = ?`, [id])
 
     const queryEntry = entry.raw()[0]
-    const entries: any = await selectQuery(
+    const entries: any = yield call(selectQuery,
       `${query} WHERE entries.entry_id = ? ORDER BY entries.date DESC`,
       [id],
     )
     queryEntry.entries = entries.raw()
 
-    const defaultPrices = await getExchangeValues(currencies, currency_id)
+    const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
     const amount =
       queryEntry.entries?.reduce((prev: any, next: any) => {
         const change = defaultPrices[String(next?.currency_id)]
@@ -646,10 +599,11 @@ export const getFixedIncomeQuery = async (id: any) => {
   }
 }
 
-export const getAllReceivableAccountsQuery = async (
+export function* getReceivableAccountsQuery(
   currencies: any,
   currency_id: any,
-) => {
+  prices: any
+): any {
   try {
     const query = `SELECT entries.amount,\
     entries.comment,\
@@ -669,71 +623,16 @@ export const getAllReceivableAccountsQuery = async (
     entries.limit_date,\
     accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
 
-    const entries: any = await selectQuery(
-      `${query} WHERE entries.entry_type = "income" AND entries.payment_type = "receivable_account" ORDER BY entries.date DESC`,
-    )
-    const queryEntries = entries.raw()
-
-    for (const entry of queryEntries) {
-      const entriesEntry: any = await selectQuery(
-        `${query} WHERE entries.entry_id = ?`,
-        [entry?.id],
-      )
-      const queryEntriesEntry = entriesEntry.raw()
-      const defaultPrices = await getExchangeValues(currencies, currency_id)
-
-      const amount =
-        queryEntriesEntry?.reduce((prev: any, next: any) => {
-          const change = defaultPrices[String(next?.currency_id)]
-          const newAmount = change
-            ? operateChange(change?.op, change?.value, next.amount)
-            : next.amount
-          return prev + newAmount
-        }, 0) || 0
-      entry.total_amount = amount
-    }
-
-    return queryEntries
-  } catch (error) {
-    console.log('error getting debts', error)
-  }
-}
-
-export const getReceivableAccountsQuery = async (
-  currencies: any,
-  currency_id: any,
-) => {
-  try {
-    const query = `SELECT entries.amount,\
-    entries.comment,\
-    entries.date,\
-    entries.email,\
-    entries.emissor,\
-    entries.status,\
-    entries.frecuency_time,\
-    entries.frecuency_type,\
-    entries.entry_type,\
-    entries.id,\
-    entries.payment_concept,\
-    entries.payment_type,\
-    entries.phone,\
-    entries.entry_id,\
-    entries.status_level,\
-    entries.limit_date,\
-    accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
-
-    const entries: any = await selectQuery(
+    const entries: any = yield call(selectQuery,
       `${query} WHERE entries.entry_type = "income" AND entries.payment_type = "receivable_account" AND category_id IS NULL ORDER BY entries.date DESC`,
     )
     const queryEntries = entries.raw()
 
     for (const entry of queryEntries) {
-      const entriesEntry: any = await selectQuery(
-        `${query} WHERE entries.entry_id = ?`,
-        [entry?.id],
-      )
+      const entriesEntry: any = yield call(selectQuery, `${query} WHERE entries.entry_id = ?`, [entry?.id])
       const queryEntriesEntry = entriesEntry.raw()
-      const defaultPrices = await getExchangeValues(currencies, currency_id)
+
+      const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
 
       const amount =
         queryEntriesEntry?.reduce((prev: any, next: any) => {
@@ -752,11 +651,12 @@ export const getReceivableAccountsQuery = async (
   }
 }
 
-export const getReceivableAccountQuery = async (
+export function* getReceivableAccountQuery(
   id: any,
   currencies: any,
   currency_id: any,
-) => {
+  prices: any
+): any {
   try {
     const query =
       'SELECT entries.amount,\
@@ -784,16 +684,18 @@ export const getReceivableAccountQuery = async (
     LEFT JOIN accounts ON accounts.id = entries.account_id\
     LEFT JOIN currencies ON currencies.id = accounts.currency_id'
 
-    const entry: any = await selectQuery(`${query} WHERE entries.id = ?`, [id])
+    const entry: any = yield call(selectQuery, `${query} WHERE entries.id = ?`, [id])
 
     const queryEntry = entry.raw()[0]
-    const entries: any = await selectQuery(
+
+    const entries: any = yield call(selectQuery,
       `${query} WHERE entries.entry_id = ? ORDER BY date desc`,
       [id],
     )
+
     queryEntry.entries = entries.raw()
 
-    const defaultPrices = await getExchangeValues(currencies, currency_id)
+    const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
     const amount =
       queryEntry.entries?.reduce((prev: any, next: any) => {
         const change = defaultPrices[String(next?.currency_id)]
@@ -839,11 +741,12 @@ export const getEntriesIncomesQuery = async () => {
   }
 }
 
-export const getEntriesGoalsQuery = async (
+export function* getEntriesGoalsQuery(
   type: any,
   currencies: any,
   currency_id: any,
-) => {
+  prices: any
+):any{
   try {
     const query = `SELECT entries.amount,\
     entries.comment,\
@@ -867,18 +770,18 @@ export const getEntriesGoalsQuery = async (
       entries.limit_date\
       FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
 
-    const entries: any = await selectQuery(
+    const entries: any = yield call(selectQuery,
       `${query} WHERE entries.payment_type = "${type}" AND entries.category_id IS NULL ORDER BY entries.date DESC`,
     )
     const queryEntries = entries.raw()
 
     for (const entry of queryEntries) {
-      const entriesEntry: any = await selectQuery(
+      const entriesEntry: any = yield call(selectQuery,
         `${query} WHERE entries.entry_id = ?`,
         [entry?.id],
       )
       const queryEntriesEntry = entriesEntry.raw()
-      const defaultPrices = await getExchangeValues(currencies, currency_id)
+      const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
 
       const amount =
         queryEntriesEntry?.reduce((prev: any, next: any) => {
@@ -897,11 +800,12 @@ export const getEntriesGoalsQuery = async (
   }
 }
 
-export const getGoalQuery = async (
+export function* getGoalQuery(
   id: any,
   currencies: any,
   currency_id: any,
-) => {
+  prices: any,
+):any {
   try {
     const query =
       'SELECT entries.amount,\
@@ -931,15 +835,15 @@ export const getGoalQuery = async (
       LEFT JOIN currencies ON currencies.id = accounts.currency_id\
       LEFT JOIN (SELECT id, payment_type as type FROM entries) as entry ON entries.entry_id = entry.id'
 
-    const entry: any = await selectQuery(`${query} WHERE entries.id = ?`, [id])
+    const entry: any = yield call(selectQuery,`${query} WHERE entries.id = ?`, [id])
 
     const queryEntry = entry.raw()[0]
-    const entries: any = await selectQuery(
+    const entries: any = yield call(selectQuery,
       `${query} WHERE entries.entry_id = ? ORDER BY date desc`,
       [id],
     )
     queryEntry.entries = entries.raw()
-    const defaultPrices = await getExchangeValues(currencies, currency_id)
+    const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
     const amount =
       queryEntry.entries?.reduce((prev: any, next: any) => {
         const change = defaultPrices[String(next?.currency_id)]

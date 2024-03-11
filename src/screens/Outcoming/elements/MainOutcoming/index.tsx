@@ -11,18 +11,14 @@ import {
   ActionBanner,
   ItemList,
 } from '@components'
-import { getDashboardValues, getOutcomes } from 'store/actions'
+import { getOutcomes } from 'store/actions'
 
 const MainOutcoming: FC = () => {
   const { colors } = useTheme()
   const dispatch = useDispatch()
 
-  const { defaultPrices } = useSelector((state: any) => state.currency)
   const { items } = useSelector((state: any) => state.outcoming)
 
-  useEffect(() => {
-    if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
-  }, [defaultPrices])
 
   const infoValues = useMemo(() => {
     return {

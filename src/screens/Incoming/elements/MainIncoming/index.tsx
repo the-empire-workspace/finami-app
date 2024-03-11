@@ -17,12 +17,7 @@ const MainIncoming: FC = () => {
   const {colors} = useTheme()
   const dispatch = useDispatch()
 
-  const {defaultPrices} = useSelector((state: any) => state.currency)
   const {items} = useSelector((state: any) => state.incoming)
-
-  useEffect(() => {
-    if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
-  }, [defaultPrices])
 
   const infoValues = useMemo(() => {
     return {
