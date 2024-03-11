@@ -276,8 +276,18 @@ const DetailPendingIncome: FC = () => {
           </View>
         </View>
         <View style={[styles.actionContent]}>
-          <TouchableOpacity style={[styles.action]} onPress={() => { navigation.navigate('report', { type: params?.type === 'category' ? 'pending_incomes_category' : 'pending_incomes', id: item?.id }) }}>
-             <FileArrowUp width={24} height={24} />
+          <TouchableOpacity
+            style={[styles.action]}
+            onPress={() => {
+              navigation.navigate('report', {
+                type:
+                  params?.type === 'category'
+                    ? 'pending_incomes_category'
+                    : 'pending_incomes',
+                id: item?.id,
+              })
+            }}>
+            <FileArrowUp width={24} height={24} />
           </TouchableOpacity>
           <Text>{translate('made_incomes')}</Text>
           <TouchableOpacity

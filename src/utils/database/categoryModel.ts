@@ -1,11 +1,11 @@
-import { getExchangeValues, setPrices } from 'utils/exchangeData'
-import { insertQuery, selectQuery } from './helpers'
-import { operateChange } from 'utils/dataTransform'
-import { call } from 'redux-saga/effects'
+import {setPrices} from 'utils/exchangeData'
+import {insertQuery, selectQuery} from './helpers'
+import {operateChange} from 'utils/dataTransform'
+import {call} from 'redux-saga/effects'
 
 export const createCategoryQuery = async (data: any) => {
   try {
-    const { name, comment, type, date } = data
+    const {name, comment, type, date} = data
 
     const query = `INSERT INTO categories \
     (name,\
@@ -33,7 +33,7 @@ export const createCategoryQuery = async (data: any) => {
 
 export const updateCategoryQuery = async (data: any, id: any) => {
   try {
-    const { name, comment } = data
+    const {name, comment} = data
 
     const query = 'UPDATE categories SET name = ?, comment = ? WHERE id = ?'
 
@@ -157,25 +157,33 @@ export function* getCategoryQuery(
     LEFT JOIN accounts ON accounts.id = entries.account_id\
     LEFT JOIN currencies ON currencies.id = accounts.currency_id'
 
-    const category: any = yield call(selectQuery,
+    const category: any = yield call(
+      selectQuery,
       'SELECT * FROM categories WHERE id = ?',
       [id],
     )
     const queryCategory = category.raw()[0]
 
-    const entriesCategory: any = yield call(selectQuery,
+    const entriesCategory: any = yield call(
+      selectQuery,
       `${query} WHERE category_id = ? AND entries.payment_type != "general" ORDER BY entries.date DESC`,
       [queryCategory?.id],
     )
     const queryEntries = entriesCategory.raw()
     if (currencies && currency_id)
       for (const entry of queryEntries) {
-        const entriesEntry: any = yield call(selectQuery,
+        const entriesEntry: any = yield call(
+          selectQuery,
           `${query} WHERE entries.entry_id = ?`,
           [entry?.id],
         )
         const queryEntriesEntry = entriesEntry.raw()
-        const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
+        const defaultPrices = yield call(
+          setPrices,
+          prices,
+          currencies,
+          currency_id,
+        )
 
         const amount =
           queryEntriesEntry?.reduce((prev: any, next: any) => {

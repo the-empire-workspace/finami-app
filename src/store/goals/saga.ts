@@ -49,15 +49,15 @@ function* getEntriesGoalsAsync({payload}: any): any {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
-    
-    const { prices } = yield select(selectIntermitence)
+
+    const {prices} = yield select(selectIntermitence)
 
     const goals = yield call(
       getEntriesGoalsQuery,
       payload,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
     const categories = yield call(getGoalsCategoriesQuery, payload)
     const mix = [...goals, ...categories]
@@ -92,13 +92,13 @@ function* createCategoryGoalsAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const { prices } = yield select(selectIntermitence)
+    const {prices} = yield select(selectIntermitence)
     const goals = yield call(
       getEntriesGoalsQuery,
       payload?.type,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
     const categories = yield call(getGoalsCategoriesQuery, payload?.type)
     const mix = [...goals, ...categories]
@@ -139,13 +139,13 @@ function* createGoalsAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const { prices } = yield select(selectIntermitence)
+    const {prices} = yield select(selectIntermitence)
     const goals = yield call(
       getEntriesGoalsQuery,
       payload?.type,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
     const categories = yield call(getGoalsCategoriesQuery, payload?.type)
     const mix = [...goals, ...categories]
@@ -177,13 +177,13 @@ function* getGoalAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const { prices } = yield select(selectIntermitence)
+    const {prices} = yield select(selectIntermitence)
     const goal = yield call(
       getGoalQuery,
       payload,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
     yield put(actionObject(GET_GOAL_ASYNC, goal))
   } catch (error) {
@@ -238,14 +238,14 @@ function* createGoalsEntryAsync({payload}: any): any {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
-    
-    const { prices } = yield select(selectIntermitence)
+
+    const {prices} = yield select(selectIntermitence)
     const goals = yield call(
       getEntriesGoalsQuery,
       payload?.type,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
     const categories = yield call(getGoalsCategoriesQuery, payload?.type)
     const mix = [...goals, ...categories]
@@ -256,7 +256,7 @@ function* createGoalsEntryAsync({payload}: any): any {
       payload?.id,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
 
     yield put(
@@ -296,13 +296,13 @@ function* updateGoalsAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const { prices } = yield select(selectIntermitence)
+    const {prices} = yield select(selectIntermitence)
     const goals = yield call(
       getEntriesGoalsQuery,
       payload?.payment_type,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
     const categories = yield call(
       getGoalsCategoriesQuery,
@@ -316,7 +316,7 @@ function* updateGoalsAsync({payload}: any): any {
       payload?.id,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
 
     yield put(
@@ -348,14 +348,14 @@ function* updateCategoryGoalAsync({payload}: any): any {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
-    
-    const { prices } = yield select(selectIntermitence)
+
+    const {prices} = yield select(selectIntermitence)
     const goals = yield call(
       getEntriesGoalsQuery,
       payload?.type,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
     const categories = yield call(getGoalsCategoriesQuery, payload?.type)
     const mix = [...goals, ...categories]
@@ -391,13 +391,13 @@ function* deleteCategoryGoalAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const { prices } = yield select(selectIntermitence)
+    const {prices} = yield select(selectIntermitence)
     const goals = yield call(
       getEntriesGoalsQuery,
       payload?.type,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
     const categories = yield call(getGoalsCategoriesQuery, payload?.type)
     const mix = [...goals, ...categories]
@@ -426,16 +426,16 @@ function* deleteGoalAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const { prices } = yield select(selectIntermitence)
+    const {prices} = yield select(selectIntermitence)
 
     const goals = yield call(
       getEntriesGoalsQuery,
       payload?.type,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
-    
+
     const categories = yield call(getGoalsCategoriesQuery, payload?.type)
     const mix = [...goals, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')

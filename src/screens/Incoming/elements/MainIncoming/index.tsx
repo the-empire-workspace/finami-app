@@ -11,7 +11,7 @@ import {
   ActionBanner,
   ItemList,
 } from '@components'
-import {getDashboardValues, getIncomes} from 'store/actions'
+import {getIncomes} from 'store/actions'
 
 const MainIncoming: FC = () => {
   const {colors} = useTheme()

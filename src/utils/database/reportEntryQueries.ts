@@ -1,4 +1,4 @@
-import { selectQuery } from './helpers'
+import {selectQuery} from './helpers'
 
 export const getLastMovementsQuery = async (from: any, to: any) => {
   try {
@@ -99,7 +99,6 @@ export const getReportAccountQuery = async (from: any, to: any, id: any) => {
   }
 }
 
-
 export const getIncomesReportQuery = async (from: any, to: any) => {
   try {
     const entries: any = await selectQuery(
@@ -132,7 +131,6 @@ export const getIncomesReportQuery = async (from: any, to: any) => {
     console.log('error getting entries', error)
   }
 }
-
 
 export const getExpensesReportQuery = async (from: any, to: any) => {
   try {
@@ -167,7 +165,6 @@ export const getExpensesReportQuery = async (from: any, to: any) => {
   }
 }
 
-
 export const getReportFromEntryQuery = async (from: any, to: any, id: any) => {
   try {
     const entries: any = await selectQuery(
@@ -201,7 +198,11 @@ export const getReportFromEntryQuery = async (from: any, to: any, id: any) => {
   }
 }
 
-export const getReportFromEntryCategoryQuery = async (from: any, to: any, id: any) => {
+export const getReportFromEntryCategoryQuery = async (
+  from: any,
+  to: any,
+  id: any,
+) => {
   try {
     const entries: any = await selectQuery(
       'SELECT entries.amount,\

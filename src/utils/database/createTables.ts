@@ -1,7 +1,7 @@
 import database from './init'
 import USD from '@assets/img/Iconografia-finami-12.png'
 import EUR from '@assets/img/Iconografia-finami-09.png'
-import { selectQuery } from './helpers'
+import {selectQuery} from './helpers'
 
 const createUserTable = async () => {
   try {
@@ -47,19 +47,18 @@ const createCurrencyTable = async () => {
       console.log('currencies data created')
     }
     const ars = currencies?.raw()?.find((c: any) => c?.symbol === 'ARS')
-    if (!ars) {
+    if (!ars)
       await database.executeSql(
         'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
         ['$ARS', 'ARS', 'FIAT', 2, USD],
       )
-    }
+
     const cop = currencies?.raw()?.find((c: any) => c?.symbol === 'COP')
-    if (!cop) {
+    if (!cop)
       await database.executeSql(
         'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
         ['$COP', 'COP', 'FIAT', 2, USD],
       )
-    }
   } catch (error) {
     console.log('error creating currency table', error)
   }

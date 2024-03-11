@@ -24,7 +24,7 @@ const localStyles = StyleSheet.create({
     width: '100%',
   },
   textWidth: {
-    flex: 1
+    flex: 1,
   },
   boxContainer: {
     width: '100%',

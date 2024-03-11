@@ -95,6 +95,5 @@ jest.mock('react-native-fs', () => {
 })
 
 jest.mock('react-native-file-viewer', () => {
-  return {
-  }
+  return {}
 })

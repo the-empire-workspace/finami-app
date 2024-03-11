@@ -109,7 +109,11 @@ const AccountDetail: FC = () => {
           </Text>
         </View>
         <View style={[styles.actionContainer]}>
-          <TouchableOpacity style={[styles.action]}  onPress={() => { navigation.navigate('report', { type: 'account', id: account?.id }) }}>
+          <TouchableOpacity
+            style={[styles.action]}
+            onPress={() => {
+              navigation.navigate('report', {type: 'account', id: account?.id})
+            }}>
             <FileArrowUp width={24} height={24} />
           </TouchableOpacity>
           <TouchableOpacity

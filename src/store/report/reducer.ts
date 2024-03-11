@@ -1,20 +1,20 @@
-import { DispatchProps } from 'interfaces'
-import { GENERATE_REPORT_ASYNC, DELETE_REPORT } from './action-types'
+import {DispatchProps} from 'interfaces'
+import {GENERATE_REPORT_ASYNC, DELETE_REPORT} from './action-types'
 
 const initialState = {
-  report: "",
+  report: '',
 }
 
 const NotificationReducer = (
   state = initialState,
-  { type, payload }: DispatchProps,
+  {type, payload}: DispatchProps,
 ) => {
   switch (type) {
     case GENERATE_REPORT_ASYNC:
-      return { ...state, report: payload }
+      return {...state, report: payload}
 
     case DELETE_REPORT:
-      return { ...state, report: "" }
+      return {...state, report: ''}
     default:
       return state
   }

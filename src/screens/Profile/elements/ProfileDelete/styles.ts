@@ -49,7 +49,7 @@ const localStyles = StyleSheet.create({
     gap: 20,
   },
   buttonStyle: {
-    flex: 1
+    flex: 1,
   },
 })
 

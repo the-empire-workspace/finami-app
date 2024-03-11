@@ -1,9 +1,9 @@
-import { operateChange } from 'utils/dataTransform'
-import { getAccountEntriesQuery } from './entryModel'
-import { insertQuery, selectQuery } from './helpers'
-import { getNetworkCurrency } from 'utils/moralis'
-import { getExchangeValues, setPrices } from 'utils/exchangeData'
-import { call } from 'redux-saga/effects'
+import {operateChange} from 'utils/dataTransform'
+import {getAccountEntriesQuery} from './entryModel'
+import {insertQuery, selectQuery} from './helpers'
+import {getNetworkCurrency} from 'utils/moralis'
+import {setPrices} from 'utils/exchangeData'
+import {call} from 'redux-saga/effects'
 
 export const createAccountQuery = async ({
   user,
@@ -72,7 +72,8 @@ export const updateAccountQuery = async ({
 
 export function* getAccountsQuery(currencies: any, prices: any): any {
   try {
-    const accounts: any = yield call(selectQuery,
+    const accounts: any = yield call(
+      selectQuery,
       "SELECT accounts.id, account_name, account_number,\
       organization, account_type, account_comments, currency_name,\
       currency_symbol, decimal, SUM(CASE WHEN entries.entry_type = 'income'\
@@ -94,24 +95,29 @@ export function* getAccountsQuery(currencies: any, prices: any): any {
           (c: any) => c?.symbol === netCurrency?.symbol,
         )
 
-        const defaultPrices = yield call(setPrices, prices, currencies, currency?.id)
-        const entries = yield call(getAccountEntriesQuery, account?.account_name)
-
-        const currenciesAccount = entries.reduce(
-          (prev: any, next: any) => {
-            const change = defaultPrices[String(next?.currency_id)]
-            const amount = change
-              ? operateChange(change?.op, change?.value, next.amount)
-              : next.amount
-            if (next.entry_type === 'income') {
-              prev += amount
-              return prev
-            }
-            prev -= amount
-            return prev
-          },
-          0,
+        const defaultPrices = yield call(
+          setPrices,
+          prices,
+          currencies,
+          currency?.id,
         )
+        const entries = yield call(
+          getAccountEntriesQuery,
+          account?.account_name,
+        )
+
+        const currenciesAccount = entries.reduce((prev: any, next: any) => {
+          const change = defaultPrices[String(next?.currency_id)]
+          const amount = change
+            ? operateChange(change?.op, change?.value, next.amount)
+            : next.amount
+          if (next.entry_type === 'income') {
+            prev += amount
+            return prev
+          }
+          prev -= amount
+          return prev
+        }, 0)
         account.currency_name = currency?.name
         account.currency_symbol = currency?.symbol
         account.decimal = currency?.decimal
@@ -125,9 +131,10 @@ export function* getAccountsQuery(currencies: any, prices: any): any {
   }
 }
 
-export function* getAccountQuery(currencies: any, id: any, prices: any):any {
+export function* getAccountQuery(currencies: any, id: any, prices: any): any {
   try {
-    const accounts: any = yield call(selectQuery,
+    const accounts: any = yield call(
+      selectQuery,
       "SELECT accounts.id, account_name, account_number, organization, account_type, account_comments, currency_name, currency_symbol, decimal,cur.id as account_currency, SUM(CASE WHEN entries.entry_type = 'income'\
       AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL)\
       THEN entries.amount WHEN entries.entry_type = 'expense' \
@@ -140,7 +147,7 @@ export function* getAccountQuery(currencies: any, id: any, prices: any):any {
 
     const account = accounts.raw()[0]
 
-    const entries = yield call(getAccountEntriesQuery,account?.account_name)
+    const entries = yield call(getAccountEntriesQuery, account?.account_name)
 
     account.entries = entries
     if (account?.account_type === 'wallet') {
@@ -150,7 +157,12 @@ export function* getAccountQuery(currencies: any, id: any, prices: any):any {
         (c: any) => c?.symbol === netCurrency?.symbol,
       )
 
-      const defaultPrices = yield call(setPrices, prices, currencies, currency?.id)
+      const defaultPrices = yield call(
+        setPrices,
+        prices,
+        currencies,
+        currency?.id,
+      )
       const currenciesAccount = entries.reduce((prev: any, next: any) => {
         const change = defaultPrices[String(next?.currency_id)]
         const amount = change

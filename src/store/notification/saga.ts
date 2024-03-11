@@ -1,5 +1,5 @@
-import { call, put, select, takeLatest } from 'redux-saga/effects'
-import notifee, { AndroidNotificationSetting } from '@notifee/react-native'
+import {call, put, select, takeLatest} from 'redux-saga/effects'
+import notifee, {AndroidNotificationSetting} from '@notifee/react-native'
 import {
   FetchService,
   actionObject,
@@ -12,21 +12,21 @@ import {
   scheduleNofitication,
   translate,
 } from 'utils'
-import { finamiAPI } from 'utils/path'
+import {finamiAPI} from 'utils/path'
 
-import { selectAccount, selectCurrency, selectIntermitence } from '../selector'
-import { PUSH_NOTIFICATION, SCHEDULE_NOTIFICATION } from './action-types'
-import { GET_CURRENCIES_ASYNC } from 'store/currency/action-types'
+import {selectAccount, selectCurrency, selectIntermitence} from '../selector'
+import {PUSH_NOTIFICATION, SCHEDULE_NOTIFICATION} from './action-types'
+import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
 function* pushNotificationAsync(): any {
   try {
-    const { tokenNotifications } = yield select(selectAccount)
+    const {tokenNotifications} = yield select(selectAccount)
     if (tokenNotifications) {
       const result = yield call(
         FetchService,
         `${finamiAPI}notification/alarm`,
         'POST',
-        { token: tokenNotifications },
+        {token: tokenNotifications},
       )
       console.log(result)
     }
@@ -37,9 +37,9 @@ function* pushNotificationAsync(): any {
 
 function* scheduleNotificationsAsync(): any {
   try {
-    let { currencies } = yield select(selectCurrency)
-    const { user } = yield select(selectAccount)
-    const { prices } = yield select(selectIntermitence)
+    let {currencies} = yield select(selectCurrency)
+    const {user} = yield select(selectAccount)
+    const {prices} = yield select(selectIntermitence)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -51,14 +51,14 @@ function* scheduleNotificationsAsync(): any {
       getReceivableAccountsQuery,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
 
     const outcomeDebts = yield call(
       getDebtsQuery,
       currencies,
       user?.currency_id,
-      prices
+      prices,
     )
 
     const notIncomes = processNotification(incomes)
