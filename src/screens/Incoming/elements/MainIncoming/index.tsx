@@ -11,18 +11,13 @@ import {
   ActionBanner,
   ItemList,
 } from '@components'
-import {getDashboardValues, getIncomes} from 'store/actions'
+import {getIncomes} from 'store/actions'
 
 const MainIncoming: FC = () => {
   const {colors} = useTheme()
   const dispatch = useDispatch()
 
-  const {defaultPrices} = useSelector((state: any) => state.currency)
   const {items} = useSelector((state: any) => state.incoming)
-
-  useEffect(() => {
-    if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
-  }, [defaultPrices])
 
   const infoValues = useMemo(() => {
     return {
@@ -66,7 +61,7 @@ const MainIncoming: FC = () => {
       <View style={[{backgroundColor: colors.background50}]}>
         <Header />
         <InfoBanner values={infoValues} />
-        <DropDownButtons DropDownInfo={DropDownInfo} />
+        <DropDownButtons DropDownInfo={DropDownInfo} type="incomes" />
       </View>
       {items?.entries?.length ? (
         <ItemList items={items.entries} type="dashboard" />

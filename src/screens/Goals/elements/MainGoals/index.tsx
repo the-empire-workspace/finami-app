@@ -5,20 +5,14 @@ import {useTheme} from 'providers'
 import {translate} from 'utils'
 import {useDispatch, useSelector} from 'react-redux'
 import {Header, DropDownButtons, ActionBanner, ItemList} from '@components'
-import {getDashboardValues, getEntriesGoals} from 'store/actions'
+import {getEntriesGoals} from 'store/actions'
 import {Button} from 'theme'
 
 const MainGoals: FC = () => {
   const {colors} = useTheme()
   const dispatch = useDispatch()
-
-  const {defaultPrices} = useSelector((state: any) => state.currency)
   const {items} = useSelector((state: any) => state.goals)
   const [selectedType, setSelectedType] = React.useState('compromise')
-
-  useEffect(() => {
-    if (Object.keys(defaultPrices)?.length) dispatch(getDashboardValues())
-  }, [defaultPrices])
 
   const DropDownInfo = [
     {},
@@ -62,7 +56,7 @@ const MainGoals: FC = () => {
             onPress={() => setSelectedType('desire')}
           />
         </View>
-        <DropDownButtons DropDownInfo={DropDownInfo} />
+        <DropDownButtons DropDownInfo={DropDownInfo} type={selectedType} />
       </View>
       {items?.length ? (
         <ItemList items={items} type="goals" />

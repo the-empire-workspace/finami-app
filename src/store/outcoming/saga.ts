@@ -53,7 +53,7 @@ import {
   updateEntryQuery,
 } from 'utils'
 import {getDashboardValues, getOutcomes, getTotalBalance} from 'store/actions'
-import {selectAccount, selectCurrency} from 'store/selector'
+import {selectAccount, selectCurrency, selectIntermitence} from 'store/selector'
 import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
 function* createOutcomeAsync({payload}: any): any {
@@ -93,6 +93,7 @@ function* createOutcomeAsync({payload}: any): any {
 function* createBasicExpensesAsync({payload}: any): any {
   try {
     const newDate = new Date()
+
     if (payload?.date) {
       newDate.setDate(payload?.date?.getDate())
       newDate.setMonth(payload?.date?.getMonth())
@@ -138,7 +139,12 @@ function* createBasicExpensesAsync({payload}: any): any {
     const mix = [...outcomes, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
     if (payload?.category_id) {
-      const category = yield call(getCategoryQuery, payload?.category_id)
+      const {prices} = yield select(selectIntermitence)
+      const category = yield call(
+        getCategoryQuery,
+        payload?.category_id,
+        prices,
+      )
       yield put(actionObject(GET_CATEGORY_OUTCOME_ASYNC, category))
     }
     yield put(
@@ -305,7 +311,9 @@ function* updateCategoryOutcomeAsync({payload}: any): any {
     const categories = yield call(getOutcomeCategoriesQuery)
     const mix = [...outcomes, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
-    const category = yield call(getCategoryQuery, payload?.id)
+
+    const {prices} = yield select(selectIntermitence)
+    const category = yield call(getCategoryQuery, payload?.id, prices)
 
     yield put(
       actionObject(CREATE_OUTCOME_CATEGORY_ASYNC, {
@@ -371,7 +379,8 @@ function* deleteOutcomeAsync({payload}: any): any {
 
 function* getCategoryOutcomeASync({payload}: any): any {
   try {
-    const category = yield call(getCategoryQuery, payload)
+    const {prices} = yield select(selectIntermitence)
+    const category = yield call(getCategoryQuery, payload, prices)
     yield put(actionObject(GET_CATEGORY_OUTCOME_ASYNC, category))
   } catch (error) {
     console.log(error)
@@ -412,7 +421,13 @@ function* createDebtAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const outcomes = yield call(getDebtsQuery, currencies, user?.currency_id)
+    const {prices} = yield select(selectIntermitence)
+    const outcomes = yield call(
+      getDebtsQuery,
+      currencies,
+      user?.currency_id,
+      prices,
+    )
     const entriesOutcomes = yield call(getEntriesExpensesQuery)
 
     yield put(
@@ -463,13 +478,20 @@ function* createDebtEntryAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const outcomes = yield call(getDebtsQuery, currencies, user?.currency_id)
+    const {prices} = yield select(selectIntermitence)
+    const outcomes = yield call(
+      getDebtsQuery,
+      currencies,
+      user?.currency_id,
+      prices,
+    )
 
     const item = yield call(
       getDebtQuery,
       payload?.id,
       currencies,
       user?.currency_id,
+      prices,
     )
 
     yield put(
@@ -496,7 +518,14 @@ function* getDebtsAsync(): any {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
-    const outcomes = yield call(getDebtsQuery, currencies, user?.currency_id)
+
+    const {prices} = yield select(selectIntermitence)
+    const outcomes = yield call(
+      getDebtsQuery,
+      currencies,
+      user?.currency_id,
+      prices,
+    )
     yield put(actionObject(GET_DEBTS_ASYNC, outcomes))
   } catch (error) {
     console.log(error)
@@ -512,11 +541,13 @@ function* getDebtAsync({payload}: any): any {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
+    const {prices} = yield select(selectIntermitence)
     const outcome = yield call(
       getDebtQuery,
       payload,
       currencies,
       user?.currency_id,
+      prices,
     )
     yield put(actionObject(GET_DEBT_ASYNC, outcome))
   } catch (error) {
@@ -551,13 +582,20 @@ function* updateDebtAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const outcomes = yield call(getDebtsQuery, currencies, user?.currency_id)
+    const {prices} = yield select(selectIntermitence)
+    const outcomes = yield call(
+      getDebtsQuery,
+      currencies,
+      user?.currency_id,
+      prices,
+    )
 
     const item = yield call(
       getDebtQuery,
       payload?.id,
       currencies,
       user?.currency_id,
+      prices,
     )
 
     yield put(
@@ -587,7 +625,13 @@ function* deleteDebtAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const outcomes = yield call(getDebtsQuery, currencies, user?.currency_id)
+    const {prices} = yield select(selectIntermitence)
+    const outcomes = yield call(
+      getDebtsQuery,
+      currencies,
+      user?.currency_id,
+      prices,
+    )
 
     yield put(
       actionObject(DELETE_DEBT_ASYNC, {

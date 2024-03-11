@@ -75,6 +75,7 @@ import {
   watchUpdateCategoryGoal,
   watchUpdateGoals,
 } from './goals/saga'
+import {watchGenerateReport} from './report/saga'
 
 //import {watchGetIncoming, watchSetIncoming} from './incoming/saga'
 
@@ -152,5 +153,6 @@ export default function* rootSaga() {
     fork(watchSendComments),
     fork(watchUpdatePostponeEntry),
     fork(watchUpdateStatusEntry),
+    fork(watchGenerateReport),
   ])
 }

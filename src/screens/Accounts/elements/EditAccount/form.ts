@@ -123,8 +123,7 @@ export const bankForm = (
     returnKeyType: 'next',
     keyboardType: 'numeric',
     validations: {
-      required: true,
-      minLength: 0,
+      minLength: 4,
       maxLength: 72,
     },
   },

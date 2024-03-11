@@ -1,7 +1,7 @@
 import {BackHandler, ItemList} from 'components'
 import {useTheme} from 'providers'
 import React, {FC, useEffect, useMemo, useState} from 'react'
-import {Text, View, TouchableOpacity, Modal} from 'react-native'
+import {Text, View, TouchableOpacity} from 'react-native'
 import {getLanguage, translate} from 'utils'
 import {styles} from './styles'
 import {useDispatch, useSelector} from 'react-redux'
@@ -21,7 +21,6 @@ const DetailFixesIncome: FC = () => {
   const {colors} = useTheme()
 
   const [shortInfo, setShortInfo] = useState(true)
-  const [filterModal, setFilterModal] = useState(false)
   const dispatch = useDispatch()
   const router: any = useRoute()
   const navigation: any = useNavigation()
@@ -277,7 +276,15 @@ const DetailFixesIncome: FC = () => {
         <View style={[styles.actionContent]}>
           <TouchableOpacity
             style={[styles.action]}
-            onPress={() => setFilterModal(!filterModal)}>
+            onPress={() => {
+              navigation.navigate('report', {
+                type:
+                  params?.type === 'category'
+                    ? 'fixed_incomes_category'
+                    : 'fixed_incomes',
+                id: item?.id,
+              })
+            }}>
             <FileArrowUp width={24} height={24} />
           </TouchableOpacity>
           <Text>{translate('made_incomes')}</Text>
@@ -292,81 +299,6 @@ const DetailFixesIncome: FC = () => {
         items={item?.entries}
         type={params?.type === 'category' ? 'fixed_incomes' : 'dashboard'}
       />
-      <Modal
-        transparent={true}
-        animationType="slide"
-        visible={filterModal}
-        onRequestClose={() => {
-          setFilterModal(!filterModal)
-        }}>
-        <View style={[styles.rootModal]}>
-          <View style={[styles.modal]}>
-            <View style={styles.modalTitle}>
-              <Text
-                style={[
-                  styles.smallBody,
-                  styles.titleCenter,
-                  {color: colors.typography},
-                ]}>
-                {translate('filter_movements_list')}
-              </Text>
-            </View>
-            <View style={[styles.modalBody]}>
-              <TouchableOpacity
-                style={[
-                  styles.filterSelection,
-                  {backgroundColor: colors.background25},
-                ]}
-                onPress={() => {
-                  setFilterModal(!filterModal)
-                }}>
-                <Text
-                  style={[
-                    styles.strongBody,
-                    styles.titleCenter,
-                    {color: colors.typography},
-                  ]}>
-                  {translate('show_all_movements')}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  styles.filterSelection,
-                  {backgroundColor: colors.background25},
-                ]}
-                onPress={() => {
-                  setFilterModal(!filterModal)
-                }}>
-                <Text
-                  style={[
-                    styles.strongBody,
-                    styles.titleCenter,
-                    {color: colors.typography},
-                  ]}>
-                  {translate('show_incomes')}
-                </Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  styles.filterSelection,
-                  {backgroundColor: colors.background25},
-                ]}>
-                <Text
-                  style={[
-                    styles.strongBody,
-                    styles.titleCenter,
-                    {color: colors.typography},
-                  ]}
-                  onPress={() => {
-                    setFilterModal(!filterModal)
-                  }}>
-                  {translate('show_outcomes')}
-                </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
     </View>
   )
 }

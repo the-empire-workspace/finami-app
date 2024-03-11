@@ -7,11 +7,13 @@ import {ActionBanner, Header, InfoBanner, ItemList} from 'components'
 import {useSelector} from 'react-redux'
 import {useDispatch} from 'react-redux'
 import {getDashboardValues} from 'store/actions'
-/* import SvgFileArrowUp from '@assets/img/FileArrowUp.svg' */
+import SvgFileArrowUp from '@assets/img/FileArrowUp.svg'
+import {useNavigation} from '@react-navigation/native'
 
 const Dashboard: FC = () => {
   const {colors} = useTheme()
   const dispatch = useDispatch()
+  const navigation: any = useNavigation()
 
   const {defaultPrices} = useSelector((state: any) => state.currency)
   const {dashboardValues} = useSelector((state: any) => state.account)
@@ -46,8 +48,12 @@ const Dashboard: FC = () => {
         <Header />
         <InfoBanner values={infoValues} />
         <View style={[styles.lastMovementsContainer]}>
-          <TouchableOpacity style={styles.svg}>
-            {/*  <SvgFileArrowUp width={24} height={24} /> */}
+          <TouchableOpacity
+            style={styles.svg}
+            onPress={() => {
+              navigation.navigate('report', {type: 'last_movements'})
+            }}>
+            <SvgFileArrowUp width={24} height={24} />
           </TouchableOpacity>
           <Text style={[styles.strongBody, {color: colors.typography}]}>
             {translate('last_movements')}

@@ -6,4 +6,5 @@ interface DropDownInfoItem {
 
 export interface DropDownInfoProps {
   DropDownInfo: DropDownInfoItem[]
+  type?: string
 }

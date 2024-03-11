@@ -59,7 +59,7 @@ import {
   updateStatusEntryQuery,
   updateUserQuery,
 } from 'utils'
-import {selectAccount, selectCurrency} from 'store/selector'
+import {selectAccount, selectCurrency, selectIntermitence} from 'store/selector'
 import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 import {getDashboardValues, getTotalBalance} from './action'
 import {
@@ -168,7 +168,8 @@ function* getDashboardValuesAsync(): any {
           values.monthExpenses += amount
           return values
         }
-        values.monthProjected += amount
+        if (entry?.status !== 'pending') values.monthProjected += amount
+
         return values
       },
       {monthIncome: 0, monthExpenses: 0, monthProjected: 0, entries: []},
@@ -198,7 +199,9 @@ export function* getAccountsAsync(): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const accounts = yield call(getAccountsQuery, currencies)
+    const {prices} = yield select(selectIntermitence)
+
+    const accounts = yield call(getAccountsQuery, currencies, prices)
     yield put(actionObject(GET_ACCOUNTS_ASYNC, accounts))
   } catch (error) {
     console.log(error)
@@ -214,7 +217,8 @@ export function* getAccountAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const account = yield call(getAccountQuery, currencies, payload)
+    const {prices} = yield select(selectIntermitence)
+    const account = yield call(getAccountQuery, currencies, payload, prices)
     yield put(actionObject(GET_ACCOUNT_ASYNC, account))
   } catch (error) {
     console.log(error)
@@ -286,7 +290,9 @@ export function* createCurrencyAccountAsync({payload}: any): any {
         phone: '',
         date: new Date()?.getTime(),
       })
-    const accounts = yield call(getAccountsQuery, currencies)
+
+    const {prices} = yield select(selectIntermitence)
+    const accounts = yield call(getAccountsQuery, currencies, prices)
     yield put(actionObject(CREATE_CURRENCY_ACCOUNT_ASYNC, accounts))
     yield put(getDashboardValues())
     yield put(getTotalBalance())
@@ -306,8 +312,10 @@ export function* updateAccountAsync({payload}: any): any {
 
     const user = yield call(getUserQuery)
     yield call(updateAccountQuery, {user: user.id, ...payload})
-    const account = yield call(getAccountQuery, currencies, payload?.id)
-    const accounts = yield call(getAccountsQuery, currencies)
+
+    const {prices} = yield select(selectIntermitence)
+    const account = yield call(getAccountQuery, currencies, payload?.id, prices)
+    const accounts = yield call(getAccountsQuery, currencies, prices)
     yield put(actionObject(UPDATE_SINGLE_ACCOUNT_ASYNC, {accounts, account}))
   } catch (error) {
     console.log(error)
@@ -326,7 +334,8 @@ export function* deleteSingleAccountAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const accounts = yield call(getAccountsQuery, currencies)
+    const {prices} = yield select(selectIntermitence)
+    const accounts = yield call(getAccountsQuery, currencies, prices)
     yield put(actionObject(DELETE_SINGLE_ACCOUNT_ASYNC, accounts))
     yield put(getDashboardValues())
     yield put(getTotalBalance())

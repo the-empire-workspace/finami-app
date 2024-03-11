@@ -23,6 +23,7 @@ const EditFixedOutcome: FC = () => {
   const [values, setValues] = useState<any>({
     account: {value: String(accounts[0]?.id)},
   })
+  const [defaultSetted, setDefaultSetted] = useState(false)
   const [error, setError] = useState<any>('')
   const router: any = useRoute()
   const navigation: any = useNavigation()
@@ -45,25 +46,31 @@ const EditFixedOutcome: FC = () => {
           : {value: String(item[key]) || ''}
       if (key === 'payment_concept')
         newValues.concept = {value: String(item[key]) || ''}
+      if (key === 'emissor')
+        newValues.receiver_name = {value: String(item[key]) || ''}
       if (key === 'name') newValues.concept = {value: String(item[key]) || ''}
     })
 
     setValues(newValues)
     setCategoryCreation(!!item?.name)
+    setDefaultSetted(true)
   }, [item])
 
   const accForm = useMemo(
     () => accountForm(translate, values, accounts, colors),
-    [accounts, item],
+    [accounts, item, defaultSetted],
   )
   const eForm = useMemo(
     () =>
       categoryCreation
         ? categoryForm(translate, values, colors)
         : egressForm(translate, values, colors),
-    [categoryCreation, item],
+    [categoryCreation, item, defaultSetted],
   )
-  const rForm = useMemo(() => receiverForm(translate, values, colors), [item])
+  const rForm = useMemo(
+    () => receiverForm(translate, values, colors),
+    [item, defaultSetted],
+  )
 
   useEffect(() => {
     dispatch(getAccounts())
@@ -183,7 +190,7 @@ const EditFixedOutcome: FC = () => {
           }, false)}
         />
         <Button
-          text={translate('register')}
+          text={translate('update')}
           style={[styles.buttonContent, {backgroundColor: colors.positive}]}
           styleText={{color: colors.typography2}}
           onPress={createData}

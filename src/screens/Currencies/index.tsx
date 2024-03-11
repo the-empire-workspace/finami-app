@@ -7,11 +7,14 @@ import {translate} from 'utils'
 import {useDispatch} from 'react-redux'
 import {getCurrencies} from 'store/actions'
 import {useSelector} from 'react-redux'
+import SvgFileArrowUp from '@assets/img/FileArrowUp.svg'
+import {useNavigation} from '@react-navigation/native'
 const Currencies: FC = () => {
   const {colors} = useTheme()
   const dispatch = useDispatch()
 
   const {currencies} = useSelector((state: any) => state.currency)
+  const navigation: any = useNavigation()
 
   useEffect(() => {
     dispatch(getCurrencies())
@@ -45,6 +48,17 @@ const Currencies: FC = () => {
             <Text style={[styles.strongBody, {color: colors.typography}]}>
               {item?.name} {`(${item?.symbol})`}
             </Text>
+            <View style={styles.actionContainer}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('report', {
+                    type: 'currency',
+                    id: item?.id,
+                  })
+                }}>
+                <SvgFileArrowUp width={24} height={24} />
+              </TouchableOpacity>
+            </View>
           </TouchableOpacity>
         ))}
       </ScrollView>

@@ -20,9 +20,9 @@ const Header: FC<Props> = () => {
   const {colors} = useTheme()
 
   useEffect(() => {
-    if (!Object.keys(defaultPrices)?.length) dispatch(getCurrencyPrice())
+    dispatch(getCurrencyPrice())
     if (Object.keys(defaultPrices)?.length) dispatch(getTotalBalance())
-  }, [defaultPrices])
+  }, [defaultPrices, user.currency_id])
 
   const currency = useMemo(() => {
     return currencies.find((c: any) => c.id === user?.currency_id)

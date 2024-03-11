@@ -18,6 +18,9 @@ const localStyles = StyleSheet.create({
     gap: 5,
     justifyContent: 'center',
   },
+  centerText: {
+    textAlign: 'center',
+  },
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}

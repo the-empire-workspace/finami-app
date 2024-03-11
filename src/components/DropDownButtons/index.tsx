@@ -4,16 +4,17 @@ import {Text, TouchableOpacity, View} from 'react-native'
 import {useTheme} from 'providers'
 import {styles} from './styles'
 import DropDownArrow from '@assets/img/CaretDoubleDown.svg'
-/* import FileArrowUp from '@assets/img/FileArrowUp.svg' */
+import FileArrowUp from '@assets/img/FileArrowUp.svg'
 import {useNavigation} from '@react-navigation/native'
 import {DropDownInfoProps} from './interface'
 
-const DropDownButtons: FC<DropDownInfoProps> = ({DropDownInfo}: any) => {
+const DropDownButtons: FC<DropDownInfoProps> = ({DropDownInfo, type}: any) => {
   const {colors} = useTheme()
   const router: any = useNavigation()
   const [selected, setSelected] = useState(
     !!DropDownInfo[0].label || !!DropDownInfo[1].label,
   )
+  const navigation: any = useNavigation()
   const renderDropdown = () => {
     if (selected)
       return (
@@ -59,8 +60,12 @@ const DropDownButtons: FC<DropDownInfoProps> = ({DropDownInfo}: any) => {
         selected &&
         renderDropdown()}
       <View style={[styles.show]}>
-        <TouchableOpacity style={styles.buttonAlone}>
-          {/*  <FileArrowUp width={24} height={24} /> */}
+        <TouchableOpacity
+          style={styles.buttonAlone}
+          onPress={() => {
+            navigation.navigate('report', {type: type})
+          }}>
+          <FileArrowUp width={24} height={24} />
         </TouchableOpacity>
         <Text style={[styles.strongBody, {color: colors.typography}]}>
           {DropDownInfo[2].title}
