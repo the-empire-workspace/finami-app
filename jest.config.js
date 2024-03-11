@@ -17,6 +17,8 @@ module.exports = {
       '|react-native-image-resizer' +
       '|@react-native-community/art' +
       '|@notifee' +
+      '|react-native-html-to-pdf' +
+      '|react-native-file-viewer' +
       ')/)',
   ],
   fakeTimers: {

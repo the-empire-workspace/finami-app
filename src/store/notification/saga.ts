@@ -14,7 +14,7 @@ import {
 } from 'utils'
 import {finamiAPI} from 'utils/path'
 
-import {selectAccount, selectCurrency} from '../selector'
+import {selectAccount, selectCurrency, selectIntermitence} from '../selector'
 import {PUSH_NOTIFICATION, SCHEDULE_NOTIFICATION} from './action-types'
 import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
 
@@ -39,6 +39,7 @@ function* scheduleNotificationsAsync(): any {
   try {
     let {currencies} = yield select(selectCurrency)
     const {user} = yield select(selectAccount)
+    const {prices} = yield select(selectIntermitence)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -50,12 +51,14 @@ function* scheduleNotificationsAsync(): any {
       getReceivableAccountsQuery,
       currencies,
       user?.currency_id,
+      prices,
     )
 
     const outcomeDebts = yield call(
       getDebtsQuery,
       currencies,
       user?.currency_id,
+      prices,
     )
 
     const notIncomes = processNotification(incomes)

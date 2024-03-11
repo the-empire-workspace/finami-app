@@ -47,6 +47,8 @@ const ModalUpdate: FC<any> = ({item, itemValues, closeModal, updateType}) => {
       }))
   }, [accounts])
 
+  const transparent = 'transparent'
+  const underline = 'underline'
   return (
     <View style={[styles.root]}>
       <View style={[styles.modal, {backgroundColor: colors.background100}]}>
@@ -55,7 +57,7 @@ const ModalUpdate: FC<any> = ({item, itemValues, closeModal, updateType}) => {
             styles.modalHeader,
             {
               borderColor:
-                item?.status === 'pending' ? itemValues?.color : 'transparent',
+                item?.status === 'pending' ? itemValues?.color : transparent,
             },
           ]}>
           <View>
@@ -269,7 +271,7 @@ const ModalUpdate: FC<any> = ({item, itemValues, closeModal, updateType}) => {
                   updateType === 'update'
                     ? colors.states.caution
                     : colors.positive,
-                textDecorationLine: 'underline',
+                textDecorationLine: underline,
                 textDecorationColor:
                   updateType === 'update'
                     ? colors.states.caution

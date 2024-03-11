@@ -11,8 +11,8 @@ import {
   getAccounts,
   getDebt,
   removeExpenseItem,
-} from 'store/actions' /*
-import FileArrowUp from '@assets/img/FileArrowUp.svg' */
+} from 'store/actions'
+import FileArrowUp from '@assets/img/FileArrowUp.svg'
 import Trash from '@assets/img/Trash.svg'
 import Pencil from '@assets/img/Pencil.svg'
 import CaretDown from '@assets/img/CaretDoubleDown.svg'
@@ -77,6 +77,7 @@ const DetailPendingOutcome: FC = () => {
           ...createValues,
           concept: item?.payment_concept,
           entry_id: item?.id,
+          category_id: item?.category_id,
         }),
       )
     setNewModal(false)
@@ -304,8 +305,15 @@ const DetailPendingOutcome: FC = () => {
           </View>
         </View>
         <View style={[styles.actionContent]}>
-          <TouchableOpacity style={[styles.action]} onPress={() => {}}>
-            {/* <FileArrowUp width={24} height={24} /> */}
+          <TouchableOpacity
+            style={[styles.action]}
+            onPress={() => {
+              navigation.navigate('report', {
+                type: params?.type === 'category' ? 'debt_category' : 'debt',
+                id: item?.id,
+              })
+            }}>
+            <FileArrowUp width={24} height={24} />
           </TouchableOpacity>
           <Text>{translate('made_outcomes')}</Text>
           <TouchableOpacity

@@ -18,7 +18,12 @@ const InfoBanner: FC<any> = ({values}) => {
   return (
     <View style={[styles.root]}>
       <View style={[styles.infoBox]}>
-        <Text style={[styles.strongBody, {color: values?.month1?.color}]}>
+        <Text
+          style={[
+            styles.strongBody,
+            styles.centerText,
+            {color: values?.month1?.color},
+          ]}>
           {currency?.symbol || ''}{' '}
           {values?.month1?.value?.toLocaleString('en-US', {
             maximumFractionDigits: currency?.decimal,
@@ -30,7 +35,12 @@ const InfoBanner: FC<any> = ({values}) => {
       </View>
       {!!values?.month2 && (
         <View style={[styles.infoBox]}>
-          <Text style={[styles.strongBody, {color: values?.month2?.color}]}>
+          <Text
+            style={[
+              styles.strongBody,
+              styles.centerText,
+              {color: values?.month2?.color},
+            ]}>
             {currency?.symbol || ''}{' '}
             {values?.month2?.value?.toLocaleString('en-US', {
               maximumFractionDigits: currency?.decimal,
@@ -42,7 +52,12 @@ const InfoBanner: FC<any> = ({values}) => {
         </View>
       )}
       <View style={[styles.infoBox]}>
-        <Text style={[styles.strongBody, {color: colors.states.caution}]}>
+        <Text
+          style={[
+            styles.strongBody,
+            styles.centerText,
+            {color: colors.states.caution},
+          ]}>
           {currency?.symbol || ''}{' '}
           {values?.month3?.value?.toLocaleString('en-US', {
             maximumFractionDigits: currency?.decimal,

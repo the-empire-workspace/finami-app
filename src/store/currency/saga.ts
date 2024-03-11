@@ -20,16 +20,34 @@ function* getCurrenciesAsync(): any {
 function* getDefaultPriceAsync(): any {
   try {
     const {user} = yield select(selectAccount)
-    let {currencies} = yield select(selectCurrency)
+    let {currencies, defaultPrices} = yield select(selectCurrency)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const prices = yield call(getExchangeValues, currencies, user?.currency_id)
-
-    yield put(actionObject(GET_CURRENCY_PRICE_ASYNC, prices))
+    const date = new Date()
+    date.setHours(0, 0, 0, 0)
+    if (
+      !defaultPrices?.date ||
+      defaultPrices?.date !== date.getTime() ||
+      user?.currency_id !== defaultPrices?.id
+    ) {
+      const prices = yield call(
+        getExchangeValues,
+        currencies,
+        user?.currency_id,
+      )
+      if (prices)
+        yield put(
+          actionObject(GET_CURRENCY_PRICE_ASYNC, {
+            ...prices,
+            date: date.getTime(),
+            id: user?.currency_id,
+          }),
+        )
+    }
   } catch (error) {
     console.log(error)
   }

@@ -46,6 +46,19 @@ const createCurrencyTable = async () => {
       )
       console.log('currencies data created')
     }
+    const ars = currencies?.raw()?.find((c: any) => c?.symbol === 'ARS')
+    if (!ars)
+      await database.executeSql(
+        'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
+        ['$ARS', 'ARS', 'FIAT', 2, USD],
+      )
+
+    const cop = currencies?.raw()?.find((c: any) => c?.symbol === 'COP')
+    if (!cop)
+      await database.executeSql(
+        'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
+        ['$COP', 'COP', 'FIAT', 2, USD],
+      )
   } catch (error) {
     console.log('error creating currency table', error)
   }

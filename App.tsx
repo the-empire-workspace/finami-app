@@ -1,6 +1,6 @@
 import React from 'react'
 import {ErrorBoundary} from '@components'
-import {store} from '@store'
+import {persistor, store} from '@store'
 import {Provider} from 'react-redux'
 import {Main} from '@screens'
 import {NavigationContainer} from '@react-navigation/native'
@@ -9,14 +9,15 @@ import {SafeAreaProvider} from 'react-native-safe-area-context'
 import './src/utils/hideLogs'
 import notifee, {EventType} from '@notifee/react-native'
 import SQLite from 'react-native-sqlite-storage'
-import {
+/* import {
   createWeb3Modal,
   defaultWagmiConfig,
   Web3Modal,
 } from '@web3modal/wagmi-react-native'
-import {WagmiConfig} from 'wagmi'
-import {mainnet, polygon, bsc} from 'wagmi/chains'
+import { WagmiConfig } from 'wagmi'
+import {mainnet, polygon, bsc} from 'wagmi/chains'*/
 import {emitter} from 'utils/eventEmitter'
+import {PersistGate} from 'redux-persist/integration/react'
 
 notifee.onBackgroundEvent(async ({type, detail}) => {
   const {notification} = detail
@@ -27,7 +28,7 @@ notifee.onBackgroundEvent(async ({type, detail}) => {
 
 SQLite.DEBUG(false)
 
-const projectId = '46af7327d6cb0b9caba903b3514bd6be'
+/* const projectId = '46af7327d6cb0b9caba903b3514bd6be'
 
 // 2. Create config
 const metadata = {
@@ -37,31 +38,33 @@ const metadata = {
   icons: ['https://finami.com/favicon.ico'],
 }
 
-const chains = [mainnet, polygon, bsc]
+const chains = [mainnet, polygon, bsc] */
 
-const wagmiConfig = defaultWagmiConfig({chains, projectId, metadata})
+/* const wagmiConfig = defaultWagmiConfig({ chains, projectId, metadata }) */
 
-createWeb3Modal({
+/* if (wagmiConfig) createWeb3Modal({
   projectId,
   chains,
   wagmiConfig,
-})
+}) */
 
 const App = () => {
   return (
     <SafeAreaProvider>
-      <WagmiConfig config={wagmiConfig}>
-        <ThemeProvider>
-          <NavigationContainer>
-            <Provider store={store}>
+      {/* <WagmiConfig config={wagmiConfig}> */}
+      <ThemeProvider>
+        <NavigationContainer>
+          <Provider store={store}>
+            <PersistGate persistor={persistor} loading={null}>
               <ErrorBoundary>
                 <Main />
               </ErrorBoundary>
-            </Provider>
-          </NavigationContainer>
-        </ThemeProvider>
-        <Web3Modal />
-      </WagmiConfig>
+            </PersistGate>
+          </Provider>
+        </NavigationContainer>
+      </ThemeProvider>
+      {/*  <Web3Modal />
+      </WagmiConfig> */}
     </SafeAreaProvider>
   )
 }

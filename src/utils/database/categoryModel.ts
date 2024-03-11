@@ -1,6 +1,7 @@
-import {getExchangeValues} from 'utils/exchangeData'
+import {setPrices} from 'utils/exchangeData'
 import {insertQuery, selectQuery} from './helpers'
 import {operateChange} from 'utils/dataTransform'
+import {call} from 'redux-saga/effects'
 
 export const createCategoryQuery = async (data: any) => {
   try {
@@ -126,11 +127,12 @@ export const getGoalsCategoriesQuery = async (type: any) => {
   }
 }
 
-export const getCategoryQuery = async (
+export function* getCategoryQuery(
   id: any,
+  prices: any,
   currencies: any = null,
   currency_id: any = null,
-) => {
+): any {
   try {
     const query =
       'SELECT entries.amount,\
@@ -155,25 +157,33 @@ export const getCategoryQuery = async (
     LEFT JOIN accounts ON accounts.id = entries.account_id\
     LEFT JOIN currencies ON currencies.id = accounts.currency_id'
 
-    const category: any = await selectQuery(
+    const category: any = yield call(
+      selectQuery,
       'SELECT * FROM categories WHERE id = ?',
       [id],
     )
     const queryCategory = category.raw()[0]
 
-    const entriesCategory: any = await selectQuery(
+    const entriesCategory: any = yield call(
+      selectQuery,
       `${query} WHERE category_id = ? AND entries.payment_type != "general" ORDER BY entries.date DESC`,
       [queryCategory?.id],
     )
     const queryEntries = entriesCategory.raw()
     if (currencies && currency_id)
       for (const entry of queryEntries) {
-        const entriesEntry: any = await selectQuery(
+        const entriesEntry: any = yield call(
+          selectQuery,
           `${query} WHERE entries.entry_id = ?`,
           [entry?.id],
         )
         const queryEntriesEntry = entriesEntry.raw()
-        const defaultPrices = await getExchangeValues(currencies, currency_id)
+        const defaultPrices = yield call(
+          setPrices,
+          prices,
+          currencies,
+          currency_id,
+        )
 
         const amount =
           queryEntriesEntry?.reduce((prev: any, next: any) => {

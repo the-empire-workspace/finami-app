@@ -32,9 +32,6 @@ export const localStyles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 20,
   },
-  action: {
-    marginHorizontal: 10,
-  },
   currencyAdd: {
     alignItems: 'center',
     justifyContent: 'center',

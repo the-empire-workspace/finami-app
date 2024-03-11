@@ -99,6 +99,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
       debt: colors.progress.egress,
       fixed_incomes: colors.progress.ingress,
       fixed_outcomes: colors.progress.egress,
+      basic_expenses: colors.progress.egress,
     }
 
     const paymentColor: any = {
