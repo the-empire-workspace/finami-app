@@ -1,5 +1,5 @@
 import {BackHandler, DynamicForm} from 'components'
-import React, {FC, useEffect, useMemo, useState} from 'react'
+import React, {FC, /*  useEffect, */ useMemo, useState} from 'react'
 import {translate} from 'utils'
 import {bankForm, cashForm, cryptoForm, mainForm} from './form'
 import {ScrollView, View} from 'react-native'
@@ -7,24 +7,24 @@ import {styles} from './styles'
 import {useTheme} from 'providers'
 import {useDispatch, useSelector} from 'react-redux'
 import {Button} from 'theme'
-import {useWeb3Modal, useWeb3ModalState} from '@web3modal/wagmi-react-native'
-import {useAccount} from 'wagmi'
-import {createCryptoAccount, createCurrencyAccount} from 'store/actions'
+/* import {useWeb3Modal, useWeb3ModalState} from '@web3modal/wagmi-react-native' */
+/* import {useAccount} from 'wagmi' */
+import {/* createCryptoAccount, */ createCurrencyAccount} from 'store/actions'
 import {useNavigation} from '@react-navigation/native'
 const CreateAccount: FC = () => {
-  const [newConnect, setNewConnect] = useState(false)
+  const [newConnect /* setNewConnect */] = useState(false)
   const {colors} = useTheme()
   const {currencies} = useSelector((state: any) => state.currency)
   const [values, setValues] = useState<any>({
     account_type: {value: 'cash'},
     account_currency: {value: String(currencies[0]?.id)},
   })
-  const {accounts} = useSelector((state: any) => state.account)
-  const {open} = useWeb3Modal()
+  /* const {accounts} = useSelector((state: any) => state.account) */
+  /* const {open} = useWeb3Modal() */
   const dispatch = useDispatch()
 
-  const {isConnected, address, status} = useAccount()
-  const {selectedNetworkId} = useWeb3ModalState()
+  /*  const {isConnected, address, status} = useAccount() */
+  /* const {selectedNetworkId} = useWeb3ModalState() */
   const navigation = useNavigation()
 
   const form = useMemo(() => {
@@ -59,19 +59,19 @@ const CreateAccount: FC = () => {
     )
   }, [values?.account_type?.value, newConnect])
 
-  const checkWalletExist = () => {
-    const existAccount = accounts?.find(
-      (item: any) =>
-        item?.account_number === address &&
-        item?.organization === selectedNetworkId?.toString(),
-    )
-    if (!existAccount) return setNewConnect(true)
-    return setNewConnect(false)
-  }
+  /*   const checkWalletExist = () => {
+      const existAccount = accounts?.find(
+        (item: any) =>
+          item?.account_number === address &&
+          item?.organization === selectedNetworkId?.toString(),
+      )
+      if (!existAccount) return setNewConnect(true)
+      return setNewConnect(false)
+    } */
 
-  useEffect(() => {
-    if (isConnected && status === 'connected' && address) checkWalletExist()
-  }, [isConnected, status, selectedNetworkId])
+  /*   useEffect(() => {
+      if (isConnected && status === 'connected' && address) checkWalletExist()
+    }, [isConnected, status, selectedNetworkId]) */
 
   const createAccount = () => {
     const sendValues = Object.keys(values).reduce((prev: any, next: any) => {
@@ -79,9 +79,9 @@ const CreateAccount: FC = () => {
       return prev
     }, {})
     if (values?.account_type?.value === 'wallet') {
-      dispatch(
+      /* dispatch(
         createCryptoAccount({...sendValues, address, netId: selectedNetworkId}),
-      )
+      ) */
       navigation.goBack()
       return
     }
@@ -109,7 +109,7 @@ const CreateAccount: FC = () => {
                 ? translate('change_wallet')
                 : translate('connect_wallet')
             }
-            onPress={() => open()}
+            /* onPress={() => open()} */
             disabled={false}
           />
         )}

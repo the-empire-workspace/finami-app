@@ -10,13 +10,13 @@ import {useDispatch} from 'react-redux'
 import {setStep} from 'store/actions'
 import {useSelector} from 'react-redux'
 import {bankForm, cashForm} from './form'
-import {useWeb3Modal} from '@web3modal/wagmi-react-native'
+/* import {useWeb3Modal} from '@web3modal/wagmi-react-native' */
 
 const StepTwo: FC = () => {
   const {colors} = useTheme()
   const router: any = useNavigation()
   const dispatch = useDispatch()
-  const {open} = useWeb3Modal()
+  /*   const {open} = useWeb3Modal() */
   const {isLoading} = useSelector((state: any) => state?.intermitence)
   const {username, image, currency} = useSelector(
     (state: any) => state?.onboarding,
@@ -86,7 +86,7 @@ const StepTwo: FC = () => {
             {values?.account_type?.value === 'wallet' && (
               <Button
                 text={translate('connect_wallet')}
-                onPress={() => open()}
+                /* onPress={() => open()} */
                 disabled={false}
               />
             )}
