@@ -1,4 +1,4 @@
-import {call, put, select, takeLatest} from 'redux-saga/effects'
+import { call, put, select, takeLatest } from 'redux-saga/effects'
 import {
   CREATE_CRYPTO_ACCOUNT,
   CREATE_CURRENCY_ACCOUNT,
@@ -51,6 +51,7 @@ import {
   getCurrenciesQuery,
   getEntriesQuery,
   getEntry,
+  getLastDate,
   getUserQuery,
   operateChange,
   updateAccountQuery,
@@ -59,9 +60,9 @@ import {
   updateStatusEntryQuery,
   updateUserQuery,
 } from 'utils'
-import {selectAccount, selectCurrency, selectIntermitence} from 'store/selector'
-import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
-import {getDashboardValues, getTotalBalance} from './action'
+import { selectAccount, selectCurrency, selectIntermitence } from 'store/selector'
+import { GET_CURRENCIES_ASYNC } from 'store/currency/action-types'
+import { getDashboardValues, getTotalBalance } from './action'
 import {
   getDebt,
   getDebts,
@@ -82,19 +83,19 @@ function* signInAsync(): any {
   }
 }
 
-function* updateLanguageAsync({payload}: any): any {
+function* updateLanguageAsync({ payload }: any): any {
   try {
-    const {user} = yield select(selectAccount)
-    yield call(updateUserQuery, {...user, language: payload})
+    const { user } = yield select(selectAccount)
+    yield call(updateUserQuery, { ...user, language: payload })
     yield put(actionObject(UPDATE_LANGUAGE_ASYNC, payload))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend update language async')
   }
 }
 
-function* updateUserAsync({payload}: any): any {
+function* updateUserAsync({ payload }: any): any {
   try {
-    const {user} = yield select(selectAccount)
+    const { user } = yield select(selectAccount)
     yield call(updateUserQuery, {
       ...user,
       currency_id: payload.principal_currency,
@@ -112,13 +113,13 @@ function* updateUserAsync({payload}: any): any {
     yield put(getEntriesGoals('desire'))
     yield put(getEntriesGoals('compromise'))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend update user async')
   }
 }
 
 function* getTotalBalanceAsync(): any {
   try {
-    const {defaultPrices} = yield select(selectCurrency)
+    const { defaultPrices } = yield select(selectCurrency)
     const entries = yield call(getEntriesQuery)
     const totalBalance = entries?.reduce((total: any, entry: any) => {
       const change = defaultPrices[String(entry?.currency_id)]
@@ -135,13 +136,13 @@ function* getTotalBalanceAsync(): any {
     }, 0)
     yield put(actionObject(GET_TOTAL_BALANCE_ASYNC, totalBalance))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend total balance async')
   }
 }
 
 function* getDashboardValuesAsync(): any {
   try {
-    const {defaultPrices} = yield select(selectCurrency)
+    const { defaultPrices } = yield select(selectCurrency)
     const entries = yield call(getEntriesQuery)
     const now = new Date()
     const dashboardValues = entries?.reduce(
@@ -172,60 +173,60 @@ function* getDashboardValuesAsync(): any {
 
         return values
       },
-      {monthIncome: 0, monthExpenses: 0, monthProjected: 0, entries: []},
+      { monthIncome: 0, monthExpenses: 0, monthProjected: 0, entries: [] },
     )
 
     yield put(actionObject(GET_DASHBOARD_VALUES_ASYNC, dashboardValues))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend dashboard values')
   }
 }
 
-export function* getItemAsync({payload}: any): any {
+export function* getItemAsync({ payload }: any): any {
   try {
     const item = yield call(getEntry, payload)
     yield put(actionObject(GET_ITEM_ASYNC, item))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend get item async')
   }
 }
 
 export function* getAccountsAsync(): any {
   try {
-    let {currencies} = yield select(selectCurrency)
+    let { currencies } = yield select(selectCurrency)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const {prices} = yield select(selectIntermitence)
+    const { prices } = yield select(selectIntermitence)
 
     const accounts = yield call(getAccountsQuery, currencies, prices)
     yield put(actionObject(GET_ACCOUNTS_ASYNC, accounts))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend get accounts async')
   }
 }
 
-export function* getAccountAsync({payload}: any): any {
+export function* getAccountAsync({ payload }: any): any {
   try {
-    let {currencies} = yield select(selectCurrency)
+    let { currencies } = yield select(selectCurrency)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const {prices} = yield select(selectIntermitence)
+    const { prices } = yield select(selectIntermitence)
     const account = yield call(getAccountQuery, currencies, payload, prices)
     yield put(actionObject(GET_ACCOUNT_ASYNC, account))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend get account async')
   }
 }
 
-export function* createCryptoAccountAsync({payload}: any): any {
+export function* createCryptoAccountAsync({ payload }: any): any {
   try {
     const balances = yield call(
       getBalancesMoralis,
@@ -262,13 +263,13 @@ export function* createCryptoAccountAsync({payload}: any): any {
         yield put(getTotalBalance())
       }
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend create crypto account async')
   }
 }
 
-export function* createCurrencyAccountAsync({payload}: any): any {
+export function* createCurrencyAccountAsync({ payload }: any): any {
   try {
-    let {currencies} = yield select(selectCurrency)
+    let { currencies } = yield select(selectCurrency)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -276,7 +277,7 @@ export function* createCurrencyAccountAsync({payload}: any): any {
     }
 
     const user = yield call(getUserQuery)
-    const account = yield call(createAccountQuery, {user: user.id, ...payload})
+    const account = yield call(createAccountQuery, { user: user.id, ...payload })
     if (Number(payload?.available_balance))
       yield call(createEntryQuery, {
         account: account?.id,
@@ -291,19 +292,19 @@ export function* createCurrencyAccountAsync({payload}: any): any {
         date: new Date()?.getTime(),
       })
 
-    const {prices} = yield select(selectIntermitence)
+    const { prices } = yield select(selectIntermitence)
     const accounts = yield call(getAccountsQuery, currencies, prices)
     yield put(actionObject(CREATE_CURRENCY_ACCOUNT_ASYNC, accounts))
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend create currency account async')
   }
 }
 
-export function* updateAccountAsync({payload}: any): any {
+export function* updateAccountAsync({ payload }: any): any {
   try {
-    let {currencies} = yield select(selectCurrency)
+    let { currencies } = yield select(selectCurrency)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -311,40 +312,40 @@ export function* updateAccountAsync({payload}: any): any {
     }
 
     const user = yield call(getUserQuery)
-    yield call(updateAccountQuery, {user: user.id, ...payload})
+    yield call(updateAccountQuery, { user: user.id, ...payload })
 
-    const {prices} = yield select(selectIntermitence)
+    const { prices } = yield select(selectIntermitence)
     const account = yield call(getAccountQuery, currencies, payload?.id, prices)
     const accounts = yield call(getAccountsQuery, currencies, prices)
-    yield put(actionObject(UPDATE_SINGLE_ACCOUNT_ASYNC, {accounts, account}))
+    yield put(actionObject(UPDATE_SINGLE_ACCOUNT_ASYNC, { accounts, account }))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend update account async')
   }
 }
 
-export function* deleteSingleAccountAsync({payload}: any): any {
+export function* deleteSingleAccountAsync({ payload }: any): any {
   try {
     yield call(deleteAccountEntryQuery, payload)
     yield call(deleteAccountQuery, payload)
 
-    let {currencies} = yield select(selectCurrency)
+    let { currencies } = yield select(selectCurrency)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
-    const {prices} = yield select(selectIntermitence)
+    const { prices } = yield select(selectIntermitence)
     const accounts = yield call(getAccountsQuery, currencies, prices)
     yield put(actionObject(DELETE_SINGLE_ACCOUNT_ASYNC, accounts))
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend delete single account async')
   }
 }
 
-export function* deleteAccountAsync({payload}: any): any {
+export function* deleteAccountAsync({ payload }: any): any {
   try {
     const user = yield call(getUserQuery)
     if (
@@ -355,11 +356,11 @@ export function* deleteAccountAsync({payload}: any): any {
       yield put(actionObject(DELETE_ACCOUNT_ASYNC, payload))
     }
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend delete account async')
   }
 }
 
-function* deleteEntryAsync({payload}: any): any {
+function* deleteEntryAsync({ payload }: any): any {
   try {
     const entry = yield call(getEntry, payload)
     const updates: any = {
@@ -403,11 +404,11 @@ function* deleteEntryAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend delete entry async')
   }
 }
 
-function* editEntryAsync({payload}: any): any {
+function* editEntryAsync({ payload }: any): any {
   try {
     yield call(updateEntryQuery, payload?.id, {
       account: payload?.account,
@@ -465,11 +466,11 @@ function* editEntryAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend edit entry async')
   }
 }
 
-function* updatePostponeEntryAsync({payload}: any): any {
+function* updatePostponeEntryAsync({ payload }: any): any {
   try {
     yield call(updatePostponeEntryQuery, payload?.id, {
       date: (payload?.date || new Date())?.getTime(),
@@ -517,11 +518,11 @@ function* updatePostponeEntryAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend update postpone entry async')
   }
 }
 
-function* updateStatusEntryAsync({payload}: any): any {
+function* updateStatusEntryAsync({ payload }: any): any {
   try {
     yield call(updateStatusEntryQuery, payload?.id, {
       account: payload?.account,
@@ -557,6 +558,13 @@ function* updateStatusEntryAsync({payload}: any): any {
     const entry = yield call(getEntry, payload?.id)
     yield put(actionObject(UPDATE_STATUS_ENTRY_ASYNC, entry))
 
+    if (entry?.type === 'fixed_incomes' || entry?.type === 'basic_expenses') {
+      const mainEntry = yield call(getEntry, entry?.entry_id)
+      const newEntry = { ...entry }
+      newEntry.status = 'pending'
+      newEntry.date = getLastDate(mainEntry, entry).getTime()
+      yield call(createEntryQuery, newEntry)
+    }
     const toUpdate = updates[entry?.type || entry?.entry_type]
     if (toUpdate) {
       yield put(
@@ -564,18 +572,18 @@ function* updateStatusEntryAsync({payload}: any): any {
           ? toUpdate?.all(entry?.type)
           : toUpdate?.all(),
       )
-      if (entry?.entry_id && toUpdate?.entry)
-        yield put(toUpdate?.entry(entry?.entry_id))
+      if (entry?.entry_id && toUpdate?.entry) yield put(toUpdate?.entry(entry?.entry_id))
+
       if (toUpdate?.type) yield put(toUpdate?.type())
     }
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend update status entry async')
   }
 }
 
-function* sendCommentsAsync({payload}: any): any {
+function* sendCommentsAsync({ payload }: any): any {
   try {
     yield call(
       FetchService,
@@ -584,7 +592,7 @@ function* sendCommentsAsync({payload}: any): any {
       payload,
     )
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend send comments async')
   }
 }
 export function* watchSignIn() {

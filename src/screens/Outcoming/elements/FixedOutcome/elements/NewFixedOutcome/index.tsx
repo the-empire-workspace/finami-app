@@ -83,7 +83,7 @@ const NewFixedOutcome: FC = () => {
       setError(translate('date_error'))
       return
     }
-    console.log(error)
+    if(error) console.log(error, 'an error happend here')
     dispatch(
       createBasicExpenses({...sendValues, category_id: params?.id || null}),
     )

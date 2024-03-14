@@ -102,7 +102,7 @@ const EditFixedOutcome: FC = () => {
       setError(translate('date_error'))
       return
     }
-    console.log(error)
+    if (error) console.log(error, 'an error happend')
     dispatch(updateBasicExpense({...sendValues, id: params?.id}))
     navigation.goBack()
   }

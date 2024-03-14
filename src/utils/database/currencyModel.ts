@@ -13,7 +13,7 @@ export const getCurrenciesQuery = async () => {
     )
     return currencies.raw()
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend get currencies')
     return null
   }
 }

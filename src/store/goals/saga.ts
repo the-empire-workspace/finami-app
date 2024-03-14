@@ -65,7 +65,7 @@ function* getEntriesGoalsAsync({payload}: any): any {
 
     yield put(actionObject(GET_ENTRIES_GOALS_ASYNC, orderMix))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend')
   }
 }
 
@@ -106,7 +106,7 @@ function* createCategoryGoalsAsync({payload}: any): any {
 
     yield put(actionObject(CREATE_CATEGORY_GOALS_ASYNC, orderMix))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend')
   }
 }
 
@@ -164,7 +164,7 @@ function* createGoalsAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend')
   }
 }
 
@@ -187,7 +187,7 @@ function* getGoalAsync({payload}: any): any {
     )
     yield put(actionObject(GET_GOAL_ASYNC, goal))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend')
   }
 }
 
@@ -207,7 +207,7 @@ function* getCategoryGoalAsync({payload}: any): any {
     )
     yield put(actionObject(GET_CATEGORY_GOAL_ASYNC, category))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend')
   }
 }
 
@@ -269,7 +269,7 @@ function* createGoalsEntryAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend')
   }
 }
 
@@ -326,7 +326,7 @@ function* updateGoalsAsync({payload}: any): any {
       }),
     )
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend')
   }
 }
 
@@ -375,7 +375,7 @@ function* updateCategoryGoalAsync({payload}: any): any {
       }),
     )
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend')
   }
 }
 
@@ -410,7 +410,7 @@ function* deleteCategoryGoalAsync({payload}: any): any {
       }),
     )
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend')
   }
 }
 
@@ -447,7 +447,7 @@ function* deleteGoalAsync({payload}: any): any {
       }),
     )
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend')
   }
 }
 

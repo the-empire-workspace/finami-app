@@ -49,7 +49,7 @@ function* getDefaultPriceAsync(): any {
         )
     }
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend get default price async')
   }
 }
 
