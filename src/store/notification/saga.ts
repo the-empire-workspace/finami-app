@@ -31,7 +31,7 @@ function* pushNotificationAsync(): any {
       console.log(result)
     }
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend push notification async')
   }
 }
 
@@ -117,7 +117,7 @@ function* scheduleNotificationsAsync(): any {
       )
     }
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend schedule notification async')
   }
 }
 

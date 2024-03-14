@@ -46,6 +46,7 @@ import {
   getDebtQuery,
   getDebtsQuery,
   getEntriesExpensesQuery,
+  getLastDate,
   getOutcomeCategoriesQuery,
   operateChange,
   orderBy,
@@ -86,7 +87,7 @@ function* createOutcomeAsync({ payload }: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend create outcome async')
   }
 }
 
@@ -133,9 +134,29 @@ function* createBasicExpensesAsync({ payload }: any): any {
       status: 'pending'
     }
 
-    if (entryDate < date) entryData.status = 'paid'
+    let postEntryData = null
+
+    if (entryDate < date) {
+      entryData.status = 'paid'
+      postEntryData = {
+        entry_id: newEntry?.id,
+        category_id: payload?.category_id,
+        account: payload?.account,
+        payment_type: 'general',
+        amount: payload?.amount,
+        payment_concept: payload?.concept,
+        entry_type: 'expense',
+        comment: payload?.comment || '',
+        emissor: payload?.receiver_name || '',
+        email: payload?.email || '',
+        phone: payload?.phonenumber || '',
+        date: getLastDate(newEntry, entryData).getTime(),
+        status: 'pending'
+      }
+    }
 
     yield call(createEntryQuery, entryData)
+    if (postEntryData) yield call(createEntryQuery, postEntryData)
 
     const outcomes = yield call(getBasicsExpensesQuery)
     const categories = yield call(getOutcomeCategoriesQuery)
@@ -160,7 +181,7 @@ function* createBasicExpensesAsync({ payload }: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend create basic expenses async')
   }
 }
 
@@ -193,7 +214,7 @@ function* createOutcomeCategoryAsync({ payload }: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend create outcome category async')
   }
 }
 
@@ -236,7 +257,7 @@ function* getOutcomesAsync(): any {
     )
     yield put(actionObject(GET_OUTCOMES_ASYNC, dashboardValues))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend get outcomes async')
   }
 }
 
@@ -248,7 +269,7 @@ function* getBasicExpensesAsync(): any {
     const orderMix = orderBy(mix, 'date', 'desc')
     yield put(actionObject(GET_BASIC_EXPENSES_ASYNC, orderMix))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend get basic expenses async')
   }
 }
 
@@ -257,7 +278,7 @@ function* getBasicExpenseAsync({ payload }: any): any {
     const outcome = yield call(getBasicExpenseQuery, payload)
     yield put(actionObject(GET_BASIC_EXPENSE_ASYNC, outcome))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend get basic expense async')
   }
 }
 
@@ -295,7 +316,7 @@ function* updateBasicExpenseAsync({ payload }: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend update basic expense async')
   }
 }
 
@@ -328,7 +349,7 @@ function* updateCategoryOutcomeAsync({ payload }: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend update category outcome async')
   }
 }
 
@@ -352,7 +373,7 @@ function* deleteCategoryOutcomeAsync({ payload }: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend delete category outcome async')
   }
 }
 
@@ -376,7 +397,7 @@ function* deleteOutcomeAsync({ payload }: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend delete outcomes')
   }
 }
 
@@ -386,7 +407,7 @@ function* getCategoryOutcomeASync({ payload }: any): any {
     const category = yield call(getCategoryQuery, payload, prices)
     yield put(actionObject(GET_CATEGORY_OUTCOME_ASYNC, category))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend get category outcomes async')
   }
 }
 
@@ -444,7 +465,7 @@ function* createDebtAsync({ payload }: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend create debt async')
   }
 }
 
@@ -508,7 +529,7 @@ function* createDebtEntryAsync({ payload }: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend create debt entry async')
   }
 }
 
@@ -531,7 +552,7 @@ function* getDebtsAsync(): any {
     )
     yield put(actionObject(GET_DEBTS_ASYNC, outcomes))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend get debts async')
   }
 }
 
@@ -554,7 +575,7 @@ function* getDebtAsync({ payload }: any): any {
     )
     yield put(actionObject(GET_DEBT_ASYNC, outcome))
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend get debt async')
   }
 }
 
@@ -612,7 +633,7 @@ function* updateDebtAsync({ payload }: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend update debt async')
   }
 }
 
@@ -647,7 +668,7 @@ function* deleteDebtAsync({ payload }: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend delete debt async')
   }
 }
 

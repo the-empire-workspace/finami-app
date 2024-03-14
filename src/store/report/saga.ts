@@ -251,7 +251,7 @@ function* generateReportAsync({payload}: any): any {
       {showOpenWithDialog: true},
     )
   } catch (error) {
-    console.log(error)
+    console.log(error, 'an error happend generate report')
   }
 }
 
