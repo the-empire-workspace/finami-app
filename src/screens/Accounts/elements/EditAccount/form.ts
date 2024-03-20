@@ -126,7 +126,7 @@ export const bankForm = (
       minLength: 4,
       maxLength: 72,
     },
-  },
+  }/* ,
   {
     element: 'select',
     name: 'account_currency',
@@ -146,7 +146,7 @@ export const bankForm = (
       minLength: 0,
       maxLength: 72,
     },
-  },
+  }, */
 ]
 
 export const cryptoForm = (translate: any, def: any, colors: any = {}) => [

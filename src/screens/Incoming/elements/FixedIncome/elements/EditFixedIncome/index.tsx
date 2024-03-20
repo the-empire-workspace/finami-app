@@ -49,16 +49,18 @@ const EditFixedIncome: FC = () => {
       if (key === 'emissor')
         newValues.receiver_name = { value: String(item[key]) || '' }
       if (key === 'name') newValues.concept = { value: String(item[key]) || '' }
+      if (key === 'account')
+        newValues.account = { value: String(item[key]) || '' }
     })
 
     setValues(newValues)
     setCategoryCreation(!!item?.name)
     setDefaultSetted(true)
-  }, [item])
-
+  }, [item, accounts.length])
+  
   const accForm = useMemo(
     () => accountForm(translate, values, accounts, colors),
-    [accounts, item, defaultSetted],
+    [accounts.length, item, defaultSetted],
   )
   const eForm = useMemo(
     () =>

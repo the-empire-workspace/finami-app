@@ -120,9 +120,15 @@ function* updateUserAsync({ payload }: any): any {
 function* getTotalBalanceAsync(): any {
   try {
     const { defaultPrices } = yield select(selectCurrency)
+    const { user } = yield select(selectAccount)
     const entries = yield call(getEntriesQuery)
     const totalBalance = entries?.reduce((total: any, entry: any) => {
-      const change = defaultPrices[String(entry?.currency_id)]
+
+      const change = entry?.prices ? JSON.parse(entry?.prices)[String(user?.currency_id)] : defaultPrices[String(entry?.currency_id)]
+      if (entry?.prices && change) {
+        change.op = change.op === 'divide' ? 'multiply' : 'divide'
+      }
+
       const amount = change
         ? operateChange(change?.op, change?.value, entry.amount)
         : entry.amount
@@ -145,12 +151,17 @@ function* getDashboardValuesAsync(): any {
     const { defaultPrices } = yield select(selectCurrency)
     const entries = yield call(getEntriesQuery)
     const now = new Date()
+    const { user } = yield select(selectAccount)
     const dashboardValues = entries?.reduce(
       (values: any, entry: any) => {
-        const change = defaultPrices[String(entry?.currency_id)]
+        const change = entry?.prices ? JSON.parse(entry?.prices)[String(user?.currency_id)] : defaultPrices[String(entry?.currency_id)]
+        if (entry?.prices && change) {
+          change.op = change.op === 'divide' ? 'multiply' : 'divide'
+        }
         const amount = change
           ? operateChange(change?.op, change?.value, entry.amount)
           : entry.amount
+
         values.entries.push(entry)
         const actualDate = new Date(entry?.date)
         if (
@@ -194,6 +205,7 @@ export function* getItemAsync({ payload }: any): any {
 export function* getAccountsAsync(): any {
   try {
     let { currencies } = yield select(selectCurrency)
+    const { user } = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -202,7 +214,7 @@ export function* getAccountsAsync(): any {
 
     const { prices } = yield select(selectIntermitence)
 
-    const accounts = yield call(getAccountsQuery, currencies, prices)
+    const accounts = yield call(getAccountsQuery, currencies, prices, user)
     yield put(actionObject(GET_ACCOUNTS_ASYNC, accounts))
   } catch (error) {
     console.log(error, 'an error happend get accounts async')
@@ -212,6 +224,7 @@ export function* getAccountsAsync(): any {
 export function* getAccountAsync({ payload }: any): any {
   try {
     let { currencies } = yield select(selectCurrency)
+    const { user } = yield select(selectAccount)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -219,7 +232,7 @@ export function* getAccountAsync({ payload }: any): any {
     }
 
     const { prices } = yield select(selectIntermitence)
-    const account = yield call(getAccountQuery, currencies, payload, prices)
+    const account = yield call(getAccountQuery, currencies, payload, prices, user)
     yield put(actionObject(GET_ACCOUNT_ASYNC, account))
   } catch (error) {
     console.log(error, 'an error happend get account async')
@@ -270,6 +283,7 @@ export function* createCryptoAccountAsync({ payload }: any): any {
 export function* createCurrencyAccountAsync({ payload }: any): any {
   try {
     let { currencies } = yield select(selectCurrency)
+    const { prices } = yield select(selectIntermitence)
 
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
@@ -279,6 +293,7 @@ export function* createCurrencyAccountAsync({ payload }: any): any {
     const user = yield call(getUserQuery)
     const account = yield call(createAccountQuery, { user: user.id, ...payload })
     if (Number(payload?.available_balance))
+
       yield call(createEntryQuery, {
         account: account?.id,
         payment_type: 'general',
@@ -290,10 +305,9 @@ export function* createCurrencyAccountAsync({ payload }: any): any {
         email: '',
         phone: '',
         date: new Date()?.getTime(),
-      })
+      }, currencies, prices)
 
-    const { prices } = yield select(selectIntermitence)
-    const accounts = yield call(getAccountsQuery, currencies, prices)
+    const accounts = yield call(getAccountsQuery, currencies, prices, user)
     yield put(actionObject(CREATE_CURRENCY_ACCOUNT_ASYNC, accounts))
     yield put(getDashboardValues())
     yield put(getTotalBalance())
@@ -315,8 +329,8 @@ export function* updateAccountAsync({ payload }: any): any {
     yield call(updateAccountQuery, { user: user.id, ...payload })
 
     const { prices } = yield select(selectIntermitence)
-    const account = yield call(getAccountQuery, currencies, payload?.id, prices)
-    const accounts = yield call(getAccountsQuery, currencies, prices)
+    const account = yield call(getAccountQuery, currencies, payload?.id, prices, user)
+    const accounts = yield call(getAccountsQuery, currencies, prices, user)
     yield put(actionObject(UPDATE_SINGLE_ACCOUNT_ASYNC, { accounts, account }))
   } catch (error) {
     console.log(error, 'an error happend update account async')
@@ -329,14 +343,15 @@ export function* deleteSingleAccountAsync({ payload }: any): any {
     yield call(deleteAccountQuery, payload)
 
     let { currencies } = yield select(selectCurrency)
-
+    const { user } = yield select(selectAccount)
+    
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
     const { prices } = yield select(selectIntermitence)
-    const accounts = yield call(getAccountsQuery, currencies, prices)
+    const accounts = yield call(getAccountsQuery, currencies, prices, user)
     yield put(actionObject(DELETE_SINGLE_ACCOUNT_ASYNC, accounts))
     yield put(getDashboardValues())
     yield put(getTotalBalance())
@@ -557,13 +572,18 @@ function* updateStatusEntryAsync({ payload }: any): any {
     }
     const entry = yield call(getEntry, payload?.id)
     yield put(actionObject(UPDATE_STATUS_ENTRY_ASYNC, entry))
-
+    let { currencies } = yield select(selectCurrency)
+    const { prices } = yield select(selectIntermitence)
+    if (!currencies?.length) {
+      currencies = yield call(getCurrenciesQuery)
+      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
+    }
     if (entry?.type === 'fixed_incomes' || entry?.type === 'basic_expenses') {
       const mainEntry = yield call(getEntry, entry?.entry_id)
       const newEntry = { ...entry }
       newEntry.status = 'pending'
       newEntry.date = getLastDate(mainEntry, entry).getTime()
-      yield call(createEntryQuery, newEntry)
+      yield call(createEntryQuery, newEntry, currencies, prices)
     }
     const toUpdate = updates[entry?.type || entry?.entry_type]
     if (toUpdate) {

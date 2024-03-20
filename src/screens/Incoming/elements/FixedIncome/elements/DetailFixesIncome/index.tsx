@@ -123,7 +123,7 @@ const DetailFixesIncome: FC = () => {
             {translate('amount')}:
           </Text>
           <Text style={[styles.smallBody, { color: colors.typography }]}>
-            {currency?.symbol} {item?.amount || 0}
+            {item?.currency_symbol} {item?.amount || 0}
           </Text>
         </View>
         {item?.frecuency_type && !shortInfo && (

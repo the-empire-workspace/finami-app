@@ -3,7 +3,9 @@ import {insertQuery, selectQuery} from './helpers'
 export const getCurrenciesQuery = async () => {
   try {
     const currencies: any = await selectQuery(
-      "SELECT currencies.id, symbol, name, type, decimal, image, SUM(CASE WHEN entries.entry_type = 'income'\
+      "SELECT currencies.id, symbol, name, type,\
+      entries.prices,\
+      decimal, image, SUM(CASE WHEN entries.entry_type = 'income'\
       AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL)\
       THEN entries.amount WHEN entries.entry_type = 'expense' \
       AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL) \
