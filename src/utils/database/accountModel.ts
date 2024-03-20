@@ -1,9 +1,9 @@
-import { operateChange } from 'utils/dataTransform'
-import { getAccountEntriesQuery } from './entryModel'
-import { insertQuery, selectQuery } from './helpers'
-import { getNetworkCurrency } from 'utils/moralis'
-import { setPrices } from 'utils/exchangeData'
-import { call } from 'redux-saga/effects'
+import {operateChange} from 'utils/dataTransform'
+import {getAccountEntriesQuery} from './entryModel'
+import {insertQuery, selectQuery} from './helpers'
+import {getNetworkCurrency} from 'utils/moralis'
+import {setPrices} from 'utils/exchangeData'
+import {call} from 'redux-saga/effects'
 
 export const createAccountQuery = async ({
   user,
@@ -68,7 +68,11 @@ export const updateAccountQuery = async ({
   }
 }
 
-export function* getAccountsQuery(currencies: any, prices: any, user: any): any {
+export function* getAccountsQuery(
+  currencies: any,
+  prices: any,
+  user: any,
+): any {
   try {
     const accounts: any = yield call(
       selectQuery,
@@ -106,10 +110,12 @@ export function* getAccountsQuery(currencies: any, prices: any, user: any): any 
         )
 
         const currenciesAccount = entries.reduce((prev: any, next: any) => {
-          const change = next?.prices ? JSON.parse(next?.prices)[String(user?.currency_id)] : defaultPrices[String(next?.currency_id)]
-          if (next?.prices && change) {
+          const change = next?.prices
+            ? JSON.parse(next?.prices)[String(user?.currency_id)]
+            : defaultPrices[String(next?.currency_id)]
+          if (next?.prices && change)
             change.op = change.op === 'divide' ? 'multiply' : 'divide'
-          }
+
           const amount = change
             ? operateChange(change?.op, change?.value, next.amount)
             : next.amount
@@ -133,7 +139,12 @@ export function* getAccountsQuery(currencies: any, prices: any, user: any): any 
   }
 }
 
-export function* getAccountQuery(currencies: any, id: any, prices: any, user: any): any {
+export function* getAccountQuery(
+  currencies: any,
+  id: any,
+  prices: any,
+  user: any,
+): any {
   try {
     const accounts: any = yield call(
       selectQuery,
@@ -168,10 +179,12 @@ export function* getAccountQuery(currencies: any, id: any, prices: any, user: an
         currency?.id,
       )
       const currenciesAccount = entries.reduce((prev: any, next: any) => {
-        const change = next?.prices ? JSON.parse(next?.prices)[String(user?.currency_id)] : defaultPrices[String(next?.currency_id)]
-        if (next?.prices && change) {
+        const change = next?.prices
+          ? JSON.parse(next?.prices)[String(user?.currency_id)]
+          : defaultPrices[String(next?.currency_id)]
+        if (next?.prices && change)
           change.op = change.op === 'divide' ? 'multiply' : 'divide'
-        }
+
         const amount = change
           ? operateChange(change?.op, change?.value, next.amount)
           : next.amount

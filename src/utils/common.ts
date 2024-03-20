@@ -1,5 +1,5 @@
 export const actionObject = (type: string, payload: any = null) => {
-  return { type, payload }
+  return {type, payload}
 }
 
 export const randomColor = () => {
@@ -26,11 +26,7 @@ export const getLastDate = (item: any, lastPayment: any) => {
         )
         return returnDate
       }
-      const returned = new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        nextDay,
-      )
+      const returned = new Date(date.getFullYear(), date.getMonth(), nextDay)
       return returned
     case 'weeks':
       return new Date(
@@ -41,7 +37,8 @@ export const getLastDate = (item: any, lastPayment: any) => {
     case 'months':
       return new Date(
         date.getFullYear(),
-        date.getMonth() + Number(item?.frecuency_time), date.getDate()
+        date.getMonth() + Number(item?.frecuency_time),
+        date.getDate(),
       )
     default:
       return new Date(date.getFullYear(), date.getMonth(), date.getDate())

@@ -1,9 +1,13 @@
-import { setPrices } from 'utils/exchangeData'
-import { insertQuery, selectQuery } from './helpers'
-import { operateChange } from 'utils/dataTransform'
-import { call } from 'redux-saga/effects'
+import {setPrices} from 'utils/exchangeData'
+import {insertQuery, selectQuery} from './helpers'
+import {operateChange} from 'utils/dataTransform'
+import {call} from 'redux-saga/effects'
 
-export function* createEntryQuery(data: any, currencies: any, prices: any): any {
+export function* createEntryQuery(
+  data: any,
+  currencies: any,
+  prices: any,
+): any {
   try {
     const {
       account,
@@ -326,7 +330,7 @@ export const updateEntryQuery = async (id: any, entry: any) => {
 
 export const updatePostponeEntryQuery = async (id: any, entry: any) => {
   try {
-    const { date } = entry
+    const {date} = entry
 
     const newEntry: any = await insertQuery(
       'UPDATE entries SET date = ? WHERE id = ?',
@@ -344,7 +348,7 @@ export const updatePostponeEntryQuery = async (id: any, entry: any) => {
 
 export const updateStatusEntryQuery = async (id: any, entry: any) => {
   try {
-    const { date, amount, account } = entry
+    const {date, amount, account} = entry
 
     const newEntry: any = await insertQuery(
       'UPDATE entries SET account_id = ?, date = ?,amount = ?, status = "paid" WHERE id = ?',
@@ -414,7 +418,7 @@ export function* getDebtsQuery(
   currencies: any,
   currency_id: any,
   prices: any,
-  user: any
+  user: any,
 ): any {
   try {
     const query = `SELECT entries.amount,\
@@ -459,10 +463,12 @@ export function* getDebtsQuery(
 
       const amount =
         queryEntriesEntry?.reduce((prev: any, next: any) => {
-          const change = next?.prices ? JSON.parse(next?.prices)[String(user?.currency_id)] : defaultPrices[String(next?.currency_id)]
-          if (next?.prices && change) {
+          const change = next?.prices
+            ? JSON.parse(next?.prices)[String(user?.currency_id)]
+            : defaultPrices[String(next?.currency_id)]
+          if (next?.prices && change)
             change.op = change.op === 'divide' ? 'multiply' : 'divide'
-          }
+
           const newAmount = change
             ? operateChange(change?.op, change?.value, next.amount)
             : next.amount
@@ -482,7 +488,7 @@ export function* getDebtQuery(
   currencies: any,
   currency_id: any,
   prices: any,
-  user: any
+  user: any,
 ): any {
   try {
     const query =
@@ -529,10 +535,12 @@ export function* getDebtQuery(
     const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
     const amount =
       queryEntry.entries?.reduce((prev: any, next: any) => {
-        const change = next?.prices ? JSON.parse(next?.prices)[String(user?.currency_id)] : defaultPrices[String(next?.currency_id)]
-        if (next?.prices && change) {
+        const change = next?.prices
+          ? JSON.parse(next?.prices)[String(user?.currency_id)]
+          : defaultPrices[String(next?.currency_id)]
+        if (next?.prices && change)
           change.op = change.op === 'divide' ? 'multiply' : 'divide'
-        }
+
         const newAmount = change
           ? operateChange(change?.op, change?.value, next.amount)
           : next.amount
@@ -650,7 +658,7 @@ export function* getReceivableAccountsQuery(
   currencies: any,
   currency_id: any,
   prices: any,
-  user: any
+  user: any,
 ): any {
   try {
     const query = `SELECT entries.amount,\
@@ -695,10 +703,12 @@ export function* getReceivableAccountsQuery(
 
       const amount =
         queryEntriesEntry?.reduce((prev: any, next: any) => {
-          const change = next?.prices ? JSON.parse(next?.prices)[String(user?.currency_id)] : defaultPrices[String(next?.currency_id)]
-          if (next?.prices && change) {
+          const change = next?.prices
+            ? JSON.parse(next?.prices)[String(user?.currency_id)]
+            : defaultPrices[String(next?.currency_id)]
+          if (next?.prices && change)
             change.op = change.op === 'divide' ? 'multiply' : 'divide'
-          }
+
           const newAmount = change
             ? operateChange(change?.op, change?.value, next.amount)
             : next.amount
@@ -718,7 +728,7 @@ export function* getReceivableAccountQuery(
   currencies: any,
   currency_id: any,
   prices: any,
-  user: any
+  user: any,
 ): any {
   try {
     const query =
@@ -767,10 +777,12 @@ export function* getReceivableAccountQuery(
     const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
     const amount =
       queryEntry.entries?.reduce((prev: any, next: any) => {
-        const change = entry?.prices ? JSON.parse(entry?.prices)[String(user?.currency_id)] : defaultPrices[String(entry?.currency_id)]
-        if (entry?.prices && change) {
+        const change = entry?.prices
+          ? JSON.parse(entry?.prices)[String(user?.currency_id)]
+          : defaultPrices[String(entry?.currency_id)]
+        if (entry?.prices && change)
           change.op = change.op === 'divide' ? 'multiply' : 'divide'
-        }
+
         const newAmount = change
           ? operateChange(change?.op, change?.value, next.amount)
           : next.amount
@@ -819,7 +831,7 @@ export function* getEntriesGoalsQuery(
   currencies: any,
   currency_id: any,
   prices: any,
-  user: any
+  user: any,
 ): any {
   try {
     const query = `SELECT entries.amount,\
@@ -867,10 +879,12 @@ export function* getEntriesGoalsQuery(
 
       const amount =
         queryEntriesEntry?.reduce((prev: any, next: any) => {
-          const change = next?.prices ? JSON.parse(next?.prices)[String(user?.currency_id)] : defaultPrices[String(next?.currency_id)]
-          if (next?.prices && change) {
+          const change = next?.prices
+            ? JSON.parse(next?.prices)[String(user?.currency_id)]
+            : defaultPrices[String(next?.currency_id)]
+          if (next?.prices && change)
             change.op = change.op === 'divide' ? 'multiply' : 'divide'
-          }
+
           const newAmount = change
             ? operateChange(change?.op, change?.value, next.amount)
             : next.amount
@@ -890,7 +904,7 @@ export function* getGoalQuery(
   currencies: any,
   currency_id: any,
   prices: any,
-  user: any
+  user: any,
 ): any {
   try {
     const query =
@@ -938,10 +952,12 @@ export function* getGoalQuery(
     const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
     const amount =
       queryEntry.entries?.reduce((prev: any, next: any) => {
-        const change = next?.prices ? JSON.parse(next?.prices)[String(user?.currency_id)] : defaultPrices[String(next?.currency_id)]
-        if (next?.prices && change) {
+        const change = next?.prices
+          ? JSON.parse(next?.prices)[String(user?.currency_id)]
+          : defaultPrices[String(next?.currency_id)]
+        if (next?.prices && change)
           change.op = change.op === 'divide' ? 'multiply' : 'divide'
-        }
+
         const newAmount = change
           ? operateChange(change?.op, change?.value, next.amount)
           : next.amount
