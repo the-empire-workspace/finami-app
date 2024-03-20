@@ -21,15 +21,28 @@ const Input: FC<InputProps> = ({
   }
 
   const setVal = () => {
-    if (element === 'select' && !value) {
-      setValue(values?.defaultValue || values?.values[0]?.value)
-      onChange(values?.defaultValue || values?.values[0]?.value)
+    if (element === 'select' && (!value || value !== values?.defaultValue)) {
+      setValue(
+        values?.defaultValue
+          ? values?.defaultValue
+          : values?.values[0]
+          ? values?.values[0]?.value
+          : '',
+      )
+      onChange(
+        values?.defaultValue
+          ? values?.defaultValue
+          : values?.values[0]
+          ? values?.values[0]?.value
+          : '',
+      )
       return
     }
 
     if (element !== 'select') {
       setValue(values?.defaultValue || values?.date || null)
       onChange(values?.defaultValue || values?.date || null)
+      return
     }
   }
 

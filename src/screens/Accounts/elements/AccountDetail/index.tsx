@@ -123,13 +123,15 @@ const AccountDetail: FC = () => {
             }>
             <Pencil width={24} height={24} />
           </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.action]}
-            onPress={() =>
-              navigation.navigate('accountDelete', {id: account?.id})
-            }>
-            <Trash width={24} height={24} />
-          </TouchableOpacity>
+          {!account?.entries?.length && (
+            <TouchableOpacity
+              style={[styles.action]}
+              onPress={() =>
+                navigation.navigate('accountDelete', {id: account?.id})
+              }>
+              <Trash width={24} height={24} />
+            </TouchableOpacity>
+          )}
         </View>
         <View style={[styles.actionContent]}>
           <TouchableOpacity

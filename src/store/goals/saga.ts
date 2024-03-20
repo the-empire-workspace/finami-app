@@ -118,28 +118,32 @@ function* createGoalsAsync({payload}: any): any {
       newDate.setMonth(payload?.date?.getMonth())
       newDate.setFullYear(payload?.date?.getFullYear())
     }
-    yield call(createEntryQuery, {
-      account: payload?.account,
-      payment_type: payload?.type,
-      category_id: payload?.category_id,
-      amount: payload?.amount,
-      payment_concept: payload?.concept,
-      entry_type: 'goals',
-      comment: payload?.comment || '',
-      date: newDate.getTime(),
-      limit_date: (payload?.limit_date || new Date())?.getTime(),
-      status_level: payload?.status_level || '',
-    })
-
     let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-
+    const {prices} = yield select(selectIntermitence)
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
+    yield call(
+      createEntryQuery,
+      {
+        account: payload?.account,
+        payment_type: payload?.type,
+        category_id: payload?.category_id,
+        amount: payload?.amount,
+        payment_concept: payload?.concept,
+        entry_type: 'goals',
+        comment: payload?.comment || '',
+        date: newDate.getTime(),
+        limit_date: (payload?.limit_date || new Date())?.getTime(),
+        status_level: payload?.status_level || '',
+      },
+      currencies,
+      prices,
+    )
 
-    const {prices} = yield select(selectIntermitence)
+    const {user} = yield select(selectAccount)
+
     const goals = yield call(
       getEntriesGoalsQuery,
       payload?.type,
@@ -219,27 +223,31 @@ function* createGoalsEntryAsync({payload}: any): any {
       newDate.setMonth(payload?.date?.getMonth())
       newDate.setFullYear(payload?.date?.getFullYear())
     }
-    yield call(createEntryQuery, {
-      account: payload?.account,
-      payment_type: 'general',
-      category_id: payload?.category_id,
-      amount: payload?.amount,
-      payment_concept: payload?.concept,
-      entry_type: 'goals',
-      comment: payload?.comment || '',
-      entry_id: payload?.entry_id || '',
-      date: newDate.getTime(),
-    })
-
     let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-
+    const {prices} = yield select(selectIntermitence)
     if (!currencies?.length) {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
+    yield call(
+      createEntryQuery,
+      {
+        account: payload?.account,
+        payment_type: 'general',
+        category_id: payload?.category_id,
+        amount: payload?.amount,
+        payment_concept: payload?.concept,
+        entry_type: 'goals',
+        comment: payload?.comment || '',
+        entry_id: payload?.entry_id || '',
+        date: newDate.getTime(),
+      },
+      currencies,
+      prices,
+    )
 
-    const {prices} = yield select(selectIntermitence)
+    const {user} = yield select(selectAccount)
+
     const goals = yield call(
       getEntriesGoalsQuery,
       payload?.type,

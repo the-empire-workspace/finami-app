@@ -14,7 +14,7 @@ const EditEntry: FC = () => {
   const {colors} = useTheme()
   const {accounts} = useSelector((state: any) => state.account)
   const [values, setValues] = useState<any>({
-    account: {value: String(accounts[0]?.id)},
+    account: {value: ''},
   })
   const navigation: any = useNavigation()
   const route = useRoute()
@@ -29,7 +29,7 @@ const EditEntry: FC = () => {
 
   const accForm = useMemo(
     () => accountForm(translate, values, accounts, colors),
-    [accounts, item],
+    [accounts.length, item],
   )
   const eForm = useMemo(() => egressForm(translate, values, colors), [item])
   const rForm = useMemo(() => receiverForm(translate, values, colors), [item])
@@ -38,9 +38,9 @@ const EditEntry: FC = () => {
     dispatch(getCurrencies())
     dispatch(getAccounts())
   }, [])
-
   useEffect(() => {
     const newValues: any = {}
+
     Object.keys(item).map(key => {
       newValues[key] =
         key === 'date'
@@ -58,9 +58,8 @@ const EditEntry: FC = () => {
       if (key === 'phone')
         newValues.phonenumber = {value: String(item[key]) || ''}
     })
-
     setValues(newValues)
-  }, [item])
+  }, [item, accounts.length])
   const createData = () => {
     const sendValues = Object.keys(values).reduce((prev: any, next: any) => {
       prev[next] = values[next]?.value

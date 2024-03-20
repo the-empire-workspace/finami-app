@@ -49,6 +49,8 @@ const EditFixedOutcome: FC = () => {
       if (key === 'emissor')
         newValues.receiver_name = {value: String(item[key]) || ''}
       if (key === 'name') newValues.concept = {value: String(item[key]) || ''}
+      if (key === 'account')
+        newValues.account = {value: String(item[key]) || ''}
     })
 
     setValues(newValues)

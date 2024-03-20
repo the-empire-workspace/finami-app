@@ -1,7 +1,7 @@
 import database from './init'
 import USD from '@assets/img/Iconografia-finami-12.png'
 import EUR from '@assets/img/Iconografia-finami-09.png'
-import { selectQuery } from './helpers'
+import {selectQuery} from './helpers'
 
 const createUserTable = async () => {
   try {
@@ -132,6 +132,13 @@ const createEntriesTable = async () => {
       FOREIGN KEY(entry_id) REFERENCES entries(id)
       FOREIGN KEY(category_id) REFERENCES categories(id)
       )`)
+    const data: any = await selectQuery('PRAGMA table_info(entries)')
+    const tables = data?.raw()
+
+    const findTable = tables?.find((t: any) => t?.name === 'prices')
+
+    if (!findTable)
+      await database.executeSql('ALTER TABLE entries ADD COLUMN prices BLOB')
 
     console.log('entries table created')
   } catch (error) {

@@ -81,6 +81,7 @@ export const getIncomeCategoriesQuery = async () => {
     entries.payment_concept,\
     entries.payment_type,\
     entries.phone,\
+    entries.prices,\
     accounts.account_name,\
     accounts.account_number,\
     accounts.organization,\
@@ -130,6 +131,7 @@ export const getGoalsCategoriesQuery = async (type: any) => {
 export function* getCategoryQuery(
   id: any,
   prices: any,
+  user: any,
   currencies: any = null,
   currency_id: any = null,
 ): any {
@@ -148,6 +150,7 @@ export function* getCategoryQuery(
     entries.payment_concept,\
     entries.payment_type,\
     entries.phone,\
+    entries.prices,\
     accounts.account_name,\
     accounts.account_number,\
     accounts.organization,\
@@ -187,7 +190,12 @@ export function* getCategoryQuery(
 
         const amount =
           queryEntriesEntry?.reduce((prev: any, next: any) => {
-            const change = defaultPrices[String(next?.currency_id)]
+            const change = next?.prices
+              ? JSON.parse(next?.prices)[String(user?.currency_id)]
+              : defaultPrices[String(next?.currency_id)]
+            if (next?.prices && change)
+              change.op = change.op === 'divide' ? 'multiply' : 'divide'
+
             const newAmount = change
               ? operateChange(change?.op, change?.value, next.amount)
               : next.amount

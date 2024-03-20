@@ -65,19 +65,33 @@ function* createIncomeAsync({payload}: any): any {
       newDate.setMonth(payload?.date?.getMonth())
       newDate.setFullYear(payload?.date?.getFullYear())
     }
-    yield call(createEntryQuery, {
-      account: payload?.account,
-      payment_type: 'general',
-      amount: payload?.amount,
-      payment_concept: payload?.concept,
-      entry_type: 'income',
-      comment: payload?.comments || '',
-      emissor: payload?.receiver_name || '',
-      email: payload?.email || '',
-      phone: payload?.phonenumber || '',
-      date: newDate.getTime(),
-      status: today < newDate ? 'pending' : 'paid',
-    })
+
+    let {currencies} = yield select(selectCurrency)
+    if (!currencies?.length) {
+      currencies = yield call(getCurrenciesQuery)
+      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
+    }
+
+    const {prices} = yield select(selectIntermitence)
+
+    yield call(
+      createEntryQuery,
+      {
+        account: payload?.account,
+        payment_type: 'general',
+        amount: payload?.amount,
+        payment_concept: payload?.concept,
+        entry_type: 'income',
+        comment: payload?.comments || '',
+        emissor: payload?.receiver_name || '',
+        email: payload?.email || '',
+        phone: payload?.phonenumber || '',
+        date: newDate.getTime(),
+        status: today < newDate ? 'pending' : 'paid',
+      },
+      currencies,
+      prices,
+    )
 
     yield put(getIncomes())
     yield put(getDashboardValues())
@@ -92,26 +106,39 @@ function* createFixedIncomesAsync({payload}: any): any {
     const newDate = new Date()
 
     const {prices} = yield select(selectIntermitence)
+    const {user} = yield select(selectAccount)
     if (payload?.date) {
       newDate.setDate(payload?.date?.getDate())
       newDate.setMonth(payload?.date?.getMonth())
       newDate.setFullYear(payload?.date?.getFullYear())
     }
-    const newEntry = yield call(createEntryQuery, {
-      account: payload?.account,
-      payment_type: 'fixed_incomes',
-      category_id: payload?.category_id,
-      amount: payload?.amount,
-      payment_concept: payload?.concept,
-      entry_type: 'income',
-      comment: payload?.comment || '',
-      emissor: payload?.receiver_name || '',
-      email: payload?.email || '',
-      phone: payload?.phonenumber || '',
-      date: newDate.getTime(),
-      frecuency_type: payload?.frecuency_type || '',
-      frecuency_time: payload?.frecuency_time || '',
-    })
+    let {currencies} = yield select(selectCurrency)
+    if (!currencies?.length) {
+      currencies = yield call(getCurrenciesQuery)
+      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
+    }
+
+    const newEntry = yield call(
+      createEntryQuery,
+      {
+        account: payload?.account,
+        payment_type: 'fixed_incomes',
+        category_id: payload?.category_id,
+        amount: payload?.amount,
+        payment_concept: payload?.concept,
+        entry_type: 'income',
+        comment: payload?.comment || '',
+        emissor: payload?.receiver_name || '',
+        email: payload?.email || '',
+        phone: payload?.phonenumber || '',
+        date: newDate.getTime(),
+        frecuency_type: payload?.frecuency_type || '',
+        frecuency_time: payload?.frecuency_time || '',
+      },
+      currencies,
+      prices,
+    )
+
     const entryDate = (payload?.date || new Date())?.getTime()
     const date = new Date().getTime()
     const entryData: any = {
@@ -147,12 +174,13 @@ function* createFixedIncomesAsync({payload}: any): any {
         email: payload?.email || '',
         phone: payload?.phonenumber || '',
         date: getLastDate(newEntry, entryData).getTime(),
-        status: 'pending'
+        status: 'pending',
       }
     }
 
-    yield call(createEntryQuery, entryData)
-    if (postEntryData) yield call(createEntryQuery, postEntryData)
+    yield call(createEntryQuery, entryData, currencies, prices)
+    if (postEntryData)
+      yield call(createEntryQuery, postEntryData, currencies, prices)
 
     const outcomes = yield call(getFixedIncomesQuery)
     const categories = yield call(getIncomeCategoriesQuery)
@@ -163,6 +191,7 @@ function* createFixedIncomesAsync({payload}: any): any {
         getCategoryQuery,
         payload?.category_id,
         prices,
+        user,
       )
       yield put(actionObject(GET_CATEGORY_INCOME_ASYNC, category))
     }
@@ -217,11 +246,17 @@ function* getIncomesAsync(): any {
   try {
     const {defaultPrices} = yield select(selectCurrency)
     const incomes = yield call(getEntriesIncomesQuery)
+    const {user} = yield select(selectAccount)
 
     const actualDate = new Date()
     const dashboardValues = incomes?.reduce(
       (values: any, entry: any) => {
-        const change = defaultPrices[String(entry?.currency_id)]
+        const change = entry?.prices
+          ? JSON.parse(entry?.prices)[String(user?.currency_id)]
+          : defaultPrices[String(entry?.currency_id)]
+        if (entry?.prices && change)
+          change.op = change.op === 'divide' ? 'multiply' : 'divide'
+
         const amount = change
           ? operateChange(change?.op, change?.value, entry.amount)
           : entry.amount
@@ -328,12 +363,13 @@ function* updateCategoryIncomeAsync({payload}: any): any {
       payload?.id,
     )
     const {prices} = yield select(selectIntermitence)
+    const {user} = yield select(selectAccount)
 
     const outcomes = yield call(getFixedIncomesQuery)
     const categories = yield call(getIncomeCategoriesQuery)
     const mix = [...outcomes, ...categories]
     const orderMix = orderBy(mix, 'date', 'desc')
-    const category = yield call(getCategoryQuery, payload?.id, prices)
+    const category = yield call(getCategoryQuery, payload?.id, prices, user)
 
     yield put(
       actionObject(CREATE_INCOME_CATEGORY_ASYNC, {
@@ -400,7 +436,8 @@ function* deleteIncomeAsync({payload}: any): any {
 function* getCategoryIncomeASync({payload}: any): any {
   try {
     const {prices} = yield select(selectIntermitence)
-    const category = yield call(getCategoryQuery, payload, prices)
+    const {user} = yield select(selectAccount)
+    const category = yield call(getCategoryQuery, payload, prices, user)
     yield put(actionObject(GET_CATEGORY_INCOME_ASYNC, category))
   } catch (error) {
     console.log(error, 'an error happend get category incomes async')
@@ -416,24 +453,6 @@ function* createReceivableAccountAsync({payload}: any): any {
       newDate.setMonth(payload?.date?.getMonth())
       newDate.setFullYear(payload?.date?.getFullYear())
     }
-    yield call(createEntryQuery, {
-      account: payload?.account || '',
-      payment_type: 'receivable_account',
-      category_id: payload?.category_id,
-      amount: payload?.amount,
-      payment_concept: payload?.concept,
-      entry_type: 'income',
-      comment: payload?.comment || '',
-      emissor: payload?.receiver_name || '',
-      email: payload?.email || '',
-      phone: payload?.phonenumber || '',
-      date: newDate.getTime(),
-      limit_date: (payload?.limit_date || new Date())?.getTime(),
-      status_level: payload?.status_level || '',
-      frecuency_type: payload?.frecuency_type || '',
-      frecuency_time: payload?.frecuency_time || '',
-    })
-
     let {currencies} = yield select(selectCurrency)
     const {user} = yield select(selectAccount)
 
@@ -442,11 +461,35 @@ function* createReceivableAccountAsync({payload}: any): any {
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
+    yield call(
+      createEntryQuery,
+      {
+        account: payload?.account || '',
+        payment_type: 'receivable_account',
+        category_id: payload?.category_id,
+        amount: payload?.amount,
+        payment_concept: payload?.concept,
+        entry_type: 'income',
+        comment: payload?.comment || '',
+        emissor: payload?.receiver_name || '',
+        email: payload?.email || '',
+        phone: payload?.phonenumber || '',
+        date: newDate.getTime(),
+        limit_date: (payload?.limit_date || new Date())?.getTime(),
+        status_level: payload?.status_level || '',
+        frecuency_type: payload?.frecuency_type || '',
+        frecuency_time: payload?.frecuency_time || '',
+      },
+      currencies,
+      prices,
+    )
+
     const outcomes = yield call(
       getReceivableAccountsQuery,
       currencies,
       user?.currency_id,
       prices,
+      user,
     )
 
     yield put(
@@ -473,23 +516,6 @@ function* createReceivableAccountEntryAsync({payload}: any): any {
       newDate.setMonth(payload?.date?.getMonth())
       newDate.setFullYear(payload?.date?.getFullYear())
     }
-    yield call(createEntryQuery, {
-      account: payload?.account,
-      payment_type: 'general',
-      category_id: payload?.category_id,
-      amount: payload?.amount,
-      payment_concept: payload?.concept,
-      entry_type: 'income',
-      comment: payload?.comment || '',
-      emissor: payload?.receiver_name || payload?.emissor || '',
-      email: payload?.email || '',
-      phone: payload?.phonenumber || '',
-      date: newDate.getTime(),
-      frecuency_type: payload?.frecuency_type || '',
-      frecuency_time: payload?.frecuency_time || '',
-      entry_id: payload?.entry_id || '',
-    })
-
     let {currencies} = yield select(selectCurrency)
     const {user} = yield select(selectAccount)
 
@@ -497,12 +523,34 @@ function* createReceivableAccountEntryAsync({payload}: any): any {
       currencies = yield call(getCurrenciesQuery)
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
+    yield call(
+      createEntryQuery,
+      {
+        account: payload?.account,
+        payment_type: 'general',
+        category_id: payload?.category_id,
+        amount: payload?.amount,
+        payment_concept: payload?.concept,
+        entry_type: 'income',
+        comment: payload?.comment || '',
+        emissor: payload?.receiver_name || payload?.emissor || '',
+        email: payload?.email || '',
+        phone: payload?.phonenumber || '',
+        date: newDate.getTime(),
+        frecuency_type: payload?.frecuency_type || '',
+        frecuency_time: payload?.frecuency_time || '',
+        entry_id: payload?.entry_id || '',
+      },
+      currencies,
+      prices,
+    )
 
     const outcomes = yield call(
       getReceivableAccountsQuery,
       currencies,
       user?.currency_id,
       prices,
+      user,
     )
 
     const item = yield call(
@@ -511,6 +559,7 @@ function* createReceivableAccountEntryAsync({payload}: any): any {
       currencies,
       user?.currency_id,
       prices,
+      user,
     )
 
     yield put(
@@ -543,6 +592,7 @@ function* getReceivableAccountsAsync(): any {
       currencies,
       user?.currency_id,
       prices,
+      user,
     )
     yield put(actionObject(GET_RECEIVABLE_ACCOUNTS_ASYNC, outcomes))
   } catch (error) {
@@ -566,6 +616,7 @@ function* getReceivableAccountAsync({payload}: any): any {
       currencies,
       user?.currency_id,
       prices,
+      user,
     )
     yield put(actionObject(GET_RECEIVABLE_ACCOUNT_ASYNC, outcome))
   } catch (error) {
@@ -606,6 +657,7 @@ function* updateReceivableAccountAsync({payload}: any): any {
       currencies,
       user?.currency_id,
       prices,
+      user,
     )
 
     const item = yield call(
@@ -614,6 +666,7 @@ function* updateReceivableAccountAsync({payload}: any): any {
       currencies,
       user?.currency_id,
       prices,
+      user,
     )
 
     yield put(
@@ -648,6 +701,7 @@ function* deleteReceivableAccountAsync({payload}: any): any {
       currencies,
       user?.currency_id,
       prices,
+      user,
     )
 
     yield put(

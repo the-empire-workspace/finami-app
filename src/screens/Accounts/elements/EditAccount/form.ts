@@ -58,12 +58,7 @@ export const cashForm = (
   },
 ]
 
-export const bankForm = (
-  translate: any,
-  def: any,
-  currencies: any = [],
-  colors: any = {},
-) => [
+export const bankForm = (translate: any, def: any, colors: any = {}) => [
   {
     element: 'input',
     name: 'account_name',
@@ -126,7 +121,7 @@ export const bankForm = (
       minLength: 4,
       maxLength: 72,
     },
-  },
+  } /* ,
   {
     element: 'select',
     name: 'account_currency',
@@ -146,7 +141,7 @@ export const bankForm = (
       minLength: 0,
       maxLength: 72,
     },
-  },
+  }, */,
 ]
 
 export const cryptoForm = (translate: any, def: any, colors: any = {}) => [

@@ -40,7 +40,6 @@ export const createAccountQuery = async ({
 
 export const updateAccountQuery = async ({
   id,
-  account_currency,
   account_name,
   account_number,
   account_type,
@@ -49,9 +48,8 @@ export const updateAccountQuery = async ({
 }: any) => {
   try {
     await insertQuery(
-      'UPDATE accounts SET currency_id = ?, account_name = ?, account_number = ?, account_type = ?, organization = ?, account_comments = ? WHERE id = ?',
+      'UPDATE accounts SET account_name = ?, account_number = ?, account_type = ?, organization = ?, account_comments = ? WHERE id = ?',
       [
-        account_currency,
         account_name,
         account_number,
         account_type,
@@ -70,12 +68,17 @@ export const updateAccountQuery = async ({
   }
 }
 
-export function* getAccountsQuery(currencies: any, prices: any): any {
+export function* getAccountsQuery(
+  currencies: any,
+  prices: any,
+  user: any,
+): any {
   try {
     const accounts: any = yield call(
       selectQuery,
       "SELECT accounts.id, account_name, account_number,\
       organization, account_type, account_comments, currency_name,\
+      entries.prices,\
       currency_symbol, decimal, SUM(CASE WHEN entries.entry_type = 'income'\
       AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL)\
       THEN entries.amount WHEN entries.entry_type = 'expense' \
@@ -107,7 +110,12 @@ export function* getAccountsQuery(currencies: any, prices: any): any {
         )
 
         const currenciesAccount = entries.reduce((prev: any, next: any) => {
-          const change = defaultPrices[String(next?.currency_id)]
+          const change = next?.prices
+            ? JSON.parse(next?.prices)[String(user?.currency_id)]
+            : defaultPrices[String(next?.currency_id)]
+          if (next?.prices && change)
+            change.op = change.op === 'divide' ? 'multiply' : 'divide'
+
           const amount = change
             ? operateChange(change?.op, change?.value, next.amount)
             : next.amount
@@ -131,11 +139,18 @@ export function* getAccountsQuery(currencies: any, prices: any): any {
   }
 }
 
-export function* getAccountQuery(currencies: any, id: any, prices: any): any {
+export function* getAccountQuery(
+  currencies: any,
+  id: any,
+  prices: any,
+  user: any,
+): any {
   try {
     const accounts: any = yield call(
       selectQuery,
-      "SELECT accounts.id, account_name, account_number, organization, account_type, account_comments, currency_name, currency_symbol, decimal,cur.id as account_currency, SUM(CASE WHEN entries.entry_type = 'income'\
+      "SELECT accounts.id, account_name, account_number,\
+      entries.prices,\
+      organization, account_type, account_comments, currency_name, currency_symbol, decimal,cur.id as account_currency, SUM(CASE WHEN entries.entry_type = 'income'\
       AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL)\
       THEN entries.amount WHEN entries.entry_type = 'expense' \
       AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL) \
@@ -164,7 +179,12 @@ export function* getAccountQuery(currencies: any, id: any, prices: any): any {
         currency?.id,
       )
       const currenciesAccount = entries.reduce((prev: any, next: any) => {
-        const change = defaultPrices[String(next?.currency_id)]
+        const change = next?.prices
+          ? JSON.parse(next?.prices)[String(user?.currency_id)]
+          : defaultPrices[String(next?.currency_id)]
+        if (next?.prices && change)
+          change.op = change.op === 'divide' ? 'multiply' : 'divide'
+
         const amount = change
           ? operateChange(change?.op, change?.value, next.amount)
           : next.amount

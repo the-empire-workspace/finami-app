@@ -3,7 +3,11 @@ import {insertQuery, selectQuery} from './helpers'
 import {operateChange} from 'utils/dataTransform'
 import {call} from 'redux-saga/effects'
 
-export const createEntryQuery = async (data: any) => {
+export function* createEntryQuery(
+  data: any,
+  currencies: any,
+  prices: any,
+): any {
   try {
     const {
       account,
@@ -45,7 +49,7 @@ export const createEntryQuery = async (data: any) => {
       limit_date) \
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
 
-    const newEntry: any = await insertQuery(query, [
+    const newEntry: any = yield call(insertQuery, query, [
       account,
       payment_type,
       amount,
@@ -64,10 +68,22 @@ export const createEntryQuery = async (data: any) => {
       status_level,
       limit_date,
     ])
-    const entry: any = await selectQuery('SELECT * FROM entries WHERE id = ?', [
-      newEntry?.insertId,
+
+    const entry: any = yield call(getEntry, newEntry.insertId)
+
+    const defaultPrices = yield call(
+      setPrices,
+      prices,
+      currencies,
+      entry?.currency_id,
+    )
+
+    yield call(insertQuery, 'UPDATE entries SET prices = ? WHERE id = ?', [
+      JSON.stringify(defaultPrices),
+      newEntry.insertId,
     ])
-    return entry.raw()[0]
+
+    return entry
   } catch (error) {
     console.log('error entry creation', error)
     return null
@@ -91,6 +107,7 @@ export const getEntriesQuery = async () => {
       entries.payment_concept,\
       entries.payment_type,\
       entries.phone,\
+      entries.prices,\
       entry.type FROM entries\
       LEFT JOIN accounts ON accounts.id = entries.account_id\
       LEFT JOIN currencies ON currencies.id = accounts.currency_id\
@@ -120,6 +137,7 @@ export const getEntriesExpensesQuery = async () => {
       entries.payment_type,\
       entries.phone,\
       entries.entry_id,\
+      entries.prices,\
       entry.type_entry,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
       LEFT JOIN (SELECT id, payment_type as type_entry FROM entries) as entry ON entries.entry_id = entry.id\
@@ -148,6 +166,7 @@ export const getBasicsExpensesQuery = async () => {
       entries.payment_type,\
       entries.phone,\
       entries.entry_id,\
+      entries.prices,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
       WHERE entries.entry_type = "expense" AND entries.payment_type = "basic_expenses" AND category_id IS NULL ORDER BY entries.date DESC',
     )
@@ -184,6 +203,7 @@ export const getEntry = async (id: any) => {
     currencies.symbol AS currency_symbol,\
     currencies.decimal,\
     entries.entry_id,\
+    entries.prices,\
     entry.type FROM entries\
     LEFT JOIN accounts ON accounts.id = entries.account_id\
     LEFT JOIN currencies ON currencies.id = accounts.currency_id\
@@ -217,6 +237,8 @@ export const getBasicExpenseQuery = async (id: any) => {
     accounts.organization,\
     accounts.currency_id,\
     entries.category_id,\
+    entries.account_id as account,\
+    entries.prices,\
     currencies.symbol AS currency_symbol,\
     currencies.decimal FROM entries\
     LEFT JOIN accounts ON accounts.id = entries.account_id\
@@ -359,6 +381,7 @@ export const getAccountEntriesQuery = async (account: any) => {
     entries.payment_concept,\
     entries.payment_type,\
     entries.phone,\
+    entries.prices,\
     entry.type FROM entries\
     LEFT JOIN accounts ON accounts.id = entries.account_id\
     LEFT JOIN currencies ON currencies.id = accounts.currency_id\
@@ -395,6 +418,7 @@ export function* getDebtsQuery(
   currencies: any,
   currency_id: any,
   prices: any,
+  user: any,
 ): any {
   try {
     const query = `SELECT entries.amount,\
@@ -413,6 +437,7 @@ export function* getDebtsQuery(
     entries.entry_id,\
     entries.status_level,\
     entries.limit_date,\
+    entries.prices,\
     accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
 
     const entries: any = yield call(
@@ -438,7 +463,12 @@ export function* getDebtsQuery(
 
       const amount =
         queryEntriesEntry?.reduce((prev: any, next: any) => {
-          const change = defaultPrices[String(next?.currency_id)]
+          const change = next?.prices
+            ? JSON.parse(next?.prices)[String(user?.currency_id)]
+            : defaultPrices[String(next?.currency_id)]
+          if (next?.prices && change)
+            change.op = change.op === 'divide' ? 'multiply' : 'divide'
+
           const newAmount = change
             ? operateChange(change?.op, change?.value, next.amount)
             : next.amount
@@ -458,6 +488,7 @@ export function* getDebtQuery(
   currencies: any,
   currency_id: any,
   prices: any,
+  user: any,
 ): any {
   try {
     const query =
@@ -481,6 +512,7 @@ export function* getDebtQuery(
     entries.category_id,\
     entries.status_level,\
     entries.limit_date,\
+    entries.prices,\
     currencies.symbol AS currency_symbol,\
     currencies.decimal FROM entries\
     LEFT JOIN accounts ON accounts.id = entries.account_id\
@@ -503,7 +535,12 @@ export function* getDebtQuery(
     const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
     const amount =
       queryEntry.entries?.reduce((prev: any, next: any) => {
-        const change = defaultPrices[String(next?.currency_id)]
+        const change = next?.prices
+          ? JSON.parse(next?.prices)[String(user?.currency_id)]
+          : defaultPrices[String(next?.currency_id)]
+        if (next?.prices && change)
+          change.op = change.op === 'divide' ? 'multiply' : 'divide'
+
         const newAmount = change
           ? operateChange(change?.op, change?.value, next.amount)
           : next.amount
@@ -534,6 +571,7 @@ export const getFixedIncomesQuery = async () => {
       entries.payment_type,\
       entries.phone,\
       entries.entry_id,\
+      entries.prices,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
       WHERE entries.entry_type = "income" AND entries.payment_type = "fixed_incomes" AND category_id IS NULL ORDER BY entries.date DESC',
     )
@@ -552,6 +590,7 @@ export const getFixedIncomesQuery = async () => {
   entries.payment_concept,\
   entries.payment_type,\
   entries.phone,\
+  entries.prices,\
   entry.type FROM entries\
   LEFT JOIN accounts ON accounts.id = entries.account_id\
   LEFT JOIN currencies ON currencies.id = accounts.currency_id\
@@ -592,7 +631,9 @@ export const getFixedIncomeQuery = async (id: any) => {
     accounts.account_number,\
     accounts.organization,\
     accounts.currency_id,\
+    entries.account_id as account,\
     entries.category_id,\
+    entries.prices,\
     currencies.symbol AS currency_symbol,\
     currencies.decimal FROM entries\
     LEFT JOIN accounts ON accounts.id = entries.account_id\
@@ -617,6 +658,7 @@ export function* getReceivableAccountsQuery(
   currencies: any,
   currency_id: any,
   prices: any,
+  user: any,
 ): any {
   try {
     const query = `SELECT entries.amount,\
@@ -635,6 +677,7 @@ export function* getReceivableAccountsQuery(
     entries.entry_id,\
     entries.status_level,\
     entries.limit_date,\
+    entries.prices,\
     accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
 
     const entries: any = yield call(
@@ -660,7 +703,12 @@ export function* getReceivableAccountsQuery(
 
       const amount =
         queryEntriesEntry?.reduce((prev: any, next: any) => {
-          const change = defaultPrices[String(next?.currency_id)]
+          const change = next?.prices
+            ? JSON.parse(next?.prices)[String(user?.currency_id)]
+            : defaultPrices[String(next?.currency_id)]
+          if (next?.prices && change)
+            change.op = change.op === 'divide' ? 'multiply' : 'divide'
+
           const newAmount = change
             ? operateChange(change?.op, change?.value, next.amount)
             : next.amount
@@ -680,6 +728,7 @@ export function* getReceivableAccountQuery(
   currencies: any,
   currency_id: any,
   prices: any,
+  user: any,
 ): any {
   try {
     const query =
@@ -702,6 +751,7 @@ export function* getReceivableAccountQuery(
     accounts.currency_id,\
     entries.category_id,\
     entries.status_level,\
+    entries.prices,\
     entries.limit_date,\
     currencies.symbol AS currency_symbol,\
     currencies.decimal FROM entries\
@@ -727,7 +777,12 @@ export function* getReceivableAccountQuery(
     const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
     const amount =
       queryEntry.entries?.reduce((prev: any, next: any) => {
-        const change = defaultPrices[String(next?.currency_id)]
+        const change = entry?.prices
+          ? JSON.parse(entry?.prices)[String(user?.currency_id)]
+          : defaultPrices[String(entry?.currency_id)]
+        if (entry?.prices && change)
+          change.op = change.op === 'divide' ? 'multiply' : 'divide'
+
         const newAmount = change
           ? operateChange(change?.op, change?.value, next.amount)
           : next.amount
@@ -758,6 +813,7 @@ export const getEntriesIncomesQuery = async () => {
       entries.payment_type,\
       entries.phone,\
       entries.entry_id,\
+      entries.prices,\
       entry.type_entry,\
       accounts.currency_id FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id\
       LEFT JOIN (SELECT id, payment_type as type_entry FROM entries) as entry ON entries.entry_id = entry.id\
@@ -775,6 +831,7 @@ export function* getEntriesGoalsQuery(
   currencies: any,
   currency_id: any,
   prices: any,
+  user: any,
 ): any {
   try {
     const query = `SELECT entries.amount,\
@@ -796,6 +853,7 @@ export function* getEntriesGoalsQuery(
       accounts.currency_id,\
       entries.category_id,\
       entries.status_level,\
+      entries.prices,\
       entries.limit_date\
       FROM entries LEFT JOIN accounts ON accounts.id = entries.account_id`
 
@@ -821,7 +879,12 @@ export function* getEntriesGoalsQuery(
 
       const amount =
         queryEntriesEntry?.reduce((prev: any, next: any) => {
-          const change = defaultPrices[String(next?.currency_id)]
+          const change = next?.prices
+            ? JSON.parse(next?.prices)[String(user?.currency_id)]
+            : defaultPrices[String(next?.currency_id)]
+          if (next?.prices && change)
+            change.op = change.op === 'divide' ? 'multiply' : 'divide'
+
           const newAmount = change
             ? operateChange(change?.op, change?.value, next.amount)
             : next.amount
@@ -841,6 +904,7 @@ export function* getGoalQuery(
   currencies: any,
   currency_id: any,
   prices: any,
+  user: any,
 ): any {
   try {
     const query =
@@ -866,6 +930,7 @@ export function* getGoalQuery(
       entries.limit_date,\
       currencies.symbol AS currency_symbol,\
       currencies.decimal,\
+      entries.prices,\
       entry.type FROM entries\
       LEFT JOIN accounts ON accounts.id = entries.account_id\
       LEFT JOIN currencies ON currencies.id = accounts.currency_id\
@@ -887,7 +952,12 @@ export function* getGoalQuery(
     const defaultPrices = yield call(setPrices, prices, currencies, currency_id)
     const amount =
       queryEntry.entries?.reduce((prev: any, next: any) => {
-        const change = defaultPrices[String(next?.currency_id)]
+        const change = next?.prices
+          ? JSON.parse(next?.prices)[String(user?.currency_id)]
+          : defaultPrices[String(next?.currency_id)]
+        if (next?.prices && change)
+          change.op = change.op === 'divide' ? 'multiply' : 'divide'
+
         const newAmount = change
           ? operateChange(change?.op, change?.value, next.amount)
           : next.amount
