@@ -32,7 +32,7 @@ const EditAccount: FC = () => {
   const form = useMemo(() => {
     const formsTypes: any = {
       cash: [...cashForm(translate, values, currencies, colors)],
-      bank_account: [...bankForm(translate, values, currencies, colors)],
+      bank_account: [...bankForm(translate, values, colors)],
       connect: [...cryptoForm(translate, values, colors)],
     }
     return (
