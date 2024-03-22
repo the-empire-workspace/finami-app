@@ -36,7 +36,7 @@ export const cashForm = (
       maxLength: 72,
     },
   },
-  {
+ /* {
     element: 'select',
     name: 'account_currency',
     label: translate('currency_type'),
@@ -55,7 +55,7 @@ export const cashForm = (
       minLength: 0,
       maxLength: 72,
     },
-  },
+  },*/
 ]
 
 export const bankForm = (translate: any, def: any, colors: any = {}) => [
