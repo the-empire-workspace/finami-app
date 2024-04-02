@@ -1,7 +1,7 @@
-import {setPrices} from 'utils/exchangeData'
-import {insertQuery, selectQuery} from './helpers'
-import {operateChange} from 'utils/dataTransform'
-import {call} from 'redux-saga/effects'
+import { setPrices } from 'utils/exchangeData'
+import { insertQuery, selectQuery } from './helpers'
+import { operateChange } from 'utils/dataTransform'
+import { call } from 'redux-saga/effects'
 
 export function* createEntryQuery(
   data: any,
@@ -330,7 +330,7 @@ export const updateEntryQuery = async (id: any, entry: any) => {
 
 export const updatePostponeEntryQuery = async (id: any, entry: any) => {
   try {
-    const {date} = entry
+    const { date } = entry
 
     const newEntry: any = await insertQuery(
       'UPDATE entries SET date = ? WHERE id = ?',
@@ -348,7 +348,7 @@ export const updatePostponeEntryQuery = async (id: any, entry: any) => {
 
 export const updateStatusEntryQuery = async (id: any, entry: any) => {
   try {
-    const {date, amount, account} = entry
+    const { date, amount, account } = entry
 
     const newEntry: any = await insertQuery(
       'UPDATE entries SET account_id = ?, date = ?,amount = ?, status = "paid" WHERE id = ?',
