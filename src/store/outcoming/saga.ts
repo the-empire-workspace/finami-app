@@ -527,6 +527,23 @@ function* createDebtEntryAsync({payload}: any): any {
 
     const {prices} = yield select(selectIntermitence)
 
+    yield call(createEntryQuery, {
+      account: payload?.account,
+      payment_type: 'general',
+      category_id: payload?.category_id,
+      amount: payload?.amount,
+      payment_concept: payload?.concept,
+      entry_type: 'expense',
+      comment: payload?.comment || '',
+      emissor: payload?.receiver_name || payload?.emissor || '',
+      email: payload?.email || '',
+      phone: payload?.phonenumber || '',
+      date: newDate.getTime(),
+      frecuency_type: payload?.frecuency_type || '',
+      frecuency_time: payload?.frecuency_time || '',
+      entry_id: payload?.entry_id || '',
+    }, currencies, prices)
+
     const outcomes = yield call(
       getDebtsQuery,
       currencies,
@@ -543,7 +560,7 @@ function* createDebtEntryAsync({payload}: any): any {
       prices,
       user,
     )
-
+    
     yield put(
       actionObject(CREATE_DEBT_ENTRY_ASYNC, {
         itemsDebts: outcomes,
