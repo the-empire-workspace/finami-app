@@ -1,4 +1,4 @@
-import { Platform } from 'react-native'
+import {Platform} from 'react-native'
 import {styles} from './styles'
 
 export const stepTwoForm = (
@@ -41,7 +41,7 @@ export const stepTwoForm = (
     placeholder: translate('principal_currency'),
     returnKeyType: 'go',
     placeholderTextColor: color,
-    itemStyle:(Platform.OS === 'ios')? {color: color}:{},
+    itemStyle: Platform.OS === 'ios' ? {color: color} : {},
     style: {...styles.input, color: color, borderColor: color},
     values: currenciesFormatValues,
     validations: {

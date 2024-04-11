@@ -27,7 +27,9 @@ const MainFixesOutcome: FC = () => {
           onPress={() => {
             router.navigate('newFixedOutcome')
           }}>
-          <Text style={[styles.h3, {color: colors.typography}]}>{translate('new_basic_expenses')}</Text>
+          <Text style={[styles.h3, {color: colors.typography}]}>
+            {translate('new_basic_expenses')}
+          </Text>
         </TouchableOpacity>
       </View>
       {items?.length ? (

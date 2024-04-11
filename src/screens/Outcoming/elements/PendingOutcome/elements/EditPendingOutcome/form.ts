@@ -1,4 +1,4 @@
-import { Platform } from "react-native"
+import {Platform} from 'react-native'
 
 export const egressForm = (translate: any, def: any, colors: any = {}) => [
   {
@@ -68,7 +68,7 @@ export const egressForm = (translate: any, def: any, colors: any = {}) => [
     labelStyle: {backgroundColor: colors?.background100},
     defaultValue: def ? def.status_level?.value : '',
     placeholder: translate('urgency_level'),
-    itemStyle:(Platform.OS === 'ios')? {color: colors.typography}:{},
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     values: [
       {
         value: 'low',

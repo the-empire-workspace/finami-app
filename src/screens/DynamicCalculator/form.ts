@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import {Platform} from 'react-native'
 
 export const calculatorForm = (
   translate: any,
@@ -32,7 +32,7 @@ export const calculatorForm = (
     keyboardType: 'default',
     placeholder: translate('base_currency'),
     returnKeyType: 'go',
-    itemStyle:(Platform.OS === 'ios')? {color: colors.typography}:{},
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     values: [...(currencies || [])]?.map((currency: any) => ({
       label: `${currency?.name} (${currency?.symbol})`,
       value: String(currency?.id),
@@ -52,7 +52,7 @@ export const calculatorForm = (
     defaultValue: String(def?.calculate_currency?.value || currencies[1]?.id),
     keyboardType: 'default',
     placeholder: translate('calculate_currency'),
-    itemStyle:(Platform.OS === 'ios')? {color: colors.typography}:{},
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     returnKeyType: 'go',
     values: [...(currencies || [])]
       ?.filter(

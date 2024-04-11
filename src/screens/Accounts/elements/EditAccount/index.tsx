@@ -12,7 +12,6 @@ import {updateSingleAccount} from 'store/actions'
 
 const EditAccount: FC = () => {
   const {colors} = useTheme()
-  const {currencies} = useSelector((state: any) => state.currency)
   const [values, setValues] = useState<any>({})
 
   const navigation = useNavigation()
@@ -31,7 +30,7 @@ const EditAccount: FC = () => {
 
   const form = useMemo(() => {
     const formsTypes: any = {
-      cash: [...cashForm(translate, values, currencies, colors)],
+      cash: [...cashForm(translate, values, colors)],
       bank_account: [...bankForm(translate, values, colors)],
       connect: [...cryptoForm(translate, values, colors)],
     }

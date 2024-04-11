@@ -1,4 +1,4 @@
-import { Platform } from "react-native"
+import {Platform} from 'react-native'
 
 export const accountForm = (
   translate: any,
@@ -20,7 +20,7 @@ export const accountForm = (
       label: `${account?.account_name}`,
       value: String(account?.id),
     })),
-    itemStyle:(Platform.OS === 'ios')? {color: colors.typography}:{},
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     validations: {
       required: true,
       minLength: 0,

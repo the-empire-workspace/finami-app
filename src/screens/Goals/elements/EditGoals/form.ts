@@ -1,4 +1,4 @@
-import { Platform } from "react-native"
+import {Platform} from 'react-native'
 
 export const accountForm = (
   translate: any,
@@ -20,7 +20,7 @@ export const accountForm = (
       label: `${account?.account_name}`,
       value: String(account?.id),
     })),
-    itemStyle:(Platform.OS === 'ios')? {color: colors.typography}:{},
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     validations: {
       required: true,
       minLength: 0,
@@ -97,7 +97,7 @@ export const egressForm = (translate: any, def: any, colors: any = {}) => [
     labelStyle: {backgroundColor: colors?.background100},
     defaultValue: def ? def.status_level?.value : '',
     placeholder: translate('urgency_level'),
-    itemStyle:(Platform.OS === 'ios')? {color: colors.typography}:{},
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     values: [
       {
         value: 'low',

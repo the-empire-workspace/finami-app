@@ -1,4 +1,4 @@
-import { Platform } from "react-native";
+import {Platform} from 'react-native'
 
 export const calculatorForm = (translate: any, def: any, colors: any = {}) => [
   {
@@ -59,7 +59,7 @@ export const calculatorForm = (translate: any, def: any, colors: any = {}) => [
     keyboardType: 'default',
     placeholder: translate('period'),
     returnKeyType: 'go',
-    itemStyle:(Platform.OS === 'ios')? {color: colors.typography}:{},
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     values: [
       {
         label: translate('day'),

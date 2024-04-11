@@ -27,7 +27,9 @@ const MainFixesIncome: FC = () => {
           onPress={() => {
             router.navigate('newFixedIncome')
           }}>
-          <Text style={[styles.h3, {color: colors.typography}]}>{translate('new_fixed_income')}</Text>
+          <Text style={[styles.h3, {color: colors.typography}]}>
+            {translate('new_fixed_income')}
+          </Text>
         </TouchableOpacity>
       </View>
       {items?.length ? (
