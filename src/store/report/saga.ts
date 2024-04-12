@@ -240,14 +240,24 @@ function* generateReportAsync({payload}: any): any {
         main?.currency_name,
     })
 
-    const pdf = yield call(PDFGenerator, table, 'report', 'Documents')
+    const date = new Date()
+    const pdf = yield call(
+      PDFGenerator,
+      table,
+      `report_${payload.type}_${date.getTime()}`,
+      'Documents',
+    )
     yield call(
       RNFS.moveFile,
       pdf.filePath,
-      `${RNFS.DownloadDirectoryPath}/report_${payload.type}.pdf`,
+      `${RNFS.DocumentDirectoryPath}/report_${
+        payload.type
+      }_${date.getTime()}.pdf`,
     )
     FileViewer.open(
-      `${RNFS.DownloadDirectoryPath}/report_${payload.type}.pdf`,
+      `${RNFS.DocumentDirectoryPath}/report_${
+        payload.type
+      }_${date.getTime()}.pdf`,
       {showOpenWithDialog: true},
     )
   } catch (error) {

@@ -29,7 +29,9 @@ const MainPendingIncome: FC = () => {
           onPress={() => {
             router.navigate('newPendingIncome')
           }}>
-          <Text style={styles.h3}>{translate('new_receivable_account')}</Text>
+          <Text style={[styles.h3, {color: colors.typography}]}>
+            {translate('new_receivable_account')}
+          </Text>
         </TouchableOpacity>
       </View>
       {items?.length ? (

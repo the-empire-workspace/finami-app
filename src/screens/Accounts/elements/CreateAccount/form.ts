@@ -1,3 +1,5 @@
+import {Platform} from 'react-native'
+
 export const mainForm = (translate: any, def: any, colors: any = {}) => [
   {
     element: 'select',
@@ -8,6 +10,7 @@ export const mainForm = (translate: any, def: any, colors: any = {}) => [
     defaultValue: def?.account_type?.value || '',
     keyboardType: 'default',
     placeholder: translate('account_type_optional'),
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     returnKeyType: 'go',
     values: [
       {
@@ -83,6 +86,7 @@ export const cashForm = (
       label: `${currency?.name} (${currency?.symbol})`,
       value: String(currency?.id),
     })),
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     validations: {
       required: true,
       minLength: 0,
@@ -190,6 +194,7 @@ export const bankForm = (
       label: `${currency?.name} (${currency?.symbol})`,
       value: String(currency?.id),
     })),
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     validations: {
       required: true,
       minLength: 0,
