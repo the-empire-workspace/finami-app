@@ -27,7 +27,9 @@ const MainPendingOutcome: FC = () => {
           onPress={() => {
             router.navigate('newPendingOutcome')
           }}>
-          <Text style={styles.h3}>{translate('new_debt')}</Text>
+          <Text style={[styles.h3, {color: colors.typography}]}>
+            {translate('new_debt')}
+          </Text>
         </TouchableOpacity>
       </View>
       {items?.length ? (

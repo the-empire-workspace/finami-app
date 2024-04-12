@@ -1,3 +1,5 @@
+import {Platform} from 'react-native'
+
 export const mainForm = (translate: any, def: any, colors: any) => [
   {
     element: 'select',
@@ -8,6 +10,7 @@ export const mainForm = (translate: any, def: any, colors: any) => [
     defaultValue: def?.account_type?.value || '',
     keyboardType: 'default',
     placeholder: translate('account_type_optional'),
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     returnKeyType: 'go',
     values: [
       {
@@ -42,6 +45,7 @@ export const cashForm = (
     defaultValue: def?.account_type?.value || '',
     keyboardType: 'default',
     placeholder: translate('account_type_optional'),
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     returnKeyType: 'go',
     values: [
       {
@@ -96,6 +100,7 @@ export const cashForm = (
     name: 'account_currency',
     label: translate('currency_type'),
     labelStyle: {backgroundColor: colors.background100},
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     type: 'text',
     defaultValue: def?.account_currency?.value || '',
     keyboardType: 'default',
@@ -144,6 +149,7 @@ export const bankForm = (
     defaultValue: def?.account_type?.value || '',
     keyboardType: 'default',
     placeholder: translate('account_type_optional'),
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     returnKeyType: 'go',
     values: [
       {
@@ -215,6 +221,7 @@ export const bankForm = (
     label: translate('currency_type'),
     labelStyle: {backgroundColor: colors.background100},
     type: 'text',
+    itemStyle: Platform.OS === 'ios' ? {color: colors.typography} : {},
     defaultValue: def?.account_currency?.value || '',
     keyboardType: 'default',
     placeholder: translate('currency_type'),

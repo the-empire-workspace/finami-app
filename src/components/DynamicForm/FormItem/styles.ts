@@ -20,6 +20,8 @@ export const styles: any = StyleSheet.create({
     fontFamily: 'Poppins',
     letterSpacing: 0.14,
     marginBottom: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   multipleBox: {
     width: '100%',
