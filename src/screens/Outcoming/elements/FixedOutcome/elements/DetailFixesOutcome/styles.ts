@@ -17,6 +17,9 @@ export const localStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
   },
+  textAmount:{
+    flexShrink:1
+  },
   mainInfo: {
     paddingHorizontal: 20,
     gap: 15,

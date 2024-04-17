@@ -116,6 +116,7 @@ const DetailGoals: FC = () => {
                     ? colors.progress.egress
                     : colors.progress.ingress,
               },
+              styles.amountText
             ]}>
             {currency?.symbol}{' '}
             {totalBalance?.toLocaleString('en-US', {
@@ -126,7 +127,7 @@ const DetailGoals: FC = () => {
         {params?.type !== 'category' && (
           <View style={[styles.progressContainer]}>
             <View style={[styles.textContainer]}>
-              <Text style={[styles.strongBody, {color: colors.typography}]}>
+              <Text style={[styles.strongBody, {color: colors.typography}, styles.amountTextIndicator]}>
                 {currency?.symbol || ''}{' '}
                 {item?.total_amount?.toLocaleString('en-US', {
                   maximumFractionDigits: currency?.decimal,
@@ -135,7 +136,7 @@ const DetailGoals: FC = () => {
               <Text style={[styles.strongBody, {color: colors.typography}]}>
                 /
               </Text>
-              <Text style={[styles.strongBody, {color: colors.typography}]}>
+              <Text style={[styles.strongBody, {color: colors.typography},styles.amountTextIndicator]}>
                 {' '}
                 {currency?.symbol || ''}{' '}
                 {item?.amount?.toLocaleString('en-US', {
@@ -298,7 +299,7 @@ const DetailGoals: FC = () => {
             }}>
             <FileArrowUp width={24} height={24} />
           </TouchableOpacity>
-          <Text>{translate('made_deposits')}</Text>
+          <Text style={[styles.smallBody, {color: colors.typography}]}>{translate('made_deposits')}</Text>
           <TouchableOpacity
             onPress={() => setShortInfo(!shortInfo)}
             style={[styles.action, !shortInfo ? styles.actionUp : null]}>

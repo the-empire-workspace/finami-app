@@ -102,7 +102,7 @@ const DetailPendingIncome: FC = () => {
       <View style={[styles.mainInfo, {backgroundColor: colors.background50}]}>
         <View style={[styles.progressContainer]}>
           <View style={[styles.textContainer]}>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
+            <Text style={[styles.strongBody, {color: colors.typography}, styles.textAmount]}>
               {currency?.symbol || ''}{' '}
               {item?.total_amount?.toLocaleString('en-US', {
                 maximumFractionDigits: currency?.decimal,
@@ -111,7 +111,7 @@ const DetailPendingIncome: FC = () => {
             <Text style={[styles.strongBody, {color: colors.typography}]}>
               /
             </Text>
-            <Text style={[styles.strongBody, {color: colors.typography}]}>
+            <Text style={[styles.strongBody, {color: colors.typography}, styles.textAmount]}>
               {' '}
               {currency?.symbol || ''}{' '}
               {item?.amount?.toLocaleString('en-US', {
