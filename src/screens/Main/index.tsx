@@ -69,7 +69,7 @@ const Main: FC = () => {
   }, [isAuth, user])
 
   return (
-    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+    <KeyboardAvoidingView style={[styles.root]} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <SafeAreaView style={[styles.root]}>
         <AppNavigator />
       </SafeAreaView>
