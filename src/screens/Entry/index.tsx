@@ -327,12 +327,14 @@ const Entry: FC = () => {
           <View style={[styles.buttonContainer]}>
             <TouchableOpacity
               onPress={() => {
+                router.goBack()
                 router.navigate('editEntry', {id: item?.id})
               }}>
               <Pencil width={24} height={24} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={() => {
+                router.goBack()
                 router.navigate('deleteEntry', {id: item?.id})
               }}>
               <Trash width={24} height={24} />

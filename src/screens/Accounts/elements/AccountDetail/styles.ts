@@ -15,7 +15,6 @@ export const localStyles = StyleSheet.create({
   accountData: {
     gap: 5,
     flexDirection: 'row',
-    backgroundColor: 'black'
   },
   accountText:{
     flexShrink: 1

@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useMemo, useState } from 'react'
-import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { styles } from './styles'
 import { useTheme } from 'providers'
 import { translate } from '@utils'
@@ -72,6 +72,8 @@ const StepTwo: FC = () => {
   }
 
   return (
+    <KeyboardAvoidingView style={[{ backgroundColor: colors.background100 }]} >
+       
     <ScrollView
       style={[{ backgroundColor: colors.background100 }]}
       contentContainerStyle={styles.scrollRoot}>
@@ -111,6 +113,7 @@ const StepTwo: FC = () => {
         </View>
       </View>
     </ScrollView>
+    </KeyboardAvoidingView>
   )
 }
 
