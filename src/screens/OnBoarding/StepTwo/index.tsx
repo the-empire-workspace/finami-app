@@ -1,5 +1,5 @@
 import React, { FC, useEffect, useMemo, useState } from 'react'
-import { KeyboardAvoidingView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { styles } from './styles'
 import { useTheme } from 'providers'
 import { translate } from '@utils'
@@ -56,7 +56,7 @@ const StepTwo: FC = () => {
     if (data?.username && data?.principal_currency) {
       const sendValues = Object.keys(data).reduce((prev: any, next: any) => {
         const string = typeof data[next] === 'string' ? data[next] : null
-        prev[next] = data[next]?.value || string 
+        prev[next] = data[next]?.value || string
         return prev
       }, {})
       if (sendValues?.principal_currency && sendValues?.username) {
@@ -72,48 +72,45 @@ const StepTwo: FC = () => {
   }
 
   return (
-    <KeyboardAvoidingView style={[{ backgroundColor: colors.background100 }]} >
-       
-    <ScrollView
-      style={[{ backgroundColor: colors.background100 }]}
-      contentContainerStyle={styles.scrollRoot}>
-      <View style={styles.root}>
-        <View style={styles.container}>
-          <TouchableOpacity onPress={() => router.goBack()}>
-            <Text
-              style={[
-                styles.goBack,
-                styles.strongBody,
-                { color: colors.typography },
-              ]}>
-              {translate('back')}
+      <ScrollView
+        style={[{ backgroundColor: colors.background100 }]}
+        contentContainerStyle={styles.scrollRoot}>
+        <View style={styles.root}>
+          <View style={styles.container}>
+            <TouchableOpacity onPress={() => router.goBack()}>
+              <Text
+                style={[
+                  styles.goBack,
+                  styles.strongBody,
+                  { color: colors.typography },
+                ]}>
+                {translate('back')}
+              </Text>
+            </TouchableOpacity>
+            <Text style={[styles.h2, styles.title, { color: colors.typography }]}>
+              {translate('know_who_is_start')}
             </Text>
-          </TouchableOpacity>
-          <Text style={[styles.h2, styles.title, { color: colors.typography }]}>
-            {translate('know_who_is_start')}
-          </Text>
-          <View style={[styles.container, styles.centerContainer]}>
-            <Avatar
-              defaultAvatar={data?.image ? { uri: data?.image } : null}
-              actionAvatar={(change: any) => {
-                setData((oldData: any) => ({ ...oldData, image: change }))
-              }}
-            />
+            <View style={[styles.container, styles.centerContainer]}>
+              <Avatar
+                defaultAvatar={data?.image ? { uri: data?.image } : null}
+                actionAvatar={(change: any) => {
+                  setData((oldData: any) => ({ ...oldData, image: change }))
+                }}
+              />
+            </View>
+            <View style={[styles.container, styles.formContainer]}>
+              <DynamicForm returnData={changeUsername} formData={form} />
+            </View>
           </View>
           <View style={[styles.container, styles.formContainer]}>
-            <DynamicForm returnData={changeUsername} formData={form} />
+            <Button
+              disabled={false}
+              text={translate('next')}
+              onPress={submitStep}
+            />
           </View>
         </View>
-        <View style={[styles.container, styles.formContainer]}>
-          <Button
-            disabled={false}
-            text={translate('next')}
-            onPress={submitStep}
-          />
-        </View>
-      </View>
-    </ScrollView>
-    </KeyboardAvoidingView>
+      </ScrollView>
   )
 }
 
