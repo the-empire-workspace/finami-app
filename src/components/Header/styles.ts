@@ -9,14 +9,18 @@ const localStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    gap: 10
   },
   container: {
     textAlign: 'center',
     alignItems: 'center',
     justifyContent: 'center',
+    flexShrink: 1,
   },
   sub: {
     marginBottom: 5,
+    flexShrink: 1,
+    textAlign: 'center'
   },
   image: {
     width: 30,

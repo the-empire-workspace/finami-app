@@ -31,7 +31,7 @@
 		00E356EE1AD99517003FC87E /* finamiAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = finamiAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* finamiAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = finamiAppTests.m; sourceTree = "<group>"; };
-		13B07F961A680F5B00A75B9A /* finamiApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = finamiApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07F961A680F5B00A75B9A /* Finami.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Finami.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = finamiApp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = finamiApp/AppDelegate.mm; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = finamiApp/Images.xcassets; sourceTree = "<group>"; };
@@ -134,7 +134,7 @@
 		83CBBA001A601CBA00E9B192 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				13B07F961A680F5B00A75B9A /* finamiApp.app */,
+				13B07F961A680F5B00A75B9A /* Finami.app */,
 				00E356EE1AD99517003FC87E /* finamiAppTests.xctest */,
 			);
 			name = Products;
@@ -194,7 +194,7 @@
 			);
 			name = finamiApp;
 			productName = finamiApp;
-			productReference = 13B07F961A680F5B00A75B9A /* finamiApp.app */;
+			productReference = 13B07F961A680F5B00A75B9A /* Finami.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -500,7 +500,7 @@
 				ENABLE_BITCODE = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = finamiApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Finami App";
+				INFOPLIST_KEY_CFBundleDisplayName = Finami;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -513,7 +513,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.decode9.FinamiApp;
-				PRODUCT_NAME = finamiApp;
+				PRODUCT_NAME = Finami;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -538,7 +538,7 @@
 				DEVELOPMENT_TEAM = 6PJSHCAAKA;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				INFOPLIST_FILE = finamiApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Finami App";
+				INFOPLIST_KEY_CFBundleDisplayName = Finami;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -551,7 +551,7 @@
 					"-lc++",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.decode9.FinamiApp;
-				PRODUCT_NAME = finamiApp;
+				PRODUCT_NAME = Finami;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;

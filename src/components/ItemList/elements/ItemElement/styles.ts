@@ -27,7 +27,6 @@ const localStyles = StyleSheet.create({
     opacity: 0.5,
   },
   contentContainer: {
-    position: 'absolute',
     left: 0,
     top: 0,
     bottom: 0,
@@ -43,6 +42,9 @@ const localStyles = StyleSheet.create({
     justifyContent: 'center',
     width: '100%',
     gap: 10,
+  },
+  textBalance:{
+    flexShrink: 1
   },
   fullOpacity: {
     opacity: 1,

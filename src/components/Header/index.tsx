@@ -23,7 +23,7 @@ const Header: FC<Props> = () => {
     dispatch(getCurrencyPrice())
     if (Object.keys(defaultPrices)?.length) dispatch(getTotalBalance())
   }, [defaultPrices, user.currency_id])
-
+  
   const currency = useMemo(() => {
     return currencies.find((c: any) => c.id === user?.currency_id)
   }, [currencies?.length, user?.currency_id])

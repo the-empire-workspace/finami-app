@@ -23,11 +23,16 @@ export const localStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderRadius: 5,
+    borderRadius: 5
   },
   accountInfoContainer: {
     gap: 5,
+    width: '100%',
+    flex:1
   },
+  textAmount:{
+    maxWidth: 150
+  }
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}

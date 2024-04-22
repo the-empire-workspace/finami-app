@@ -22,6 +22,12 @@ export const localStyles = StyleSheet.create({
     gap: 15,
     paddingBottom: 10,
   },
+  amountText:{
+    flexShrink: 1
+  },
+  amountTextIndicator:{
+    flexShrink: 1
+  },
   amountIndicator: {
     flexDirection: 'row',
     alignItems: 'center',

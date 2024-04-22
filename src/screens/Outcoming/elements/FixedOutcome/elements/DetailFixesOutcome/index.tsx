@@ -92,6 +92,7 @@ const DetailFixesOutcome: FC = () => {
                     ? colors.progress.egress
                     : colors.progress.ingress,
               },
+              styles.textAmount
             ]}>
             {currency?.symbol}{' '}
             {totalBalance?.toLocaleString('en-US', {

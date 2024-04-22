@@ -93,6 +93,7 @@ const DetailFixesIncome: FC = () => {
                     ? colors.progress.egress
                     : colors.progress.ingress,
               },
+              styles.textAmount
             ]}>
             {currency?.symbol}{' '}
             {totalBalance?.toLocaleString('en-US', {
@@ -253,7 +254,7 @@ const DetailFixesIncome: FC = () => {
             }}>
             <FileArrowUp width={24} height={24} />
           </TouchableOpacity>
-          <Text>{translate('made_incomes')}</Text>
+          <Text style={[styles.smallBody, {color: colors.typography}]}>{translate('made_incomes')}</Text>
           <TouchableOpacity
             onPress={() => setShortInfo(!shortInfo)}
             style={[styles.action, !shortInfo ? styles.actionUp : null]}>

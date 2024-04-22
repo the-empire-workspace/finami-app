@@ -183,6 +183,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
                         ? colors.typography2
                         : colors.typography,
                   },
+                  styles.textBalance
                 ]}>
                 {currency?.symbol || ''}{' '}
                 {item?.total_amount?.toLocaleString('en-US', {
@@ -210,6 +211,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
                         ? colors.typography2
                         : colors.typography,
                   },
+                  styles.textBalance
                 ]}>
                 {' '}
                 {currency?.symbol || ''}{' '}
@@ -256,7 +258,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
               )}
             </Text>
           </View>
-          <View style={[styles.textContentAmount]}>
+          <View style={[styles.textContentAmount, styles.textBalance]}>
             {!!item?.amount && (
               <>
                 <Text

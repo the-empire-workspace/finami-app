@@ -65,6 +65,7 @@ const Currencies: FC = () => {
                         ? colors.progress.ingress
                         : colors.progress.egress,
                   },
+                  styles.textAmount
                 ]}>
                 {item?.currency_symbol}{' '}
                 {item?.total_amount?.toLocaleString('en-US', {

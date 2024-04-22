@@ -1,16 +1,17 @@
-import React, {FC, useCallback, useEffect} from 'react'
-import {SafeAreaView} from 'react-native-safe-area-context'
-import {styles} from './styles'
+import React, { FC, useCallback, useEffect } from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { styles } from './styles'
 import AppNavigator from '@routes'
-import {setI18nConfig} from '@utils'
-import {useSelector, useDispatch} from 'react-redux'
-import {scheduleNotification, signin} from 'store/actions'
-import notifee, {EventType} from '@notifee/react-native'
-import {emitter} from 'utils/eventEmitter'
-import {useNavigation} from '@react-navigation/native'
+import { setI18nConfig } from '@utils'
+import { useSelector, useDispatch } from 'react-redux'
+import { scheduleNotification, signin } from 'store/actions'
+import notifee, { EventType } from '@notifee/react-native'
+import { emitter } from 'utils/eventEmitter'
+import { useNavigation } from '@react-navigation/native'
+import { KeyboardAvoidingView, Platform } from 'react-native'
 
 const Main: FC = () => {
-  const {user, isAuth, dashboardValues} = useSelector(
+  const { user, isAuth, dashboardValues } = useSelector(
     (state: any) => state.account,
   )
   const dispatch = useDispatch()
@@ -25,7 +26,7 @@ const Main: FC = () => {
             screen: 'pendingIncome',
             params: {
               screen: 'detailPendingIncome',
-              params: {id: dataArray[1], type: 'income'},
+              params: { id: dataArray[1], type: 'income' },
             },
           })
         if (dataArray[2] === 'debt')
@@ -33,12 +34,12 @@ const Main: FC = () => {
             screen: 'pendingOutcome',
             params: {
               screen: 'detailPendingOutcome',
-              params: {id: dataArray[1], type: 'outcome'},
+              params: { id: dataArray[1], type: 'outcome' },
             },
           })
         return
       }
-      if (dataArray[1]) router?.navigate('entry', {id: dataArray[1]})
+      if (dataArray[1]) router?.navigate('entry', { id: dataArray[1] })
     },
     [dashboardValues],
   )
@@ -50,7 +51,7 @@ const Main: FC = () => {
   useEffect(() => {
     emitter.addListener('check_notification', checkInformation)
 
-    notifee.onForegroundEvent(({type, detail}) => {
+    notifee.onForegroundEvent(({ type, detail }) => {
       switch (type) {
         case EventType.PRESS:
           checkInformation(detail?.notification?.id || '')
@@ -68,9 +69,11 @@ const Main: FC = () => {
   }, [isAuth, user])
 
   return (
-    <SafeAreaView style={[styles.root]}>
-      <AppNavigator />
-    </SafeAreaView>
+    <KeyboardAvoidingView style={[styles.root]} behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      <SafeAreaView style={[styles.root]}>
+        <AppNavigator />
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   )
 }
 
