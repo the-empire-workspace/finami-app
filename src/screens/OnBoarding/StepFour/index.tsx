@@ -42,10 +42,9 @@ const StepTwo: FC = () => {
     }, {})
     const valid = Object.keys(values).reduce(
       (prev: any, next: any) =>
-        prev && (values[next]?.validation === false || true),
+        prev && (values[next]?.validation === true),
       true,
     )
-
     if (!sendValues?.account_currency)
       sendValues.account_currency = currencies[0]?.id
 

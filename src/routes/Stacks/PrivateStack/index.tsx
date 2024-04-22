@@ -66,6 +66,7 @@ export const PrivateStack = () => {
       <Stack.Screen name="editEntry" component={EditEntry} />
       <Stack.Screen name="editProfile" component={EditProfile} />
       <Stack.Screen name="comments" component={Comments} />
+      
       <Stack.Screen
         name="report"
         component={Report}

@@ -16,6 +16,12 @@ export const localStyles = StyleSheet.create({
     gap: 5,
     flexDirection: 'row',
   },
+  accountText:{
+    flexShrink: 1
+  },
+  accountBalance:{
+    flexShrink: 1
+  },
   mainInfo: {
     paddingHorizontal: 20,
     gap: 15,
