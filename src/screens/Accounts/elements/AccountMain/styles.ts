@@ -31,7 +31,8 @@ export const localStyles = StyleSheet.create({
     flex:1
   },
   textAmount:{
-    maxWidth: 150
+    maxWidth: 150,
+    alignSelf: 'flex-start'
   }
 })
 
