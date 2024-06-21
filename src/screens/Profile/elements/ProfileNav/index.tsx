@@ -35,16 +35,16 @@ const ProfileNav: FC<any> = () => {
         redirect: 'financialCalculator',
       },
       {
-        name: translate('report'),
-        comming: true,
-      },
-      {
         name: translate('language'),
         redirect: 'language',
       },
       {
         name: translate('leave_your_comments'),
         redirect: 'comments',
+      },
+      {
+        name: translate('report'),
+        comming: true,
       },
     ]
   }, [])
@@ -58,7 +58,7 @@ const ProfileNav: FC<any> = () => {
       {nav?.map((item, index) => (
         <TouchableOpacity
           key={index}
-          style={[styles.selectionList]}
+          style={[styles.selectionList, item?.comming ? styles.comming : null]}
           onPress={() => {
             !item?.comming && navigation.navigate(item?.redirect)
           }}>

@@ -26,17 +26,17 @@ const DynamicCalculator: FC = () => {
       calculateCurrency: currencies[1],
     })
     return calculatorForm(translate, values, currencies, colors)
-  }, [currencies, values])
+  }, [currencies])
 
   const checkResult = async () => {
     const mainCurrency = currencies.find(
       (currency: any) => currency?.id === Number(values?.base_currency?.value),
     )
+
     const calculateCurrency = currencies.find(
       (currency: any) =>
-        currency?.id === Number(values?.calculate_currency?.value) ||
-        currency?.id !== mainCurrency?.id,
-    )
+        Number(currency?.id) === Number(values?.calculate_currency?.value)
+    ) || currencies[1]
     if (mainCurrency && calculateCurrency) {
       const prices = await getExchangeValues(currencies, calculateCurrency?.id)
       const change = prices[String(mainCurrency?.id)]
