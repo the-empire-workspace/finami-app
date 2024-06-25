@@ -1,25 +1,25 @@
-import React, {FC, useEffect, useMemo, useState} from 'react'
-import {Modal, ScrollView, Text, TouchableOpacity, View} from 'react-native'
-import {useTheme} from '@providers'
-import {styles} from './styles'
-import {getLanguage, translate} from 'utils'
+import React, { FC, useEffect, useMemo, useState } from 'react'
+import { Modal, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { useTheme } from '@providers'
+import { styles } from './styles'
+import { getLanguage, translate } from 'utils'
 import SvgX from '@assets/img/X.svg'
 import WhiteX from '@assets/img/WhiteX.svg'
-import {useNavigation, useRoute} from '@react-navigation/native'
-import {useDispatch, useSelector} from 'react-redux'
-import {getItem, removeItem} from 'store/actions'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { useDispatch, useSelector } from 'react-redux'
+import { getItem, removeItem } from 'store/actions'
 import Trash from '@assets/img/Trash.svg'
 import Pencil from '@assets/img/Pencil.svg'
-import {Button} from 'theme'
-import {ModalUpdate} from './elements'
+import { Button } from 'theme'
+import { ModalUpdate } from './elements'
 const Entry: FC = () => {
-  const {colors} = useTheme()
+  const { colors } = useTheme()
   const dispatch = useDispatch()
-  const {item} = useSelector((state: any) => state.account)
+  const { item } = useSelector((state: any) => state.account)
 
   const router: any = useNavigation()
   const route = useRoute()
-  const {params}: any = route
+  const { params }: any = route
   const language = getLanguage()
   const [updateModal, setUpdateModal] = useState<any>(false)
   const [updateType, setUpdateType] = useState<any>('')
@@ -58,10 +58,9 @@ const Entry: FC = () => {
 
   const transparent = 'transparent'
   const underline = 'underline'
-
   return (
     <View style={[styles.root]}>
-      <View style={[styles.modal, {backgroundColor: colors.background100}]}>
+      <View style={[styles.modal, { backgroundColor: colors.background100 }]}>
         <View
           style={[
             styles.modalHeader,
@@ -86,7 +85,7 @@ const Entry: FC = () => {
               {itemValues?.title}
             </Text>
             {item?.status === 'pending' && (
-              <Text style={[styles.strongBody, {color: colors.states.caution}]}>
+              <Text style={[styles.strongBody, { color: colors.states.caution }]}>
                 {translate('pending')}
               </Text>
             )}
@@ -110,14 +109,14 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                {color: colors.typography},
+                { color: colors.typography },
               ]}>
               {translate('concept')}:
             </Text>
             <Text
               style={[
                 styles.smallBody,
-                {color: colors.typography},
+                { color: colors.typography },
                 styles.textWidth,
               ]}>
               {item?.payment_concept || translate('unavailable')}
@@ -129,14 +128,14 @@ const Entry: FC = () => {
                 style={[
                   styles.smallStrongBody,
                   styles.textSeparator,
-                  {color: colors.typography},
+                  { color: colors.typography },
                 ]}>
                 {translate('comments')}:
               </Text>
               <Text
                 style={[
                   styles.smallBody,
-                  {color: colors.typography},
+                  { color: colors.typography },
                   styles.textWidth,
                 ]}>
                 {item?.comment || translate('unavailable')}
@@ -148,14 +147,14 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                {color: colors.typography},
+                { color: colors.typography },
               ]}>
               {translate('amount')}:
             </Text>
             <Text
               style={[
                 styles.smallBody,
-                {color: colors.typography},
+                { color: colors.typography },
                 styles.textWidth,
               ]}>
               {item?.currency_symbol}{' '}
@@ -169,7 +168,7 @@ const Entry: FC = () => {
               style={[
                 styles.smallStrongBody,
                 styles.textSeparator,
-                {color: colors.typography},
+                { color: colors.typography },
               ]}>
               {translate('date')}:
             </Text>
@@ -195,56 +194,55 @@ const Entry: FC = () => {
           </View>
           {!!item?.account_name && (
             <View
-              style={[styles.boxContainer, {borderColor: colors.background25}]}>
+              style={[styles.boxContainer, { borderColor: colors.background25 }]}>
               <View
-                style={[styles.boxHeader, {borderColor: colors.background25}]}>
+                style={[styles.boxHeader, { borderColor: colors.background25 }]}>
                 <Text
                   style={[
                     styles.smallStrongBody,
                     styles.textSeparator,
-                    {color: colors.typography},
+                    { color: colors.typography },
                   ]}>
                   {translate('account')}
                 </Text>
               </View>
               <View
-                style={[styles.boxContent, {borderColor: colors.background25}]}>
+                style={[styles.boxContent, { borderColor: colors.background25 }]}>
                 <Text
                   style={[
                     styles.smallBody,
-                    {color: colors.typography},
+                    { color: colors.typography },
                     styles.textWidth,
-                  ]}>{`${item?.account_name}${
-                  item?.account_number
-                    ? ` - *${item?.account_number?.slice(-4)}`
-                    : ''
-                }`}</Text>
+                  ]}>{`${item?.account_name}${item?.account_number
+                      ? ` - *${item?.account_number?.slice(-4)}`
+                      : ''
+                    }`}</Text>
               </View>
             </View>
           )}
           {(!!item?.emissor || !!item?.phone || !!item?.email) && (
             <View
-              style={[styles.boxContainer, {borderColor: colors.background25}]}>
+              style={[styles.boxContainer, { borderColor: colors.background25 }]}>
               <View
-                style={[styles.boxHeader, {borderColor: colors.background25}]}>
+                style={[styles.boxHeader, { borderColor: colors.background25 }]}>
                 <Text
                   style={[
                     styles.smallStrongBody,
                     styles.textSeparator,
-                    {color: colors.typography},
+                    { color: colors.typography },
                   ]}>
                   {translate('contact')}
                 </Text>
               </View>
               <View
-                style={[styles.boxContent, {borderColor: colors.background25}]}>
+                style={[styles.boxContent, { borderColor: colors.background25 }]}>
                 {!!item?.emissor && (
                   <View style={[styles.textContent]}>
                     <Text
                       style={[
                         styles.smallStrongBody,
                         styles.textSeparator,
-                        {color: colors.typography},
+                        { color: colors.typography },
                       ]}>
                       {item?.type === 'expense'
                         ? translate('receiver')
@@ -254,7 +252,7 @@ const Entry: FC = () => {
                     <Text
                       style={[
                         styles.smallBody,
-                        {color: colors.typography},
+                        { color: colors.typography },
                         styles.textWidth,
                       ]}>
                       {item?.emissor || translate('unavailable')}
@@ -267,14 +265,14 @@ const Entry: FC = () => {
                       style={[
                         styles.smallStrongBody,
                         styles.textSeparator,
-                        {color: colors.typography},
+                        { color: colors.typography },
                       ]}>
                       {translate('phone')}:
                     </Text>
                     <Text
                       style={[
                         styles.smallBody,
-                        {color: colors.typography},
+                        { color: colors.typography },
                         styles.textWidth,
                       ]}>
                       {item?.phone || translate('unavailable')}
@@ -287,14 +285,14 @@ const Entry: FC = () => {
                       style={[
                         styles.smallStrongBody,
                         styles.textSeparator,
-                        {color: colors.typography},
+                        { color: colors.typography },
                       ]}>
                       {translate('email')}:
                     </Text>
                     <Text
                       style={[
                         styles.smallBody,
-                        {color: colors.typography},
+                        { color: colors.typography },
                         styles.textWidth,
                       ]}>
                       {item?.email || translate('unavailable')}
@@ -325,17 +323,17 @@ const Entry: FC = () => {
             </View>
           )}
           <View style={[styles.buttonContainer]}>
-            <TouchableOpacity
+            {item?.type != 'fixed_incomes' && item?.type != 'basic_expenses' && <TouchableOpacity
               onPress={() => {
                 router.goBack()
-                router.navigate('editEntry', {id: item?.id})
+                router.navigate('editEntry', { id: item?.id })
               }}>
               <Pencil width={24} height={24} />
-            </TouchableOpacity>
+            </TouchableOpacity>}
             <TouchableOpacity
               onPress={() => {
                 router.goBack()
-                router.navigate('deleteEntry', {id: item?.id})
+                router.navigate('deleteEntry', { id: item?.id })
               }}>
               <Trash width={24} height={24} />
             </TouchableOpacity>

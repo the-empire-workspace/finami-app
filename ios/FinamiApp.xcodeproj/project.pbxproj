@@ -8,13 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* finamiAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* finamiAppTests.m */; };
-		0C80B921A6F3F58F76C31292 /* libPods-finamiApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-finamiApp.a */; };
+		0C80B921A6F3F58F76C31292 /* libPods-FinamiApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-FinamiApp.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		62893AC32BADF3310010229A /* AppCenter-Config.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62893AC22BADF3310010229A /* AppCenter-Config.plist */; };
-		7699B88040F8A987B510C191 /* libPods-finamiApp-finamiAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-finamiApp-finamiAppTests.a */; };
+		7699B88040F8A987B510C191 /* libPods-FinamiApp-finamiAppTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-FinamiApp-finamiAppTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		079C2AF022CC4850AC79CB58 /* Poppins-Black.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2BDC3D5CEDE245FB8361C1A0 /* Poppins-Black.ttf */; };
+		6397429559B348B5B425612D /* Poppins-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ABF8971C6F774C1FB80F65B0 /* Poppins-BlackItalic.ttf */; };
+		0EB9F4AF9DA949298781A1E1 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3D3912F4699E41B89E5FB2EA /* Poppins-Bold.ttf */; };
+		24FEFECFD7E945CA8CDC3C01 /* Poppins-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4FCC00BA41784E849FBAAD3C /* Poppins-BoldItalic.ttf */; };
+		FB874141A52A4AC3905C2B12 /* Poppins-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7FD07DDCA21548718A69EB02 /* Poppins-ExtraBold.ttf */; };
+		B05387F57A9449FCA53E1D86 /* Poppins-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5642600426C7411CA08FA545 /* Poppins-ExtraBoldItalic.ttf */; };
+		6F6F31DDDD174266955C303E /* Poppins-ExtraLight.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC5A97A148C545BCAFF796A9 /* Poppins-ExtraLight.ttf */; };
+		A29BCC36C58D492591D01CB1 /* Poppins-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F59FDEE1897046E5820B6EA1 /* Poppins-ExtraLightItalic.ttf */; };
+		7FEE97639B8840299C454ED2 /* Poppins-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 48D89DA8EBAF41D4991F8FB0 /* Poppins-Italic.ttf */; };
+		FDB8DF711D374835B6FFB6B2 /* Poppins-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9715BBA7F1A94BD0A1AB129F /* Poppins-Light.ttf */; };
+		7689525EA2D043849C9B7E88 /* Poppins-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B477E2787974470E9EBDA8BE /* Poppins-LightItalic.ttf */; };
+		FE14C85CC73B4D20982DCFFB /* Poppins-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5CA4E8BCCC294B05802CCA76 /* Poppins-Medium.ttf */; };
+		AD183A9DDDD0467A813B09F6 /* Poppins-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B50080D0F0704FCEA6CD8391 /* Poppins-MediumItalic.ttf */; };
+		605CB6DB15724553A2C0E535 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 269EBA6E8809482F8A777EC9 /* Poppins-Regular.ttf */; };
+		483733FEF6224A628BA474A0 /* Poppins-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 80592BA28EFE40E1AA0A0352 /* Poppins-SemiBold.ttf */; };
+		4D97B8ADBCF34124A2941F90 /* Poppins-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5194D2BA72904383B1C863DE /* Poppins-SemiBoldItalic.ttf */; };
+		C8F2FE2C5FA544B19416A899 /* Poppins-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BBCA4979419A49CB83B610DF /* Poppins-Thin.ttf */; };
+		2D61798D319446E998A4EE9D /* Poppins-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DC53C4FBAF03423B9AB677E8 /* Poppins-ThinItalic.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,7 +41,7 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = finamiApp;
+			remoteInfo = FinamiApp;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -32,20 +50,38 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* finamiAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = finamiAppTests.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Finami.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Finami.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = finamiApp/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = finamiApp/AppDelegate.mm; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = finamiApp/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = finamiApp/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = finamiApp/main.m; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-finamiApp-finamiAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-finamiApp-finamiAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3B4392A12AC88292D35C810B /* Pods-finamiApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-finamiApp.debug.xcconfig"; path = "Target Support Files/Pods-finamiApp/Pods-finamiApp.debug.xcconfig"; sourceTree = "<group>"; };
-		5709B34CF0A7D63546082F79 /* Pods-finamiApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-finamiApp.release.xcconfig"; path = "Target Support Files/Pods-finamiApp/Pods-finamiApp.release.xcconfig"; sourceTree = "<group>"; };
-		5B7EB9410499542E8C5724F5 /* Pods-finamiApp-finamiAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-finamiApp-finamiAppTests.debug.xcconfig"; path = "Target Support Files/Pods-finamiApp-finamiAppTests/Pods-finamiApp-finamiAppTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-finamiApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-finamiApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = FinamiApp/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = FinamiApp/AppDelegate.mm; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = FinamiApp/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = FinamiApp/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = FinamiApp/main.m; sourceTree = "<group>"; };
+		19F6CBCC0A4E27FBF8BF4A61 /* libPods-FinamiApp-finamiAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FinamiApp-finamiAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B4392A12AC88292D35C810B /* Pods-FinamiApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinamiApp.debug.xcconfig"; path = "Target Support Files/Pods-FinamiApp/Pods-FinamiApp.debug.xcconfig"; sourceTree = "<group>"; };
+		5709B34CF0A7D63546082F79 /* Pods-FinamiApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinamiApp.release.xcconfig"; path = "Target Support Files/Pods-FinamiApp/Pods-FinamiApp.release.xcconfig"; sourceTree = "<group>"; };
+		5B7EB9410499542E8C5724F5 /* Pods-FinamiApp-finamiAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinamiApp-finamiAppTests.debug.xcconfig"; path = "Target Support Files/Pods-FinamiApp-finamiAppTests/Pods-FinamiApp-finamiAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		5DCACB8F33CDC322A6C60F78 /* libPods-FinamiApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FinamiApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		62893AC22BADF3310010229A /* AppCenter-Config.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "AppCenter-Config.plist"; path = "FinamiApp/AppCenter-Config.plist"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = finamiApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		89C6BE57DB24E9ADA2F236DE /* Pods-finamiApp-finamiAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-finamiApp-finamiAppTests.release.xcconfig"; path = "Target Support Files/Pods-finamiApp-finamiAppTests/Pods-finamiApp-finamiAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = FinamiApp/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		89C6BE57DB24E9ADA2F236DE /* Pods-FinamiApp-finamiAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FinamiApp-finamiAppTests.release.xcconfig"; path = "Target Support Files/Pods-FinamiApp-finamiAppTests/Pods-FinamiApp-finamiAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		2BDC3D5CEDE245FB8361C1A0 /* Poppins-Black.ttf */ = {isa = PBXFileReference; name = "Poppins-Black.ttf"; path = "../assets/fonts/Poppins-Black.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		ABF8971C6F774C1FB80F65B0 /* Poppins-BlackItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-BlackItalic.ttf"; path = "../assets/fonts/Poppins-BlackItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3D3912F4699E41B89E5FB2EA /* Poppins-Bold.ttf */ = {isa = PBXFileReference; name = "Poppins-Bold.ttf"; path = "../assets/fonts/Poppins-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		4FCC00BA41784E849FBAAD3C /* Poppins-BoldItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-BoldItalic.ttf"; path = "../assets/fonts/Poppins-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		7FD07DDCA21548718A69EB02 /* Poppins-ExtraBold.ttf */ = {isa = PBXFileReference; name = "Poppins-ExtraBold.ttf"; path = "../assets/fonts/Poppins-ExtraBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5642600426C7411CA08FA545 /* Poppins-ExtraBoldItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-ExtraBoldItalic.ttf"; path = "../assets/fonts/Poppins-ExtraBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FC5A97A148C545BCAFF796A9 /* Poppins-ExtraLight.ttf */ = {isa = PBXFileReference; name = "Poppins-ExtraLight.ttf"; path = "../assets/fonts/Poppins-ExtraLight.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F59FDEE1897046E5820B6EA1 /* Poppins-ExtraLightItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-ExtraLightItalic.ttf"; path = "../assets/fonts/Poppins-ExtraLightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		48D89DA8EBAF41D4991F8FB0 /* Poppins-Italic.ttf */ = {isa = PBXFileReference; name = "Poppins-Italic.ttf"; path = "../assets/fonts/Poppins-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		9715BBA7F1A94BD0A1AB129F /* Poppins-Light.ttf */ = {isa = PBXFileReference; name = "Poppins-Light.ttf"; path = "../assets/fonts/Poppins-Light.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B477E2787974470E9EBDA8BE /* Poppins-LightItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-LightItalic.ttf"; path = "../assets/fonts/Poppins-LightItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5CA4E8BCCC294B05802CCA76 /* Poppins-Medium.ttf */ = {isa = PBXFileReference; name = "Poppins-Medium.ttf"; path = "../assets/fonts/Poppins-Medium.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B50080D0F0704FCEA6CD8391 /* Poppins-MediumItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-MediumItalic.ttf"; path = "../assets/fonts/Poppins-MediumItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		269EBA6E8809482F8A777EC9 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; name = "Poppins-Regular.ttf"; path = "../assets/fonts/Poppins-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		80592BA28EFE40E1AA0A0352 /* Poppins-SemiBold.ttf */ = {isa = PBXFileReference; name = "Poppins-SemiBold.ttf"; path = "../assets/fonts/Poppins-SemiBold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5194D2BA72904383B1C863DE /* Poppins-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-SemiBoldItalic.ttf"; path = "../assets/fonts/Poppins-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BBCA4979419A49CB83B610DF /* Poppins-Thin.ttf */ = {isa = PBXFileReference; name = "Poppins-Thin.ttf"; path = "../assets/fonts/Poppins-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		DC53C4FBAF03423B9AB677E8 /* Poppins-ThinItalic.ttf */ = {isa = PBXFileReference; name = "Poppins-ThinItalic.ttf"; path = "../assets/fonts/Poppins-ThinItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +89,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-finamiApp-finamiAppTests.a in Frameworks */,
+				7699B88040F8A987B510C191 /* libPods-FinamiApp-finamiAppTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-finamiApp.a in Frameworks */,
+				0C80B921A6F3F58F76C31292 /* libPods-FinamiApp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +121,7 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* finamiApp */ = {
+		13B07FAE1A68108700A75B9A /* FinamiApp */ = {
 			isa = PBXGroup;
 			children = (
 				62893AC22BADF3310010229A /* AppCenter-Config.plist */,
@@ -96,15 +132,15 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = finamiApp;
+			name = FinamiApp;
 			sourceTree = "<group>";
 		};
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-finamiApp.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-finamiApp-finamiAppTests.a */,
+				5DCACB8F33CDC322A6C60F78 /* libPods-FinamiApp.a */,
+				19F6CBCC0A4E27FBF8BF4A61 /* libPods-FinamiApp-finamiAppTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -119,12 +155,13 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				13B07FAE1A68108700A75B9A /* finamiApp */,
+				13B07FAE1A68108700A75B9A /* FinamiApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* finamiAppTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				86CFDBC52E1B46C7A61CE5BB /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -143,13 +180,39 @@
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				3B4392A12AC88292D35C810B /* Pods-finamiApp.debug.xcconfig */,
-				5709B34CF0A7D63546082F79 /* Pods-finamiApp.release.xcconfig */,
-				5B7EB9410499542E8C5724F5 /* Pods-finamiApp-finamiAppTests.debug.xcconfig */,
-				89C6BE57DB24E9ADA2F236DE /* Pods-finamiApp-finamiAppTests.release.xcconfig */,
+				3B4392A12AC88292D35C810B /* Pods-FinamiApp.debug.xcconfig */,
+				5709B34CF0A7D63546082F79 /* Pods-FinamiApp.release.xcconfig */,
+				5B7EB9410499542E8C5724F5 /* Pods-FinamiApp-finamiAppTests.debug.xcconfig */,
+				89C6BE57DB24E9ADA2F236DE /* Pods-FinamiApp-finamiAppTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
+		};
+		86CFDBC52E1B46C7A61CE5BB /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				2BDC3D5CEDE245FB8361C1A0 /* Poppins-Black.ttf */,
+				ABF8971C6F774C1FB80F65B0 /* Poppins-BlackItalic.ttf */,
+				3D3912F4699E41B89E5FB2EA /* Poppins-Bold.ttf */,
+				4FCC00BA41784E849FBAAD3C /* Poppins-BoldItalic.ttf */,
+				7FD07DDCA21548718A69EB02 /* Poppins-ExtraBold.ttf */,
+				5642600426C7411CA08FA545 /* Poppins-ExtraBoldItalic.ttf */,
+				FC5A97A148C545BCAFF796A9 /* Poppins-ExtraLight.ttf */,
+				F59FDEE1897046E5820B6EA1 /* Poppins-ExtraLightItalic.ttf */,
+				48D89DA8EBAF41D4991F8FB0 /* Poppins-Italic.ttf */,
+				9715BBA7F1A94BD0A1AB129F /* Poppins-Light.ttf */,
+				B477E2787974470E9EBDA8BE /* Poppins-LightItalic.ttf */,
+				5CA4E8BCCC294B05802CCA76 /* Poppins-Medium.ttf */,
+				B50080D0F0704FCEA6CD8391 /* Poppins-MediumItalic.ttf */,
+				269EBA6E8809482F8A777EC9 /* Poppins-Regular.ttf */,
+				80592BA28EFE40E1AA0A0352 /* Poppins-SemiBold.ttf */,
+				5194D2BA72904383B1C863DE /* Poppins-SemiBoldItalic.ttf */,
+				BBCA4979419A49CB83B610DF /* Poppins-Thin.ttf */,
+				DC53C4FBAF03423B9AB677E8 /* Poppins-ThinItalic.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -175,9 +238,9 @@
 			productReference = 00E356EE1AD99517003FC87E /* finamiAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* finamiApp */ = {
+		13B07F861A680F5B00A75B9A /* FinamiApp */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "finamiApp" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "FinamiApp" */;
 			buildPhases = (
 				C38B50BA6285516D6DCD4F65 /* [CP] Check Pods Manifest.lock */,
 				FD10A7F022414F080027D42C /* Start Packager */,
@@ -192,8 +255,8 @@
 			);
 			dependencies = (
 			);
-			name = finamiApp;
-			productName = finamiApp;
+			name = FinamiApp;
+			productName = FinamiApp;
 			productReference = 13B07F961A680F5B00A75B9A /* Finami.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -228,7 +291,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* finamiApp */,
+				13B07F861A680F5B00A75B9A /* FinamiApp */,
 				00E356ED1AD99517003FC87E /* finamiAppTests */,
 			);
 		};
@@ -249,6 +312,24 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				62893AC32BADF3310010229A /* AppCenter-Config.plist in Resources */,
+				079C2AF022CC4850AC79CB58 /* Poppins-Black.ttf in Resources */,
+				6397429559B348B5B425612D /* Poppins-BlackItalic.ttf in Resources */,
+				0EB9F4AF9DA949298781A1E1 /* Poppins-Bold.ttf in Resources */,
+				24FEFECFD7E945CA8CDC3C01 /* Poppins-BoldItalic.ttf in Resources */,
+				FB874141A52A4AC3905C2B12 /* Poppins-ExtraBold.ttf in Resources */,
+				B05387F57A9449FCA53E1D86 /* Poppins-ExtraBoldItalic.ttf in Resources */,
+				6F6F31DDDD174266955C303E /* Poppins-ExtraLight.ttf in Resources */,
+				A29BCC36C58D492591D01CB1 /* Poppins-ExtraLightItalic.ttf in Resources */,
+				7FEE97639B8840299C454ED2 /* Poppins-Italic.ttf in Resources */,
+				FDB8DF711D374835B6FFB6B2 /* Poppins-Light.ttf in Resources */,
+				7689525EA2D043849C9B7E88 /* Poppins-LightItalic.ttf in Resources */,
+				FE14C85CC73B4D20982DCFFB /* Poppins-Medium.ttf in Resources */,
+				AD183A9DDDD0467A813B09F6 /* Poppins-MediumItalic.ttf in Resources */,
+				605CB6DB15724553A2C0E535 /* Poppins-Regular.ttf in Resources */,
+				483733FEF6224A628BA474A0 /* Poppins-SemiBold.ttf in Resources */,
+				4D97B8ADBCF34124A2941F90 /* Poppins-SemiBoldItalic.ttf in Resources */,
+				C8F2FE2C5FA544B19416A899 /* Poppins-Thin.ttf in Resources */,
+				2D61798D319446E998A4EE9D /* Poppins-ThinItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,15 +358,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-finamiApp/Pods-finamiApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FinamiApp/Pods-FinamiApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-finamiApp/Pods-finamiApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FinamiApp/Pods-FinamiApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-finamiApp/Pods-finamiApp-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FinamiApp/Pods-FinamiApp-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A55EABD7B0C7F3A422A6CC61 /* [CP] Check Pods Manifest.lock */ = {
@@ -303,7 +384,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-finamiApp-finamiAppTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-FinamiApp-finamiAppTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -325,7 +406,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-finamiApp-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-FinamiApp-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -338,15 +419,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-finamiApp-finamiAppTests/Pods-finamiApp-finamiAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FinamiApp-finamiAppTests/Pods-FinamiApp-finamiAppTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-finamiApp-finamiAppTests/Pods-finamiApp-finamiAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FinamiApp-finamiAppTests/Pods-FinamiApp-finamiAppTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-finamiApp-finamiAppTests/Pods-finamiApp-finamiAppTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FinamiApp-finamiAppTests/Pods-FinamiApp-finamiAppTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E235C05ADACE081382539298 /* [CP] Copy Pods Resources */ = {
@@ -355,15 +436,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-finamiApp/Pods-finamiApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FinamiApp/Pods-FinamiApp-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-finamiApp/Pods-finamiApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FinamiApp/Pods-FinamiApp-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-finamiApp/Pods-finamiApp-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FinamiApp/Pods-FinamiApp-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F6A41C54EA430FDDC6A6ED99 /* [CP] Copy Pods Resources */ = {
@@ -372,15 +453,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-finamiApp-finamiAppTests/Pods-finamiApp-finamiAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FinamiApp-finamiAppTests/Pods-FinamiApp-finamiAppTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-finamiApp-finamiAppTests/Pods-finamiApp-finamiAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-FinamiApp-finamiAppTests/Pods-FinamiApp-finamiAppTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-finamiApp-finamiAppTests/Pods-finamiApp-finamiAppTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-FinamiApp-finamiAppTests/Pods-FinamiApp-finamiAppTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -427,7 +508,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* finamiApp */;
+			target = 13B07F861A680F5B00A75B9A /* FinamiApp */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -435,7 +516,7 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-finamiApp-finamiAppTests.debug.xcconfig */;
+			baseConfigurationReference = 5B7EB9410499542E8C5724F5 /* Pods-FinamiApp-finamiAppTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -458,13 +539,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/finamiApp.app/finamiApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FinamiApp.app/FinamiApp";
 			};
 			name = Debug;
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-finamiApp-finamiAppTests.release.xcconfig */;
+			baseConfigurationReference = 89C6BE57DB24E9ADA2F236DE /* Pods-FinamiApp-finamiAppTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -484,13 +565,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/finamiApp.app/finamiApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FinamiApp.app/FinamiApp";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-finamiApp.debug.xcconfig */;
+			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-FinamiApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
@@ -499,7 +580,7 @@
 				DEVELOPMENT_TEAM = 6PJSHCAAKA;
 				ENABLE_BITCODE = NO;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				INFOPLIST_FILE = finamiApp/Info.plist;
+				INFOPLIST_FILE = FinamiApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Finami;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -527,7 +608,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-finamiApp.release.xcconfig */;
+			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-FinamiApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
@@ -537,7 +618,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 6PJSHCAAKA;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
-				INFOPLIST_FILE = finamiApp/Info.plist;
+				INFOPLIST_FILE = FinamiApp/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Finami;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.finance";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -731,7 +812,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "finamiApp" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "FinamiApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,

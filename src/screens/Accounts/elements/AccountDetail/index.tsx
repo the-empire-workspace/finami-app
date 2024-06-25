@@ -55,7 +55,7 @@ const AccountDetail: FC = () => {
             {translate('account_type')}:
           </Text>
           <Text style={[styles.smallBody, { color: colors.typography }, styles.accountText]}>
-            {account?.account_type}
+            {translate(account?.account_type)}
           </Text>
         </View>
         {account?.organization && !shortInfo && (
