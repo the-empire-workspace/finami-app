@@ -1,17 +1,18 @@
-import React, {FC, useMemo} from 'react'
-import {TouchableOpacity, Text, View} from 'react-native'
-import {useTheme} from '@providers'
-import {styles} from './styles'
-import {Props} from './interface'
-import {useNavigation} from '@react-navigation/native'
-import {useSelector} from 'react-redux'
-import {getLanguage, translate} from 'utils'
+import React, { FC, useMemo } from 'react'
+import { TouchableOpacity, Text, View } from 'react-native'
+import { useTheme } from '@providers'
+import { styles } from './styles'
+import { Props } from './interface'
+import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
+import { getLanguage, translate } from 'utils'
+import Plus from '@assets/img/ListDashes.svg'
 
-const ItemElement: FC<Props> = ({item, type}) => {
-  const {colors} = useTheme()
+const ItemElement: FC<Props> = ({ item, type }) => {
+  const { colors } = useTheme()
 
-  const {user} = useSelector((state: any) => state.account)
-  const {currencies} = useSelector((state: any) => state.currency)
+  const { user } = useSelector((state: any) => state.account)
+  const { currencies } = useSelector((state: any) => state.currency)
 
   const router: any = useNavigation()
 
@@ -22,11 +23,19 @@ const ItemElement: FC<Props> = ({item, type}) => {
       (c: any) => c.id === (item?.currency_id || user?.currency_id),
     )
   }, [currencies?.length, item?.currency_id, user?.currency_id])
+
+  const types = [
+    'basic_expenses',
+    'fixed_incomes',
+    'debts',
+    'receivable_accounts',
+    'goals',
+  ]
   const checkAction = () => {
     switch (type) {
       case 'basic_expenses':
         if (item?.payment_concept)
-          router.navigate('detailFixesOutcome', {id: item?.id, type: 'outcome'})
+          router.navigate('detailFixesOutcome', { id: item?.id, type: 'outcome' })
         if (item?.name)
           router.navigate('detailFixesOutcome', {
             id: item?.id,
@@ -35,7 +44,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
         break
       case 'fixed_incomes':
         if (item?.payment_concept)
-          router.navigate('detailFixesIncome', {id: item?.id, type: 'income'})
+          router.navigate('detailFixesIncome', { id: item?.id, type: 'income' })
         if (item?.name)
           router.navigate('detailFixesIncome', {
             id: item?.id,
@@ -43,10 +52,10 @@ const ItemElement: FC<Props> = ({item, type}) => {
           })
         break
       case 'debts':
-        router.navigate('detailPendingOutcome', {id: item?.id, type: 'outcome'})
+        router.navigate('detailPendingOutcome', { id: item?.id, type: 'outcome' })
         break
       case 'receivable_accounts':
-        router.navigate('detailPendingIncome', {id: item?.id, type: 'income'})
+        router.navigate('detailPendingIncome', { id: item?.id, type: 'income' })
         break
       case 'goals':
         if (item?.payment_concept)
@@ -63,7 +72,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
           })
         break
       default:
-        router?.navigate('entry', {id: item?.id})
+        router?.navigate('entry', { id: item?.id })
         break
     }
   }
@@ -224,7 +233,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
         </>
       ) : (
         <>
-          <View>
+          <View style={[styles.textContent]}>
             <Text
               style={[
                 styles.strongBody,
@@ -281,7 +290,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
                   <Text
                     style={[
                       styles.smallStrongBody,
-                      {color: colors.states.caution},
+                      { color: colors.states.caution },
                     ]}>
                     {translate('pending')}
                   </Text>
@@ -289,6 +298,9 @@ const ItemElement: FC<Props> = ({item, type}) => {
               </>
             )}
           </View>
+          {types.includes(type) && <View>
+            <Plus />
+          </View>}
         </>
       )}
     </TouchableOpacity>

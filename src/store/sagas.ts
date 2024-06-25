@@ -46,6 +46,7 @@ import {
 } from './outcoming/saga'
 import {
   watchCreateFixedIncomes,
+  watchCreateFixedIncomesEntry,
   watchCreateIncome,
   watchCreateIncomeCategory,
   watchCreateReceivableAccount,
@@ -135,6 +136,7 @@ export default function* rootSaga() {
     fork(watchUpdateReceivableAccount),
     fork(watchDeleteReceivableAccount),
     fork(watchCreateReceivableAccountEntry),
+    fork(watchCreateFixedIncomesEntry),
 
     fork(watchGetEntriesGoals),
     fork(watchCreateCategoryGoals),

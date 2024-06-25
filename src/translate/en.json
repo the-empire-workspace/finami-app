@@ -278,5 +278,7 @@
   "pending_incomes_category": "Receivable Account category",
   "fixed_incomes_category": "Fixed Income category",
   "desire_category": "Desire category",
-  "compromise_category": "Compromise category"
+  "compromise_category": "Compromise category",
+  "frequent_incomes": "Frequent Incomes",
+  "variant_incomes": "Variant Incomes"
 }

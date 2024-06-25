@@ -1,5 +1,5 @@
-import {StyleSheet} from 'react-native'
-import {Typos, Elements} from '@theme'
+import { StyleSheet } from 'react-native'
+import { Typos, Elements } from '@theme'
 
 export const localStyles = StyleSheet.create({
   root: {
@@ -17,8 +17,9 @@ export const localStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-end',
   },
-  textAmount:{
-    flexShrink:1
+  textAmount: {
+    flexShrink: 1,
+    alignItems: 'flex-start',
   },
   mainInfo: {
     paddingHorizontal: 20,
@@ -50,7 +51,7 @@ export const localStyles = StyleSheet.create({
   },
   action: {},
   actionUp: {
-    transform: [{rotate: '180deg'}],
+    transform: [{ rotate: '180deg' }],
   },
   rootModal: {
     height: '100%',
@@ -62,12 +63,19 @@ export const localStyles = StyleSheet.create({
   },
   modalTitle: {
     padding: 12,
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 10,
+    paddingBottom: 20,
+    alignItems: 'center',
+    height: 80
   },
   titleCenter: {
     textAlign: 'center',
   },
   modalBody: {
-    gap: 1,
+    gap: 20,
+    padding: 12,
   },
   filterSelection: {
     paddingVertical: 17,
@@ -80,6 +88,48 @@ export const localStyles = StyleSheet.create({
     justifyContent: 'space-between',
     marginTop: 5,
   },
+  overText: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    right: 0,
+    zIndex: 2,
+    width: '100%',
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    display: 'flex',
+  },
+  createButton: {
+    paddingHorizontal: 16,
+    paddingVertical: 6,
+    borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 0.3,
+    height: '100%',
+  },
+  modInput: {
+    flex: 1,
+    textAlign: 'right',
+  },
+  inputContainer: {
+    borderRadius: 5,
+    position: 'relative',
+    borderWidth: 1,
+  },
+  floatLabel: {
+    position: 'absolute',
+    left: -5,
+    top: -15,
+    zIndex: 1,
+    padding: 5,
+  },
+  modDate: {
+    borderWidth: 0,
+    marginBottom: 0,
+  },
 })
 
-export const styles = {...localStyles, ...Typos, ...Elements}
+export const styles = { ...localStyles, ...Typos, ...Elements }

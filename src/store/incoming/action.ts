@@ -18,6 +18,7 @@ import {
   UPDATE_FIXED_INCOME,
   UPDATE_CATEGORY_INCOME,
   UPDATE_RECEIVABLE_ACCOUNT,
+  CREATE_FIXED_INCOMES_ENTRY,
 } from './action-types'
 
 export const createIncome = (payload: any) =>
@@ -52,3 +53,6 @@ export const deleteReceivableAccount = (payload: any) =>
   actionObject(DELETE_RECEIVABLE_ACCOUNT, payload)
 export const createReceivableAccountEntry = (payload: any) =>
   actionObject(CREATE_RECEIVABLE_ACCOUNT_ENTRY, payload)
+
+export const createFixedIncomesEntry = (payload: any) =>
+  actionObject(CREATE_FIXED_INCOMES_ENTRY, payload)

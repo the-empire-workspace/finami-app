@@ -81,6 +81,7 @@ export const egressForm = (translate: any, def: any, colors: any = {}) => [
   {
     element: 'multiple',
     label: translate('frequency'),
+    name: 'frequency',
     labelStyle: {backgroundColor: colors?.background100},
     element_array: [
       {

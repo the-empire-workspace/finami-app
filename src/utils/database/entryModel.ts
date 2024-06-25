@@ -554,9 +554,14 @@ export function* getDebtQuery(
   }
 }
 
-export const getFixedIncomesQuery = async () => {
+export function* getFixedIncomesQuery(
+  currencies: any,
+  currency_id: any,
+  prices: any,
+  user: any,
+): any {
   try {
-    const entries: any = await selectQuery(
+    const entries: any = yield call(selectQuery,
       'SELECT entries.amount,\
       entries.comment,\
       entries.date,\
@@ -599,19 +604,42 @@ export const getFixedIncomesQuery = async () => {
 
     const fixedIncomes = entries.raw()
     for (const income of fixedIncomes) {
-      const entriesIncome: any = await selectQuery(
+      const entriesIncome: any = yield call(selectQuery,
         `${query} AND entries.entry_id = ? ORDER BY entries.date DESC`,
         [income?.id],
       )
-      income.entries = entriesIncome.raw()
+      const queryEntriesEntry = entriesIncome.raw()
+
+      const defaultPrices = yield call(
+        setPrices,
+        prices,
+        currencies,
+        currency_id,
+      )
+
+      const amount =
+        queryEntriesEntry?.reduce((prev: any, next: any) => {
+          const change = next?.prices
+            ? JSON.parse(next?.prices)[String(user?.currency_id)]
+            : defaultPrices[String(next?.currency_id)]
+          if (next?.prices && change)
+            change.op = change.op === 'divide' ? 'multiply' : 'divide'
+
+          const newAmount = change
+            ? operateChange(change?.op, change?.value, next.amount)
+            : next.amount
+          return prev + newAmount
+        }, 0) || 0
+      income.amount = (income?.frecuency_type) ? income?.amount : amount / queryEntriesEntry.length
+      income.entries = queryEntriesEntry
     }
-    return entries.raw()
+    return fixedIncomes
   } catch (error) {
     console.log('error getting basics expenses', error)
   }
 }
 
-export const getFixedIncomeQuery = async (id: any) => {
+export function* getFixedIncomeQuery(id: any, currencies: any, currency_id: any, prices: any, user: any): any {
   try {
     const query =
       'SELECT entries.amount,\
@@ -639,14 +667,39 @@ export const getFixedIncomeQuery = async (id: any) => {
     LEFT JOIN accounts ON accounts.id = entries.account_id\
     LEFT JOIN currencies ON currencies.id = accounts.currency_id'
 
-    const entry: any = await selectQuery(`${query} WHERE entries.id = ?`, [id])
+    const entry: any = yield call(selectQuery, `${query} WHERE entries.id = ?`, [id])
 
     const queryEntry = entry.raw()[0]
-    const entries: any = await selectQuery(
+    const entries: any = yield call(selectQuery,
       `${query} WHERE entries.entry_id = ? ORDER BY entries.date DESC`,
       [id],
     )
-    queryEntry.entries = entries.raw()
+
+    const queryEntriesEntry = entries.raw()
+
+    const defaultPrices = yield call(
+      setPrices,
+      prices,
+      currencies,
+      currency_id,
+    )
+
+    const amount =
+      queryEntriesEntry?.reduce((prev: any, next: any) => {
+        const change = next?.prices
+          ? JSON.parse(next?.prices)[String(user?.currency_id)]
+          : defaultPrices[String(next?.currency_id)]
+        if (next?.prices && change)
+          change.op = change.op === 'divide' ? 'multiply' : 'divide'
+
+        const newAmount = change
+          ? operateChange(change?.op, change?.value, next.amount)
+          : next.amount
+        return prev + newAmount
+      }, 0) || 0
+
+    queryEntry.amount = (queryEntry?.frecuency_type) ? queryEntry?.amount :amount / queryEntriesEntry.length
+    queryEntry.entries = queryEntriesEntry
 
     return queryEntry
   } catch (error) {

@@ -280,5 +280,7 @@
   "pending_incomes_category": "Categoría de cuentas por Cobrar",
   "fixed_incomes_category": "Categoría de Ingresos Fijos",
   "desire_category": "Categoría de Deseo",
-  "compromise_category": "Categoría de Compromiso"
+  "compromise_category": "Categoría de Compromiso",
+  "frequent_incomes": "Ingresos Frecuentes",
+  "variant_incomes": "Ingresos Variables"
 }
