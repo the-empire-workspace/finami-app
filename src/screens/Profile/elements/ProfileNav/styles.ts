@@ -36,6 +36,9 @@ const localStyles = StyleSheet.create({
     justifyContent: 'center',
     textAlign: 'center',
   },
+  comming:{
+    opacity: 0.2
+  }
 })
 
 export const styles = {...localStyles, ...Typos, ...Elements}
