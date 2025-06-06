@@ -11,12 +11,17 @@ export const ThemeContext = createContext({
 })
 
 export const ThemeProvider: FC<any> = (props: any) => {
-  const colorScheme = Appearance.getColorScheme()
-  const [isDark, setIsDark] = useState(colorScheme === 'dark')
+  const [isDark, setIsDark] = useState(Appearance.getColorScheme() === 'dark')
 
   useEffect(() => {
-    setIsDark(colorScheme === 'dark')
-  }, [colorScheme])
+    const subscription = Appearance.addChangeListener(({colorScheme}) => {
+      setIsDark(colorScheme === 'dark')
+    })
+
+    return () => {
+      subscription.remove()
+    }
+  }, [])
 
   const defaultTheme = {
     isDark,
