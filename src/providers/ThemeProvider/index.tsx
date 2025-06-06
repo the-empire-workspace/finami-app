@@ -1,4 +1,3 @@
-import {Appearance} from 'react-native'
 import React, {createContext, useState, useContext, FC, useEffect} from 'react'
 import {Appearance} from 'react-native'
 import {lightColors, darkColors} from '@theme'
