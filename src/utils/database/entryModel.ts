@@ -1,7 +1,8 @@
-import { setPrices } from 'utils/exchangeData'
-import { insertQuery, selectQuery } from './helpers'
-import { operateChange } from 'utils/dataTransform'
-import { call } from 'redux-saga/effects'
+import {debugLog} from 'utils'
+import {setPrices} from 'utils/exchangeData'
+import {insertQuery, selectQuery} from './helpers'
+import {operateChange} from 'utils/dataTransform'
+import {call} from 'redux-saga/effects'
 
 export function* createEntryQuery(
   data: any,
@@ -85,7 +86,7 @@ export function* createEntryQuery(
 
     return entry
   } catch (error) {
-    console.log('error entry creation', error)
+    debugLog('error entry creation', error)
     return null
   }
 }
@@ -116,7 +117,7 @@ export const getEntriesQuery = async () => {
     )
     return entries.raw()
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }
 
@@ -145,7 +146,7 @@ export const getEntriesExpensesQuery = async () => {
     )
     return entries.raw()
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }
 
@@ -172,7 +173,7 @@ export const getBasicsExpensesQuery = async () => {
     )
     return entries.raw()
   } catch (error) {
-    console.log('error getting basics expenses', error)
+    debugLog('error getting basics expenses', error)
   }
 }
 
@@ -212,7 +213,7 @@ export const getEntry = async (id: any) => {
     const entry: any = await selectQuery(`${query} WHERE entries.id = ?`, [id])
     return entry.raw()[0]
   } catch (error) {
-    console.log('error getting entry', error)
+    debugLog('error getting entry', error)
   }
 }
 
@@ -255,7 +256,7 @@ export const getBasicExpenseQuery = async (id: any) => {
 
     return queryEntry
   } catch (error) {
-    console.log('error getting entry', error)
+    debugLog('error getting entry', error)
   }
 }
 
@@ -324,13 +325,13 @@ export const updateEntryQuery = async (id: any, entry: any) => {
     )
     return updateEntry.raw()[0]
   } catch (error) {
-    console.log('error updating entry', error)
+    debugLog('error updating entry', error)
   }
 }
 
 export const updatePostponeEntryQuery = async (id: any, entry: any) => {
   try {
-    const { date } = entry
+    const {date} = entry
 
     const newEntry: any = await insertQuery(
       'UPDATE entries SET date = ? WHERE id = ?',
@@ -342,13 +343,13 @@ export const updatePostponeEntryQuery = async (id: any, entry: any) => {
     )
     return updateEntry.raw()[0]
   } catch (error) {
-    console.log('error updating entry', error)
+    debugLog('error updating entry', error)
   }
 }
 
 export const updateStatusEntryQuery = async (id: any, entry: any) => {
   try {
-    const { date, amount, account } = entry
+    const {date, amount, account} = entry
 
     const newEntry: any = await insertQuery(
       'UPDATE entries SET account_id = ?, date = ?,amount = ?, status = "paid" WHERE id = ?',
@@ -360,7 +361,7 @@ export const updateStatusEntryQuery = async (id: any, entry: any) => {
     )
     return updateEntry.raw()[0]
   } catch (error) {
-    console.log('error updating entry', error)
+    debugLog('error updating entry', error)
   }
 }
 
@@ -391,7 +392,7 @@ export const getAccountEntriesQuery = async (account: any) => {
     const entries: any = await selectQuery(`${query} `, [account])
     return entries.raw()
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }
 
@@ -399,7 +400,7 @@ export const deleteAccountEntryQuery = async (id: any) => {
   try {
     await selectQuery('DELETE FROM entries WHERE account_id = ?', [id])
   } catch (error) {
-    console.log('error deleting entry', error)
+    debugLog('error deleting entry', error)
   }
 }
 
@@ -409,7 +410,7 @@ export const deleteEntryQuery = async (id: any) => {
     await selectQuery('DELETE FROM entries WHERE entry_id = ?', [id])
     return
   } catch (error) {
-    console.log('error deleting entry', error)
+    debugLog('error deleting entry', error)
     return null
   }
 }
@@ -479,7 +480,7 @@ export function* getDebtsQuery(
 
     return queryEntries
   } catch (error) {
-    console.log('error getting debts', error)
+    debugLog('error getting debts', error)
   }
 }
 
@@ -550,7 +551,7 @@ export function* getDebtQuery(
     queryEntry.total_amount = amount
     return queryEntry
   } catch (error) {
-    console.log('error getting entry', error)
+    debugLog('error getting entry', error)
   }
 }
 
@@ -607,7 +608,7 @@ export const getFixedIncomesQuery = async () => {
     }
     return entries.raw()
   } catch (error) {
-    console.log('error getting basics expenses', error)
+    debugLog('error getting basics expenses', error)
   }
 }
 
@@ -650,7 +651,7 @@ export const getFixedIncomeQuery = async (id: any) => {
 
     return queryEntry
   } catch (error) {
-    console.log('error getting entry', error)
+    debugLog('error getting entry', error)
   }
 }
 
@@ -719,7 +720,7 @@ export function* getReceivableAccountsQuery(
 
     return queryEntries
   } catch (error) {
-    console.log('error getting debts', error)
+    debugLog('error getting debts', error)
   }
 }
 
@@ -792,7 +793,7 @@ export function* getReceivableAccountQuery(
     queryEntry.total_amount = amount
     return queryEntry
   } catch (error) {
-    console.log('error getting entry', error)
+    debugLog('error getting entry', error)
   }
 }
 
@@ -822,7 +823,7 @@ export const getEntriesIncomesQuery = async () => {
 
     return entries.raw()
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }
 
@@ -895,7 +896,7 @@ export function* getEntriesGoalsQuery(
 
     return queryEntries
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }
 
@@ -967,6 +968,6 @@ export function* getGoalQuery(
     queryEntry.total_amount = amount
     return queryEntry
   } catch (error) {
-    console.log('error getting entry', error)
+    debugLog('error getting entry', error)
   }
 }

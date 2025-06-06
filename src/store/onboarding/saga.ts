@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {call, put, select, takeLatest} from 'redux-saga/effects'
 import {COMPLETE_ONBOARDING, COMPLETE_ONBOARDING_ASYNC} from './action-types'
 import {
@@ -50,7 +51,7 @@ function* completeOnboardingAsync({payload}: any): any {
     yield put(signin())
     yield put(actionObject(COMPLETE_ONBOARDING_ASYNC, payload))
   } catch (error) {
-    console.log('error getting currencies', error)
+    debugLog('error getting currencies', error)
   }
 }
 

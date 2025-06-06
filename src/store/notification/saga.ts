@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {call, put, select, takeLatest} from 'redux-saga/effects'
 import notifee, {AndroidNotificationSetting} from '@notifee/react-native'
 import {
@@ -28,10 +29,10 @@ function* pushNotificationAsync(): any {
         'POST',
         {token: tokenNotifications},
       )
-      console.log(result)
+      debugLog(result)
     }
   } catch (error) {
-    console.log(error, 'an error happend push notification async')
+    debugLog(error, 'an error happend push notification async')
   }
 }
 
@@ -117,7 +118,7 @@ function* scheduleNotificationsAsync(): any {
       )
     }
   } catch (error) {
-    console.log(error, 'an error happend schedule notification async')
+    debugLog(error, 'an error happend schedule notification async')
   }
 }
 

@@ -6,7 +6,7 @@ export const ThemeContext = createContext({
   isDark: false,
   colors: lightColors,
   setScheme: (scheme: any) => {
-    console.log(scheme)
+    debugLog(scheme)
   },
 })
 

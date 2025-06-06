@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import database from './init'
 import USD from '@assets/img/Iconografia-finami-12.png'
 import EUR from '@assets/img/Iconografia-finami-09.png'
@@ -14,9 +15,9 @@ const createUserTable = async () => {
       notification_token VARCHAR,\
       FOREIGN KEY(currency_id) REFERENCES currencies(id)\
       )`)
-    console.log('user table created')
+    debugLog('user table created')
   } catch (error) {
-    console.log('error creating user table', error)
+    debugLog('error creating user table', error)
   }
 }
 
@@ -33,7 +34,7 @@ const createCurrencyTable = async () => {
       image VARCHAR\
       )`)
 
-    console.log('currency table created')
+    debugLog('currency table created')
     const currencies: any = await selectQuery('SELECT * FROM currencies')
     if (!currencies || currencies?.length === 0) {
       await database.executeSql(
@@ -44,7 +45,7 @@ const createCurrencyTable = async () => {
         'INSERT INTO currencies (symbol, name, type, decimal, image) VALUES (?, ?, ?, ?, ?)',
         ['$', 'USD', 'FIAT', 2, USD],
       )
-      console.log('currencies data created')
+      debugLog('currencies data created')
     }
     const ars = currencies?.raw()?.find((c: any) => c?.symbol === 'ARS')
     if (!ars)
@@ -67,7 +68,7 @@ const createCurrencyTable = async () => {
         ['Bs', 'VES', 'FIAT', 2, USD],
       )
   } catch (error) {
-    console.log('error creating currency table', error)
+    debugLog('error creating currency table', error)
   }
 }
 
@@ -86,9 +87,9 @@ const createAccountTable = async () => {
       FOREIGN KEY(currency_id) REFERENCES currencies(id)\
       )`)
 
-    console.log('account table created')
+    debugLog('account table created')
   } catch (error) {
-    console.log('error creating account table', error)
+    debugLog('error creating account table', error)
   }
 }
 
@@ -101,9 +102,9 @@ const createCategoryTable = async () => {
       type VARCHAR, \
       date DATETIME\
       )`)
-    console.log('category table created')
+    debugLog('category table created')
   } catch (error) {
-    console.log('error creating category table', error)
+    debugLog('error creating category table', error)
   }
 }
 
@@ -140,9 +141,9 @@ const createEntriesTable = async () => {
     if (!findTable)
       await database.executeSql('ALTER TABLE entries ADD COLUMN prices BLOB')
 
-    console.log('entries table created')
+    debugLog('entries table created')
   } catch (error) {
-    console.log('error creating entries table', error)
+    debugLog('error creating entries table', error)
   }
 }
 

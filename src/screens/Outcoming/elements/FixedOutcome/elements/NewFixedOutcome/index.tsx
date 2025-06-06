@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {BackHandler, DynamicForm} from 'components'
 import React, {FC, useEffect, useMemo, useState} from 'react'
 import {translate} from 'utils'
@@ -83,7 +84,7 @@ const NewFixedOutcome: FC = () => {
       setError(translate('date_error'))
       return
     }
-    if (error) console.log(error, 'an error happend here')
+    if (error) debugLog(error, 'an error happend here')
     dispatch(
       createBasicExpenses({...sendValues, category_id: params?.id || null}),
     )

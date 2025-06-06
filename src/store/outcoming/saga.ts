@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {call, put, select, takeLatest} from 'redux-saga/effects'
 import {
   CREATE_BASIC_EXPENSES,
@@ -98,7 +99,7 @@ function* createOutcomeAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend create outcome async')
+    debugLog(error, 'an error happend create outcome async')
   }
 }
 
@@ -205,7 +206,7 @@ function* createBasicExpensesAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend create basic expenses async')
+    debugLog(error, 'an error happend create basic expenses async')
   }
 }
 
@@ -238,7 +239,7 @@ function* createOutcomeCategoryAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend create outcome category async')
+    debugLog(error, 'an error happend create outcome category async')
   }
 }
 
@@ -287,7 +288,7 @@ function* getOutcomesAsync(): any {
     )
     yield put(actionObject(GET_OUTCOMES_ASYNC, dashboardValues))
   } catch (error) {
-    console.log(error, 'an error happend get outcomes async')
+    debugLog(error, 'an error happend get outcomes async')
   }
 }
 
@@ -299,7 +300,7 @@ function* getBasicExpensesAsync(): any {
     const orderMix = orderBy(mix, 'date', 'desc')
     yield put(actionObject(GET_BASIC_EXPENSES_ASYNC, orderMix))
   } catch (error) {
-    console.log(error, 'an error happend get basic expenses async')
+    debugLog(error, 'an error happend get basic expenses async')
   }
 }
 
@@ -308,7 +309,7 @@ function* getBasicExpenseAsync({payload}: any): any {
     const outcome = yield call(getBasicExpenseQuery, payload)
     yield put(actionObject(GET_BASIC_EXPENSE_ASYNC, outcome))
   } catch (error) {
-    console.log(error, 'an error happend get basic expense async')
+    debugLog(error, 'an error happend get basic expense async')
   }
 }
 
@@ -346,7 +347,7 @@ function* updateBasicExpenseAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend update basic expense async')
+    debugLog(error, 'an error happend update basic expense async')
   }
 }
 
@@ -380,7 +381,7 @@ function* updateCategoryOutcomeAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend update category outcome async')
+    debugLog(error, 'an error happend update category outcome async')
   }
 }
 
@@ -404,7 +405,7 @@ function* deleteCategoryOutcomeAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend delete category outcome async')
+    debugLog(error, 'an error happend delete category outcome async')
   }
 }
 
@@ -428,7 +429,7 @@ function* deleteOutcomeAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend delete outcomes')
+    debugLog(error, 'an error happend delete outcomes')
   }
 }
 
@@ -439,7 +440,7 @@ function* getCategoryOutcomeASync({payload}: any): any {
     const category = yield call(getCategoryQuery, payload, prices, user)
     yield put(actionObject(GET_CATEGORY_OUTCOME_ASYNC, category))
   } catch (error) {
-    console.log(error, 'an error happend get category outcomes async')
+    debugLog(error, 'an error happend get category outcomes async')
   }
 }
 
@@ -504,7 +505,7 @@ function* createDebtAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend create debt async')
+    debugLog(error, 'an error happend create debt async')
   }
 }
 
@@ -527,22 +528,27 @@ function* createDebtEntryAsync({payload}: any): any {
 
     const {prices} = yield select(selectIntermitence)
 
-    yield call(createEntryQuery, {
-      account: payload?.account,
-      payment_type: 'general',
-      category_id: payload?.category_id,
-      amount: payload?.amount,
-      payment_concept: payload?.concept,
-      entry_type: 'expense',
-      comment: payload?.comment || '',
-      emissor: payload?.receiver_name || payload?.emissor || '',
-      email: payload?.email || '',
-      phone: payload?.phonenumber || '',
-      date: newDate.getTime(),
-      frecuency_type: payload?.frecuency_type || '',
-      frecuency_time: payload?.frecuency_time || '',
-      entry_id: payload?.entry_id || '',
-    }, currencies, prices)
+    yield call(
+      createEntryQuery,
+      {
+        account: payload?.account,
+        payment_type: 'general',
+        category_id: payload?.category_id,
+        amount: payload?.amount,
+        payment_concept: payload?.concept,
+        entry_type: 'expense',
+        comment: payload?.comment || '',
+        emissor: payload?.receiver_name || payload?.emissor || '',
+        email: payload?.email || '',
+        phone: payload?.phonenumber || '',
+        date: newDate.getTime(),
+        frecuency_type: payload?.frecuency_type || '',
+        frecuency_time: payload?.frecuency_time || '',
+        entry_id: payload?.entry_id || '',
+      },
+      currencies,
+      prices,
+    )
 
     const outcomes = yield call(
       getDebtsQuery,
@@ -560,7 +566,7 @@ function* createDebtEntryAsync({payload}: any): any {
       prices,
       user,
     )
-    
+
     yield put(
       actionObject(CREATE_DEBT_ENTRY_ASYNC, {
         itemsDebts: outcomes,
@@ -572,7 +578,7 @@ function* createDebtEntryAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend create debt entry async')
+    debugLog(error, 'an error happend create debt entry async')
   }
 }
 
@@ -596,7 +602,7 @@ function* getDebtsAsync(): any {
     )
     yield put(actionObject(GET_DEBTS_ASYNC, outcomes))
   } catch (error) {
-    console.log(error, 'an error happend get debts async')
+    debugLog(error, 'an error happend get debts async')
   }
 }
 
@@ -620,7 +626,7 @@ function* getDebtAsync({payload}: any): any {
     )
     yield put(actionObject(GET_DEBT_ASYNC, outcome))
   } catch (error) {
-    console.log(error, 'an error happend get debt async')
+    debugLog(error, 'an error happend get debt async')
   }
 }
 
@@ -680,7 +686,7 @@ function* updateDebtAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend update debt async')
+    debugLog(error, 'an error happend update debt async')
   }
 }
 
@@ -716,7 +722,7 @@ function* deleteDebtAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend delete debt async')
+    debugLog(error, 'an error happend delete debt async')
   }
 }
 

@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {operateChange} from 'utils/dataTransform'
 import {getAccountEntriesQuery} from './entryModel'
 import {insertQuery, selectQuery} from './helpers'
@@ -33,7 +34,7 @@ export const createAccountQuery = async ({
     )
     return account.raw()[0]
   } catch (error) {
-    console.log('error account creation', error)
+    debugLog('error account creation', error)
     return null
   }
 }
@@ -64,7 +65,7 @@ export const updateAccountQuery = async ({
     )
     return account.raw()[0]
   } catch (error) {
-    console.log('error account update', error)
+    debugLog('error account update', error)
   }
 }
 
@@ -134,7 +135,7 @@ export function* getAccountsQuery(
 
     return rawAccounts
   } catch (error) {
-    console.log('error getting accounts', error)
+    debugLog('error getting accounts', error)
     return null
   }
 }
@@ -198,7 +199,7 @@ export function* getAccountQuery(
 
     return account
   } catch (error) {
-    console.log('error getting accounts', error)
+    debugLog('error getting accounts', error)
     return null
   }
 }
@@ -207,7 +208,7 @@ export const deleteAccountQuery = async (id: any) => {
   try {
     return await selectQuery('DELETE FROM accounts WHERE id = ?', [id])
   } catch (error) {
-    console.log('error deleting account', error)
+    debugLog('error deleting account', error)
     return null
   }
 }
