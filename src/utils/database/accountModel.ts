@@ -16,6 +16,13 @@ export const createAccountQuery = async ({
   comments,
 }: any) => {
   try {
+    const exist: any = await selectQuery(
+      'SELECT * FROM accounts WHERE account_number = ?',
+      [account_number],
+    )
+    if (exist?.raw()?.length > 0) {
+      return exist.raw()[0]
+    }
     const newAccount: any = await insertQuery(
       'INSERT INTO accounts (user_id, currency_id, account_name, account_number, account_type, organization, account_comments) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [
@@ -28,6 +35,13 @@ export const createAccountQuery = async ({
         comments,
       ],
     )
+    if (!newAccount) {
+      const accountExist: any = await selectQuery(
+        'SELECT * FROM accounts WHERE account_number = ?',
+        [account_number],
+      )
+      return accountExist.raw()[0]
+    }
     const account: any = await selectQuery(
       'SELECT * FROM accounts where id = ?',
       [newAccount.insertId],

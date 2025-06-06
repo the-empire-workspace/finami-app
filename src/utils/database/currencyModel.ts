@@ -24,30 +24,33 @@ export const getCurrenciesQuery = async () => {
 export const createOrUpdateCurrencyQuery = async (data: any) => {
   try {
     const currency: any = await selectQuery(
-      'SELECT * FROM currencies WHERE symbol = ? AND network = ?',
-      [data.symbol, data?.network],
+      'SELECT * FROM currencies WHERE symbol = ? OR name = ?',
+      [data.symbol, data.name],
     )
     if (currency?.raw()?.length > 0) {
+      const id = currency.raw()[0].id
       await insertQuery(
-        'UPDATE currencies SET name = ?, type = ?, decimal = ?, image = ?, address = ? WHERE symbol = ?',
+        'UPDATE currencies SET symbol = ?, name = ?, type = ?, decimal = ?, image = ?, address = ?, network = ? WHERE id = ?',
         [
+          data.symbol,
           data.name,
           data.type,
           data.decimal,
           data.image,
           data?.address,
-          data.symbol,
+          data?.network,
+          id,
         ],
       )
 
       const newCurrency: any = await selectQuery(
-        'SELECT * FROM currencies WHERE symbol = ? AND network = ?',
-        [data.symbol, data?.network],
+        'SELECT * FROM currencies WHERE id = ?',
+        [id],
       )
 
       return newCurrency.raw()[0]
     }
-    await insertQuery(
+    const res: any = await insertQuery(
       'INSERT INTO currencies (symbol, name, type, decimal, address, network, image) VALUES (?, ?, ?, ?, ?, ?, ?)',
       [
         data.symbol,
@@ -59,10 +62,14 @@ export const createOrUpdateCurrencyQuery = async (data: any) => {
         data.image,
       ],
     )
+    const insertedId = res?.insertId
     const newCurrency: any = await selectQuery(
-      'SELECT * FROM currencies WHERE symbol = ? AND network = ?',
-      [data.symbol, data?.network],
+      'SELECT * FROM currencies WHERE symbol = ? OR name = ?',
+      [data.symbol, data.name],
     )
-    return newCurrency.raw()[0]
-  } catch (error) {}
+    return insertedId ? newCurrency.raw()?.find((c: any) => c.id === insertedId) : newCurrency.raw()[0]
+  } catch (error) {
+    debugLog(error, 'error create/update currency')
+    return null
+  }
 }

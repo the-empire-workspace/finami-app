@@ -52,8 +52,8 @@ const createTables = async () => {
         tx.executeSql(
           `CREATE TABLE IF NOT EXISTS currencies (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            symbol VARCHAR,
-            name VARCHAR,
+            symbol VARCHAR UNIQUE,
+            name VARCHAR UNIQUE,
             type VARCHAR,
             decimal INTEGER,
             address VARCHAR,
@@ -84,7 +84,7 @@ const createTables = async () => {
             user_id INTEGER,
             currency_id INTEGER,
             account_name VARCHAR,
-            account_number VARCHAR,
+            account_number VARCHAR UNIQUE,
             account_type VARCHAR,
             organization VARCHAR,
             account_comments VARCHAR,
