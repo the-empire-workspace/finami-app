@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {call, put, select, takeLatest} from 'redux-saga/effects'
 import {actionObject, getCurrenciesQuery, getExchangeValues} from 'utils'
 import {selectAccount, selectCurrency} from '../selector'
@@ -13,7 +14,7 @@ function* getCurrenciesAsync(): any {
     const currencies = yield call(getCurrenciesQuery)
     yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
   } catch (error) {
-    console.log('error getting currencies', error)
+    debugLog('error getting currencies', error)
   }
 }
 
@@ -49,7 +50,7 @@ function* getDefaultPriceAsync(): any {
         )
     }
   } catch (error) {
-    console.log(error, 'an error happend get default price async')
+    debugLog(error, 'an error happend get default price async')
   }
 }
 

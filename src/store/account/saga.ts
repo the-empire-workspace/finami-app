@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {call, put, select, takeLatest} from 'redux-saga/effects'
 import {
   CREATE_CRYPTO_ACCOUNT,
@@ -79,7 +80,7 @@ function* signInAsync(): any {
     const user = yield call(getUserQuery)
     if (user) yield put(actionObject(SIGNIN_ASYNC, user))
   } catch (error) {
-    console.log('error signing in user', error)
+    debugLog('error signing in user', error)
   }
 }
 
@@ -89,7 +90,7 @@ function* updateLanguageAsync({payload}: any): any {
     yield call(updateUserQuery, {...user, language: payload})
     yield put(actionObject(UPDATE_LANGUAGE_ASYNC, payload))
   } catch (error) {
-    console.log(error, 'an error happend update language async')
+    debugLog(error, 'an error happend update language async')
   }
 }
 
@@ -113,7 +114,7 @@ function* updateUserAsync({payload}: any): any {
     yield put(getEntriesGoals('desire'))
     yield put(getEntriesGoals('compromise'))
   } catch (error) {
-    console.log(error, 'an error happend update user async')
+    debugLog(error, 'an error happend update user async')
   }
 }
 
@@ -142,7 +143,7 @@ function* getTotalBalanceAsync(): any {
     }, 0)
     yield put(actionObject(GET_TOTAL_BALANCE_ASYNC, totalBalance))
   } catch (error) {
-    console.log(error, 'an error happend total balance async')
+    debugLog(error, 'an error happend total balance async')
   }
 }
 
@@ -191,7 +192,7 @@ function* getDashboardValuesAsync(): any {
 
     yield put(actionObject(GET_DASHBOARD_VALUES_ASYNC, dashboardValues))
   } catch (error) {
-    console.log(error, 'an error happend dashboard values')
+    debugLog(error, 'an error happend dashboard values')
   }
 }
 
@@ -200,7 +201,7 @@ export function* getItemAsync({payload}: any): any {
     const item = yield call(getEntry, payload)
     yield put(actionObject(GET_ITEM_ASYNC, item))
   } catch (error) {
-    console.log(error, 'an error happend get item async')
+    debugLog(error, 'an error happend get item async')
   }
 }
 
@@ -219,7 +220,7 @@ export function* getAccountsAsync(): any {
     const accounts = yield call(getAccountsQuery, currencies, prices, user)
     yield put(actionObject(GET_ACCOUNTS_ASYNC, accounts))
   } catch (error) {
-    console.log(error, 'an error happend get accounts async')
+    debugLog(error, 'an error happend get accounts async')
   }
 }
 
@@ -243,7 +244,7 @@ export function* getAccountAsync({payload}: any): any {
     )
     yield put(actionObject(GET_ACCOUNT_ASYNC, account))
   } catch (error) {
-    console.log(error, 'an error happend get account async')
+    debugLog(error, 'an error happend get account async')
   }
 }
 
@@ -284,7 +285,7 @@ export function* createCryptoAccountAsync({payload}: any): any {
         yield put(getTotalBalance())
       }
   } catch (error) {
-    console.log(error, 'an error happend create crypto account async')
+    debugLog(error, 'an error happend create crypto account async')
   }
 }
 
@@ -324,7 +325,7 @@ export function* createCurrencyAccountAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend create currency account async')
+    debugLog(error, 'an error happend create currency account async')
   }
 }
 
@@ -351,7 +352,7 @@ export function* updateAccountAsync({payload}: any): any {
     const accounts = yield call(getAccountsQuery, currencies, prices, user)
     yield put(actionObject(UPDATE_SINGLE_ACCOUNT_ASYNC, {accounts, account}))
   } catch (error) {
-    console.log(error, 'an error happend update account async')
+    debugLog(error, 'an error happend update account async')
   }
 }
 
@@ -374,7 +375,7 @@ export function* deleteSingleAccountAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend delete single account async')
+    debugLog(error, 'an error happend delete single account async')
   }
 }
 
@@ -389,7 +390,7 @@ export function* deleteAccountAsync({payload}: any): any {
       yield put(actionObject(DELETE_ACCOUNT_ASYNC, payload))
     }
   } catch (error) {
-    console.log(error, 'an error happend delete account async')
+    debugLog(error, 'an error happend delete account async')
   }
 }
 
@@ -437,7 +438,7 @@ function* deleteEntryAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend delete entry async')
+    debugLog(error, 'an error happend delete entry async')
   }
 }
 
@@ -499,7 +500,7 @@ function* editEntryAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend edit entry async')
+    debugLog(error, 'an error happend edit entry async')
   }
 }
 
@@ -551,7 +552,7 @@ function* updatePostponeEntryAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend update postpone entry async')
+    debugLog(error, 'an error happend update postpone entry async')
   }
 }
 
@@ -618,7 +619,7 @@ function* updateStatusEntryAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend update status entry async')
+    debugLog(error, 'an error happend update status entry async')
   }
 }
 
@@ -631,7 +632,7 @@ function* sendCommentsAsync({payload}: any): any {
       payload,
     )
   } catch (error) {
-    console.log(error, 'an error happend send comments async')
+    debugLog(error, 'an error happend send comments async')
   }
 }
 export function* watchSignIn() {

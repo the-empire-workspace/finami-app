@@ -1,6 +1,7 @@
+import Config from 'react-native-config'
+import {debugLog} from 'utils'
 import {EvmChain} from '@moralisweb3/common-evm-utils'
 import Moralis from 'moralis'
-import Config from 'react-native-config'
 
 const chains: any = {
   1: EvmChain.ETHEREUM,
@@ -14,7 +15,7 @@ export const getBalancesMoralis = async (address: any, chain: any) => {
       apiKey: Config.MORALIS_API_KEY,
     })
   } catch (error) {
-    console.log(error, 'an error happend get balances moralis')
+    debugLog(error, 'an error happend get balances moralis')
   }
 
   const selectChain = chains[chain] || EvmChain.ETHEREUM

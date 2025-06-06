@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {BackHandler, DynamicForm} from 'components'
 import React, {FC, useEffect, useMemo, useState} from 'react'
 import {translate} from 'utils'
@@ -83,7 +84,7 @@ const NewFixedIncome: FC = () => {
       setError(translate('date_error'))
       return
     }
-    if (error) console.log(error, 'an error happend')
+    if (error) debugLog(error, 'an error happend')
     dispatch(
       createFixedIncomes({...sendValues, category_id: params?.id || null}),
     )

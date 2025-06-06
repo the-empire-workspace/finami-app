@@ -6,17 +6,22 @@ export const ThemeContext = createContext({
   isDark: false,
   colors: lightColors,
   setScheme: (scheme: any) => {
-    console.log(scheme)
+    debugLog(scheme)
   },
 })
 
 export const ThemeProvider: FC<any> = (props: any) => {
-  const colorScheme = Appearance.getColorScheme()
-  const [isDark, setIsDark] = useState(colorScheme === 'dark')
+  const [isDark, setIsDark] = useState(Appearance.getColorScheme() === 'dark')
 
   useEffect(() => {
-    setIsDark(colorScheme === 'dark')
-  }, [colorScheme])
+    const subscription = Appearance.addChangeListener(({colorScheme}) => {
+      setIsDark(colorScheme === 'dark')
+    })
+
+    return () => {
+      subscription.remove()
+    }
+  }, [])
 
   const defaultTheme = {
     isDark,

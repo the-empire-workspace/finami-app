@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {call, put, select, takeLatest} from 'redux-saga/effects'
 import {
   CREATE_FIXED_INCOMES,
@@ -97,7 +98,7 @@ function* createIncomeAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend create income async')
+    debugLog(error, 'an error happend create income async')
   }
 }
 
@@ -205,7 +206,7 @@ function* createFixedIncomesAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'error')
+    debugLog(error, 'error')
   }
 }
 
@@ -238,7 +239,7 @@ function* createIncomeCategoryAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend create income category async')
+    debugLog(error, 'an error happend create income category async')
   }
 }
 
@@ -289,7 +290,7 @@ function* getIncomesAsync(): any {
     )
     yield put(actionObject(GET_INCOMES_ASYNC, dashboardValues))
   } catch (error) {
-    console.log(error, 'an error happend get incomes async')
+    debugLog(error, 'an error happend get incomes async')
   }
 }
 
@@ -301,7 +302,7 @@ function* getFixedIncomesAsync(): any {
     const orderMix = orderBy(mix, 'date', 'desc')
     yield put(actionObject(GET_FIXED_INCOMES_ASYNC, orderMix))
   } catch (error) {
-    console.log(error, 'an error happend get fixed incomes async')
+    debugLog(error, 'an error happend get fixed incomes async')
   }
 }
 
@@ -310,7 +311,7 @@ function* getFixedIncomeAsync({payload}: any): any {
     const outcome = yield call(getFixedIncomeQuery, payload)
     yield put(actionObject(GET_FIXED_INCOME_ASYNC, outcome))
   } catch (error) {
-    console.log(error, 'an error happend get fixed income async')
+    debugLog(error, 'an error happend get fixed income async')
   }
 }
 
@@ -348,7 +349,7 @@ function* updateFixedIncomeAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend update fixes incomes async')
+    debugLog(error, 'an error happend update fixes incomes async')
   }
 }
 
@@ -381,7 +382,7 @@ function* updateCategoryIncomeAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend update category income async')
+    debugLog(error, 'an error happend update category income async')
   }
 }
 
@@ -405,7 +406,7 @@ function* deleteCategoryIncomeAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend delete category income async')
+    debugLog(error, 'an error happend delete category income async')
   }
 }
 
@@ -429,7 +430,7 @@ function* deleteIncomeAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend delete incomes')
+    debugLog(error, 'an error happend delete incomes')
   }
 }
 
@@ -440,7 +441,7 @@ function* getCategoryIncomeASync({payload}: any): any {
     const category = yield call(getCategoryQuery, payload, prices, user)
     yield put(actionObject(GET_CATEGORY_INCOME_ASYNC, category))
   } catch (error) {
-    console.log(error, 'an error happend get category incomes async')
+    debugLog(error, 'an error happend get category incomes async')
   }
 }
 
@@ -502,7 +503,7 @@ function* createReceivableAccountAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend create receivable account async')
+    debugLog(error, 'an error happend create receivable account async')
   }
 }
 
@@ -573,7 +574,7 @@ function* createReceivableAccountEntryAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend create receivable account query')
+    debugLog(error, 'an error happend create receivable account query')
   }
 }
 
@@ -596,7 +597,7 @@ function* getReceivableAccountsAsync(): any {
     )
     yield put(actionObject(GET_RECEIVABLE_ACCOUNTS_ASYNC, outcomes))
   } catch (error) {
-    console.log(error, 'an error happend getting receivable account query')
+    debugLog(error, 'an error happend getting receivable account query')
   }
 }
 
@@ -620,7 +621,7 @@ function* getReceivableAccountAsync({payload}: any): any {
     )
     yield put(actionObject(GET_RECEIVABLE_ACCOUNT_ASYNC, outcome))
   } catch (error) {
-    console.log(error, 'an error happend getting a receivable account async')
+    debugLog(error, 'an error happend getting a receivable account async')
   }
 }
 
@@ -679,7 +680,7 @@ function* updateReceivableAccountAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend update a recevable account async')
+    debugLog(error, 'an error happend update a recevable account async')
   }
 }
 
@@ -715,7 +716,7 @@ function* deleteReceivableAccountAsync({payload}: any): any {
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    console.log(error, 'an error happend delete a receivable account async')
+    debugLog(error, 'an error happend delete a receivable account async')
   }
 }
 

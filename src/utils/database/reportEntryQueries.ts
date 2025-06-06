@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {selectQuery} from './helpers'
 
 export const getLastMovementsQuery = async (from: any, to: any) => {
@@ -29,7 +30,7 @@ export const getLastMovementsQuery = async (from: any, to: any) => {
     )
     return entries.raw()
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }
 
@@ -62,7 +63,7 @@ export const getReportCurrenciesQuery = async (from: any, to: any, id: any) => {
     )
     return entries.raw()
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }
 
@@ -95,7 +96,7 @@ export const getReportAccountQuery = async (from: any, to: any, id: any) => {
     )
     return entries.raw()
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }
 
@@ -128,7 +129,7 @@ export const getIncomesReportQuery = async (from: any, to: any) => {
     )
     return entries.raw()
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }
 
@@ -161,7 +162,7 @@ export const getExpensesReportQuery = async (from: any, to: any) => {
     )
     return entries.raw()
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }
 
@@ -194,7 +195,7 @@ export const getReportFromEntryQuery = async (from: any, to: any, id: any) => {
     )
     return entries.raw()
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }
 
@@ -231,7 +232,7 @@ export const getReportFromEntryCategoryQuery = async (
     )
     return entries.raw()
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }
 
@@ -264,6 +265,6 @@ export const getGoalsReportQuery = async (from: any, to: any, type: any) => {
     )
     return entries.raw()
   } catch (error) {
-    console.log('error getting entries', error)
+    debugLog('error getting entries', error)
   }
 }

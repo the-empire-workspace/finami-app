@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {insertQuery, selectQuery} from './helpers'
 
 export const getCurrenciesQuery = async () => {
@@ -15,7 +16,7 @@ export const getCurrenciesQuery = async () => {
     )
     return currencies.raw()
   } catch (error) {
-    console.log(error, 'an error happend get currencies')
+    debugLog(error, 'an error happend get currencies')
     return null
   }
 }

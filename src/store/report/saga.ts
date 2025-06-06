@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {call, select, takeLatest} from 'redux-saga/effects'
 
 import {
@@ -261,7 +262,7 @@ function* generateReportAsync({payload}: any): any {
       {showOpenWithDialog: true},
     )
   } catch (error) {
-    console.log(error, 'an error happend generate report')
+    debugLog(error, 'an error happend generate report')
   }
 }
 

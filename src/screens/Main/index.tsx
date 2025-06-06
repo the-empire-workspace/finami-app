@@ -49,16 +49,21 @@ const Main: FC = () => {
   }, [])
 
   useEffect(() => {
-    emitter.addListener('check_notification', checkInformation)
+    const listener = emitter.addListener('check_notification', checkInformation)
 
-    notifee.onForegroundEvent(({ type, detail }) => {
+    const unsubscribe = notifee.onForegroundEvent(({ type, detail }) => {
       switch (type) {
         case EventType.PRESS:
           checkInformation(detail?.notification?.id || '')
           break
       }
     })
-  }, [dashboardValues])
+
+    return () => {
+      listener.remove()
+      unsubscribe()
+    }
+  }, [checkInformation])
 
   useEffect(() => {
     if (!isAuth) {

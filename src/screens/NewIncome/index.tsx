@@ -32,11 +32,13 @@ const NewIncome: FC = () => {
   }, [])
 
   useEffect(() => {
-    setValues((prev: any) => ({
-      ...prev,
-      account: {value: String(accounts[0]?.id)},
-    }))
-  }, [])
+    if (accounts?.length) {
+      setValues((prev: any) => ({
+        ...prev,
+        account: {value: String(accounts[0]?.id)},
+      }))
+    }
+  }, [accounts])
 
   const createData = () => {
     const sendValues = Object.keys(values).reduce((prev: any, next: any) => {

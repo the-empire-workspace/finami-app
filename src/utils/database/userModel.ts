@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {insertQuery, selectQuery} from './helpers'
 
 export const createUserQuery = async ({username, picture, currency}: any) => {
@@ -11,7 +12,7 @@ export const createUserQuery = async ({username, picture, currency}: any) => {
     ])
     return user.raw()[0]
   } catch (error) {
-    console.log(error, 'an error happend create user')
+    debugLog(error, 'an error happend create user')
     return null
   }
 }
@@ -33,7 +34,7 @@ export const updateUserQuery = async ({
     ])
     return user.raw()[0]
   } catch (error) {
-    console.log(error, 'an error happend update user')
+    debugLog(error, 'an error happend update user')
     return null
   }
 }
@@ -45,7 +46,7 @@ export const getUserQuery = async () => {
     )
     return users.raw()[0]
   } catch (error) {
-    console.log(error, 'an error happend get user')
+    debugLog(error, 'an error happend get user')
     return null
   }
 }
