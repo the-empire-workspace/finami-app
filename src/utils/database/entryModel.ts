@@ -860,7 +860,8 @@ export function* getEntriesGoalsQuery(
 
     const entries: any = yield call(
       selectQuery,
-      `${query} WHERE entries.payment_type = "${type}" AND entries.category_id IS NULL ORDER BY entries.date DESC`,
+      `${query} WHERE entries.payment_type = ? AND entries.category_id IS NULL ORDER BY entries.date DESC`,
+      [type],
     )
     const queryEntries = entries.raw()
 
