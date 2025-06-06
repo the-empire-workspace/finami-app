@@ -121,7 +121,8 @@ export const getIncomeCategoriesQuery = async () => {
 export const getGoalsCategoriesQuery = async (type: any) => {
   try {
     const categories: any = await selectQuery(
-      `SELECT * FROM categories WHERE type = "${type}"`,
+      'SELECT * FROM categories WHERE type = ?',
+      [type],
     )
     return categories.raw()
   } catch (error) {
