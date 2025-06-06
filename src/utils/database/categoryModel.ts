@@ -47,7 +47,6 @@ export const updateCategoryQuery = async (data: any, id: any) => {
 export const deleteCategoryQuery = async (id: any) => {
   try {
     await selectQuery('DELETE FROM categories WHERE id = ?', [id])
-    await selectQuery('DELETE FROM entries WHERE category_id = ?', [id])
     return true
   } catch (error) {
     debugLog('error deleting category', error)

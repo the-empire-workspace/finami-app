@@ -34,10 +34,12 @@ const TruncateCategoriesTable = async () => {
 
 const TruncateTables = async () => {
   try {
-    await TruncateEntriesTable()
-    await TruncateAccountsTable()
-    await TruncateUsersTable()
-    await TruncateCategoriesTable()
+    await database.transaction(async tx => {
+      await tx.executeSql('DELETE FROM entries')
+      await tx.executeSql('DELETE FROM accounts')
+      await tx.executeSql('DELETE FROM users')
+      await tx.executeSql('DELETE FROM categories')
+    })
   } catch (error) {
     debugLog(error, 'an error happend truncate tables')
   }

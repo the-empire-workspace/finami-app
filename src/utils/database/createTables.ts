@@ -13,7 +13,7 @@ const createUserTable = async () => {
       picture VARCHAR, \
       language VARCHAR,\
       notification_token VARCHAR,\
-      FOREIGN KEY(currency_id) REFERENCES currencies(id)\
+      FOREIGN KEY(currency_id) REFERENCES currencies(id) ON DELETE CASCADE\
       )`)
     debugLog('user table created')
   } catch (error) {
@@ -83,8 +83,8 @@ const createAccountTable = async () => {
       account_type VARCHAR,\
       organization VARCHAR,\
       account_comments VARCHAR,\
-      FOREIGN KEY(user_id) REFERENCES users(id)\
-      FOREIGN KEY(currency_id) REFERENCES currencies(id)\
+      FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE\
+      FOREIGN KEY(currency_id) REFERENCES currencies(id) ON DELETE CASCADE\
       )`)
 
     debugLog('account table created')
@@ -129,9 +129,9 @@ const createEntriesTable = async () => {
       status_level VARCHAR,\
       date DATETIME,\
       limit_date DATETIME,\
-      FOREIGN KEY(account_id) REFERENCES accounts(id)
-      FOREIGN KEY(entry_id) REFERENCES entries(id)
-      FOREIGN KEY(category_id) REFERENCES categories(id)
+      FOREIGN KEY(account_id) REFERENCES accounts(id) ON DELETE CASCADE
+      FOREIGN KEY(entry_id) REFERENCES entries(id) ON DELETE CASCADE
+      FOREIGN KEY(category_id) REFERENCES categories(id) ON DELETE CASCADE
       )`)
     const data: any = await selectQuery('PRAGMA table_info(entries)')
     const tables = data?.raw()

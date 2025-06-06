@@ -43,7 +43,6 @@ import {
   createAccountQuery,
   createEntryQuery,
   createOrUpdateCurrencyQuery,
-  deleteAccountEntryQuery,
   deleteAccountQuery,
   deleteEntryQuery,
   getAccountQuery,
@@ -358,7 +357,6 @@ export function* updateAccountAsync({payload}: any): any {
 
 export function* deleteSingleAccountAsync({payload}: any): any {
   try {
-    yield call(deleteAccountEntryQuery, payload)
     yield call(deleteAccountQuery, payload)
 
     let {currencies} = yield select(selectCurrency)

@@ -407,7 +407,6 @@ export const deleteAccountEntryQuery = async (id: any) => {
 export const deleteEntryQuery = async (id: any) => {
   try {
     await selectQuery('DELETE FROM entries WHERE id = ?', [id])
-    await selectQuery('DELETE FROM entries WHERE entry_id = ?', [id])
     return
   } catch (error) {
     debugLog('error deleting entry', error)
