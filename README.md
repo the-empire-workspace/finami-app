@@ -38,3 +38,13 @@ Esta es una aplicación desarrollada en React Native.
    ```
 
 ¡Ahora deberías ver la aplicación Finami-App ejecutándose en tu emulador o dispositivo en modo de desarrollo!
+
+## Variables de entorno
+
+Define en un archivo `.env` en la raíz del proyecto las siguientes variables, necesarias para desarrollo y producción:
+
+```dotenv
+FINAMI_API=<url de la API de Finami>
+QUICKNODE_API_KEY=<clave de QuickNode>
+MORALIS_API_KEY=<clave de Moralis>
+```
