@@ -41,6 +41,7 @@
     "moralis": "^2.23.1",
     "react": "18.2.0",
     "react-native": "0.72.6",
+    "react-native-config": "1.4.6",
     "react-native-date-picker": "^4.3.3",
     "react-native-file-viewer": "^2.1.5",
     "react-native-fs": "^2.20.0",
@@ -92,5 +93,6 @@
   },
   "browser": {
     "assert": false
-  }
+  },
+  "packageManager": "yarn@4.9.2"
 }

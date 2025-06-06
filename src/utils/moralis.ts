@@ -1,3 +1,4 @@
+import Config from 'react-native-config'
 import {debugLog} from 'utils'
 import {EvmChain} from '@moralisweb3/common-evm-utils'
 import Moralis from 'moralis'
@@ -11,8 +12,7 @@ const chains: any = {
 export const getBalancesMoralis = async (address: any, chain: any) => {
   try {
     await Moralis.start({
-      apiKey:
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJub25jZSI6Ijk2MDYxODNiLTJjY2MtNDEzNi1iNDZjLTM1MzA3ZDM4MWFkOSIsIm9yZ0lkIjoiMzYyMzk4IiwidXNlcklkIjoiMzcyNDUyIiwidHlwZUlkIjoiNDljZjg4MzAtZDhlNC00M2YzLWJhZmMtYWUwOTIyOGZjNTAwIiwidHlwZSI6IlBST0pFQ1QiLCJpYXQiOjE2OTgzOTQ2NDgsImV4cCI6NDg1NDE1NDY0OH0.7JAYwASXpRWH52YqhhBFm7lDC3SUoB6SorcCqXz0Ywo',
+      apiKey: Config.MORALIS_API_KEY,
     })
   } catch (error) {
     debugLog(error, 'an error happend get balances moralis')
