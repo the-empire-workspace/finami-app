@@ -387,7 +387,7 @@ export const getAccountEntriesQuery = async (account: any) => {
     LEFT JOIN accounts ON accounts.id = entries.account_id\
     LEFT JOIN currencies ON currencies.id = accounts.currency_id\
     LEFT JOIN (SELECT id, payment_type as type FROM entries) as entry ON entries.entry_id = entry.id\
-    WHERE entries.payment_type = "general" AND accounts.account_name = ? ORDER BY entries.date DESC'
+    WHERE entries.payment_type = "general" AND entries.account_id = ? ORDER BY entries.date DESC'
 
     const entries: any = await selectQuery(`${query} `, [account])
     return entries.raw()
