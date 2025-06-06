@@ -87,7 +87,7 @@ export function* getAccountsQuery(
       THEN -entries.amount WHEN entries.entry_type = 'goals' \
       AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL)\
       THEN -entries.amount ELSE 0 END) as total_amount FROM accounts \
-      LEFT JOIN (SELECT id, name as currency_name, symbol as currency_symbol, decimal FROM currencies) cur ON cur.id = accounts.currency_id LEFT JOIN entries ON entries.account_id = accounts.id GROUP BY account_name",
+      LEFT JOIN (SELECT id, name as currency_name, symbol as currency_symbol, decimal FROM currencies) cur ON cur.id = accounts.currency_id LEFT JOIN entries ON entries.account_id = accounts.id GROUP BY accounts.id",
     )
 
     const rawAccounts = accounts.raw()
@@ -107,7 +107,7 @@ export function* getAccountsQuery(
         )
         const entries = yield call(
           getAccountEntriesQuery,
-          account?.account_name,
+          account?.id,
         )
 
         const currenciesAccount = entries.reduce((prev: any, next: any) => {
@@ -157,13 +157,13 @@ export function* getAccountQuery(
       AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL) \
       THEN -entries.amount WHEN entries.entry_type = 'goals' \
       AND entries.payment_type = 'general' AND (NOT entries.status = 'pending' OR entries.status IS NULL)\
-      THEN -entries.amount ELSE 0 END) as total_amount FROM accounts LEFT JOIN (SELECT id, name as currency_name, symbol as currency_symbol, decimal FROM currencies) cur ON cur.id = accounts.currency_id LEFT JOIN entries ON entries.account_id = accounts.id WHERE accounts.id = ? GROUP BY account_name",
+      THEN -entries.amount ELSE 0 END) as total_amount FROM accounts LEFT JOIN (SELECT id, name as currency_name, symbol as currency_symbol, decimal FROM currencies) cur ON cur.id = accounts.currency_id LEFT JOIN entries ON entries.account_id = accounts.id WHERE accounts.id = ? GROUP BY accounts.id",
       [id],
     )
 
     const account = accounts.raw()[0]
 
-    const entries = yield call(getAccountEntriesQuery, account?.account_name)
+    const entries = yield call(getAccountEntriesQuery, account?.id)
 
     account.entries = entries
     if (account?.account_type === 'wallet') {
