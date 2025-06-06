@@ -1,5 +1,5 @@
 import {debugLog} from 'utils'
-import {call, put, select, takeLatest} from 'redux-saga/effects'
+import {call, put, select, takeLatest, SelectEffect, CallEffect, PutEffect} from 'redux-saga/effects'
 import {
   CREATE_FIXED_INCOMES,
   CREATE_FIXED_INCOMES_ASYNC,
@@ -8,6 +8,7 @@ import {
   CREATE_RECEIVABLE_ACCOUNT_ENTRY,
   CREATE_RECEIVABLE_ACCOUNT_ENTRY_ASYNC,
   CREATE_INCOME,
+  CREATE_INCOME_ASYNC,
   CREATE_INCOME_CATEGORY,
   CREATE_INCOME_CATEGORY_ASYNC,
   DELETE_CATEGORY_INCOME,
@@ -33,760 +34,446 @@ import {
   UPDATE_RECEIVABLE_ACCOUNT,
   UPDATE_RECEIVABLE_ACCOUNT_ASYNC,
 } from './action-types'
-import {
-  actionObject,
-  createCategoryQuery,
-  createEntryQuery,
-  deleteCategoryQuery,
-  deleteEntryQuery,
-  getFixedIncomeQuery,
-  getFixedIncomesQuery,
-  getCategoryQuery,
-  getCurrenciesQuery,
-  getReceivableAccountQuery,
-  getReceivableAccountsQuery,
-  getEntriesIncomesQuery,
-  getIncomeCategoriesQuery,
-  orderBy,
-  updateCategoryQuery,
-  updateEntryQuery,
-  operateChange,
-  getLastDate,
-} from 'utils'
+import {actionObject} from 'utils'
 import {getDashboardValues, getIncomes, getTotalBalance} from 'store/actions'
 import {selectAccount, selectCurrency, selectIntermitence} from 'store/selector'
 import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
+import {useEntryService} from 'services'
+import {useCategoryService} from 'services'
+import {useAccountService} from 'services'
+import {useCurrencyService} from 'services'
+import {Entry, Category, Account, EntryCreateParams, EntryUpdateParams, CategoryCreateParams} from 'utils/database/models'
 
-function* createIncomeAsync({payload}: any): any {
-  try {
-    const newDate = new Date()
-    const today = new Date()
-    if (payload?.date) {
-      newDate.setDate(payload?.date?.getDate())
-      newDate.setMonth(payload?.date?.getMonth())
-      newDate.setFullYear(payload?.date?.getFullYear())
-    }
+// Types
+interface Payload {
+  id?: number
+  account_id?: number
+  category_id?: number
+  amount?: number
+  concept?: string
+  comment?: string
+  type?: string
+  date?: Date
+  limit_date?: Date
+  status_level?: string
+  entry_id?: number
+  name?: string
+  payment_type?: string
+  payment_concept?: string
+  [key: string]: any
+}
 
-    let {currencies} = yield select(selectCurrency)
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
+interface Action {
+  payload: Payload
+  type: string
+}
 
-    const {prices} = yield select(selectIntermitence)
-
-    yield call(
-      createEntryQuery,
-      {
-        account: payload?.account,
-        payment_type: 'general',
-        amount: payload?.amount,
-        payment_concept: payload?.concept,
-        entry_type: 'income',
-        comment: payload?.comments || '',
-        emissor: payload?.receiver_name || '',
-        email: payload?.email || '',
-        phone: payload?.phonenumber || '',
-        date: newDate.getTime(),
-        status: today < newDate ? 'pending' : 'paid',
-      },
-      currencies,
-      prices,
-    )
-
-    yield put(getIncomes())
-    yield put(getDashboardValues())
-    yield put(getTotalBalance())
-  } catch (error) {
-    debugLog(error, 'an error happend create income async')
+interface AccountState {
+  user: {
+    currency_id?: number
+    [key: string]: any
   }
 }
 
-function* createFixedIncomesAsync({payload}: any): any {
+interface CurrencyState {
+  currencies: any[]
+  [key: string]: any
+}
+
+interface IntermitenceState {
+  prices: any
+  [key: string]: any
+}
+
+// Helper functions
+function* handleError(error: Error, context: string): Generator<never, void, unknown> {
+  debugLog(error, `Error in ${context}`)
+}
+
+// Service calls
+function* fetchEntries(type: string): Generator<CallEffect<Entry[]>, Entry[], Entry[]> {
+  const entryService = useEntryService()
+  return yield call([entryService, entryService.fetchEntries], {entry_type: type})
+}
+
+function* fetchEntry(id: number): Generator<CallEffect<Entry | null>, Entry, Entry> {
+  const entryService = useEntryService()
+  const entry = yield call([entryService, entryService.fetchEntry], id)
+  if (!entry) throw new Error(`Entry with id ${id} not found`)
+  return entry
+}
+
+function* createEntry(params: EntryCreateParams): Generator<CallEffect<Entry | null>, Entry, Entry> {
+  const entryService = useEntryService()
+  const entry = yield call([entryService, entryService.createNewEntry], params)
+  if (!entry) throw new Error('Failed to create entry')
+  return entry
+}
+
+function* updateEntry(params: EntryUpdateParams): Generator<CallEffect<Entry | null>, Entry, Entry> {
+  const entryService = useEntryService()
+  const entry = yield call([entryService, entryService.updateExistingEntry], params)
+  if (!entry) throw new Error(`Failed to update entry with id ${params.id}`)
+  return entry
+}
+
+function* removeEntry(id: number): Generator<CallEffect<boolean>, void, void> {
+  const entryService = useEntryService()
+  yield call([entryService, entryService.removeEntry], id)
+}
+
+function* fetchCategory(id: number): Generator<CallEffect<Category | null>, Category, Category> {
+  const categoryService = useCategoryService()
+  const category = yield call([categoryService, categoryService.fetchCategory], id)
+  if (!category) throw new Error(`Category with id ${id} not found`)
+  return category
+}
+
+function* createCategory(params: CategoryCreateParams): Generator<CallEffect<Category | null>, Category, Category> {
+  const categoryService = useCategoryService()
+  const category = yield call([categoryService, categoryService.createNewCategory], params)
+  if (!category) throw new Error('Failed to create category')
+  return category
+}
+
+function* updateCategory(params: CategoryCreateParams & {id: number}): Generator<CallEffect<Category | null>, Category, Category> {
+  const categoryService = useCategoryService()
+  const category = yield call([categoryService, categoryService.updateExistingCategory], params)
+  if (!category) throw new Error(`Failed to update category with id ${params.id}`)
+  return category
+}
+
+function* removeCategory(id: number): Generator<CallEffect<boolean>, void, void> {
+  const categoryService = useCategoryService()
+  yield call([categoryService, categoryService.removeCategory], id)
+}
+
+function* fetchAccounts(currencies: any[], prices: any, user: any): Generator<CallEffect<Account[]>, Account[], Account[]> {
+  const accountService = useAccountService()
+  return yield call([accountService, accountService.fetchAccounts], currencies, prices, user)
+}
+
+function* fetchAccount(currencies: any[], id: number, prices: any, user: any): Generator<CallEffect<Account | null>, Account, Account> {
+  const accountService = useAccountService()
+  const account = yield call([accountService, accountService.fetchAccount], currencies, id, prices, user)
+  if (!account) throw new Error(`Account with id ${id} not found`)
+  return account
+}
+
+function* createAccount(params: any): Generator<CallEffect<Account | null>, Account, Account> {
+  const accountService = useAccountService()
+  const account = yield call([accountService, accountService.createNewAccount], params)
+  if (!account) throw new Error('Failed to create account')
+  return account
+}
+
+function* updateAccount(params: any): Generator<CallEffect<Account | null>, Account, Account> {
+  const accountService = useAccountService()
+  const account = yield call([accountService, accountService.updateExistingAccount], params)
+  if (!account) throw new Error(`Failed to update account with id ${params.id}`)
+  return account
+}
+
+// Saga functions
+function* getIncomesAsync(): Generator<CallEffect<Entry[]> | PutEffect, void, Entry[]> {
   try {
-    const newDate = new Date()
+    const entries = yield* fetchEntries('income')
+    yield put(actionObject(GET_INCOMES_ASYNC, entries))
+  } catch (error) {
+    yield* handleError(error as Error, 'getIncomesAsync')
+  }
+}
 
-    const {prices} = yield select(selectIntermitence)
-    const {user} = yield select(selectAccount)
-    if (payload?.date) {
-      newDate.setDate(payload?.date?.getDate())
-      newDate.setMonth(payload?.date?.getMonth())
-      newDate.setFullYear(payload?.date?.getFullYear())
-    }
-    let {currencies} = yield select(selectCurrency)
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-
-    const newEntry = yield call(
-      createEntryQuery,
-      {
-        account: payload?.account,
-        payment_type: 'fixed_incomes',
-        category_id: payload?.category_id,
-        amount: payload?.amount,
-        payment_concept: payload?.concept,
-        entry_type: 'income',
-        comment: payload?.comment || '',
-        emissor: payload?.receiver_name || '',
-        email: payload?.email || '',
-        phone: payload?.phonenumber || '',
-        date: newDate.getTime(),
-        frecuency_type: payload?.frecuency_type || '',
-        frecuency_time: payload?.frecuency_time || '',
-      },
-      currencies,
-      prices,
-    )
-
-    const entryDate = (payload?.date || new Date())?.getTime()
-    const date = new Date().getTime()
-    const entryData: any = {
-      entry_id: newEntry?.id,
-      category_id: payload?.category_id,
-      account: payload?.account,
-      payment_type: 'general',
-      amount: payload?.amount,
-      payment_concept: payload?.concept,
+function* createIncomeAsync({payload}: Action): Generator<CallEffect<Entry | null> | PutEffect, void, Entry> {
+  try {
+    const entry = yield* createEntry({
+      account_id: payload.account_id || 0,
+      category_id: payload.category_id || 0,
+      payment_type: payload.payment_type || 'cash',
+      amount: payload.amount || 0,
       entry_type: 'income',
-      comment: payload?.comment || '',
-      emissor: payload?.receiver_name || '',
-      status: 'pending',
-      email: payload?.email || '',
-      phone: payload?.phonenumber || '',
-      date: newDate.getTime(),
-    }
-
-    let postEntryData = null
-
-    if (entryDate < date) {
-      entryData.status = 'paid'
-      postEntryData = {
-        entry_id: newEntry?.id,
-        category_id: payload?.category_id,
-        account: payload?.account,
-        payment_type: 'general',
-        amount: payload?.amount,
-        payment_concept: payload?.concept,
-        entry_type: 'income',
-        comment: payload?.comment || '',
-        emissor: payload?.receiver_name || '',
-        email: payload?.email || '',
-        phone: payload?.phonenumber || '',
-        date: getLastDate(newEntry, entryData).getTime(),
-        status: 'pending',
-      }
-    }
-
-    yield call(createEntryQuery, entryData, currencies, prices)
-    if (postEntryData)
-      yield call(createEntryQuery, postEntryData, currencies, prices)
-
-    const outcomes = yield call(getFixedIncomesQuery)
-    const categories = yield call(getIncomeCategoriesQuery)
-    const mix = [...outcomes, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
-    if (payload?.category_id) {
-      const category = yield call(
-        getCategoryQuery,
-        payload?.category_id,
-        prices,
-        user,
-      )
-      yield put(actionObject(GET_CATEGORY_INCOME_ASYNC, category))
-    }
-    yield put(
-      actionObject(CREATE_FIXED_INCOMES_ASYNC, {
-        itemsFixed: orderMix,
-      }),
-    )
-
-    yield put(getIncomes())
+      payment_concept: payload.payment_concept || 'income',
+      comment: payload.comment,
+      date: new Date(payload.date || Date.now()),
+      limit_date: payload.limit_date
+    })
+    yield put(actionObject(CREATE_INCOME_ASYNC, entry))
     yield put(getDashboardValues())
     yield put(getTotalBalance())
+    yield put(getIncomes())
   } catch (error) {
-    debugLog(error, 'error')
+    yield* handleError(error as Error, 'createIncomeAsync')
   }
 }
 
-function* createIncomeCategoryAsync({payload}: any): any {
+function* createIncomeCategoryAsync({payload}: Action): Generator<CallEffect<Category | null> | PutEffect, void, Category> {
   try {
-    const newDate = new Date()
-    if (payload?.date) {
-      newDate.setDate(payload?.date?.getDate())
-      newDate.setMonth(payload?.date?.getMonth())
-      newDate.setFullYear(payload?.date?.getFullYear())
-    }
-    yield call(createCategoryQuery, {
-      name: payload?.concept,
+    const category = yield* createCategory({
+      name: payload.name || 'New Income Category',
       type: 'income',
-      comment: payload?.comment || '',
-      date: newDate.getTime(),
+      comment: payload.comment || '',
+      date: new Date(payload.date || Date.now())
     })
-
-    const outcomes = yield call(getFixedIncomesQuery)
-    const categories = yield call(getIncomeCategoriesQuery)
-    const mix = [...outcomes, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
-
-    yield put(
-      actionObject(CREATE_INCOME_CATEGORY_ASYNC, {
-        itemsFixed: orderMix,
-      }),
-    )
-    yield put(getIncomes())
-    yield put(getDashboardValues())
-    yield put(getTotalBalance())
+    yield put(actionObject(CREATE_INCOME_CATEGORY_ASYNC, category))
   } catch (error) {
-    debugLog(error, 'an error happend create income category async')
+    yield* handleError(error as Error, 'createIncomeCategoryAsync')
   }
 }
 
-function* getIncomesAsync(): any {
+function* getFixedIncomesAsync(): Generator<CallEffect<Entry[]> | PutEffect, void, Entry[]> {
   try {
-    const {defaultPrices} = yield select(selectCurrency)
-    const incomes = yield call(getEntriesIncomesQuery)
-    const {user} = yield select(selectAccount)
-
-    const actualDate = new Date()
-    const dashboardValues = incomes?.reduce(
-      (values: any, entry: any) => {
-        const change = entry?.prices
-          ? JSON.parse(entry?.prices)[String(user?.currency_id)]
-          : defaultPrices[String(entry?.currency_id)]
-        if (entry?.prices && change)
-          change.op = change.op === 'divide' ? 'multiply' : 'divide'
-
-        const amount = change
-          ? operateChange(change?.op, change?.value, entry.amount)
-          : entry.amount
-        if (entry?.payment_type === 'general') values.entries.push(entry)
-        const date = new Date(entry?.date)
-        if (
-          date.getMonth() === actualDate.getMonth() &&
-          entry.payment_type !== 'fixed_incomes' &&
-          entry.payment_type !== 'receivable_account' &&
-          entry?.status !== 'pending'
-        )
-          values.monthIncome += amount
-
-        if (entry.payment_type === 'fixed_incomes') {
-          values.fixedIncome += amount
-          return values
-        }
-
-        if (entry?.payment_type === 'receivable_account') {
-          values.receivableAccount += amount
-          return values
-        }
-        if (entry?.type_entry === 'receivable_account') {
-          values.receivableAccount -= amount
-          return values
-        }
-        return values
-      },
-      {monthIncome: 0, fixedIncome: 0, receivableAccount: 0, entries: []},
-    )
-    yield put(actionObject(GET_INCOMES_ASYNC, dashboardValues))
+    const entries = yield* fetchEntries('fixed_incomes')
+    yield put(actionObject(GET_FIXED_INCOMES_ASYNC, entries))
   } catch (error) {
-    debugLog(error, 'an error happend get incomes async')
+    yield* handleError(error as Error, 'getFixedIncomesAsync')
   }
 }
 
-function* getFixedIncomesAsync(): any {
+function* createFixedIncomesAsync({payload}: Action): Generator<CallEffect<Entry | null> | PutEffect, void, Entry> {
   try {
-    const outcomes = yield call(getFixedIncomesQuery)
-    const categories = yield call(getIncomeCategoriesQuery)
-    const mix = [...outcomes, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
-    yield put(actionObject(GET_FIXED_INCOMES_ASYNC, orderMix))
-  } catch (error) {
-    debugLog(error, 'an error happend get fixed incomes async')
-  }
-}
-
-function* getFixedIncomeAsync({payload}: any): any {
-  try {
-    const outcome = yield call(getFixedIncomeQuery, payload)
-    yield put(actionObject(GET_FIXED_INCOME_ASYNC, outcome))
-  } catch (error) {
-    debugLog(error, 'an error happend get fixed income async')
-  }
-}
-
-function* updateFixedIncomeAsync({payload}: any): any {
-  try {
-    yield call(updateEntryQuery, payload?.id, {
-      account: payload?.account,
-      payment_type: 'fixed_incomes',
-      amount: payload?.amount,
-      payment_concept: payload?.concept,
-      entry_type: 'income',
-      comment: payload?.comment || '',
-      emissor: payload?.receiver_name || '',
-      email: payload?.email || '',
-      phone: payload?.phonenumber || '',
-      date: (payload?.date || new Date())?.getTime(),
-      frecuency_type: payload?.frecuency_type || '',
-      frecuency_time: payload?.frecuency_time || '',
+    const entry = yield* createEntry({
+      account_id: payload.account_id || 0,
+      category_id: payload.category_id || 0,
+      payment_type: payload.payment_type || 'cash',
+      amount: payload.amount || 0,
+      entry_type: 'fixed_incomes',
+      payment_concept: payload.payment_concept || 'fixed_income',
+      comment: payload.comment,
+      date: new Date(payload.date || Date.now()),
+      limit_date: payload.limit_date
     })
-
-    const outcomes = yield call(getFixedIncomesQuery)
-    const categories = yield call(getIncomeCategoriesQuery)
-    const mix = [...outcomes, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
-
-    const item = yield call(getFixedIncomeQuery, payload?.id)
-
-    yield put(
-      actionObject(UPDATE_FIXED_INCOME_ASYNC, {
-        itemsFixed: orderMix,
-        item: item,
-      }),
-    )
-    yield put(getIncomes())
+    yield put(actionObject(CREATE_FIXED_INCOMES_ASYNC, entry))
     yield put(getDashboardValues())
     yield put(getTotalBalance())
+    yield put(getIncomes())
   } catch (error) {
-    debugLog(error, 'an error happend update fixes incomes async')
+    yield* handleError(error as Error, 'createFixedIncomesAsync')
   }
 }
 
-function* updateCategoryIncomeAsync({payload}: any): any {
+function* getReceivableAccountsAsync(): Generator<SelectEffect | CallEffect<Account[]> | PutEffect, void, Account[]> {
   try {
-    yield call(
-      updateCategoryQuery,
-      {
-        name: payload?.concept,
-        comment: payload?.comment || '',
-      },
-      payload?.id,
-    )
-    const {prices} = yield select(selectIntermitence)
-    const {user} = yield select(selectAccount)
+    const currencyState = (yield select(selectCurrency)) as unknown as CurrencyState
+    const intermitenceState = (yield select(selectIntermitence)) as unknown as IntermitenceState
+    const accountState = (yield select(selectAccount)) as unknown as AccountState
+    const {currencies} = currencyState
+    const {prices} = intermitenceState
+    const {user} = accountState
 
-    const outcomes = yield call(getFixedIncomesQuery)
-    const categories = yield call(getIncomeCategoriesQuery)
-    const mix = [...outcomes, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
-    const category = yield call(getCategoryQuery, payload?.id, prices, user)
-
-    yield put(
-      actionObject(CREATE_INCOME_CATEGORY_ASYNC, {
-        itemsFixed: orderMix,
-        item: category,
-      }),
-    )
-    yield put(getIncomes())
-    yield put(getDashboardValues())
-    yield put(getTotalBalance())
+    const accounts = yield* fetchAccounts(currencies, prices, user)
+    yield put(actionObject(GET_RECEIVABLE_ACCOUNTS_ASYNC, accounts))
   } catch (error) {
-    debugLog(error, 'an error happend update category income async')
+    yield* handleError(error as Error, 'getReceivableAccountsAsync')
   }
 }
 
-function* deleteCategoryIncomeAsync({payload}: any): any {
+function* createReceivableAccountAsync({payload}: Action): Generator<CallEffect<Account | null> | PutEffect, void, Account> {
   try {
-    yield call(deleteCategoryQuery, payload)
-
-    const outcomes = yield call(getFixedIncomesQuery)
-    const categories = yield call(getIncomeCategoriesQuery)
-    const mix = [...outcomes, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
-
-    yield put(
-      actionObject(DELETE_INCOME_ASYNC, {
-        itemsFixed: orderMix,
-        item: {},
-      }),
-    )
-
-    yield put(getIncomes())
+    const account = yield* createAccount({
+      ...payload,
+      account_type: 'receivable'
+    })
+    yield put(actionObject(CREATE_RECEIVABLE_ACCOUNT_ASYNC, account))
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    debugLog(error, 'an error happend delete category income async')
+    yield* handleError(error as Error, 'createReceivableAccountAsync')
   }
 }
 
-function* deleteIncomeAsync({payload}: any): any {
+function* getFixedIncomeAsync({payload}: Action): Generator<CallEffect<Entry | null> | PutEffect, void, Entry> {
   try {
-    yield call(deleteEntryQuery, payload)
+    const entry = yield* fetchEntry(payload.id || 0)
+    yield put(actionObject(GET_FIXED_INCOME_ASYNC, entry))
+  } catch (error) {
+    yield* handleError(error as Error, 'getFixedIncomeAsync')
+  }
+}
 
-    const outcomes = yield call(getFixedIncomesQuery)
-    const categories = yield call(getIncomeCategoriesQuery)
-    const mix = [...outcomes, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
-
-    yield put(
-      actionObject(DELETE_INCOME_ASYNC, {
-        itemsFixed: orderMix,
-        item: {},
-      }),
-    )
-
+function* updateFixedIncomeAsync({payload}: Action): Generator<CallEffect<Entry | null> | PutEffect, void, Entry> {
+  try {
+    const entry = yield* updateEntry({
+      id: payload.id || 0,
+      account_id: payload.account_id || 0,
+      category_id: payload.category_id || 0,
+      payment_type: payload.payment_type || 'cash',
+      amount: payload.amount || 0,
+      entry_type: 'fixed_incomes',
+      payment_concept: payload.payment_concept || 'fixed_income',
+      comment: payload.comment,
+      date: new Date(payload.date || Date.now()),
+      limit_date: payload.limit_date
+    })
+    yield put(actionObject(UPDATE_FIXED_INCOME_ASYNC, entry))
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
     yield put(getIncomes())
+  } catch (error) {
+    yield* handleError(error as Error, 'updateFixedIncomeAsync')
+  }
+}
+
+function* updateCategoryIncomeAsync({payload}: Action): Generator<CallEffect<Category | null> | PutEffect, void, Category> {
+  try {
+    const category = yield* updateCategory({
+      id: payload.id || 0,
+      name: payload.name || 'Updated Income Category',
+      type: 'income',
+      comment: payload.comment || '',
+      date: new Date(payload.date || Date.now())
+    })
+    yield put(actionObject(UPDATE_CATEGORY_INCOME, category))
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    debugLog(error, 'an error happend delete incomes')
+    yield* handleError(error as Error, 'updateCategoryIncomeAsync')
   }
 }
 
-function* getCategoryIncomeASync({payload}: any): any {
+function* deleteCategoryIncomeAsync({payload}: Action): Generator<CallEffect<boolean> | PutEffect, void, void> {
   try {
-    const {prices} = yield select(selectIntermitence)
-    const {user} = yield select(selectAccount)
-    const category = yield call(getCategoryQuery, payload, prices, user)
+    yield* removeCategory(payload.id || 0)
+    yield put(actionObject(DELETE_INCOME_ASYNC, payload))
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
+  } catch (error) {
+    yield* handleError(error as Error, 'deleteCategoryIncomeAsync')
+  }
+}
+
+function* deleteIncomeAsync({payload}: Action): Generator<CallEffect<boolean> | PutEffect, void, void> {
+  try {
+    yield* removeEntry(payload.id || 0)
+    yield put(actionObject(DELETE_INCOME_ASYNC, payload))
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
+  } catch (error) {
+    yield* handleError(error as Error, 'deleteIncomeAsync')
+  }
+}
+
+function* getCategoryIncomeAsync({payload}: Action): Generator<CallEffect<Category | null> | PutEffect, void, Category> {
+  try {
+    const category = yield* fetchCategory(payload.id || 0)
     yield put(actionObject(GET_CATEGORY_INCOME_ASYNC, category))
   } catch (error) {
-    debugLog(error, 'an error happend get category incomes async')
+    yield* handleError(error as Error, 'getCategoryIncomeAsync')
   }
 }
 
-function* createReceivableAccountAsync({payload}: any): any {
+function* createReceivableAccountEntryAsync({payload}: Action): Generator<CallEffect<Entry | null> | PutEffect, void, Entry> {
   try {
-    const {prices} = yield select(selectIntermitence)
-    const newDate = new Date()
-    if (payload?.date) {
-      newDate.setDate(payload?.date?.getDate())
-      newDate.setMonth(payload?.date?.getMonth())
-      newDate.setFullYear(payload?.date?.getFullYear())
-    }
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-
-    yield call(
-      createEntryQuery,
-      {
-        account: payload?.account || '',
-        payment_type: 'receivable_account',
-        category_id: payload?.category_id,
-        amount: payload?.amount,
-        payment_concept: payload?.concept,
-        entry_type: 'income',
-        comment: payload?.comment || '',
-        emissor: payload?.receiver_name || '',
-        email: payload?.email || '',
-        phone: payload?.phonenumber || '',
-        date: newDate.getTime(),
-        limit_date: (payload?.limit_date || new Date())?.getTime(),
-        status_level: payload?.status_level || '',
-        frecuency_type: payload?.frecuency_type || '',
-        frecuency_time: payload?.frecuency_time || '',
-      },
-      currencies,
-      prices,
-    )
-
-    const outcomes = yield call(
-      getReceivableAccountsQuery,
-      currencies,
-      user?.currency_id,
-      prices,
-      user,
-    )
-
-    yield put(
-      actionObject(CREATE_RECEIVABLE_ACCOUNT_ASYNC, {
-        itemsReceivableAccounts: outcomes,
-      }),
-    )
-
-    yield put(getIncomes())
-    yield put(getDashboardValues())
-    yield put(getTotalBalance())
-  } catch (error) {
-    debugLog(error, 'an error happend create receivable account async')
-  }
-}
-
-function* createReceivableAccountEntryAsync({payload}: any): any {
-  try {
-    const newDate = new Date()
-
-    const {prices} = yield select(selectIntermitence)
-    if (payload?.date) {
-      newDate.setDate(payload?.date?.getDate())
-      newDate.setMonth(payload?.date?.getMonth())
-      newDate.setFullYear(payload?.date?.getFullYear())
-    }
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-    yield call(
-      createEntryQuery,
-      {
-        account: payload?.account,
-        payment_type: 'general',
-        category_id: payload?.category_id,
-        amount: payload?.amount,
-        payment_concept: payload?.concept,
-        entry_type: 'income',
-        comment: payload?.comment || '',
-        emissor: payload?.receiver_name || payload?.emissor || '',
-        email: payload?.email || '',
-        phone: payload?.phonenumber || '',
-        date: newDate.getTime(),
-        frecuency_type: payload?.frecuency_type || '',
-        frecuency_time: payload?.frecuency_time || '',
-        entry_id: payload?.entry_id || '',
-      },
-      currencies,
-      prices,
-    )
-
-    const outcomes = yield call(
-      getReceivableAccountsQuery,
-      currencies,
-      user?.currency_id,
-      prices,
-      user,
-    )
-
-    const item = yield call(
-      getReceivableAccountQuery,
-      payload?.id,
-      currencies,
-      user?.currency_id,
-      prices,
-      user,
-    )
-
-    yield put(
-      actionObject(CREATE_RECEIVABLE_ACCOUNT_ENTRY_ASYNC, {
-        itemsReceivableAccounts: outcomes,
-        item: item,
-      }),
-    )
-
-    yield put(getIncomes())
-    yield put(getDashboardValues())
-    yield put(getTotalBalance())
-  } catch (error) {
-    debugLog(error, 'an error happend create receivable account query')
-  }
-}
-
-function* getReceivableAccountsAsync(): any {
-  try {
-    const {prices} = yield select(selectIntermitence)
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-    const outcomes = yield call(
-      getReceivableAccountsQuery,
-      currencies,
-      user?.currency_id,
-      prices,
-      user,
-    )
-    yield put(actionObject(GET_RECEIVABLE_ACCOUNTS_ASYNC, outcomes))
-  } catch (error) {
-    debugLog(error, 'an error happend getting receivable account query')
-  }
-}
-
-function* getReceivableAccountAsync({payload}: any): any {
-  try {
-    const {prices} = yield select(selectIntermitence)
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-    const outcome = yield call(
-      getReceivableAccountQuery,
-      payload,
-      currencies,
-      user?.currency_id,
-      prices,
-      user,
-    )
-    yield put(actionObject(GET_RECEIVABLE_ACCOUNT_ASYNC, outcome))
-  } catch (error) {
-    debugLog(error, 'an error happend getting a receivable account async')
-  }
-}
-
-function* updateReceivableAccountAsync({payload}: any): any {
-  try {
-    const {prices} = yield select(selectIntermitence)
-    yield call(updateEntryQuery, payload?.id, {
-      account: payload?.account,
-      payment_type: 'receivable_account',
-      amount: payload?.amount,
-      payment_concept: payload?.concept,
-      entry_type: 'income',
-      comment: payload?.comment || '',
-      emissor: payload?.receiver_name || '',
-      email: payload?.email || '',
-      phone: payload?.phonenumber || '',
-      date: (payload?.date || new Date())?.getTime(),
-      limit_date: (payload?.limit_date || new Date())?.getTime(),
-      status_level: payload?.status_level || '',
-      frecuency_type: payload?.frecuency_type || '',
-      frecuency_time: payload?.frecuency_time || '',
+    const entry = yield* createEntry({
+      account_id: payload.account_id || 0,
+      category_id: payload.category_id || 0,
+      payment_type: payload.payment_type || 'cash',
+      amount: payload.amount || 0,
+      entry_type: 'receivable_account',
+      payment_concept: payload.payment_concept || 'receivable',
+      comment: payload.comment,
+      date: new Date(payload.date || Date.now()),
+      limit_date: payload.limit_date
     })
-
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-
-    const outcomes = yield call(
-      getReceivableAccountsQuery,
-      currencies,
-      user?.currency_id,
-      prices,
-      user,
-    )
-
-    const item = yield call(
-      getReceivableAccountQuery,
-      payload?.id,
-      currencies,
-      user?.currency_id,
-      prices,
-      user,
-    )
-
-    yield put(
-      actionObject(UPDATE_RECEIVABLE_ACCOUNT_ASYNC, {
-        itemsReceivableAccounts: outcomes,
-        item: item,
-      }),
-    )
-    yield put(getIncomes())
+    yield put(actionObject(CREATE_RECEIVABLE_ACCOUNT_ENTRY_ASYNC, entry))
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    debugLog(error, 'an error happend update a recevable account async')
+    yield* handleError(error as Error, 'createReceivableAccountEntryAsync')
   }
 }
 
-function* deleteReceivableAccountAsync({payload}: any): any {
+function* getReceivableAccountAsync({payload}: Action): Generator<SelectEffect | CallEffect<Account | null> | PutEffect, void, Account> {
   try {
-    const {prices} = yield select(selectIntermitence)
-    yield call(deleteEntryQuery, payload)
+    const currencyState = (yield select(selectCurrency)) as unknown as CurrencyState
+    const intermitenceState = (yield select(selectIntermitence)) as unknown as IntermitenceState
+    const accountState = (yield select(selectAccount)) as unknown as AccountState
+    const {currencies} = currencyState
+    const {prices} = intermitenceState
+    const {user} = accountState
 
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-
-    const outcomes = yield call(
-      getReceivableAccountsQuery,
-      currencies,
-      user?.currency_id,
-      prices,
-      user,
-    )
-
-    yield put(
-      actionObject(DELETE_RECEIVABLE_ACCOUNT_ASYNC, {
-        itemsReceivableAccounts: outcomes,
-        item: {},
-      }),
-    )
-
-    yield put(getIncomes())
-    yield put(getDashboardValues())
-    yield put(getTotalBalance())
+    const account = yield* fetchAccount(currencies, payload.id || 0, prices, user)
+    yield put(actionObject(GET_RECEIVABLE_ACCOUNT_ASYNC, account))
   } catch (error) {
-    debugLog(error, 'an error happend delete a receivable account async')
+    yield* handleError(error as Error, 'getReceivableAccountAsync')
   }
 }
 
-export function* watchCreateIncome() {
-  yield takeLatest(CREATE_INCOME, createIncomeAsync)
+function* updateReceivableAccountAsync({payload}: Action): Generator<CallEffect<Account | null> | PutEffect, void, Account> {
+  try {
+    const account = yield* updateAccount({
+      id: payload.id || 0,
+      ...payload,
+      account_type: 'receivable'
+    })
+    yield put(actionObject(UPDATE_RECEIVABLE_ACCOUNT_ASYNC, account))
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
+  } catch (error) {
+    yield* handleError(error as Error, 'updateReceivableAccountAsync')
+  }
 }
 
-export function* watchGetIncomes() {
+// Watchers
+export function* watchGetIncomes(): Generator {
   yield takeLatest(GET_INCOMES, getIncomesAsync)
 }
 
-export function* watchCreateFixedIncomes() {
-  yield takeLatest(CREATE_FIXED_INCOMES, createFixedIncomesAsync)
+export function* watchCreateIncome(): Generator {
+  yield takeLatest(CREATE_INCOME, createIncomeAsync)
 }
 
-export function* watchCreateIncomeCategory() {
+export function* watchCreateIncomeCategory(): Generator {
   yield takeLatest(CREATE_INCOME_CATEGORY, createIncomeCategoryAsync)
 }
 
-export function* watchGetFixedIncomes() {
+export function* watchGetFixedIncomes(): Generator {
   yield takeLatest(GET_FIXED_INCOMES, getFixedIncomesAsync)
 }
 
-export function* watchGetFixedIncome() {
-  yield takeLatest(GET_FIXED_INCOME, getFixedIncomeAsync)
+export function* watchCreateFixedIncomes(): Generator {
+  yield takeLatest(CREATE_FIXED_INCOMES, createFixedIncomesAsync)
 }
 
-export function* watchUpdateFixedIncome() {
-  yield takeLatest(UPDATE_FIXED_INCOME, updateFixedIncomeAsync)
-}
-
-export function* watchDeleteIncome() {
-  yield takeLatest(DELETE_INCOME, deleteIncomeAsync)
-}
-
-export function* watchGetCategoryIncome() {
-  yield takeLatest(GET_CATEGORY_INCOME, getCategoryIncomeASync)
-}
-
-export function* watchUpdateCategoryIncome() {
-  yield takeLatest(UPDATE_CATEGORY_INCOME, updateCategoryIncomeAsync)
-}
-
-export function* watchDeleteCategoryIncome() {
-  yield takeLatest(DELETE_CATEGORY_INCOME, deleteCategoryIncomeAsync)
-}
-
-export function* watchGetReceivableAccounts() {
+export function* watchGetReceivableAccounts(): Generator {
   yield takeLatest(GET_RECEIVABLE_ACCOUNTS, getReceivableAccountsAsync)
 }
 
-export function* watchGetReceivableAccount() {
-  yield takeLatest(GET_RECEIVABLE_ACCOUNT, getReceivableAccountAsync)
-}
-
-export function* watchUpdateReceivableAccount() {
-  yield takeLatest(UPDATE_RECEIVABLE_ACCOUNT, updateReceivableAccountAsync)
-}
-
-export function* watchDeleteReceivableAccount() {
-  yield takeLatest(DELETE_RECEIVABLE_ACCOUNT, deleteReceivableAccountAsync)
-}
-
-export function* watchCreateReceivableAccount() {
+export function* watchCreateReceivableAccount(): Generator {
   yield takeLatest(CREATE_RECEIVABLE_ACCOUNT, createReceivableAccountAsync)
 }
 
-export function* watchCreateReceivableAccountEntry() {
-  yield takeLatest(
-    CREATE_RECEIVABLE_ACCOUNT_ENTRY,
-    createReceivableAccountEntryAsync,
-  )
+export function* watchGetFixedIncome(): Generator {
+  yield takeLatest(GET_FIXED_INCOME, getFixedIncomeAsync)
+}
+
+export function* watchUpdateFixedIncome(): Generator {
+  yield takeLatest(UPDATE_FIXED_INCOME, updateFixedIncomeAsync)
+}
+
+export function* watchUpdateCategoryIncome(): Generator {
+  yield takeLatest(UPDATE_CATEGORY_INCOME, updateCategoryIncomeAsync)
+}
+
+export function* watchDeleteCategoryIncome(): Generator {
+  yield takeLatest(DELETE_CATEGORY_INCOME, deleteCategoryIncomeAsync)
+}
+
+export function* watchDeleteIncome(): Generator {
+  yield takeLatest(DELETE_INCOME, deleteIncomeAsync)
+}
+
+export function* watchGetCategoryIncome(): Generator {
+  yield takeLatest(GET_CATEGORY_INCOME, getCategoryIncomeAsync)
+}
+
+export function* watchCreateReceivableAccountEntry(): Generator {
+  yield takeLatest(CREATE_RECEIVABLE_ACCOUNT_ENTRY, createReceivableAccountEntryAsync)
+}
+
+export function* watchGetReceivableAccount(): Generator {
+  yield takeLatest(GET_RECEIVABLE_ACCOUNT, getReceivableAccountAsync)
+}
+
+export function* watchUpdateReceivableAccount(): Generator {
+  yield takeLatest(UPDATE_RECEIVABLE_ACCOUNT, updateReceivableAccountAsync)
 }

@@ -21,7 +21,6 @@ import {
   watchSignIn,
   watchUpdateLanguage,
   watchUpdatePostponeEntry,
-  watchUpdateSingleAccount,
   watchUpdateStatusEntry,
   watchUpdateUser,
 } from './account/saga'
@@ -52,7 +51,6 @@ import {
   watchCreateReceivableAccountEntry,
   watchDeleteCategoryIncome,
   watchDeleteIncome,
-  watchDeleteReceivableAccount,
   watchGetCategoryIncome,
   watchGetFixedIncome,
   watchGetFixedIncomes,
@@ -73,11 +71,9 @@ import {
   watchGetEntriesGoals,
   watchGetGoal,
   watchUpdateCategoryGoal,
-  watchUpdateGoals,
+  watchUpdateGoal,
 } from './goals/saga'
 import {watchGenerateReport} from './report/saga'
-
-//import {watchGetIncoming, watchSetIncoming} from './incoming/saga'
 
 export default function* rootSaga() {
   yield all([
@@ -94,11 +90,8 @@ export default function* rootSaga() {
     fork(watchCreateCryptoAccount),
     fork(watchCreateCurrencyAccount),
     fork(watchDeleteAccount),
-    /* fork(watchGetIncoming),
-    fork(watchSetIncoming), */
     fork(watchGetAccount),
     fork(watchDeleteSingleAccount),
-    fork(watchUpdateSingleAccount),
     fork(watchUpdateLanguage),
     fork(watchCreateOutcome),
     fork(watchGetOutcomes),
@@ -133,7 +126,6 @@ export default function* rootSaga() {
     fork(watchGetReceivableAccount),
     fork(watchCreateReceivableAccount),
     fork(watchUpdateReceivableAccount),
-    fork(watchDeleteReceivableAccount),
     fork(watchCreateReceivableAccountEntry),
 
     fork(watchGetEntriesGoals),
@@ -142,7 +134,7 @@ export default function* rootSaga() {
     fork(watchGetGoal),
     fork(watchGetCategoryGoal),
     fork(watchCreateGoalsEntry),
-    fork(watchUpdateGoals),
+    fork(watchUpdateGoal),
     fork(watchUpdateCategoryGoal),
     fork(watchDeleteGoal),
     fork(watchDeleteCategoryGoal),

@@ -1,15 +1,15 @@
-import React, {FC, useMemo} from 'react'
-import {Text, View} from 'react-native'
-import {translate} from 'utils'
-import {styles} from './styles'
-import {useTheme} from 'providers'
-import {useSelector} from 'react-redux'
+import React, { FC, useMemo } from 'react'
+import { Text, View } from 'react-native'
+import { translate } from 'utils'
+import { styles } from './styles'
+import { useTheme } from 'providers'
+import { useSelector } from 'react-redux'
 
-const InfoBanner: FC<any> = ({values}) => {
-  const {colors} = useTheme()
+const InfoBanner: FC<any> = ({ values }) => {
+  const { colors } = useTheme()
 
-  const {currencies} = useSelector((state: any) => state.currency)
-  const {user} = useSelector((state: any) => state.account)
+  const { currencies } = useSelector((state: any) => state.currency)
+  const { user } = useSelector((state: any) => state.account)
 
   const currency = useMemo(() => {
     return currencies.find((c: any) => c.id === user?.currency_id)
@@ -22,14 +22,14 @@ const InfoBanner: FC<any> = ({values}) => {
           style={[
             styles.strongBody,
             styles.centerText,
-            {color: values?.month1?.color},
+            { color: values?.month1?.color },
           ]}>
           {currency?.symbol || ''}{' '}
           {values?.month1?.value?.toLocaleString('en-US', {
             maximumFractionDigits: currency?.decimal,
           })}
         </Text>
-        <Text style={[styles.extraSmallBody, {color: colors.typography}]}>
+        <Text style={[styles.extraSmallBody, { color: colors.typography }]}>
           {translate(values?.month1?.label)}
         </Text>
       </View>
@@ -39,14 +39,14 @@ const InfoBanner: FC<any> = ({values}) => {
             style={[
               styles.strongBody,
               styles.centerText,
-              {color: values?.month2?.color},
+              { color: values?.month2?.color },
             ]}>
             {currency?.symbol || ''}{' '}
             {values?.month2?.value?.toLocaleString('en-US', {
               maximumFractionDigits: currency?.decimal,
             })}
           </Text>
-          <Text style={[styles.extraSmallBody, {color: colors.typography}]}>
+          <Text style={[styles.extraSmallBody, { color: colors.typography }]}>
             {translate(values?.month2?.label)}
           </Text>
         </View>
@@ -56,14 +56,14 @@ const InfoBanner: FC<any> = ({values}) => {
           style={[
             styles.strongBody,
             styles.centerText,
-            {color: colors.states.caution},
+            { color: colors.states.caution },
           ]}>
           {currency?.symbol || ''}{' '}
           {values?.month3?.value?.toLocaleString('en-US', {
             maximumFractionDigits: currency?.decimal,
           })}
         </Text>
-        <Text style={[styles.extraSmallBody, {color: colors.typography}]}>
+        <Text style={[styles.extraSmallBody, { color: colors.typography }]}>
           {translate(values?.month3?.label)}
         </Text>
       </View>

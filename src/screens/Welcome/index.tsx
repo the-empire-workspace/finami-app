@@ -1,16 +1,16 @@
-import React, {FC, useEffect, useRef} from 'react'
-import {View, Image} from 'react-native'
-import {useTheme} from '@providers'
-import {styles} from './styles'
+import React, { FC, useEffect, useRef } from 'react'
+import { View, Image } from 'react-native'
+import { useTheme } from '@providers'
+import { styles } from './styles'
 import Logo from '@assets/img/logo.png'
-import {useNavigation} from '@react-navigation/native'
-import {createTables} from '@utils'
-import {useSelector} from 'react-redux'
+import { useNavigation } from '@react-navigation/native'
+import { useSelector } from 'react-redux'
+import { initializeDatabase } from 'utils/database/config/databaseConfig'
 
 const Welcome: FC = () => {
   const router: any = useNavigation()
-  const {isAuth} = useSelector((state: any) => state.account)
-  const {colors} = useTheme()
+  const { isAuth } = useSelector((state: any) => state.account)
+  const { colors } = useTheme()
   const timeout = useRef<any>(null)
 
   useEffect(() => {
@@ -25,12 +25,12 @@ const Welcome: FC = () => {
   }, [isAuth])
 
   useEffect(() => {
-    createTables()
+    initializeDatabase()
   }, [])
 
   return (
     <View
-      style={[styles.root, {backgroundColor: colors.background100}]}
+      style={[styles.root, { backgroundColor: colors.background100 }]}
       onTouchStart={() => router.navigate('StepOne')}>
       <Image style={styles.logo} source={Logo} />
     </View>

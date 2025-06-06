@@ -10,24 +10,16 @@ import {getLanguage, translate} from 'utils'
 const ItemElement: FC<Props> = ({item, type}) => {
   const {colors} = useTheme()
 
-  const {user} = useSelector((state: any) => state.account)
-  const {currencies} = useSelector((state: any) => state.currency)
-
   const router: any = useNavigation()
 
   const language = getLanguage()
 
-  const currency = useMemo(() => {
-    return currencies.find(
-      (c: any) => c.id === (item?.currency_id || user?.currency_id),
-    )
-  }, [currencies?.length, item?.currency_id, user?.currency_id])
   const checkAction = () => {
     switch (type) {
       case 'basic_expenses':
         if (item?.payment_concept)
           router.navigate('detailFixesOutcome', {id: item?.id, type: 'outcome'})
-        if (item?.name)
+        if (item?.entry_type === 'category')
           router.navigate('detailFixesOutcome', {
             id: item?.id,
             type: 'category',
@@ -36,7 +28,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
       case 'fixed_incomes':
         if (item?.payment_concept)
           router.navigate('detailFixesIncome', {id: item?.id, type: 'income'})
-        if (item?.name)
+        if (item?.entry_type === 'category')
           router.navigate('detailFixesIncome', {
             id: item?.id,
             type: 'category',
@@ -53,13 +45,13 @@ const ItemElement: FC<Props> = ({item, type}) => {
           router.navigate('detailGoals', {
             id: item?.id,
             type: 'goals',
-            itemType: item?.type || item.payment_type,
+            itemType: item?.entry_type || item.payment_type,
           })
-        if (item?.name)
+        if (item?.entry_type === 'category')
           router.navigate('detailGoals', {
             id: item?.id,
             type: 'category',
-            itemType: item?.type || item.payment_type,
+            itemType: item?.entry_type || item.payment_type,
           })
         break
       default:
@@ -111,9 +103,16 @@ const ItemElement: FC<Props> = ({item, type}) => {
 
     return (
       paymentColor[item?.payment_type] ||
-      color[item?.type || item?.entry_type] ||
+      color[item?.entry_type] ||
       transparent
     )
+  }, [item, budget])
+
+  const isCompleted = useMemo(() => {
+    if (!budget) return false
+    const prices = item?.prices || {}
+    const totalAmount = Object.values(prices).reduce((acc, curr) => acc + curr.value, 0)
+    return totalAmount >= item.amount
   }, [item, budget])
 
   return (
@@ -126,7 +125,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
           borderColor:
             item?.status === 'pending' ? backgroundColor : borderColor,
           ...(budget
-            ? item?.total_amount >= item?.amount
+            ? isCompleted
               ? styles.noPaddingAlt
               : styles.noPadding
             : {}),
@@ -140,21 +139,18 @@ const ItemElement: FC<Props> = ({item, type}) => {
               styles.backgroundContainer,
               {
                 backgroundColor: borderColor,
-                width: `${(item?.total_amount / item?.amount) * 100}%`,
+                width: `${(Object.values(item?.prices || {}).reduce((acc, curr) => acc + curr.value, 0) / item?.amount) * 100}%`,
               },
-              item?.total_amount >= item?.amount ? styles.fullOpacity : {},
+              isCompleted ? styles.fullOpacity : {},
             ]}
           />
           <View style={[styles.contentContainer]}>
-            {item?.total_amount >= item?.amount && (
+            {isCompleted && (
               <Text
                 style={[
                   styles.h3,
                   {
-                    color:
-                      item?.total_amount >= item?.amount
-                        ? colors.typography2
-                        : colors.typography,
+                    color: isCompleted ? colors.typography2 : colors.typography,
                   },
                 ]}>
                 * {translate('completed')} *
@@ -165,10 +161,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
               style={[
                 styles.strongBody,
                 {
-                  color:
-                    item?.total_amount >= item?.amount
-                      ? colors.typography2
-                      : colors.typography,
+                  color: isCompleted ? colors.typography2 : colors.typography,
                 },
               ]}>
               {item?.payment_concept}
@@ -178,26 +171,20 @@ const ItemElement: FC<Props> = ({item, type}) => {
                 style={[
                   styles.strongBody,
                   {
-                    color:
-                      item?.total_amount >= item?.amount
-                        ? colors.typography2
-                        : colors.typography,
+                    color: isCompleted ? colors.typography2 : colors.typography,
                   },
                   styles.textBalance
                 ]}>
-                {currency?.symbol || ''}{' '}
-                {item?.total_amount?.toLocaleString('en-US', {
-                  maximumFractionDigits: currency?.decimal,
+                {item?.currency_symbol || ''}{' '}
+                {Object.values(item?.prices || {}).reduce((acc, curr) => acc + curr.value, 0).toLocaleString('en-US', {
+                  maximumFractionDigits: item?.currency_decimal,
                 })}
               </Text>
               <Text
                 style={[
                   styles.strongBody,
                   {
-                    color:
-                      item?.total_amount >= item?.amount
-                        ? colors.typography2
-                        : colors.typography,
+                    color: isCompleted ? colors.typography2 : colors.typography,
                   },
                 ]}>
                 /
@@ -206,17 +193,14 @@ const ItemElement: FC<Props> = ({item, type}) => {
                 style={[
                   styles.strongBody,
                   {
-                    color:
-                      item?.total_amount >= item?.amount
-                        ? colors.typography2
-                        : colors.typography,
+                    color: isCompleted ? colors.typography2 : colors.typography,
                   },
                   styles.textBalance
                 ]}>
                 {' '}
-                {currency?.symbol || ''}{' '}
+                {item?.currency_symbol || ''}{' '}
                 {item?.amount?.toLocaleString('en-US', {
-                  maximumFractionDigits: currency?.decimal,
+                  maximumFractionDigits: item?.currency_decimal,
                 })}
               </Text>
             </View>
@@ -236,7 +220,7 @@ const ItemElement: FC<Props> = ({item, type}) => {
                       : colors.typography2,
                 },
               ]}>
-              {item?.payment_concept || item?.name}
+              {item?.payment_concept}
             </Text>
             <Text
               style={[
@@ -272,9 +256,9 @@ const ItemElement: FC<Props> = ({item, type}) => {
                     },
                   ]}>
                   {' '}
-                  {currency?.symbol || ''}{' '}
+                  {item?.currency_symbol || ''}{' '}
                   {item?.amount?.toLocaleString('en-US', {
-                    maximumFractionDigits: currency?.decimal,
+                    maximumFractionDigits: item?.currency_decimal,
                   })}
                 </Text>
                 {item?.status === 'pending' && (

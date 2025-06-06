@@ -27,7 +27,7 @@ const ConcurrentPayment: FC = () => {
     : itemType?.find((it: any) => it.id === params?.id)
 
   return (
-    <View style={[styles.root, {backgroundColor: colors.background}]}>
+    <View style={[styles.root, {backgroundColor: colors.background100}]}>
       <ConcurrentHeader item={item} />
       <ConcurrentInfo item={item} />
       <ItemList items={item?.entries || []} type="entry" />

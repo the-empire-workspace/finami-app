@@ -1,6 +1,6 @@
 import {debugLog} from 'utils'
-import {call, put, select, takeLatest} from 'redux-saga/effects'
-import {actionObject, getCurrenciesQuery, getExchangeValues} from 'utils'
+import {call, put, select, takeLatest, SelectEffect, CallEffect, PutEffect} from 'redux-saga/effects'
+import {actionObject, getExchangeValues} from 'utils'
 import {selectAccount, selectCurrency} from '../selector'
 import {
   GET_CURRENCIES,
@@ -8,23 +8,66 @@ import {
   GET_CURRENCY_PRICE,
   GET_CURRENCY_PRICE_ASYNC,
 } from './action-types'
+import {Currency} from 'utils/database/models'
+import {useCurrencyService} from 'services'
 
-function* getCurrenciesAsync(): any {
-  try {
-    const currencies = yield call(getCurrenciesQuery)
-    yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-  } catch (error) {
-    debugLog('error getting currencies', error)
+// Types
+interface CurrencyState {
+  currencies: Currency[]
+  defaultPrices: {
+    date?: number
+    id?: number
+    [key: string]: any
   }
 }
 
-function* getDefaultPriceAsync(): any {
+interface AccountState {
+  user: {
+    currency_id?: number
+    [key: string]: any
+  }
+}
+
+interface ExchangePrices {
+  [key: string]: number
+}
+
+// Helper functions
+function* handleError(error: Error, context: string): Generator<never, void, unknown> {
+  debugLog(error, `Error in ${context}`)
+}
+
+// Service calls
+function* fetchCurrencies(): Generator<CallEffect<Currency[]>, Currency[], Currency[]> {
+  const currencyService = useCurrencyService()
+  return yield call([currencyService, currencyService.fetchCurrencies])
+}
+
+// Saga functions
+function* getCurrenciesAsync(): Generator<CallEffect<Currency[]> | PutEffect, void, Currency[]> {
   try {
-    const {user} = yield select(selectAccount)
-    let {currencies, defaultPrices} = yield select(selectCurrency)
+    const currencies = yield* fetchCurrencies()
+    yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
+  } catch (error) {
+    yield* handleError(error as Error, 'getCurrenciesAsync')
+  }
+}
+
+function* getDefaultPriceAsync(): Generator<
+  SelectEffect | CallEffect<Currency[]> | CallEffect<ExchangePrices> | PutEffect,
+  void,
+  void
+> {
+  try {
+    const accountState = (yield select(selectAccount)) as unknown as AccountState
+    const currencyState = (yield select(selectCurrency)) as unknown as CurrencyState
+    const {user} = accountState
+    let {currencies, defaultPrices} = currencyState
 
     if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
+      const currencyService = useCurrencyService()
+      const newCurrencies = ((yield call([currencyService, currencyService.fetchCurrencies])) as unknown) as Currency[]
+      currencies = newCurrencies
       yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
     }
 
@@ -35,12 +78,8 @@ function* getDefaultPriceAsync(): any {
       defaultPrices?.date !== date.getTime() ||
       user?.currency_id !== defaultPrices?.id
     ) {
-      const prices = yield call(
-        getExchangeValues,
-        currencies,
-        user?.currency_id,
-      )
-      if (prices)
+      const prices = (yield call(getExchangeValues, currencies, user?.currency_id)) as unknown as ExchangePrices
+      if (prices && typeof prices === 'object') {
         yield put(
           actionObject(GET_CURRENCY_PRICE_ASYNC, {
             ...prices,
@@ -48,15 +87,18 @@ function* getDefaultPriceAsync(): any {
             id: user?.currency_id,
           }),
         )
+      }
     }
   } catch (error) {
-    debugLog(error, 'an error happend get default price async')
+    yield* handleError(error as Error, 'getDefaultPriceAsync')
   }
 }
 
-export function* watchGetCurrencies() {
+// Watchers
+export function* watchGetCurrencies(): Generator {
   yield takeLatest(GET_CURRENCIES, getCurrenciesAsync)
 }
-export function* watchGetDefaultPrice() {
+
+export function* watchGetDefaultPrice(): Generator {
   yield takeLatest(GET_CURRENCY_PRICE, getDefaultPriceAsync)
 }

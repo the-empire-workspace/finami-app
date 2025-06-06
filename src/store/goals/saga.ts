@@ -22,479 +22,293 @@ import {
   UPDATE_GOAL,
   UPDATE_GOAL_ASYNC,
 } from './action-types'
-import {
-  actionObject,
-  createCategoryQuery,
-  createEntryQuery,
-  deleteCategoryQuery,
-  deleteEntryQuery,
-  getCategoryQuery,
-  getCurrenciesQuery,
-  getEntriesGoalsQuery,
-  getGoalQuery,
-  getGoalsCategoriesQuery,
-  orderBy,
-  updateCategoryQuery,
-  updateEntryQuery,
-} from 'utils'
+import {actionObject} from 'utils'
 import {getDashboardValues, getTotalBalance} from 'store/actions'
-import {selectAccount, selectCurrency, selectIntermitence} from 'store/selector'
 import {GET_CURRENCIES_ASYNC} from 'store/currency/action-types'
+import {useEntryService} from 'services'
+import {useCategoryService} from 'services'
+import {useCurrencyService} from 'services'
+import {Entry, Category, EntryCreateParams, EntryUpdateParams, CategoryCreateParams} from 'utils/database/models'
 
-function* getEntriesGoalsAsync({payload}: any): any {
+// Types
+interface Payload {
+  id?: number
+  account_id?: number
+  category_id?: number
+  amount?: number
+  concept?: string
+  comment?: string
+  type?: string
+  date?: Date
+  limit_date?: Date
+  status_level?: string
+  entry_id?: number
+  [key: string]: any
+}
+
+interface Action {
+  payload: Payload
+  type: string
+}
+
+// Helper functions
+function* handleError(error: Error, context: string): Generator {
+  debugLog(error, `Error in ${context}`)
+}
+
+// Service calls
+function* fetchCurrencies(): Generator<any, any, any> {
+  const currencyService = useCurrencyService()
+  return yield call([currencyService, currencyService.fetchCurrencies])
+}
+
+function* fetchEntries(type: string): Generator<any, any, any> {
+  const entryService = useEntryService()
+  return yield call([entryService, entryService.fetchEntries], {
+    entry_type: 'goals',
+    payment_type: type
+  })
+}
+
+function* fetchCategories(type: string): Generator<any, any, any> {
+  const categoryService = useCategoryService()
+  return yield call([categoryService, categoryService.fetchCategories], type)
+}
+
+// Saga functions
+function* getEntriesGoalsAsync({payload}: Action): Generator<any, void, (Entry | Category)[]> {
   try {
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
+    const currencies = yield* fetchCurrencies()
+    yield put(actionObject(GET_CURRENCIES_ASYNC, currencies))
 
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
+    const entries = yield* fetchEntries(payload.type || '')
+    const categories = yield* fetchCategories(payload.type || '')
 
-    const {prices} = yield select(selectIntermitence)
-
-    const goals = yield call(
-      getEntriesGoalsQuery,
-      payload,
-      currencies,
-      user?.currency_id,
-      prices,
-    )
-    const categories = yield call(getGoalsCategoriesQuery, payload)
-    const mix = [...goals, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
+    const mix = [...entries, ...categories]
+    const orderMix = mix.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
     yield put(actionObject(GET_ENTRIES_GOALS_ASYNC, orderMix))
   } catch (error) {
-    debugLog(error, 'an error happend')
+    yield* handleError(error as Error, 'getEntriesGoalsAsync')
   }
 }
 
-function* createCategoryGoalsAsync({payload}: any): any {
+function* createCategoryGoalsAsync({payload}: Action): Generator<any, void, Category | null> {
   try {
-    const newDate = new Date()
-    if (payload?.date) {
-      newDate.setDate(payload?.date?.getDate())
-      newDate.setMonth(payload?.date?.getMonth())
-      newDate.setFullYear(payload?.date?.getFullYear())
-    }
-    yield call(createCategoryQuery, {
-      name: payload?.concept,
-      type: payload?.type,
-      comment: payload?.comment || '',
-      date: newDate.getTime(),
-    })
+    const categoryService = useCategoryService()
+    const category = yield call([categoryService, categoryService.createNewCategory], {
+      name: payload.concept || '',
+      type: payload.type || 'goals',
+      comment: payload.comment || '',
+      date: new Date(payload.date || Date.now())
+    } as CategoryCreateParams)
 
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
+    const currencies = yield* fetchCurrencies()
+    yield put(actionObject(GET_CURRENCIES_ASYNC, currencies))
 
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
+    const entries = yield* fetchEntries(payload.type || '')
+    const categories = yield* fetchCategories(payload.type || '')
 
-    const {prices} = yield select(selectIntermitence)
-    const goals = yield call(
-      getEntriesGoalsQuery,
-      payload?.type,
-      currencies,
-      user?.currency_id,
-      prices,
-    )
-    const categories = yield call(getGoalsCategoriesQuery, payload?.type)
-    const mix = [...goals, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
+    const mix = [...entries, ...categories]
+    const orderMix = mix.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
     yield put(actionObject(CREATE_CATEGORY_GOALS_ASYNC, orderMix))
   } catch (error) {
-    debugLog(error, 'an error happend')
+    yield* handleError(error as Error, 'createCategoryGoalsAsync')
   }
 }
 
-function* createGoalsAsync({payload}: any): any {
+function* createGoalsAsync({payload}: Action): Generator<any, void, Entry | null> {
   try {
-    const newDate = new Date()
-    if (payload?.date) {
-      newDate.setDate(payload?.date?.getDate())
-      newDate.setMonth(payload?.date?.getMonth())
-      newDate.setFullYear(payload?.date?.getFullYear())
-    }
-    let {currencies} = yield select(selectCurrency)
-    const {prices} = yield select(selectIntermitence)
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-    yield call(
-      createEntryQuery,
-      {
-        account: payload?.account,
-        payment_type: payload?.type,
-        category_id: payload?.category_id,
-        amount: payload?.amount,
-        payment_concept: payload?.concept,
-        entry_type: 'goals',
-        comment: payload?.comment || '',
-        date: newDate.getTime(),
-        limit_date: (payload?.limit_date || new Date())?.getTime(),
-        status_level: payload?.status_level || '',
-      },
-      currencies,
-      prices,
-    )
+    const entryService = useEntryService()
+    const entry = yield call([entryService, entryService.createNewEntry], {
+      account_id: payload.account_id || 0,
+      category_id: payload.category_id || 0,
+      payment_type: payload.type || 'goals',
+      amount: payload.amount || 0,
+      entry_type: 'goals',
+      payment_concept: payload.concept || '',
+      comment: payload.comment,
+      status: new Date(payload.date || Date.now()) <= new Date() ? 'paid' : 'pending',
+      status_level: payload.status_level,
+      date: new Date(payload.date || Date.now()),
+      limit_date: payload.limit_date
+    } as EntryCreateParams)
 
-    const {user} = yield select(selectAccount)
+    const currencies = yield* fetchCurrencies()
+    yield put(actionObject(GET_CURRENCIES_ASYNC, currencies))
 
-    const goals = yield call(
-      getEntriesGoalsQuery,
-      payload?.type,
-      currencies,
-      user?.currency_id,
-      prices,
-    )
-    const categories = yield call(getGoalsCategoriesQuery, payload?.type)
-    const mix = [...goals, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
+    const entries = yield* fetchEntries(payload.type || '')
+    const categories = yield* fetchCategories(payload.type || '')
+
+    const mix = [...entries, ...categories]
+    const orderMix = mix.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
     yield put(actionObject(CREATE_GOALS_ASYNC, orderMix))
-    if (payload?.category_id) {
-      const category = yield call(
-        getCategoryQuery,
-        payload?.category_id,
-        currencies,
-        user?.currency_id,
-      )
-      yield put(actionObject(GET_CATEGORY_GOAL_ASYNC, category))
+
+    if (payload.category_id) {
+      const categoryService = useCategoryService()
+      const category = yield call([categoryService, categoryService.fetchCategory], payload.category_id || 0)
+      if (category) {
+        yield put(actionObject(GET_CATEGORY_GOAL_ASYNC, category))
+      }
     }
+
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    debugLog(error, 'an error happend')
+    yield* handleError(error as Error, 'createGoalsAsync')
   }
 }
 
-function* getGoalAsync({payload}: any): any {
+function* getGoalAsync({payload}: Action): Generator<any, void, Entry | null> {
   try {
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-
-    const {prices} = yield select(selectIntermitence)
-    const goal = yield call(
-      getGoalQuery,
-      payload,
-      currencies,
-      user?.currency_id,
-      prices,
-    )
-    yield put(actionObject(GET_GOAL_ASYNC, goal))
+    const entryService = useEntryService()
+    const entry = yield call([entryService, entryService.fetchEntry], payload.id || 0)
+    yield put(actionObject(GET_GOAL_ASYNC, entry))
   } catch (error) {
-    debugLog(error, 'an error happend')
+    yield* handleError(error as Error, 'getGoalAsync')
   }
 }
 
-function* getCategoryGoalAsync({payload}: any): any {
+function* getCategoryGoalAsync({payload}: Action): Generator<any, void, Category | null> {
   try {
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-    const category = yield call(
-      getCategoryQuery,
-      payload,
-      currencies,
-      user?.currency_id,
-    )
+    const categoryService = useCategoryService()
+    const category = yield call([categoryService, categoryService.fetchCategory], payload.id || 0)
     yield put(actionObject(GET_CATEGORY_GOAL_ASYNC, category))
   } catch (error) {
-    debugLog(error, 'an error happend')
+    yield* handleError(error as Error, 'getCategoryGoalAsync')
   }
 }
 
-function* createGoalsEntryAsync({payload}: any): any {
+function* createGoalsEntryAsync({payload}: Action): Generator<any, void, Entry | null> {
   try {
-    const newDate = new Date()
-    if (payload?.date) {
-      newDate.setDate(payload?.date?.getDate())
-      newDate.setMonth(payload?.date?.getMonth())
-      newDate.setFullYear(payload?.date?.getFullYear())
-    }
-    let {currencies} = yield select(selectCurrency)
-    const {prices} = yield select(selectIntermitence)
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-    yield call(
-      createEntryQuery,
-      {
-        account: payload?.account,
-        payment_type: 'general',
-        category_id: payload?.category_id,
-        amount: payload?.amount,
-        payment_concept: payload?.concept,
-        entry_type: 'goals',
-        comment: payload?.comment || '',
-        entry_id: payload?.entry_id || '',
-        date: newDate.getTime(),
-      },
-      currencies,
-      prices,
-    )
+    const entryService = useEntryService()
+    const entry = yield call([entryService, entryService.createNewEntry], {
+      account_id: payload.account_id || 0,
+      category_id: payload.category_id || 0,
+      payment_type: 'general',
+      amount: payload.amount || 0,
+      entry_type: 'goals',
+      payment_concept: payload.concept || '',
+      comment: payload.comment,
+      entry_id: payload.entry_id,
+      date: new Date(payload.date || Date.now())
+    } as EntryCreateParams)
 
-    const {user} = yield select(selectAccount)
-
-    const goals = yield call(
-      getEntriesGoalsQuery,
-      payload?.type,
-      currencies,
-      user?.currency_id,
-      prices,
-    )
-    const categories = yield call(getGoalsCategoriesQuery, payload?.type)
-    const mix = [...goals, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
-
-    const item = yield call(
-      getGoalQuery,
-      payload?.id,
-      currencies,
-      user?.currency_id,
-      prices,
-    )
-
-    yield put(
-      actionObject(CREATE_GOAL_ENTRY_ASYNC, {
-        item: item,
-        items: orderMix,
-      }),
-    )
-
+    yield put(actionObject(CREATE_GOAL_ENTRY_ASYNC, entry))
     yield put(getDashboardValues())
     yield put(getTotalBalance())
   } catch (error) {
-    debugLog(error, 'an error happend')
+    yield* handleError(error as Error, 'createGoalsEntryAsync')
   }
 }
 
-function* updateGoalsAsync({payload}: any): any {
+function* updateGoalAsync({payload}: Action): Generator<any, void, Entry | null> {
   try {
-    yield call(updateEntryQuery, payload?.id, {
-      account: payload?.account,
-      payment_type: payload?.payment_type,
-      category_id: payload?.category_id,
-      amount: payload?.amount,
-      payment_concept: payload?.concept,
+    const entryService = useEntryService()
+    const entry = yield call([entryService, entryService.updateExistingEntry], {
+      id: payload.id || 0,
+      account_id: payload.account_id || 0,
+      category_id: payload.category_id || 0,
+      payment_type: payload.type || 'goals',
+      amount: payload.amount || 0,
       entry_type: 'goals',
-      comment: payload?.comment || '',
-      date: (payload?.date || new Date())?.getTime(),
-      limit_date: (payload?.limit_date || new Date())?.getTime(),
-      status_level: payload?.status_level || '',
+      payment_concept: payload.concept || '',
+      comment: payload.comment,
+      status: new Date(payload.date || Date.now()) <= new Date() ? 'paid' : 'pending',
+      status_level: payload.status_level,
+      date: new Date(payload.date || Date.now()),
+      limit_date: payload.limit_date
+    } as EntryUpdateParams)
+
+    yield put(actionObject(UPDATE_GOAL_ASYNC, entry))
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
+  } catch (error) {
+    yield* handleError(error as Error, 'updateGoalAsync')
+  }
+}
+
+function* updateCategoryGoalAsync({payload}: Action): Generator<any, void, Category | null> {
+  try {
+    const categoryService = useCategoryService()
+    const category = yield call([categoryService, categoryService.updateExistingCategory], {
+      id: payload.id || 0,
+      name: payload.concept || '',
+      type: payload.type || 'goals',
+      comment: payload.comment || ''
     })
 
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-
-    const {prices} = yield select(selectIntermitence)
-    const goals = yield call(
-      getEntriesGoalsQuery,
-      payload?.payment_type,
-      currencies,
-      user?.currency_id,
-      prices,
-    )
-    const categories = yield call(
-      getGoalsCategoriesQuery,
-      payload?.payment_type,
-    )
-    const mix = [...goals, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
-
-    const item = yield call(
-      getGoalQuery,
-      payload?.id,
-      currencies,
-      user?.currency_id,
-      prices,
-    )
-
-    yield put(
-      actionObject(UPDATE_GOAL_ASYNC, {
-        item: item,
-        items: orderMix,
-      }),
-    )
+    yield put(actionObject(UPDATE_CATEGORY_GOAL_ASYNC, category))
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
-    debugLog(error, 'an error happend')
+    yield* handleError(error as Error, 'updateCategoryGoalAsync')
   }
 }
 
-function* updateCategoryGoalAsync({payload}: any): any {
+function* deleteGoalAsync({payload}: Action): Generator<any, void, boolean> {
   try {
-    yield call(
-      updateCategoryQuery,
-      {
-        name: payload?.concept,
-        comment: payload?.comment || '',
-      },
-      payload?.id,
-    )
-
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-
-    const {prices} = yield select(selectIntermitence)
-    const goals = yield call(
-      getEntriesGoalsQuery,
-      payload?.type,
-      currencies,
-      user?.currency_id,
-      prices,
-    )
-    const categories = yield call(getGoalsCategoriesQuery, payload?.type)
-    const mix = [...goals, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
-
-    const category = yield call(
-      getCategoryQuery,
-      payload?.id,
-      currencies,
-      user?.currency_id,
-    )
-
-    yield put(
-      actionObject(UPDATE_CATEGORY_GOAL_ASYNC, {
-        items: orderMix,
-        item: category,
-      }),
-    )
+    const entryService = useEntryService()
+    yield call([entryService, entryService.removeEntry], payload.id || 0)
+    yield put(actionObject(DELETE_GOAL_ASYNC, payload))
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
-    debugLog(error, 'an error happend')
+    yield* handleError(error as Error, 'deleteGoalAsync')
   }
 }
 
-function* deleteCategoryGoalAsync({payload}: any): any {
+function* deleteCategoryGoalAsync({payload}: Action): Generator<any, void, boolean> {
   try {
-    yield call(deleteCategoryQuery, payload?.id)
-
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-
-    const {prices} = yield select(selectIntermitence)
-    const goals = yield call(
-      getEntriesGoalsQuery,
-      payload?.type,
-      currencies,
-      user?.currency_id,
-      prices,
-    )
-    const categories = yield call(getGoalsCategoriesQuery, payload?.type)
-    const mix = [...goals, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
-
-    yield put(
-      actionObject(DELETE_CATEGORY_GOAL_ASYNC, {
-        items: orderMix,
-        item: {},
-      }),
-    )
+    const categoryService = useCategoryService()
+    yield call([categoryService, categoryService.removeCategory], payload.id || 0)
+    yield put(actionObject(DELETE_CATEGORY_GOAL_ASYNC, payload))
+    yield put(getDashboardValues())
+    yield put(getTotalBalance())
   } catch (error) {
-    debugLog(error, 'an error happend')
+    yield* handleError(error as Error, 'deleteCategoryGoalAsync')
   }
 }
 
-function* deleteGoalAsync({payload}: any): any {
-  try {
-    yield call(deleteEntryQuery, payload?.id)
-
-    let {currencies} = yield select(selectCurrency)
-    const {user} = yield select(selectAccount)
-
-    if (!currencies?.length) {
-      currencies = yield call(getCurrenciesQuery)
-      yield put(actionObject(GET_CURRENCIES_ASYNC, currencies || []))
-    }
-
-    const {prices} = yield select(selectIntermitence)
-
-    const goals = yield call(
-      getEntriesGoalsQuery,
-      payload?.type,
-      currencies,
-      user?.currency_id,
-      prices,
-    )
-
-    const categories = yield call(getGoalsCategoriesQuery, payload?.type)
-    const mix = [...goals, ...categories]
-    const orderMix = orderBy(mix, 'date', 'desc')
-
-    yield put(
-      actionObject(DELETE_GOAL_ASYNC, {
-        items: orderMix,
-        item: {},
-      }),
-    )
-  } catch (error) {
-    debugLog(error, 'an error happend')
-  }
-}
-
-export function* watchGetEntriesGoals() {
+// Watchers
+export function* watchGetEntriesGoals(): Generator {
   yield takeLatest(GET_ENTRIES_GOALS, getEntriesGoalsAsync)
 }
-export function* watchCreateCategoryGoals() {
+
+export function* watchCreateCategoryGoals(): Generator {
   yield takeLatest(CREATE_CATEGORY_GOALS, createCategoryGoalsAsync)
 }
 
-export function* watchCreateGoals() {
+export function* watchCreateGoals(): Generator {
   yield takeLatest(CREATE_GOALS, createGoalsAsync)
 }
 
-export function* watchGetGoal() {
+export function* watchGetGoal(): Generator {
   yield takeLatest(GET_GOAL, getGoalAsync)
 }
 
-export function* watchGetCategoryGoal() {
+export function* watchGetCategoryGoal(): Generator {
   yield takeLatest(GET_CATEGORY_GOAL, getCategoryGoalAsync)
 }
 
-export function* watchCreateGoalsEntry() {
+export function* watchCreateGoalsEntry(): Generator {
   yield takeLatest(CREATE_GOAL_ENTRY, createGoalsEntryAsync)
 }
 
-export function* watchUpdateGoals() {
-  yield takeLatest(UPDATE_GOAL, updateGoalsAsync)
+export function* watchUpdateGoal(): Generator {
+  yield takeLatest(UPDATE_GOAL, updateGoalAsync)
 }
 
-export function* watchUpdateCategoryGoal() {
+export function* watchUpdateCategoryGoal(): Generator {
   yield takeLatest(UPDATE_CATEGORY_GOAL, updateCategoryGoalAsync)
 }
 
-export function* watchDeleteGoal() {
+export function* watchDeleteGoal(): Generator {
   yield takeLatest(DELETE_GOAL, deleteGoalAsync)
 }
 
-export function* watchDeleteCategoryGoal() {
+export function* watchDeleteCategoryGoal(): Generator {
   yield takeLatest(DELETE_CATEGORY_GOAL, deleteCategoryGoalAsync)
 }
