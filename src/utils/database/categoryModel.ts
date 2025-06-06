@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {setPrices} from 'utils/exchangeData'
 import {insertQuery, selectQuery} from './helpers'
 import {operateChange} from 'utils/dataTransform'
@@ -26,7 +27,7 @@ export const createCategoryQuery = async (data: any) => {
     )
     return category.raw()[0]
   } catch (error) {
-    console.log('error category creation', error)
+    debugLog('error category creation', error)
     return null
   }
 }
@@ -39,7 +40,7 @@ export const updateCategoryQuery = async (data: any, id: any) => {
 
     await insertQuery(query, [name, comment, id])
   } catch (error) {
-    console.log('error category update', error)
+    debugLog('error category update', error)
   }
 }
 
@@ -49,7 +50,7 @@ export const deleteCategoryQuery = async (id: any) => {
     await selectQuery('DELETE FROM entries WHERE category_id = ?', [id])
     return true
   } catch (error) {
-    console.log('error deleting category', error)
+    debugLog('error deleting category', error)
     return null
   }
 }
@@ -61,7 +62,7 @@ export const getOutcomeCategoriesQuery = async () => {
     )
     return categories.raw()
   } catch (error) {
-    console.log('error category selection', error)
+    debugLog('error category selection', error)
   }
 }
 
@@ -113,7 +114,7 @@ export const getIncomeCategoriesQuery = async () => {
     }
     return categories.raw()
   } catch (error) {
-    console.log('error category selection', error)
+    debugLog('error category selection', error)
   }
 }
 
@@ -124,7 +125,7 @@ export const getGoalsCategoriesQuery = async (type: any) => {
     )
     return categories.raw()
   } catch (error) {
-    console.log('error category selection', error)
+    debugLog('error category selection', error)
   }
 }
 
@@ -207,6 +208,6 @@ export function* getCategoryQuery(
     queryCategory.entries = queryEntries
     return queryCategory
   } catch (error) {
-    console.log('error category selection', error)
+    debugLog('error category selection', error)
   }
 }

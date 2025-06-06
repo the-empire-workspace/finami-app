@@ -1,3 +1,4 @@
+import {debugLog} from 'utils'
 import {TextInput} from 'react-native'
 import {Picker} from '@react-native-picker/picker'
 import {DatePicker} from './components'
@@ -12,8 +13,7 @@ const Structure: any = {
     disabled: false,
     style: {},
     onChange: (val: any) => {
-      // console.log('target value')
-      console.log(val.target.value)
+      debugLog(val.target.value)
     },
   },
   date: {
@@ -25,8 +25,7 @@ const Structure: any = {
     style: {},
     disabled: false,
     onChange: (val: any) => {
-      // console.log('target value')
-      console.log(val.target.value)
+      debugLog(val.target.value)
     },
   },
   select: {
@@ -37,8 +36,7 @@ const Structure: any = {
     style: {},
     disabled: false,
     onChange: (val: any) => {
-      // console.log('target value')
-      console.log(val.target.value)
+      debugLog(val.target.value)
     },
   },
   multiple: {
