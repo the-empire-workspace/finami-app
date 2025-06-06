@@ -147,12 +147,57 @@ const createEntriesTable = async () => {
   }
 }
 
+const createIndexes = async () => {
+  try {
+    await database.executeSql(
+      'CREATE INDEX IF NOT EXISTS idx_accounts_user_id ON accounts (user_id)',
+    )
+    await database.executeSql(
+      'CREATE INDEX IF NOT EXISTS idx_accounts_currency_id ON accounts (currency_id)',
+    )
+    await database.executeSql(
+      'CREATE INDEX IF NOT EXISTS idx_accounts_account_name ON accounts (account_name)',
+    )
+    await database.executeSql(
+      'CREATE INDEX IF NOT EXISTS idx_users_currency_id ON users (currency_id)',
+    )
+    await database.executeSql(
+      'CREATE INDEX IF NOT EXISTS idx_categories_type ON categories (type)',
+    )
+    await database.executeSql(
+      'CREATE INDEX IF NOT EXISTS idx_currencies_symbol_network ON currencies (symbol, network)',
+    )
+    await database.executeSql(
+      'CREATE INDEX IF NOT EXISTS idx_entries_account_id ON entries (account_id)',
+    )
+    await database.executeSql(
+      'CREATE INDEX IF NOT EXISTS idx_entries_category_id ON entries (category_id)',
+    )
+    await database.executeSql(
+      'CREATE INDEX IF NOT EXISTS idx_entries_entry_id ON entries (entry_id)',
+    )
+    await database.executeSql(
+      'CREATE INDEX IF NOT EXISTS idx_entries_entry_type ON entries (entry_type)',
+    )
+    await database.executeSql(
+      'CREATE INDEX IF NOT EXISTS idx_entries_payment_type ON entries (payment_type)',
+    )
+    await database.executeSql(
+      'CREATE INDEX IF NOT EXISTS idx_entries_date ON entries (date)',
+    )
+    debugLog('indexes created')
+  } catch (error) {
+    debugLog('error creating indexes', error)
+  }
+}
+
 const createTables = async () => {
   await createCurrencyTable()
   await createUserTable()
   await createAccountTable()
   await createCategoryTable()
   await createEntriesTable()
+  await createIndexes()
 }
 
 export default createTables
